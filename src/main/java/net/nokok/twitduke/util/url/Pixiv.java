@@ -6,7 +6,6 @@ package net.nokok.twitduke.util.url;
  */
 public class Pixiv extends CommonURLCreator implements IShortURLCreator {
 
-    @Override
     public String requestShortenedURL(String url) {
         checkURL(url);
         return null;
