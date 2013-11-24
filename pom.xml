@@ -8,6 +8,9 @@
     <artifactId>TwitDuke</artifactId>
     <version>0.1-Alpha</version>
 
+    <name>TwitDuke - Java Twitter Client</name>
+    <description>JavaJavaJava〜〜ｗｗｗ</description>
+    <url>http://nokok.net/</url>
 
     <dependencies>
         <dependency>
