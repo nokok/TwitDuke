@@ -24,7 +24,7 @@
             <artifactId>twitter4j-core</artifactId>
             <version>[3.0,)</version>
         </dependency>
-
+		<!--
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>javafx</artifactId>
@@ -32,5 +32,7 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/jfxrt.jar</systemPath>
         </dependency>
+		-->
     </dependencies>
+
 </project>
