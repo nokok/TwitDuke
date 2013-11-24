@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  *         短縮URLを作成する際に必要な共通メソッドをまとめたクラスです。
  *         このクラス単独では動作出来ません。
  */
-public class ShortURLCreator {
+public class CommonURLCreator {
 
     Boolean isValidURLFormat(String str) {
         String regex = "/^(https?|ftp)(:\\/\\/[-_.!~*\\'()a-zA-Z0-9;\\/?:\\@&=+\\$,%#]+)$/";
