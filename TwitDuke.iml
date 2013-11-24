@@ -16,6 +16,7 @@
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.twitter4j:twitter4j-core:3.0.5" level="project" />
+    <orderEntry type="library" name="Maven: com.oracle:javafx:2.0" level="project" />
   </component>
 </module>
 
