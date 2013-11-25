@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class CommonURLCreator {
 
     Boolean isValidURLFormat(String str) {
-        String regex = "/^(https?|ftp)(:\\/\\/[-_.!~*\\'()a-zA-Z0-9;\\/?:\\@&=+\\$,%#]+)$/";
+        String regex = "^(https?|ftp)(:\\/\\/[-_.!~*\\'()a-zA-Z0-9;\\/?:\\@&=+\\$,%#]+)$";
         Pattern p = Pattern.compile(regex);
         Matcher matcher = p.matcher(str);
 
