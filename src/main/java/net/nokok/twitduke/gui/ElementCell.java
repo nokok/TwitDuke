@@ -4,8 +4,7 @@ import javax.swing.*;
 
 /**
  * @author noko
- * TweetListやUserListなどに使用されるセルの共通動作を定義します
- *
+ *         TweetListやUserListなどに使用されるセルの共通動作を定義します
  */
-public class ElementCell extends JPanel{
+public class ElementCell extends JPanel {
 }
