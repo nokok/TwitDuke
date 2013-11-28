@@ -16,4 +16,8 @@ public class TwitterWrapper {
         return instance;
     }
 
+    public void sendTweet(String tweet) {
+
+    }
+
 }
