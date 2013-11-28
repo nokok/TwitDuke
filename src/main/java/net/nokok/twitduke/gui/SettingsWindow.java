@@ -12,6 +12,7 @@ public class SettingsWindow extends JFrame {
     private static final SettingsWindow instance = new SettingsWindow();
 
     private SettingsWindow() {
+        this.setTitle("設定");
         this.setSize(DefaultConfig.WINDOW_SIZE);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
