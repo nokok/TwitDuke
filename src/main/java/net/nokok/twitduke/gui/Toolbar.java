@@ -19,7 +19,6 @@ public class Toolbar extends JPanel {
         this.add(new ToolButton("設定"));
         this.add(new ToolButton("更新"));
         this.add(new ToolButton("ユーザー切り替え"));
-
         this.add(new ToolButton("送信"));
     }
 }
