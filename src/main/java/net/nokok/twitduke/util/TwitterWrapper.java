@@ -25,7 +25,7 @@ public class TwitterWrapper {
         try {
             twitter.updateStatus(tweet);
         } catch (TwitterException e) {
-            Log.log("Twitterへのポストに失敗しました");
+            Log.write("Twitterへのポストに失敗しました");
         }
     }
 

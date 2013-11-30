@@ -12,7 +12,7 @@ public class Log {
         return instance;
     }
 
-    public static void log(String text) {
+    public static void write(String text) {
         builder.append(text);
     }
 }
