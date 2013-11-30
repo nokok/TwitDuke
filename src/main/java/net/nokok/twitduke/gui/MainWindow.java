@@ -25,16 +25,23 @@ public class MainWindow extends JFrame {
         BorderLayout borderLayout = new BorderLayout();
         this.setLayout(borderLayout);
 
+        initTopPanel();
+        initCenterPanel();
+    }
+
+    private void initTopPanel() {
         JPanel topPanel = new JPanel(new BorderLayout());
         tweetTextArea.setPreferredSize(DefaultConfig.TWEET_TEXTAREA_SIZE);
         tweetTextArea.setLineWrap(true);
         topPanel.add(tweetTextArea, BorderLayout.NORTH);
         topPanel.add(new Toolbar(), BorderLayout.SOUTH);
         this.add(topPanel, BorderLayout.NORTH);
+    }
+
+    private void initCenterPanel() {
         JPanel centerPanel = new JPanel(new BorderLayout());
         centerPanel.add(TweetList.getInstance(), BorderLayout.CENTER);
         this.add(centerPanel, BorderLayout.CENTER);
-
     }
 
     private static class SingletonHolder {
