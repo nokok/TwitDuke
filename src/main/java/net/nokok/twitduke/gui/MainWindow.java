@@ -13,7 +13,7 @@ public class MainWindow extends JFrame {
 
     private final JTextArea tweetTextArea = new JTextArea();
 
-    private MainWindow() {
+    public MainWindow() {
         this.setSize(DefaultConfig.WINDOW_SIZE);
         this.setTitle(DefaultConfig.APP_TITLE + DefaultConfig.FORMATTED_APP_VERSION);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -42,13 +42,5 @@ public class MainWindow extends JFrame {
         JPanel centerPanel = new JPanel(new BorderLayout());
         centerPanel.add(TweetList.getInstance(), BorderLayout.CENTER);
         this.add(centerPanel, BorderLayout.CENTER);
-    }
-
-    private static class SingletonHolder {
-        private static final MainWindow instance = new MainWindow();
-    }
-
-    public static MainWindow getInstance() {
-        return SingletonHolder.instance;
     }
 }
