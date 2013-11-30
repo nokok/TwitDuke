@@ -22,6 +22,12 @@ public class TwitterWrapper {
     private TwitterWrapper() {
         twitter = new TwitterFactory().getInstance();
         logger = Logger.getLogger("TwitterWrapper Logger");
+        Properties properties = new Properties();
+        try {
+            properties.load(this.getClass().getResourceAsStream(DefaultConfig.APIKEY_FILEPATH));
+        } catch (IOException e) {
+            logger.severe("APIキーを格納したプロパティファイルが見つかりませんでした");
+        }
     }
 
     public static TwitterWrapper getInstance() {
@@ -32,7 +38,7 @@ public class TwitterWrapper {
         try {
             twitter.updateStatus(tweet);
         } catch (TwitterException e) {
-            Log.write("Twitterへのポストに失敗しました");
+            logger.warning("Twitterへのポストに失敗しました");
         }
     }
 
