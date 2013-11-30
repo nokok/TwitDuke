@@ -29,5 +29,6 @@ public enum DefaultConfig {
     /* Others */
     public static final Dimension TWEET_OPTION_ICON_SIZE  = new Dimension(24, 24);
     public static final Dimension TWEET_TEXTAREA_SIZE     = new Dimension(512, 45);
+    public static final String    APIKEY_FILEPATH         = "/resources/APIKey.properties";
 
 }
