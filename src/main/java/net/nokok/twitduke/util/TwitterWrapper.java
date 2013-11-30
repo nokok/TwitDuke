@@ -15,8 +15,8 @@ import java.util.logging.Logger;
  */
 public class TwitterWrapper {
 
-    private static Logger  logger;
-    private        Twitter twitter;
+    private Logger  logger;
+    private Twitter twitter;
     private static final TwitterWrapper instance = new TwitterWrapper();
 
     private TwitterWrapper() {
