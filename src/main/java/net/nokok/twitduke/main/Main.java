@@ -1,7 +1,6 @@
 package net.nokok.twitduke.main;
 
-
-import net.nokok.twitduke.gui.MainWindow;
+import net.nokok.twitduke.controller.Initializer;
 
 /**
  * @author noko
@@ -9,6 +8,7 @@ import net.nokok.twitduke.gui.MainWindow;
  */
 public class Main {
     public static void main(String[] args) {
-        new MainWindow();
+        Initializer init = new Initializer();
+        init.startApp();
     }
 }
