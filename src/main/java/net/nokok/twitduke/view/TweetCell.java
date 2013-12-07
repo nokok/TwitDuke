@@ -1,7 +1,11 @@
 package net.nokok.twitduke.view;
 
+import twitter4j.Status;
+
 import javax.swing.*;
 import java.awt.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class TweetCell extends JPanel {
 
@@ -26,7 +30,7 @@ public class TweetCell extends JPanel {
         tweetText.setOpaque(true);
         tweetText.setBorder(null);
 
-        this.setPreferredSize(new Dimension(505, tweetText.getPreferredSize().height + 70));
+        this.setPreferredSize(new Dimension(505, 50));
 
         this.add(icon, BorderLayout.WEST);
 
@@ -38,10 +42,17 @@ public class TweetCell extends JPanel {
 
     }
 
-    public TweetCell(ImageIcon icon, String userName, String tweetText) {
+    public TweetCell(Status status) {
         this();
-        this.icon.setIcon(icon);
-        this.userName.setText(userName);
-        this.tweetText.setText(tweetText);
+        try {
+            URL imageURL = new URL(status.getUser().getProfileImageURL());
+            ImageIcon image = new ImageIcon(imageURL);
+            this.icon.setIcon(image);
+        } catch (MalformedURLException e) {
+            //TODO:アイコンの取得に失敗したor取得中はブランク画像を使用する
+            e.printStackTrace();
+        }
+        this.tweetText.setText(status.getText());
+        this.userName.setText(status.getUser().getScreenName());
     }
 }

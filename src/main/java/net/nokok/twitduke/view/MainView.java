@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class MainWindow extends JFrame {
+public class MainView extends JFrame {
 
     private final JTextField textField = new JTextField();
     private final JPanel tweetListPanel = new JPanel();
@@ -15,7 +15,7 @@ public class MainWindow extends JFrame {
     private final CommonButton userSwitcher = new CommonButton("User...");
     private final CommonButton sendTweetButton = new CommonButton("Tweet");
 
-    public MainWindow() {
+    public MainView() {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.textField.setColumns(5);
         this.textField.setPreferredSize(new Dimension(530, 30));
@@ -34,7 +34,7 @@ public class MainWindow extends JFrame {
         JPanel toolBarPanel = new JPanel(new GridLayout());
         toolBarPanel.setPreferredSize(new Dimension(530, 30));
         toolBarPanel.add(settingButton, BorderLayout.WEST);
-        toolBarPanel.add(new CommonButton(""));  //バランスが悪いため
+        toolBarPanel.add(new CommonButton(""));
         toolBarPanel.add(userSwitcher);
         toolBarPanel.setBackground(sendTweetButton.getBackground());
         toolBarPanel.add(sendTweetButton);
@@ -49,17 +49,11 @@ public class MainWindow extends JFrame {
         tweetListPanel.setMinimumSize(new Dimension(530, 200));
         this.add(parentTweetListPanel, BorderLayout.CENTER);
 
-        //TODO:ツイートセルが少ない時にセルのサイズがおかしいバグを直す
-        //セルが少ない時、Boxレイアウトによってセルサイズが自動で変更されるのを防ぐため適当にセルを挿入する
-        for (int i = 0; i < 10; i++) {
-            this.insertTweetCell(new TweetCell());
-
-        }
     }
 
     public void insertTweetCell(TweetCell tweetCell) {
-        tweetListPanel.add(Box.createRigidArea(new Dimension(530, 5)));
-        tweetListPanel.add(tweetCell);
+        tweetListPanel.add(Box.createRigidArea(new Dimension(505, 5)));
+        tweetListPanel.add(tweetCell, 0);
     }
 
     public void bindActionListenerSettingButton(ActionListener actionListener) {
@@ -72,5 +66,17 @@ public class MainWindow extends JFrame {
 
     public void bindActionListenerUserSwitcher(ActionListener actionListener) {
         userSwitcher.addActionListener(actionListener);
+    }
+
+    public void bindActionListenerTextField(ActionListener actionListener) {
+        textField.addActionListener(actionListener);
+    }
+
+    public String getTextFieldText() {
+        return this.textField.getText();
+    }
+
+    public void clearTextField() {
+        this.textField.setText("");
     }
 }
