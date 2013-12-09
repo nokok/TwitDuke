@@ -17,6 +17,8 @@ import java.util.Properties;
 
 public class Twitter4jWrapper {
 
+
+    //TODO:リファクタリングしたい
     private static final AsyncTwitter twitter = AsyncTwitterFactory.getSingleton();
     private static final Twitter4jWrapper instance = new Twitter4jWrapper();
     private AccessToken accessToken;
