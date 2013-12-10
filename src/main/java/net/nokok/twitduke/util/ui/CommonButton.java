@@ -1,4 +1,4 @@
-package net.nokok.twitduke.view;
+package net.nokok.twitduke.util.ui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,8 +7,8 @@ public class CommonButton extends JButton {
 
     public CommonButton(String title) {
         super(title);
-        this.setBackground(new Color(10, 10, 50));
-        this.setForeground(new Color(250, 250, 250));
+        this.setBackground(UIColor.CommonButton.DEFAULT_BACKGROUND);
+        this.setForeground(UIColor.CommonButton.DEFAULT_FOREGROUND);
         this.setOpaque(true);
         this.setBorderPainted(false);
         this.setPreferredSize(new Dimension(100, 30));
