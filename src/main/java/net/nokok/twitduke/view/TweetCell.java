@@ -1,5 +1,6 @@
 package net.nokok.twitduke.view;
 
+import net.nokok.twitduke.util.ui.UIColor;
 import twitter4j.Status;
 
 import javax.swing.*;
@@ -14,17 +15,17 @@ public class TweetCell extends JPanel {
     private JTextArea tweetText;
 
     public TweetCell() {
-        this.setBackground(new Color(50, 50, 50));
+        this.setBackground(UIColor.TweetCell.DEFAULT_BACKGROUND);
         this.setLayout(new BorderLayout());
 
         //TODO:ブランクの画像を用意する
         icon = new JLabel(new ImageIcon(""));
         icon.setPreferredSize(new Dimension(50, 50));
         userName = new JLabel("");
-        userName.setForeground(new Color(200, 200, 200));
+        userName.setForeground(UIColor.TweetCell.DEFAULT_FOREGROUND);
         tweetText = new JTextArea("");
-        tweetText.setForeground(new Color(200, 200, 200));
-        tweetText.setBackground(this.getBackground());
+        tweetText.setForeground(UIColor.TweetCell.DEFAULT_FOREGROUND);
+        tweetText.setBackground(UIColor.TweetCell.DEFAULT_BACKGROUND);
         tweetText.setEditable(false);
         tweetText.setLineWrap(true);
         tweetText.setOpaque(true);
@@ -52,6 +53,10 @@ public class TweetCell extends JPanel {
             //TODO:アイコンの取得に失敗したor取得中はブランク画像を使用する
             e.printStackTrace();
         }
+        if (status.isRetweet()) {
+            tweetText.setBackground(UIColor.TweetCell.RETWEETED_BACKGROUND);
+        }
+
         this.tweetText.setText(status.getText());
         this.userName.setText(status.getUser().getScreenName());
     }

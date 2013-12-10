@@ -1,5 +1,8 @@
 package net.nokok.twitduke.view;
 
+import net.nokok.twitduke.util.ui.CommonButton;
+import net.nokok.twitduke.util.ui.UIColor;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -43,9 +46,9 @@ public class MainView extends JFrame {
 
         JPanel rootCenterPanel = new JPanel();
         rootCenterPanel.add(parentTweetListPanel);
-        parentTweetListPanel.setBackground(new Color(30, 30, 30));
+        parentTweetListPanel.setBackground(UIColor.TweetPanel.DEFAULT_BACKGROUND);
         tweetListPanel.setLayout(new BoxLayout(tweetListPanel, BoxLayout.Y_AXIS));
-        tweetListPanel.setBackground(new Color(30, 30, 30));
+        tweetListPanel.setBackground(UIColor.TweetPanel.DEFAULT_BACKGROUND);
         tweetListPanel.setMinimumSize(new Dimension(530, 200));
         this.add(parentTweetListPanel, BorderLayout.CENTER);
 

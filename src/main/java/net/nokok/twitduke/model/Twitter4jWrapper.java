@@ -17,16 +17,17 @@ import java.util.Properties;
 
 public class Twitter4jWrapper {
 
+    private static final String CONSUMER_KEY = "VOIW6nzPVPEGyILu0kgMRQ";
+    private static final String CONSUMER_SECRET_KEY = "x42tjv2Xrzsi3p5hfiGSYSiNLfa7VZv8Ozd0VHEaQ";
 
-    //TODO:リファクタリングしたい
+    private AccessToken accessToken;
     private static final AsyncTwitter twitter = AsyncTwitterFactory.getSingleton();
     private static final Twitter4jWrapper instance = new Twitter4jWrapper();
-    private AccessToken accessToken;
 
     private Twitter4jWrapper() {
         File propertiesFile = new File("twitter4j.properties");
         if (!propertiesFile.exists()) {
-            twitter.setOAuthConsumer("VOIW6nzPVPEGyILu0kgMRQ", "x42tjv2Xrzsi3p5hfiGSYSiNLfa7VZv8Ozd0VHEaQ");
+            twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET_KEY);
             showOAuthDialog();
         }
     }
