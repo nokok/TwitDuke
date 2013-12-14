@@ -19,7 +19,7 @@ public class MainController {
             sendTweet();
         }
     };
-    private final ActionListener enterKeyPressed = new ActionListener() {
+    private final ActionListener enterKeyPressed          = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             sendTweet();
@@ -38,9 +38,7 @@ public class MainController {
         this.mainView = mainView;
         mainView.bindActionListenerSendTweetButton(sendButtonActionListener);
         mainView.bindActionListenerTextField(enterKeyPressed);
-        TwitterStream stream;
-
-        stream = new TwitterStreamFactory().getInstance();
+        TwitterStream stream = new TwitterStreamFactory().getInstance();
         stream.addListener(userStreamAdapter);
         stream.user();
     }
