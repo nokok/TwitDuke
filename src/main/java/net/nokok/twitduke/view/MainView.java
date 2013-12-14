@@ -9,14 +9,14 @@ import java.awt.event.ActionListener;
 
 public class MainView extends JFrame {
 
-    private final JTextField textField = new JTextField();
-    private final JPanel tweetListPanel = new JPanel();
-    private final JScrollPane parentTweetListPanel = new JScrollPane(tweetListPanel,
-            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-    private final CommonButton settingButton = new CommonButton("Settings");
-    private final CommonButton userSwitcher = new CommonButton("User...");
-    private final CommonButton sendTweetButton = new CommonButton("Tweet");
+    private final JTextField   textField            = new JTextField();
+    private final JPanel       tweetListPanel       = new JPanel();
+    private final JScrollPane  parentTweetListPanel = new JScrollPane(tweetListPanel,
+        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    private final CommonButton settingButton        = new CommonButton("Settings");
+    private final CommonButton userSwitcher         = new CommonButton("User...");
+    private final CommonButton sendTweetButton      = new CommonButton("Tweet");
 
     public MainView() {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -39,8 +39,8 @@ public class MainView extends JFrame {
         toolBarPanel.add(settingButton, BorderLayout.WEST);
         toolBarPanel.add(new CommonButton(""));
         toolBarPanel.add(userSwitcher);
-        toolBarPanel.setBackground(sendTweetButton.getBackground());
         toolBarPanel.add(sendTweetButton);
+        toolBarPanel.setBackground(UIColor.Toolbar.DEFAULT_BACKGROUND);
         rootNorthPanel.add(toolBarPanel, BorderLayout.SOUTH);
         this.add(rootNorthPanel, BorderLayout.NORTH);
 
