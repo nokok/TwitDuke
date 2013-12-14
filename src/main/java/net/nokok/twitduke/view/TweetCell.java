@@ -18,7 +18,6 @@ public class TweetCell extends JPanel {
         this.setBackground(UIColor.TweetCell.DEFAULT_BACKGROUND);
         this.setLayout(new BorderLayout());
 
-        //TODO:ブランクの画像を用意する
         icon = new JLabel(new ImageIcon(""));
         icon.setPreferredSize(new Dimension(50, 50));
         userName = new JLabel("");
@@ -51,7 +50,6 @@ public class TweetCell extends JPanel {
             ImageIcon image = new ImageIcon(imageURL);
             this.icon.setIcon(image);
         } catch (MalformedURLException e) {
-            //TODO:アイコンの取得に失敗したor取得中はブランク画像を使用する
             e.printStackTrace();
         }
         if (status.isRetweet()) {
