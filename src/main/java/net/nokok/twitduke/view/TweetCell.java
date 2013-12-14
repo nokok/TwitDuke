@@ -22,6 +22,7 @@ public class TweetCell extends JPanel {
         icon = new JLabel(new ImageIcon(""));
         icon.setPreferredSize(new Dimension(50, 50));
         userName = new JLabel("");
+        userName.setFont(new Font("ヒラギノ", Font.BOLD, 13));
         userName.setForeground(UIColor.TweetCell.DEFAULT_FOREGROUND);
         tweetText = new JTextArea("");
         tweetText.setForeground(UIColor.TweetCell.DEFAULT_FOREGROUND);
