@@ -20,7 +20,7 @@ public class UIColor {
     }
 
     public static class Toolbar {
-        public static final Color DEFAULT_FOREGROUND = TweetCell.DEFAULT_FOREGROUND;
-        public static final Color DEFAULT_BACKGROUND = TweetCell.DEFAULT_BACKGROUND;
+        public static final Color DEFAULT_FOREGROUND = CommonButton.DEFAULT_FOREGROUND;
+        public static final Color DEFAULT_BACKGROUND = CommonButton.DEFAULT_BACKGROUND;
     }
 }
