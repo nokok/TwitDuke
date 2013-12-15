@@ -80,6 +80,9 @@ public class TweetCell extends JPanel {
             index = m.end();
         }
 
+        p = null; //GC
+        m = null;
+
         this.setPreferredSize(new Dimension(505, 50));
         int calcedHeight = this.getPreferredSize().height + count * 15;
         this.tweetTextBody.setText(tweetText);
