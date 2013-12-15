@@ -55,7 +55,7 @@ public class MainView extends JFrame {
     }
 
     public void insertTweetCell(TweetCell tweetCell) {
-        tweetListPanel.add(Box.createRigidArea(new Dimension(505, 5)));
+        tweetListPanel.add(Box.createRigidArea(new Dimension(tweetCell.getWidth(), 1)), 0);
         tweetListPanel.add(tweetCell, 0);
     }
 
