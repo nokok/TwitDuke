@@ -46,6 +46,7 @@ public class MainView extends JFrame {
 
         JPanel rootCenterPanel = new JPanel();
         rootCenterPanel.add(parentTweetListPanel);
+        parentTweetListPanel.getVerticalScrollBar().setUnitIncrement(30);
         parentTweetListPanel.setBackground(UIColor.TweetPanel.DEFAULT_BACKGROUND);
         tweetListPanel.setLayout(new BoxLayout(tweetListPanel, BoxLayout.Y_AXIS));
         tweetListPanel.setBackground(UIColor.TweetPanel.DEFAULT_BACKGROUND);
