@@ -13,6 +13,7 @@ public class TweetCell extends JPanel {
     private JLabel    icon;
     private JLabel    userName;
     private JTextArea tweetText;
+    private JPanel    contentPanel;
 
     public TweetCell() {
         this.setBackground(UIColor.TweetCell.DEFAULT_BACKGROUND);
@@ -35,7 +36,7 @@ public class TweetCell extends JPanel {
 
         this.add(icon, BorderLayout.WEST);
 
-        JPanel contentPanel = new JPanel(new BorderLayout());
+        contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBackground(this.getBackground());
         contentPanel.add(userName, BorderLayout.NORTH);
         contentPanel.add(tweetText, BorderLayout.CENTER);
@@ -53,7 +54,10 @@ public class TweetCell extends JPanel {
             e.printStackTrace();
         }
         if (status.isRetweet()) {
+            this.setBackground(UIColor.TweetCell.RETWEETED_BACKGROUND);
             tweetText.setBackground(UIColor.TweetCell.RETWEETED_BACKGROUND);
+            userName.setBackground(UIColor.TweetCell.RETWEETED_BACKGROUND);
+            contentPanel.setBackground(UIColor.TweetCell.RETWEETED_BACKGROUND);
         }
 
         this.tweetText.setText(status.getText());
