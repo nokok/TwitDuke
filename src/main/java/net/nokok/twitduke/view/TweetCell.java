@@ -10,8 +10,8 @@ import java.net.URL;
 
 public class TweetCell extends JPanel {
 
-    private JLabel icon;
-    private JLabel userName;
+    private JLabel    icon;
+    private JLabel    userName;
     private JTextArea tweetText;
 
     public TweetCell() {

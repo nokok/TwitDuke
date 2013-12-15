@@ -17,11 +17,11 @@ import java.util.Properties;
 
 public class Twitter4jWrapper {
 
-    private static final String CONSUMER_KEY = "VOIW6nzPVPEGyILu0kgMRQ";
+    private static final String CONSUMER_KEY        = "VOIW6nzPVPEGyILu0kgMRQ";
     private static final String CONSUMER_SECRET_KEY = "x42tjv2Xrzsi3p5hfiGSYSiNLfa7VZv8Ozd0VHEaQ";
 
     private AccessToken accessToken;
-    private static final AsyncTwitter twitter = AsyncTwitterFactory.getSingleton();
+    private static final AsyncTwitter     twitter  = AsyncTwitterFactory.getSingleton();
     private static final Twitter4jWrapper instance = new Twitter4jWrapper();
 
     private Twitter4jWrapper() {

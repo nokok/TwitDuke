@@ -12,8 +12,8 @@ public class MainView extends JFrame {
     private final JTextField   textField            = new JTextField();
     private final JPanel       tweetListPanel       = new JPanel();
     private final JScrollPane  parentTweetListPanel = new JScrollPane(tweetListPanel,
-        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     private final CommonButton settingButton        = new CommonButton("Settings");
     private final CommonButton userSwitcher         = new CommonButton("User...");
     private final CommonButton sendTweetButton      = new CommonButton("Tweet");
