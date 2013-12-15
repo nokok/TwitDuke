@@ -11,56 +11,81 @@ import java.net.URL;
 public class TweetCell extends JPanel {
 
     private JLabel    icon;
-    private JLabel    userName;
-    private JTextArea tweetText;
+    private JLabel    retweetSmallIcon;
+    private JLabel    userNameLabel;
+    private JTextArea tweetTextBody;
+    private JPanel    contentNorthPanel;
     private JPanel    contentPanel;
 
     public TweetCell() {
         this.setBackground(UIColor.TweetCell.DEFAULT_BACKGROUND);
         this.setLayout(new BorderLayout());
 
-        icon = new JLabel(new ImageIcon(""));
-        icon.setPreferredSize(new Dimension(50, 50));
-        userName = new JLabel("");
-        userName.setFont(new Font("ヒラギノ", Font.BOLD, 13));
-        userName.setForeground(UIColor.TweetCell.DEFAULT_FOREGROUND);
-        tweetText = new JTextArea("");
-        tweetText.setForeground(UIColor.TweetCell.DEFAULT_FOREGROUND);
-        tweetText.setBackground(UIColor.TweetCell.DEFAULT_BACKGROUND);
-        tweetText.setEditable(false);
-        tweetText.setLineWrap(true);
-        tweetText.setOpaque(true);
-        tweetText.setBorder(null);
+        icon = new JLabel("");
+        retweetSmallIcon = new JLabel("");
+        userNameLabel = new JLabel("");
+        tweetTextBody = new JTextArea();
 
         this.setPreferredSize(new Dimension(505, 50));
+        icon.setPreferredSize(new Dimension(50, 50));
+        retweetSmallIcon.setPreferredSize(new Dimension(15, 15));
 
-        this.add(icon, BorderLayout.WEST);
+        userNameLabel.setFont(new Font("", Font.BOLD, 13));
+        userNameLabel.setForeground(UIColor.TweetCell.DEFAULT_FOREGROUND);
+        tweetTextBody.setForeground(UIColor.TweetCell.DEFAULT_FOREGROUND);
+        tweetTextBody.setBackground(UIColor.TweetCell.DEFAULT_BACKGROUND);
+        tweetTextBody.setEditable(false);
+        tweetTextBody.setLineWrap(true);
+        tweetTextBody.setOpaque(true);
+        tweetTextBody.setBorder(null);
 
         contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBackground(this.getBackground());
-        contentPanel.add(userName, BorderLayout.NORTH);
-        contentPanel.add(tweetText, BorderLayout.CENTER);
+        contentNorthPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        contentNorthPanel.setBackground(UIColor.TweetCell.DEFAULT_BACKGROUND);
+        contentNorthPanel.add(userNameLabel);
+        contentNorthPanel.add(retweetSmallIcon);
+        contentPanel.add(contentNorthPanel, BorderLayout.NORTH);
+        contentPanel.add(tweetTextBody, BorderLayout.CENTER);
+
+        this.add(icon, BorderLayout.WEST);
         this.add(contentPanel, BorderLayout.CENTER);
 
     }
 
     public TweetCell(Status status) {
         this();
+        String tweetText = status.getText();
+        String userName = status.getUser().getScreenName();
         try {
-            URL imageURL = new URL(status.getUser().getProfileImageURL());
+            URL imageURL, smallRetweetUserImageURL;
+            if (status.isRetweet()) {
+                imageURL = new URL(status.getRetweetedStatus().getUser().getProfileImageURL());
+                smallRetweetUserImageURL = new URL(status.getUser().getProfileImageURL());
+                Image smallRetweetUserImage = new ImageIcon(smallRetweetUserImageURL).getImage().getScaledInstance(15, 15, Image.SCALE_FAST);
+                this.retweetSmallIcon.setIcon(new ImageIcon(smallRetweetUserImage));
+
+                changeCellColor(UIColor.TweetCell.RETWEETED_BACKGROUND);
+                tweetText = status.getRetweetedStatus().getText();
+                userName = "Retweet:" + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName();
+            } else {
+                imageURL = new URL(status.getUser().getProfileImageURL());
+            }
             ImageIcon image = new ImageIcon(imageURL);
             this.icon.setIcon(image);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        if (status.isRetweet()) {
-            this.setBackground(UIColor.TweetCell.RETWEETED_BACKGROUND);
-            tweetText.setBackground(UIColor.TweetCell.RETWEETED_BACKGROUND);
-            userName.setBackground(UIColor.TweetCell.RETWEETED_BACKGROUND);
-            contentPanel.setBackground(UIColor.TweetCell.RETWEETED_BACKGROUND);
-        }
+        this.setPreferredSize(new Dimension(this.getWidth(), userNameLabel.getHeight() + tweetTextBody.getHeight()));
+        this.tweetTextBody.setText(tweetText);
+        this.userNameLabel.setText(userName);
+    }
 
-        this.tweetText.setText(status.getText());
-        this.userName.setText(status.getUser().getScreenName());
+    private void changeCellColor(Color newColor) {
+        this.setBackground(newColor);
+        tweetTextBody.setBackground(newColor);
+        userNameLabel.setBackground(newColor);
+        contentPanel.setBackground(newColor);
+        contentNorthPanel.setBackground(newColor);
     }
 }
