@@ -10,7 +10,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
@@ -66,9 +69,7 @@ public class Twitter4jWrapper {
                 public void actionPerformed(ActionEvent e) {
                     try {
                         Desktop.getDesktop().browse(new URI(requestToken.getAuthenticationURL()));
-                    } catch (URISyntaxException ex) {
-                        ex.printStackTrace();
-                    } catch (IOException ex) {
+                    } catch (URISyntaxException | IOException ex) {
                         ex.printStackTrace();
                     }
                 }
@@ -96,14 +97,11 @@ public class Twitter4jWrapper {
     private void saveAccessToken(AccessToken accessToken) {
         Properties properties = new Properties();
         try {
-            System.out.println(twitter);
             properties.setProperty("oauth.consumerKey", "VOIW6nzPVPEGyILu0kgMRQ");
             properties.setProperty("oauth.consumerSecret", "x42tjv2Xrzsi3p5hfiGSYSiNLfa7VZv8Ozd0VHEaQ");
             properties.setProperty("oauth.accessToken", accessToken.getToken());
             properties.setProperty("oauth.accessTokenSecret", accessToken.getTokenSecret());
             properties.store(new OutputStreamWriter(new FileOutputStream("twitter4j.properties")), "");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -8,25 +8,12 @@ import twitter4j.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainController {
+class MainController {
 
     private final AsyncTwitter asyncTwitter = Twitter4jWrapper.getTwitter();
-    private MainView mainView;
+    private final MainView mainView;
 
-    private final ActionListener sendButtonActionListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            sendTweet();
-        }
-    };
-    private final ActionListener enterKeyPressed          = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            sendTweet();
-        }
-    };
-
-    private final UserStreamAdapter userStreamAdapter = new UserStreamAdapter() {
+    UserStreamAdapter userStreamAdapter = new UserStreamAdapter() {
         @Override
         public void onStatus(Status status) {
             mainView.insertTweetCell(new TweetCell(status));
@@ -36,9 +23,22 @@ public class MainController {
 
     public MainController(MainView mainView) {
         this.mainView = mainView;
+        ActionListener sendButtonActionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sendTweet();
+            }
+        };
         mainView.bindActionListenerSendTweetButton(sendButtonActionListener);
+        ActionListener enterKeyPressed = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sendTweet();
+            }
+        };
         mainView.bindActionListenerTextField(enterKeyPressed);
         TwitterStream stream = new TwitterStreamFactory().getInstance();
+
         stream.addListener(userStreamAdapter);
         stream.user();
     }

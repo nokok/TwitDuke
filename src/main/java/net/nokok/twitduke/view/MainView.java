@@ -9,14 +9,11 @@ import java.awt.event.ActionListener;
 
 public class MainView extends JFrame {
 
-    private final JTextField   textField            = new JTextField();
-    private final JPanel       tweetListPanel       = new JPanel();
-    private final JScrollPane  parentTweetListPanel = new JScrollPane(tweetListPanel,
-            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-    private final CommonButton settingButton        = new CommonButton("Settings");
-    private final CommonButton userSwitcher         = new CommonButton("User...");
-    private final CommonButton sendTweetButton      = new CommonButton("Tweet");
+    private final JTextField   textField       = new JTextField();
+    private final JPanel       tweetListPanel  = new JPanel();
+    private final CommonButton settingButton   = new CommonButton("Settings");
+    private final CommonButton userSwitcher    = new CommonButton("User...");
+    private final CommonButton sendTweetButton = new CommonButton("Tweet");
 
     public MainView() {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -24,7 +21,7 @@ public class MainView extends JFrame {
         this.textField.setPreferredSize(new Dimension(530, 30));
         this.textField.setOpaque(true);
         this.textField.setBorder(null);
-        this.textField.setFont(new Font("ヒラギノ角ゴ", Font.PLAIN, 15));
+        this.textField.setFont(new Font("", Font.PLAIN, 15));
 
         this.setTitle("TwitDuke");
         this.setMinimumSize(new Dimension(530, 600));
@@ -45,6 +42,9 @@ public class MainView extends JFrame {
         this.add(rootNorthPanel, BorderLayout.NORTH);
 
         JPanel rootCenterPanel = new JPanel();
+        JScrollPane parentTweetListPanel = new JScrollPane(tweetListPanel,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         rootCenterPanel.add(parentTweetListPanel);
         parentTweetListPanel.getVerticalScrollBar().setUnitIncrement(30);
         parentTweetListPanel.setBackground(UIColor.TweetPanel.DEFAULT_BACKGROUND);

@@ -2,7 +2,7 @@ package net.nokok.twitduke.controller;
 
 import net.nokok.twitduke.view.MainView;
 
-public class WindowManager {
+class WindowManager {
 
     private MainView mainView;
 
