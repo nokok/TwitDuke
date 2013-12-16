@@ -4,7 +4,7 @@
     <facet type="scala" name="Scala">
       <configuration>
         <option name="compilerLibraryLevel" value="Project" />
-        <option name="compilerLibraryName" value="org.scala-lang:scala-compiler:2.10.3" />
+        <option name="compilerLibraryName" value="Maven: org.scala-lang:scala-compiler-bundle:2.10.3" />
       </configuration>
     </facet>
   </component>
@@ -28,18 +28,10 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="org.twitter4j:twitter4j-async:3.0.5" level="project" />
-    <orderEntry type="library" name="org.twitter4j:twitter4j-stream:3.0.5" level="project" />
-    <orderEntry type="library" name="org.twitter4j:twitter4j-core:3.0.5" level="project" />
-    <orderEntry type="library" name="Maven: org.twitter4j:twitter4j-async:3.0.5" level="project" />
-    <orderEntry type="library" name="Maven: org.twitter4j:twitter4j-stream:3.0.5" level="project" />
-    <orderEntry type="library" name="Maven: com.google.inject:guice:3.0" level="project" />
-    <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
-    <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.twitter4j:twitter4j-core:3.0.5" level="project" />
     <orderEntry type="library" name="Maven: org.twitter4j:twitter4j-async:3.0.5" level="project" />
     <orderEntry type="library" name="Maven: org.twitter4j:twitter4j-stream:3.0.5" level="project" />
-    <orderEntry type="library" name="org.scala-lang:scala-compiler:2.10.3" level="project" />
+    <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.10.3" level="project" />
   </component>
 </module>
 
