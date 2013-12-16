@@ -61,7 +61,7 @@ public class TweetCell extends JPanel {
 
                 changeCellColor(UIColor.TweetCell.RETWEETED_BACKGROUND);
                 tweetText = status.getRetweetedStatus().getText();
-                userName = "Retweet:" + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName();
+                userName = "Retweet: " + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName();
             } else {
                 imageURL = new URL(status.getUser().getProfileImageURL());
             }
