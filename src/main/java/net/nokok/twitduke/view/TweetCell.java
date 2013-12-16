@@ -11,12 +11,14 @@ import java.net.URL;
 
 public class TweetCell extends JPanel {
 
+    private final long      statusId;
     private final JLabel    userNameLabel;
     private final JTextArea tweetTextBody;
     private final JPanel    contentNorthPanel;
     private final JPanel    contentPanel;
 
     public TweetCell(Status status) {
+        this.statusId = status.getId();
         this.setBackground(UIColor.TweetCell.DEFAULT_BACKGROUND);
         this.setLayout(new BorderLayout());
 
@@ -81,5 +83,9 @@ public class TweetCell extends JPanel {
         userNameLabel.setBackground(newColor);
         contentPanel.setBackground(newColor);
         contentNorthPanel.setBackground(newColor);
+    }
+
+    private long getStatusId() {
+        return statusId;
     }
 }
