@@ -1,14 +1,13 @@
 package net.nokok.twitduke.view;
 
 import net.nokok.twitduke.util.ui.UIColor;
+import net.nokok.twitduke.util.ui.UISize;
 import twitter4j.Status;
 
 import javax.swing.*;
 import java.awt.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class TweetCell extends JPanel {
 
@@ -25,8 +24,8 @@ public class TweetCell extends JPanel {
         JLabel retweetSmallIcon = new JLabel("");
         userNameLabel = new JLabel("");
         tweetTextBody = new JTextArea();
-        icon.setPreferredSize(new Dimension(50, 50));
-        retweetSmallIcon.setPreferredSize(new Dimension(15, 15));
+        icon.setPreferredSize(UISize.TweetCell.DEFAULT_ICON_SIZE);
+        retweetSmallIcon.setPreferredSize(UISize.TweetCell.DEFAULT_RETWEET_USER_ICON_SIZE);
 
         userNameLabel.setFont(new Font("", Font.BOLD, 13));
         userNameLabel.setForeground(UIColor.TweetCell.DEFAULT_FOREGROUND);
@@ -71,24 +70,9 @@ public class TweetCell extends JPanel {
             e.printStackTrace();
         }
 
-        Pattern p = Pattern.compile("\n");
-        Matcher m = p.matcher(tweetText);
-        int count = 0;
-        int index = 0;
-        while (m.find(index)) {
-            count++;
-            index = m.end();
-        }
-
-        p = null; //GC
-        m = null;
-
-        this.setPreferredSize(new Dimension(505, 50));
-        int calcedHeight = this.getPreferredSize().height + count * 15;
         this.tweetTextBody.setText(tweetText);
         this.userNameLabel.setText(userName);
-        this.setMinimumSize(new Dimension(505, 50));
-        this.setPreferredSize(new Dimension(this.getPreferredSize().width, calcedHeight));
+        this.setMinimumSize(this.getPreferredSize());
     }
 
     private void changeCellColor(Color newColor) {
