@@ -1,6 +1,7 @@
 package net.nokok.twitduke.view;
 
 import net.nokok.twitduke.util.ui.UIColor;
+import org.jetbrains.annotations.NotNull;
 import twitter4j.Status;
 
 import javax.swing.*;
@@ -12,12 +13,16 @@ import java.util.regex.Pattern;
 
 public class TweetCell extends JPanel {
 
+    @NotNull
     private final JLabel    userNameLabel;
+    @NotNull
     private final JTextArea tweetTextBody;
+    @NotNull
     private final JPanel    contentNorthPanel;
+    @NotNull
     private final JPanel    contentPanel;
 
-    public TweetCell(Status status) {
+    public TweetCell(@NotNull Status status) {
         this.setBackground(UIColor.TweetCell.DEFAULT_BACKGROUND);
         this.setLayout(new BorderLayout());
 

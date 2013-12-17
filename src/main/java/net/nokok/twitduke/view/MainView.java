@@ -2,6 +2,7 @@ package net.nokok.twitduke.view;
 
 import net.nokok.twitduke.util.ui.CommonButton;
 import net.nokok.twitduke.util.ui.UIColor;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,11 +10,12 @@ import java.awt.event.ActionListener;
 
 public class MainView extends JFrame {
 
-    private final JTextField   textField       = new JTextField();
-    private final JPanel       tweetListPanel  = new JPanel();
-    private final CommonButton settingButton   = new CommonButton("Settings");
-    private final CommonButton userSwitcher    = new CommonButton("User...");
-    private final CommonButton sendTweetButton = new CommonButton("Tweet");
+    private final JTextField   textField           = new JTextField();
+    private final JPanel       tweetListPanel      = new JPanel();
+    private final CommonButton settingButton       = new CommonButton("Settings");
+    private final CommonButton toggleMentionButton = new CommonButton("Mentions");
+    private final CommonButton userSwitcher        = new CommonButton("User...");
+    private final CommonButton sendTweetButton     = new CommonButton("Tweet");
 
     public MainView() {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -34,7 +36,7 @@ public class MainView extends JFrame {
         JPanel toolBarPanel = new JPanel(new GridLayout());
         toolBarPanel.setPreferredSize(new Dimension(530, 30));
         toolBarPanel.add(settingButton, BorderLayout.WEST);
-        toolBarPanel.add(new CommonButton(""));
+        toolBarPanel.add(toggleMentionButton);
         toolBarPanel.add(userSwitcher);
         toolBarPanel.add(sendTweetButton);
         toolBarPanel.setBackground(UIColor.Toolbar.DEFAULT_BACKGROUND);
@@ -43,8 +45,8 @@ public class MainView extends JFrame {
 
         JPanel rootCenterPanel = new JPanel();
         JScrollPane parentTweetListPanel = new JScrollPane(tweetListPanel,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         rootCenterPanel.add(parentTweetListPanel);
         parentTweetListPanel.getVerticalScrollBar().setUnitIncrement(30);
         parentTweetListPanel.setBackground(UIColor.TweetPanel.DEFAULT_BACKGROUND);
@@ -55,7 +57,7 @@ public class MainView extends JFrame {
 
     }
 
-    public void insertTweetCell(TweetCell tweetCell) {
+    public void insertTweetCell(@NotNull TweetCell tweetCell) {
         tweetListPanel.add(Box.createRigidArea(new Dimension(tweetCell.getWidth(), 1)), 0);
         tweetListPanel.add(tweetCell, 0);
     }

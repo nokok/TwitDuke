@@ -1,5 +1,6 @@
 package net.nokok.twitduke.model;
 
+import org.jetbrains.annotations.NotNull;
 import twitter4j.AsyncTwitter;
 import twitter4j.AsyncTwitterFactory;
 import twitter4j.TwitterException;
@@ -35,6 +36,7 @@ public class Twitter4jWrapper {
         }
     }
 
+    @NotNull
     public static Twitter4jWrapper getInstance() {
         return instance;
     }
@@ -69,7 +71,7 @@ public class Twitter4jWrapper {
                 public void actionPerformed(ActionEvent e) {
                     try {
                         Desktop.getDesktop().browse(new URI(requestToken.getAuthenticationURL()));
-                    } catch (URISyntaxException | IOException ex) {
+                    } catch (@NotNull URISyntaxException | IOException ex) {
                         ex.printStackTrace();
                     }
                 }
@@ -94,9 +96,10 @@ public class Twitter4jWrapper {
         }
     }
 
-    private void saveAccessToken(AccessToken accessToken) {
+    private void saveAccessToken(@NotNull AccessToken accessToken) {
         Properties properties = new Properties();
         try {
+            properties.setProperty("userName", accessToken.getScreenName());
             properties.setProperty("oauth.consumerKey", "VOIW6nzPVPEGyILu0kgMRQ");
             properties.setProperty("oauth.consumerSecret", "x42tjv2Xrzsi3p5hfiGSYSiNLfa7VZv8Ozd0VHEaQ");
             properties.setProperty("oauth.accessToken", accessToken.getToken());
