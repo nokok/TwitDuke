@@ -2,6 +2,7 @@ package net.nokok.twitduke.view;
 
 import net.nokok.twitduke.util.ui.CommonButton;
 import net.nokok.twitduke.util.ui.UIColor;
+import net.nokok.twitduke.util.ui.UISize;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -20,13 +21,13 @@ public class MainView extends JFrame {
     public MainView() {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.textField.setColumns(5);
-        this.textField.setPreferredSize(new Dimension(530, 30));
+        this.textField.setPreferredSize(UISize.MainWindow.TEXTFIELD_SIZE);
         this.textField.setOpaque(true);
         this.textField.setBorder(null);
         this.textField.setFont(new Font("", Font.PLAIN, 15));
 
         this.setTitle("TwitDuke");
-        this.setMinimumSize(new Dimension(530, 600));
+        this.setMinimumSize(UISize.MainWindow.MINIMUM_SIZE);
         this.setLayout(new BorderLayout());
 
         JPanel rootNorthPanel = new JPanel(new BorderLayout());
@@ -34,7 +35,7 @@ public class MainView extends JFrame {
         rootNorthPanel.add(textField, BorderLayout.NORTH);
 
         JPanel toolBarPanel = new JPanel(new GridLayout());
-        toolBarPanel.setPreferredSize(new Dimension(530, 30));
+        toolBarPanel.setPreferredSize(rootNorthPanel.getPreferredSize());
         toolBarPanel.add(settingButton, BorderLayout.WEST);
         toolBarPanel.add(toggleMentionButton);
         toolBarPanel.add(userSwitcher);

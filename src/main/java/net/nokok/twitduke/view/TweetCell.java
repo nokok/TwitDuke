@@ -1,6 +1,7 @@
 package net.nokok.twitduke.view;
 
 import net.nokok.twitduke.util.ui.UIColor;
+import net.nokok.twitduke.util.ui.UISize;
 import org.jetbrains.annotations.NotNull;
 import twitter4j.Status;
 
@@ -8,12 +9,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class TweetCell extends JPanel {
 
     @NotNull
+    private final long statusId;
+
     private final JLabel    userNameLabel;
     @NotNull
     private final JTextArea tweetTextBody;
@@ -23,6 +24,7 @@ public class TweetCell extends JPanel {
     private final JPanel    contentPanel;
 
     public TweetCell(@NotNull Status status) {
+        this.statusId = status.getId();
         this.setBackground(UIColor.TweetCell.DEFAULT_BACKGROUND);
         this.setLayout(new BorderLayout());
 
@@ -30,8 +32,8 @@ public class TweetCell extends JPanel {
         JLabel retweetSmallIcon = new JLabel("");
         userNameLabel = new JLabel("");
         tweetTextBody = new JTextArea();
-        icon.setPreferredSize(new Dimension(50, 50));
-        retweetSmallIcon.setPreferredSize(new Dimension(15, 15));
+        icon.setPreferredSize(UISize.TweetCell.DEFAULT_ICON_SIZE);
+        retweetSmallIcon.setPreferredSize(UISize.TweetCell.DEFAULT_RETWEET_USER_ICON_SIZE);
 
         userNameLabel.setFont(new Font("", Font.BOLD, 13));
         userNameLabel.setForeground(UIColor.TweetCell.DEFAULT_FOREGROUND);
@@ -66,7 +68,7 @@ public class TweetCell extends JPanel {
 
                 changeCellColor(UIColor.TweetCell.RETWEETED_BACKGROUND);
                 tweetText = status.getRetweetedStatus().getText();
-                userName = "Retweet:" + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName();
+                userName = "Retweet: " + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName();
             } else {
                 imageURL = new URL(status.getUser().getProfileImageURL());
             }
@@ -76,24 +78,9 @@ public class TweetCell extends JPanel {
             e.printStackTrace();
         }
 
-        Pattern p = Pattern.compile("\n");
-        Matcher m = p.matcher(tweetText);
-        int count = 0;
-        int index = 0;
-        while (m.find(index)) {
-            count++;
-            index = m.end();
-        }
-
-        p = null; //GC
-        m = null;
-
-        this.setPreferredSize(new Dimension(505, 50));
-        int calcedHeight = this.getPreferredSize().height + count * 15;
         this.tweetTextBody.setText(tweetText);
         this.userNameLabel.setText(userName);
-        this.setMinimumSize(new Dimension(505, 50));
-        this.setPreferredSize(new Dimension(this.getPreferredSize().width, calcedHeight));
+        this.setMinimumSize(this.getPreferredSize());
     }
 
     private void changeCellColor(Color newColor) {
@@ -102,5 +89,9 @@ public class TweetCell extends JPanel {
         userNameLabel.setBackground(newColor);
         contentPanel.setBackground(newColor);
         contentNorthPanel.setBackground(newColor);
+    }
+
+    private long getStatusId() {
+        return statusId;
     }
 }

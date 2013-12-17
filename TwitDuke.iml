@@ -33,6 +33,10 @@
     <orderEntry type="library" name="Maven: org.twitter4j:twitter4j-async:3.0.5" level="project" />
     <orderEntry type="library" name="Maven: org.twitter4j:twitter4j-stream:3.0.5" level="project" />
     <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.10.3" level="project" />
+    <orderEntry type="library" name="Maven: com.googlecode:kryo:1.04" level="project" />
+    <orderEntry type="library" name="Maven: asm:asm:3.2" level="project" />
+    <orderEntry type="library" name="Maven: com.googlecode:reflectasm:1.01" level="project" />
+    <orderEntry type="library" name="Maven: com.googlecode:minlog:1.2" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
