@@ -4,7 +4,8 @@
 *.iml
 *.ipr
 *.iws
-.idea/
+.idea/*
+!.idea/codeStyleSettings.xml
 
 ### Java ###
 *.class
