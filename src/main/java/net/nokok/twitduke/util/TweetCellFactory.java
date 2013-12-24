@@ -15,7 +15,7 @@ public class TweetCellFactory {
 
         URL userIconURL, retweetIconURL;
 
-        int result = status.getText().indexOf("@" + AccessTokenManager.getInstance().getName());
+        int result = status.getText().indexOf("@" + AccessTokenManager.getInstance().getUserName());
         boolean isMention = (result != -1);
 
         if (status.isRetweet()) {

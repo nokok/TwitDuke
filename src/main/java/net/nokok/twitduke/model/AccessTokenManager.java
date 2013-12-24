@@ -49,14 +49,18 @@ public class AccessTokenManager {
         return readAccessToken(primaryUserId);
     }
 
+    public String getUserName() {
+        return tokenList.get(0).userName;
+    }
+
     public AccessToken readAccessToken(long id) {
         try (FileInputStream fileInputStream = new FileInputStream(ACCESS_TOKEN_PREFIX + id);
              ObjectInputStream stream = new ObjectInputStream(fileInputStream)) {
             return (AccessToken) stream.readObject();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new InternalError("トークンファイルの読み込み中にエラーが発生しました");
         }
+        return new AccessToken("", "");
     }
 
     public void writeAccessToken(AccessToken accessToken) {
