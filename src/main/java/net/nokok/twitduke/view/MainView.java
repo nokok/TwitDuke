@@ -63,6 +63,22 @@ public class MainView extends JFrame {
         return tweetTextField;
     }
 
+    public TWButton getSettingButton() {
+        return settingButton;
+    }
+
+    public TWButton getMentionButton() {
+        return mentionButton;
+    }
+
+    public TWButton getUserSwitcher() {
+        return userSwitcher;
+    }
+
+    public TWButton getSendButton() {
+        return sendButton;
+    }
+
     public void clearTextField() {
         tweetTextField.setText("");
     }
