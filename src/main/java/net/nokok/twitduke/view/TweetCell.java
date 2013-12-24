@@ -56,7 +56,7 @@ public class TweetCell extends TWPanel {
                      String userName,
                      String tweetText) {
         this(statusId, userIcon, userName, tweetText);
-        this.changeColor(DefaultColor.TweetCell.RETWEET_BACKGROUND);
+        this.changeColor(DefaultColor.TweetCell.RETWEETED_BACKGROUND);
         this.retweetIcon.setIcon(retweetIcon);
     }
 
