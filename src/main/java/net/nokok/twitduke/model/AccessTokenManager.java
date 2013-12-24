@@ -59,8 +59,8 @@ public class AccessTokenManager {
             return (AccessToken) stream.readObject();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new InternalError("トークンファイルの読み込み中にエラーが発生しました");
         }
+        return new AccessToken("", "");
     }
 
     public void writeAccessToken(AccessToken accessToken) {
