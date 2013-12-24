@@ -19,7 +19,7 @@ public class TweetCell extends TWPanel {
 
     private final TWPanel contentsNorthPanel = new TWPanel(new FlowLayout(FlowLayout.LEFT));
 
-    public TweetCell(long statusId, Icon userIcon, String userName, String tweetText) {
+    public TweetCell(boolean isMention, long statusId, Icon userIcon, String userName, String tweetText) {
         this.setLayout(new BorderLayout());
         this.icon.setPreferredSize(ICON_SIZE);
         this.retweetIcon.setPreferredSize(RETWEET_ICON_SIZE);
@@ -46,16 +46,21 @@ public class TweetCell extends TWPanel {
         this.userName.setText(userName);
         this.tweetText.setText(tweetText);
 
-        this.changeColor(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
+        if (isMention) {
+            this.changeColor(DefaultColor.TweetCell.MENTION_BACKGROUND);
+        } else {
+            this.changeColor(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
+        }
         this.setMinimumSize(this.getPreferredSize());
     }
 
-    public TweetCell(long statusId,
+    public TweetCell(boolean isMention,
+                     long statusId,
                      Icon userIcon,
                      Icon retweetIcon,
                      String userName,
                      String tweetText) {
-        this(statusId, userIcon, userName, tweetText);
+        this(isMention, statusId, userIcon, userName, tweetText);
         this.changeColor(DefaultColor.TweetCell.RETWEETED_BACKGROUND);
         this.retweetIcon.setIcon(retweetIcon);
     }
