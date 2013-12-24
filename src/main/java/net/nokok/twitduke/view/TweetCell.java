@@ -1,7 +1,5 @@
 package net.nokok.twitduke.view;
 
-import net.nokok.twitduke.view.ui.TWButton;
-import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.view.ui.TWPanel;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
 
@@ -71,48 +69,5 @@ public class TweetCell extends TWPanel {
 
     public long getStatusId() {
         return statusId;
-    }
-}
-
-
-class TweetContentPanel extends TWPanel {
-
-    private final TWPanel    contentTopPanel = new TWPanel(new FlowLayout(FlowLayout.LEFT));
-    private final JTextField tweetTextField  = new JTextField();
-
-    TweetContentPanel(String userName, String tweetText) {
-        this.setLayout(new BorderLayout());
-        tweetTextField.setText(tweetText);
-        contentTopPanel.add(new TWLabel(userName));
-        this.add(contentTopPanel, BorderLayout.NORTH);
-        this.add(tweetTextField, BorderLayout.CENTER);
-    }
-
-    TweetContentPanel(Icon retweetIcon, String userName, String tweetText) {
-        this(userName, tweetText);
-        contentTopPanel.add(new TWLabel(retweetIcon));
-    }
-}
-
-class UserIcon extends JLabel {
-
-    private final Dimension ICON_SIZE = new Dimension(50, 50);
-
-    UserIcon(Icon icon) {
-        this.setPreferredSize(ICON_SIZE);
-        this.setIcon(icon);
-    }
-}
-
-class ContextMenuPanel extends TWPanel {
-
-    private final TWButton showUserProfileButton = new TWButton("ユーザーを表示");
-    private final TWButton favoriteButton        = new TWButton("お気に入り");
-    private final TWButton retweetButton         = new TWButton("リツイート");
-
-    public ContextMenuPanel() {
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.add(favoriteButton);
-        this.add(retweetButton);
     }
 }
