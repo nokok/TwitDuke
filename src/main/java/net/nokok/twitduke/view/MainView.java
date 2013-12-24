@@ -10,10 +10,10 @@ import java.awt.*;
 public class MainView extends JFrame {
 
     private final Dimension MINIMUM_SIZE  = new Dimension(530, 600);
-    private final TWButton  settingButton = new TWButton("Config");
-    private final TWButton  mentionButton = new TWButton("Mention");
-    private final TWButton  userSwitcher  = new TWButton("User...");
-    private final TWButton  sendButton    = new TWButton("Tweet");
+    private final TWButton  settingButton = new TWButton("設定");
+    private final TWButton  mentionButton = new TWButton("＠");
+    private final TWButton  userSwitcher  = new TWButton("ユーザー...");
+    private final TWButton  sendButton    = new TWButton("ツイート");
 
     private JTextField tweetTextField = new JTextField();
 
