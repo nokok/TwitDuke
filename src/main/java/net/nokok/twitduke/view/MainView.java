@@ -48,6 +48,8 @@ public class MainView extends JFrame {
         JScrollPane scrollPane = new JScrollPane(tweetListPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setBackground(DefaultColor.DEFAULT_BACKGROUND);
         scrollPane.getVerticalScrollBar().setUnitIncrement(35);
+        scrollPane.setOpaque(true);
+        scrollPane.setBorder(null);
         tweetListPanel.setLayout(new BoxLayout(tweetListPanel, BoxLayout.Y_AXIS));
 
         this.add(topPanel, BorderLayout.NORTH);
