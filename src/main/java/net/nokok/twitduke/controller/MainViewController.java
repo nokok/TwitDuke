@@ -24,7 +24,6 @@ public class MainViewController {
         while (!tokenManager.isAuthenticated()) {
             try {
                 Thread.sleep(3000);
-                System.out.println("s");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

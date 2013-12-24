@@ -101,7 +101,6 @@ public class Twitter4jAsyncWrapper {
 
         private void okButtonClicked(RequestToken requestToken) throws TwitterException {
             AccessToken token = twitter.getOAuthAccessToken(requestToken, textField.getText());
-            System.out.println(token);
             twitter.setOAuthAccessToken(token);
             tokenManager.writeAccessToken(token);
             this.dispose();
