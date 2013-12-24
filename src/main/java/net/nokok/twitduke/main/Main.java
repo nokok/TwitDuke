@@ -1,14 +1,10 @@
 package net.nokok.twitduke.main;
 
-import net.nokok.twitduke.controller.Initializer;
+import net.nokok.twitduke.controller.MainViewController;
 
-/**
- * @author noko
- *         TwitDukeメインクラス
- */
-class Main {
+public class Main {
+
     public static void main(String[] args) {
-        Initializer init = new Initializer();
-        init.startApp();
+        new MainViewController().start();
     }
 }

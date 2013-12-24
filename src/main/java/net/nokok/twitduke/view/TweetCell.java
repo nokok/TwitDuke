@@ -1,97 +1,118 @@
 package net.nokok.twitduke.view;
 
-import net.nokok.twitduke.util.ui.UIColor;
-import net.nokok.twitduke.util.ui.UISize;
-import org.jetbrains.annotations.NotNull;
-import twitter4j.Status;
+import net.nokok.twitduke.view.ui.TWButton;
+import net.nokok.twitduke.view.ui.TWLabel;
+import net.nokok.twitduke.view.ui.TWPanel;
+import net.nokok.twitduke.view.ui.color.DefaultColor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.net.MalformedURLException;
-import java.net.URL;
 
-public class TweetCell extends JPanel {
+public class TweetCell extends TWPanel {
 
-    @NotNull
-    private final long statusId;
+    private long statusId;
+    private final JLabel    icon        = new JLabel();
+    private final JLabel    retweetIcon = new JLabel();
+    private final JLabel    userName    = new JLabel();
+    private final JTextArea tweetText   = new JTextArea();
 
-    private final JLabel    userNameLabel;
-    @NotNull
-    private final JTextArea tweetTextBody;
-    @NotNull
-    private final JPanel    contentNorthPanel;
-    @NotNull
-    private final JPanel    contentPanel;
+    private final Dimension ICON_SIZE         = new Dimension(50, 50);
+    private final Dimension RETWEET_ICON_SIZE = new Dimension(15, 15);
 
-    public TweetCell(@NotNull Status status) {
-        this.statusId = status.getId();
-        this.setBackground(UIColor.TweetCell.DEFAULT_BACKGROUND);
+    private final TWPanel contentsNorthPanel = new TWPanel(new FlowLayout(FlowLayout.LEFT));
+
+    public TweetCell(long statusId, Icon userIcon, String userName, String tweetText) {
         this.setLayout(new BorderLayout());
+        this.icon.setPreferredSize(ICON_SIZE);
+        this.retweetIcon.setPreferredSize(RETWEET_ICON_SIZE);
+        this.userName.setFont(new Font("", Font.BOLD, 13));
+        this.userName.setForeground(DefaultColor.TweetCell.DEFAULT_FOREGROUND);
+        this.tweetText.setForeground(DefaultColor.TweetCell.DEFAULT_FOREGROUND);
+        this.tweetText.setEditable(false);
+        this.tweetText.setLineWrap(true);
+        this.tweetText.setOpaque(true);
+        this.tweetText.setBorder(null);
 
-        JLabel icon = new JLabel("");
-        JLabel retweetSmallIcon = new JLabel("");
-        userNameLabel = new JLabel("");
-        tweetTextBody = new JTextArea();
-        icon.setPreferredSize(UISize.TweetCell.DEFAULT_ICON_SIZE);
-        retweetSmallIcon.setPreferredSize(UISize.TweetCell.DEFAULT_RETWEET_USER_ICON_SIZE);
+        TWPanel contentsPanel = new TWPanel(new BorderLayout());
+        contentsNorthPanel.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
+        contentsNorthPanel.add(this.userName);
+        contentsNorthPanel.add(this.retweetIcon);
+        contentsPanel.add(contentsNorthPanel, BorderLayout.NORTH);
+        contentsPanel.add(this.tweetText, BorderLayout.CENTER);
 
-        userNameLabel.setFont(new Font("", Font.BOLD, 13));
-        userNameLabel.setForeground(UIColor.TweetCell.DEFAULT_FOREGROUND);
-        tweetTextBody.setForeground(UIColor.TweetCell.DEFAULT_FOREGROUND);
-        tweetTextBody.setBackground(UIColor.TweetCell.DEFAULT_BACKGROUND);
-        tweetTextBody.setEditable(false);
-        tweetTextBody.setLineWrap(true);
-        tweetTextBody.setOpaque(true);
-        tweetTextBody.setBorder(null);
+        this.add(this.icon, BorderLayout.WEST);
+        this.add(contentsPanel, BorderLayout.CENTER);
 
-        contentPanel = new JPanel(new BorderLayout());
-        contentPanel.setBackground(this.getBackground());
-        contentNorthPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        contentNorthPanel.setBackground(UIColor.TweetCell.DEFAULT_BACKGROUND);
-        contentNorthPanel.add(userNameLabel);
-        contentNorthPanel.add(retweetSmallIcon);
-        contentPanel.add(contentNorthPanel, BorderLayout.NORTH);
-        contentPanel.add(tweetTextBody, BorderLayout.CENTER);
+        this.statusId = statusId;
+        this.icon.setIcon(userIcon);
+        this.userName.setText(userName);
+        this.tweetText.setText(tweetText);
 
-        this.add(icon, BorderLayout.WEST);
-        this.add(contentPanel, BorderLayout.CENTER);
-
-        String tweetText = status.getText();
-        String userName = status.getUser().getScreenName();
-        try {
-            URL imageURL, smallRetweetUserImageURL;
-            if (status.isRetweet()) {
-                imageURL = new URL(status.getRetweetedStatus().getUser().getProfileImageURL());
-                smallRetweetUserImageURL = new URL(status.getUser().getProfileImageURL());
-                Image smallRetweetUserImage = new ImageIcon(smallRetweetUserImageURL).getImage().getScaledInstance(15, 15, Image.SCALE_FAST);
-                retweetSmallIcon.setIcon(new ImageIcon(smallRetweetUserImage));
-
-                changeCellColor(UIColor.TweetCell.RETWEETED_BACKGROUND);
-                tweetText = status.getRetweetedStatus().getText();
-                userName = "Retweet: " + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName();
-            } else {
-                imageURL = new URL(status.getUser().getProfileImageURL());
-            }
-            ImageIcon image = new ImageIcon(imageURL);
-            icon.setIcon(image);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        this.tweetTextBody.setText(tweetText);
-        this.userNameLabel.setText(userName);
+        this.changeColor(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
         this.setMinimumSize(this.getPreferredSize());
     }
 
-    private void changeCellColor(Color newColor) {
-        this.setBackground(newColor);
-        tweetTextBody.setBackground(newColor);
-        userNameLabel.setBackground(newColor);
-        contentPanel.setBackground(newColor);
-        contentNorthPanel.setBackground(newColor);
+    public TweetCell(long statusId,
+                     Icon userIcon,
+                     Icon retweetIcon,
+                     String userName,
+                     String tweetText) {
+        this(statusId, userIcon, userName, tweetText);
+        this.changeColor(DefaultColor.TweetCell.RETWEET_BACKGROUND);
+        this.retweetIcon.setIcon(retweetIcon);
     }
 
-    private long getStatusId() {
+    public void changeColor(Color color) {
+        this.setBackground(color);
+        this.userName.setBackground(color);
+        this.contentsNorthPanel.setBackground(color);
+        this.tweetText.setBackground(color);
+    }
+
+    public long getStatusId() {
         return statusId;
+    }
+}
+
+
+class TweetContentPanel extends TWPanel {
+
+    private final TWPanel    contentTopPanel = new TWPanel(new FlowLayout(FlowLayout.LEFT));
+    private final JTextField tweetTextField  = new JTextField();
+
+    TweetContentPanel(String userName, String tweetText) {
+        this.setLayout(new BorderLayout());
+        tweetTextField.setText(tweetText);
+        contentTopPanel.add(new TWLabel(userName));
+        this.add(contentTopPanel, BorderLayout.NORTH);
+        this.add(tweetTextField, BorderLayout.CENTER);
+    }
+
+    TweetContentPanel(Icon retweetIcon, String userName, String tweetText) {
+        this(userName, tweetText);
+        contentTopPanel.add(new TWLabel(retweetIcon));
+    }
+}
+
+class UserIcon extends JLabel {
+
+    private final Dimension ICON_SIZE = new Dimension(50, 50);
+
+    UserIcon(Icon icon) {
+        this.setPreferredSize(ICON_SIZE);
+        this.setIcon(icon);
+    }
+}
+
+class ContextMenuPanel extends TWPanel {
+
+    private final TWButton showUserProfileButton = new TWButton("ユーザーを表示");
+    private final TWButton favoriteButton        = new TWButton("お気に入り");
+    private final TWButton retweetButton         = new TWButton("リツイート");
+
+    public ContextMenuPanel() {
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(favoriteButton);
+        this.add(retweetButton);
     }
 }

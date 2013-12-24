@@ -1,89 +1,71 @@
 package net.nokok.twitduke.view;
 
-import net.nokok.twitduke.util.ui.CommonButton;
-import net.nokok.twitduke.util.ui.UIColor;
-import net.nokok.twitduke.util.ui.UISize;
-import org.jetbrains.annotations.NotNull;
+import net.nokok.twitduke.view.ui.TWButton;
+import net.nokok.twitduke.view.ui.TWPanel;
+import net.nokok.twitduke.view.ui.color.DefaultColor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class MainView extends JFrame {
 
-    private final JTextField   textField           = new JTextField();
-    private final JPanel       tweetListPanel      = new JPanel();
-    private final CommonButton settingButton       = new CommonButton("Settings");
-    private final CommonButton toggleMentionButton = new CommonButton("Mentions");
-    private final CommonButton userSwitcher        = new CommonButton("User...");
-    private final CommonButton sendTweetButton     = new CommonButton("Tweet");
+    private final Dimension MINIMUM_SIZE  = new Dimension(530, 600);
+    private final TWButton  settingButton = new TWButton("Config");
+    private final TWButton  mentionButton = new TWButton("Mention");
+    private final TWButton  userSwitcher  = new TWButton("User...");
+    private final TWButton  sendButton    = new TWButton("Tweet");
+
+    private JTextField tweetTextField = new JTextField();
+
+    private final Dimension TOP_PANEL_DEFAULT_SIZE = new Dimension(530, 60);
+    private final Dimension TEXTFIELD_SIZE         = new Dimension(530, 30);
+
+    private final TWPanel tweetListPanel = new TWPanel();
 
     public MainView() {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.textField.setColumns(5);
-        this.textField.setPreferredSize(UISize.MainWindow.TEXTFIELD_SIZE);
-        this.textField.setOpaque(true);
-        this.textField.setBorder(null);
-        this.textField.setFont(new Font("", Font.PLAIN, 15));
-
         this.setTitle("TwitDuke");
-        this.setMinimumSize(UISize.MainWindow.MINIMUM_SIZE);
+        this.setMinimumSize(MINIMUM_SIZE);
         this.setLayout(new BorderLayout());
+        this.setBackground(DefaultColor.DEFAULT_BACKGROUND);
 
-        JPanel rootNorthPanel = new JPanel(new BorderLayout());
-        rootNorthPanel.setMinimumSize(new Dimension(530, 30));
-        rootNorthPanel.add(textField, BorderLayout.NORTH);
+        TWPanel toolBar = new TWPanel(new GridLayout());
+        toolBar.setBackground(DefaultColor.TWButton.DEFAULT_BACKGROUND);
+        toolBar.add(settingButton);
+        toolBar.add(mentionButton);
+        toolBar.add(userSwitcher);
+        toolBar.add(sendButton);
 
-        JPanel toolBarPanel = new JPanel(new GridLayout());
-        toolBarPanel.setPreferredSize(rootNorthPanel.getPreferredSize());
-        toolBarPanel.add(settingButton, BorderLayout.WEST);
-        toolBarPanel.add(toggleMentionButton);
-        toolBarPanel.add(userSwitcher);
-        toolBarPanel.add(sendTweetButton);
-        toolBarPanel.setBackground(UIColor.Toolbar.DEFAULT_BACKGROUND);
-        rootNorthPanel.add(toolBarPanel, BorderLayout.SOUTH);
-        this.add(rootNorthPanel, BorderLayout.NORTH);
+        TWPanel topPanel = new TWPanel(new BorderLayout());
+        topPanel.setPreferredSize(TOP_PANEL_DEFAULT_SIZE);
+        tweetTextField.setPreferredSize(TEXTFIELD_SIZE);
+        tweetTextField.setOpaque(true);
+        tweetTextField.setBorder(null);
 
-        JPanel rootCenterPanel = new JPanel();
-        JScrollPane parentTweetListPanel = new JScrollPane(tweetListPanel,
-            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        rootCenterPanel.add(parentTweetListPanel);
-        parentTweetListPanel.getVerticalScrollBar().setUnitIncrement(30);
-        parentTweetListPanel.setBackground(UIColor.TweetPanel.DEFAULT_BACKGROUND);
+        topPanel.add(tweetTextField, BorderLayout.NORTH);
+        topPanel.add(toolBar, BorderLayout.SOUTH);
+
+        JScrollPane scrollPane = new JScrollPane(tweetListPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setBackground(DefaultColor.DEFAULT_BACKGROUND);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(35);
         tweetListPanel.setLayout(new BoxLayout(tweetListPanel, BoxLayout.Y_AXIS));
-        tweetListPanel.setBackground(UIColor.TweetPanel.DEFAULT_BACKGROUND);
-        tweetListPanel.setMinimumSize(new Dimension(530, 200));
-        this.add(parentTweetListPanel, BorderLayout.CENTER);
 
+        this.add(topPanel, BorderLayout.NORTH);
+        this.add(scrollPane, BorderLayout.CENTER);
     }
 
-    public void insertTweetCell(@NotNull TweetCell tweetCell) {
-        tweetListPanel.add(Box.createRigidArea(new Dimension(tweetCell.getWidth(), 1)), 0);
-        tweetListPanel.add(tweetCell, 0);
+    public void insertTweetCell(TweetCell cell) {
+        tweetListPanel.add(Box.createRigidArea(new Dimension(cell.getWidth(), 1)), 0);
+        tweetListPanel.add(cell, 0);
     }
 
-    public void bindActionListenerSettingButton(ActionListener actionListener) {
-        settingButton.addActionListener(actionListener);
-    }
-
-    public void bindActionListenerSendTweetButton(ActionListener actionListener) {
-        sendTweetButton.addActionListener(actionListener);
-    }
-
-    public void bindActionListenerUserSwitcher(ActionListener actionListener) {
-        userSwitcher.addActionListener(actionListener);
-    }
-
-    public void bindActionListenerTextField(ActionListener actionListener) {
-        textField.addActionListener(actionListener);
-    }
-
-    public String getTextFieldText() {
-        return this.textField.getText();
+    public JTextField getTweetTextField() {
+        return tweetTextField;
     }
 
     public void clearTextField() {
-        this.textField.setText("");
+        tweetTextField.setText("");
     }
 }
+
+
