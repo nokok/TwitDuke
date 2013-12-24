@@ -1,5 +1,6 @@
 package net.nokok.twitduke.util;
 
+import net.nokok.twitduke.model.AccessTokenManager;
 import net.nokok.twitduke.view.TweetCell;
 import twitter4j.Status;
 
@@ -13,12 +14,17 @@ public class TweetCellFactory {
     public static TweetCell createTweetCell(Status status) {
 
         URL userIconURL, retweetIconURL;
+
+        int result = status.getText().indexOf("@" + AccessTokenManager.getInstance().getUserName());
+        boolean isMention = (result != -1);
+
         if (status.isRetweet()) {
             try {
                 userIconURL = new URL(status.getRetweetedStatus().getUser().getProfileImageURL());
                 retweetIconURL = new URL(status.getUser().getProfileImageURL());
                 Image retweetUserImage = new ImageIcon(retweetIconURL).getImage().getScaledInstance(15, 15, Image.SCALE_FAST);
-                return new TweetCell(status.getId(),
+                return new TweetCell(isMention,
+                                     status.getId(),
                                      new ImageIcon(userIconURL),
                                      new ImageIcon(retweetUserImage),
                                      "Retweet: " + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName(),
@@ -30,7 +36,7 @@ public class TweetCellFactory {
         } else {
             try {
                 userIconURL = new URL(status.getUser().getProfileImageURL());
-                return new TweetCell(status.getId(), new ImageIcon(userIconURL), status.getUser().getScreenName(), status.getText());
+                return new TweetCell(isMention, status.getId(), new ImageIcon(userIconURL), status.getUser().getScreenName(), status.getText());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 throw new InternalError("ユーザーのアイコン取得中にエラーが発生しました");
