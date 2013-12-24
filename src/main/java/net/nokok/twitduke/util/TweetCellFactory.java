@@ -21,7 +21,7 @@ public class TweetCellFactory {
                 return new TweetCell(status.getId(),
                                      new ImageIcon(userIconURL),
                                      new ImageIcon(retweetUserImage),
-                                     "Retweet: " + status.getUser().getScreenName() + " by " + status.getRetweetedStatus().getUser().getScreenName(),
+                                     "Retweet: " + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName(),
                                      status.getRetweetedStatus().getText());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
