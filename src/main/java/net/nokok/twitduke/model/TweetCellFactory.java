@@ -1,13 +1,12 @@
-package net.nokok.twitduke.util;
+package net.nokok.twitduke.model;
 
-import net.nokok.twitduke.model.AccessTokenManager;
 import net.nokok.twitduke.view.TweetCell;
+import net.nokok.twitduke.view.ui.color.DefaultColor;
+import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.Status;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
@@ -15,14 +14,20 @@ import java.net.URL;
 
 public class TweetCellFactory {
 
-    public static TweetCell createTweetCell(Status status) {
+    private final Twitter4jAsyncWrapper wrapper;
+
+    public TweetCellFactory(Twitter4jAsyncWrapper twitter) {
+        this.wrapper = twitter;
+    }
+
+    public TweetCell createTweetCell(final Status status) {
 
         URL userIconURL, retweetIconURL;
 
         int result = status.getText().indexOf("@" + AccessTokenManager.getInstance().getUserName());
         boolean isMention = (result != -1);
 
-        TweetCell cell;
+        final TweetCell cell;
         if (status.isRetweet()) {
             try {
                 userIconURL = new URL(status.getRetweetedStatus().getUser().getProfileImageURL());
@@ -48,39 +53,23 @@ public class TweetCellFactory {
             }
         }
 
-        cell.getFunctionButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
-        cell.getFunctionButton().addMouseListener(new MouseAdapter() {
+        cell.getFavoriteButton().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
+                wrapper.favoriteTweet(status.getId());
+                cell.getFavoriteButton().setBackground(DefaultColor.TweetCell.FAVORITED_BACKGROUND);
             }
         });
+
+        if (!status.getUser().isProtected() || status.getUser().getScreenName().equals(AccessTokenManager.getInstance().getUserName())) {
+            cell.getRetweetButton().addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    wrapper.retweetTweet(status.getId());
+                    cell.getRetweetButton().setBackground(DefaultColor.TweetCell.RETWEETED_BACKGROUND);
+                }
+            });
+        }
 
         return cell;
     }

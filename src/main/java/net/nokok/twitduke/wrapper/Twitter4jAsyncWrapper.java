@@ -2,7 +2,7 @@ package net.nokok.twitduke.wrapper;
 
 import net.nokok.twitduke.model.AccessTokenManager;
 import net.nokok.twitduke.model.ConsumerKey;
-import net.nokok.twitduke.util.TweetCellFactory;
+import net.nokok.twitduke.model.TweetCellFactory;
 import net.nokok.twitduke.view.MainView;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
@@ -20,7 +20,7 @@ public class Twitter4jAsyncWrapper {
 
     private final        AccessTokenManager tokenManager = AccessTokenManager.getInstance();
     private static final AsyncTwitter       twitter      = AsyncTwitterFactory.getSingleton();
-
+    private final        TweetCellFactory   factory      = new TweetCellFactory(this);
     private UserStreamAdapter userStream;
 
     public Twitter4jAsyncWrapper() {
@@ -30,6 +30,7 @@ public class Twitter4jAsyncWrapper {
         } else {
             OAuthDialog dialog = new OAuthDialog();
             dialog.setVisible(true);
+            dialog.setAlwaysOnTop(true);
         }
     }
 
@@ -41,6 +42,14 @@ public class Twitter4jAsyncWrapper {
         if (userStream == null) {
             userStream = new MyUserStreamAdapter(mainView);
         }
+    }
+
+    public void favoriteTweet(long statusId) {
+        twitter.createFavorite(statusId);
+    }
+
+    public void retweetTweet(long statusId) {
+        twitter.retweetStatus(statusId);
     }
 
     public void sendTweet(String text) {
@@ -57,7 +66,7 @@ public class Twitter4jAsyncWrapper {
 
         @Override
         public void onStatus(Status status) {
-            view.insertTweetCell(TweetCellFactory.createTweetCell(status));
+            view.insertTweetCell(factory.createTweetCell(status));
         }
     }
 
@@ -72,7 +81,6 @@ public class Twitter4jAsyncWrapper {
             this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             this.add(textField, BorderLayout.NORTH);
             this.add(okButton, BorderLayout.SOUTH);
-            this.setMinimumSize(new Dimension(350, 80));
 
             try {
                 final RequestToken requestToken = twitter.getOAuthRequestToken();
@@ -97,9 +105,11 @@ public class Twitter4jAsyncWrapper {
             } catch (TwitterException e) {
                 e.printStackTrace();
             }
+            this.pack();
         }
 
         private void okButtonClicked(RequestToken requestToken) throws TwitterException {
+            this.setTitle("認証処理/設定書き込み中");
             AccessToken token = twitter.getOAuthAccessToken(requestToken, textField.getText());
             twitter.setOAuthAccessToken(token);
             tokenManager.writeAccessToken(token);
