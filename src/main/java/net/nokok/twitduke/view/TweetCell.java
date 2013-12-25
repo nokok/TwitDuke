@@ -54,7 +54,7 @@ public class TweetCell extends TWPanel {
 
         this.add(this.icon, BorderLayout.WEST);
         this.add(contentsPanel, BorderLayout.CENTER);
-        this.add(Box.createRigidArea(new Dimension(this.getWidth(), 3)), BorderLayout.NORTH);
+        this.add(Box.createRigidArea(new Dimension(this.getWidth(), 3)), BorderLayout.SOUTH);
 
         this.statusId = statusId;
         this.icon.setIcon(userIcon);
