@@ -1,5 +1,6 @@
 package net.nokok.twitduke.view;
 
+import net.nokok.twitduke.view.ui.TWButton;
 import net.nokok.twitduke.view.ui.TWPanel;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
 
@@ -14,10 +15,12 @@ public class TweetCell extends TWPanel {
     private final JLabel    userName    = new JLabel();
     private final JTextArea tweetText   = new JTextArea();
 
-    private final Dimension ICON_SIZE         = new Dimension(50, 50);
-    private final Dimension RETWEET_ICON_SIZE = new Dimension(15, 15);
+    private final Dimension ICON_SIZE            = new Dimension(50, 50);
+    private final Dimension RETWEET_ICON_SIZE    = new Dimension(15, 15);
+    private final Dimension FUNCTION_BUTTON_SIZE = new Dimension(18, 8);
 
-    private final TWPanel contentsNorthPanel = new TWPanel(new FlowLayout(FlowLayout.LEFT));
+    private final TWPanel  contentsNorthPanel = new TWPanel(new FlowLayout(FlowLayout.LEFT));
+    private final TWButton functionButton     = new TWButton();
 
     public TweetCell(boolean isMention, long statusId, Icon userIcon, String userName, String tweetText) {
         this.setLayout(new BorderLayout());
@@ -25,6 +28,7 @@ public class TweetCell extends TWPanel {
         this.retweetIcon.setPreferredSize(RETWEET_ICON_SIZE);
         this.userName.setFont(new Font("", Font.BOLD, 13));
         this.userName.setForeground(DefaultColor.TweetCell.DEFAULT_FOREGROUND);
+        this.functionButton.setPreferredSize(FUNCTION_BUTTON_SIZE);
         this.tweetText.setForeground(DefaultColor.TweetCell.DEFAULT_FOREGROUND);
         this.tweetText.setEditable(false);
         this.tweetText.setLineWrap(true);
@@ -33,10 +37,12 @@ public class TweetCell extends TWPanel {
 
         TWPanel contentsPanel = new TWPanel(new BorderLayout());
         contentsNorthPanel.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
+        contentsNorthPanel.add(this.functionButton);
         contentsNorthPanel.add(this.userName);
         contentsNorthPanel.add(this.retweetIcon);
-        contentsPanel.add(contentsNorthPanel, BorderLayout.NORTH);
+        contentsPanel.add(this.contentsNorthPanel, BorderLayout.NORTH);
         contentsPanel.add(this.tweetText, BorderLayout.CENTER);
+
 
         this.add(this.icon, BorderLayout.WEST);
         this.add(contentsPanel, BorderLayout.CENTER);
@@ -74,5 +80,9 @@ public class TweetCell extends TWPanel {
 
     public long getStatusId() {
         return statusId;
+    }
+
+    public TWButton getFunctionButton() {
+        return functionButton;
     }
 }

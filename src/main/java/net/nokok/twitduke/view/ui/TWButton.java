@@ -7,6 +7,10 @@ import java.awt.*;
 
 public class TWButton extends JButton {
 
+    public TWButton(){
+        this("");
+    }
+
     public TWButton(String title) {
         super(title);
         this.setBackground(DefaultColor.TWButton.DEFAULT_BACKGROUND);
