@@ -15,10 +15,6 @@ public class DefaultColor {
 
     public static class TWButton {
         public static final Color DEFAULT_FOREGROUND = new Color(225, 231, 235);
-        public static final Color DEFAULT_BACKGROUND = new Color(44, 62, 80);
-    }
-
-    public static class TWPanel {
-        public static final Color DEFAULT_BACKGROUND = new Color(30, 30, 30);
+        public static final Color DEFAULT_BACKGROUND = new Color(100, 100, 100);
     }
 }

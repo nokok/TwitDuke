@@ -41,8 +41,11 @@ public class MainView extends JFrame {
         tweetTextField.setPreferredSize(TEXTFIELD_SIZE);
         tweetTextField.setOpaque(true);
         tweetTextField.setBorder(null);
+        tweetTextField.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
+        tweetTextField.setForeground(DefaultColor.TWButton.DEFAULT_FOREGROUND);
+        tweetTextField.setCaretColor(Color.WHITE);
 
-        topPanel.add(tweetTextField, BorderLayout.NORTH);
+        topPanel.add(tweetTextField, BorderLayout.CENTER);
         topPanel.add(toolBar, BorderLayout.SOUTH);
 
         JScrollPane scrollPane = new JScrollPane(tweetListPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
