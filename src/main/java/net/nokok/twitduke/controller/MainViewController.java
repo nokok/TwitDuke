@@ -46,5 +46,12 @@ public class MainViewController {
                 mainView.clearTextField();
             }
         });
+        mainView.getSendButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                twitter4jAsyncWrapper.sendTweet(mainView.getTweetTextField().getText());
+                mainView.clearTextField();
+            }
+        });
     }
 }
