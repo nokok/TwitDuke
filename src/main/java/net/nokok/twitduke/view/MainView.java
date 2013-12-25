@@ -23,7 +23,7 @@ public class MainView extends JFrame {
     private final TWPanel tweetListPanel = new TWPanel();
 
     public MainView() {
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("TwitDuke");
         this.setMinimumSize(MINIMUM_SIZE);
         this.setLayout(new BorderLayout());
