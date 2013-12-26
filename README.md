@@ -1,14 +1,29 @@
-TwitDuke
+#TwitDuke
 
-JavaJavaJava〜〜〜ｗｗｗ
+**JavaJavaJava〜〜〜ｗｗｗ**
 
 #TwitDukeとは?
+TwitDukeはJavaで書かれたTwitterクライアントです。  
+SwingなのにSwingっぽくないクライアントを目標に開発しています
 
-![スクショ](http://nokok.net/pic/TwitDuke_Main.png)
+＿人人人人人人人＿  
+＞　Swingの本気　＜  
+￣Y^Y^Y^Y^Y^Y^￣  
 
-TwitDukeはJavaなTwitterクライアントです。  
+を感じて頂ければな、と思います。  
+
+2014/4あたりまでにVersion 1.0をリリースする*予定*です  
+
 **開発開始したばかりなので今のところまともに動きません。  
-正式版のリリースまでお待ちください。バグ修正などのPull Request大歓迎です。**
+正式版のリリースまでお待ちください。Pull Request大歓迎です。**
+
+#今のTwitDukeができること
+つぶやき(1アカウント)  
+お気に入り,リツイート
+
+#使い方
+初回起動時、**認証ページを自動で開きます。**  
+表示された数字をTwitDukeの認証画面に入力するとつぶやく事が出来ます。  
 
 #環境
 IntelliJ 12,13のCE+Java7の環境にて開発をしています。
