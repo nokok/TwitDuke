@@ -25,41 +25,54 @@ public class TweetCellFactory {
 
     public TweetCell createTweetCell(final Status status) {
 
-        URL userIconURL, retweetIconURL;
-
         int result = status.getText().indexOf("@" + AccessTokenManager.getInstance().getUserName());
         boolean isMention = (result != -1);
 
         final TweetCell cell;
         if (status.isRetweet()) {
-            try {
-                userIconURL = new URL(status.getRetweetedStatus().getUser().getProfileImageURL());
-                retweetIconURL = new URL(status.getUser().getProfileImageURL());
-                Image retweetUserImage = new ImageIcon(retweetIconURL).getImage().getScaledInstance(15, 15, Image.SCALE_FAST);
-                cell = new TweetCell(isMention,
-                                     status.getId(),
-                                     new ImageIcon(userIconURL),
-                                     new ImageIcon(retweetUserImage),
-                                     "Retweet: " + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName(),
-                                     formatTweet(status.getRetweetedStatus()));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                throw new InternalError(ICON_INTERNAL_ERROR_MESSAGE);
-            }
+            cell = createRetweetCell(isMention, status);
         } else {
-            try {
-                userIconURL = new URL(status.getUser().getProfileImageURL());
-                cell = new TweetCell(isMention,
-                                     status.getId(),
-                                     new ImageIcon(userIconURL),
-                                     status.getUser().getScreenName(),
-                                     formatTweet(status));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                throw new InternalError(ICON_INTERNAL_ERROR_MESSAGE);
-            }
+            cell = createNormalCell(isMention, status);
         }
 
+        setCommonActionListener(cell, status);
+
+        return cell;
+    }
+
+    private TweetCell createNormalCell(boolean isMention, Status status) {
+        try {
+            URL userIconURL = new URL(status.getUser().getProfileImageURL());
+            return new TweetCell(isMention,
+                                 status.getId(),
+                                 new ImageIcon(userIconURL),
+                                 status.getUser().getScreenName(),
+                                 formatTweet(status));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw new InternalError(ICON_INTERNAL_ERROR_MESSAGE);
+        }
+    }
+
+    private TweetCell createRetweetCell(boolean isMention, Status status) {
+        try {
+            URL userIconURL, retweetIconURL;
+            userIconURL = new URL(status.getRetweetedStatus().getUser().getProfileImageURL());
+            retweetIconURL = new URL(status.getUser().getProfileImageURL());
+            Image retweetUserImage = new ImageIcon(retweetIconURL).getImage().getScaledInstance(15, 15, Image.SCALE_FAST);
+            return new TweetCell(isMention,
+                                 status.getId(),
+                                 new ImageIcon(userIconURL),
+                                 new ImageIcon(retweetUserImage),
+                                 "Retweet: " + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName(),
+                                 formatTweet(status.getRetweetedStatus()));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw new InternalError(ICON_INTERNAL_ERROR_MESSAGE);
+        }
+    }
+
+    private void setCommonActionListener(final TweetCell cell, final Status status) {
         cell.getFavoriteButton().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -84,11 +97,12 @@ public class TweetCellFactory {
                 }
             });
         }
-
-        return cell;
     }
 
     private String formatTweet(Status status) {
+        if (status.getURLEntities().length == 0) {
+            return status.getText();
+        }
         return extendURL(status);
     }
 
