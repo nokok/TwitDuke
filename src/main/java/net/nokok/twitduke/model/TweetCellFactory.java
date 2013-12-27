@@ -4,6 +4,7 @@ import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.Status;
+import twitter4j.URLEntity;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +16,8 @@ import java.net.URL;
 public class TweetCellFactory {
 
     private final Twitter4jAsyncWrapper wrapper;
+
+    private final String ICON_INTERNAL_ERROR_MESSAGE = "ユーザーのアイコン取得中にエラーが発生しました";
 
     public TweetCellFactory(Twitter4jAsyncWrapper twitter) {
         this.wrapper = twitter;
@@ -38,18 +41,22 @@ public class TweetCellFactory {
                                      new ImageIcon(userIconURL),
                                      new ImageIcon(retweetUserImage),
                                      "Retweet: " + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName(),
-                                     status.getRetweetedStatus().getText());
+                                     formatTweet(status.getRetweetedStatus()));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-                throw new InternalError("ユーザーのアイコン取得中にエラーが発生しました");
+                throw new InternalError(ICON_INTERNAL_ERROR_MESSAGE);
             }
         } else {
             try {
                 userIconURL = new URL(status.getUser().getProfileImageURL());
-                cell = new TweetCell(isMention, status.getId(), new ImageIcon(userIconURL), status.getUser().getScreenName(), status.getText());
+                cell = new TweetCell(isMention,
+                                     status.getId(),
+                                     new ImageIcon(userIconURL),
+                                     status.getUser().getScreenName(),
+                                     formatTweet(status));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-                throw new InternalError("ユーザーのアイコン取得中にエラーが発生しました");
+                throw new InternalError(ICON_INTERNAL_ERROR_MESSAGE);
             }
         }
 
@@ -79,5 +86,19 @@ public class TweetCellFactory {
         }
 
         return cell;
+    }
+
+    private String formatTweet(Status status) {
+        return extendURL(status);
+    }
+
+    private String extendURL(Status status) {
+        String tweetText = status.getText();
+        for (URLEntity entity : status.getURLEntities()) {
+            System.out.println(entity.getURL());
+            System.out.println(entity.getDisplayURL());
+            tweetText = tweetText.replaceAll(entity.getURL(), entity.getDisplayURL());
+        }
+        return tweetText;
     }
 }
