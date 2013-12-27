@@ -48,7 +48,7 @@ public class AccessTokenManager {
                 tokenList.add(new TokenList(userName, userId));
             }
             primaryUserId = tokenList.get(0).userId;
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -69,7 +69,7 @@ public class AccessTokenManager {
         try (FileInputStream fileInputStream = new FileInputStream(TOKENFILE_PATH_WITH_PREFIX + id);
              ObjectInputStream stream = new ObjectInputStream(fileInputStream)) {
             return (AccessToken) stream.readObject();
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return new AccessToken("", "");
@@ -82,7 +82,7 @@ public class AccessTokenManager {
              FileWriter writer = new FileWriter(authUserListFile)) {
             writer.write(accessToken.getScreenName() + "," + accessToken.getUserId() + "\n");
             objectOutputStream.writeObject(accessToken);
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
