@@ -30,7 +30,7 @@ public class TweetCellFactory {
 
         final TweetCell cell;
         if (status.isRetweet()) {
-            cell = createRetweetCell(isMention, status);
+            cell = createRetweetCell(isMention, status.getRetweetedStatus());
         } else {
             cell = createNormalCell(isMention, status);
         }
@@ -109,8 +109,6 @@ public class TweetCellFactory {
     private String extendURL(Status status) {
         String tweetText = status.getText();
         for (URLEntity entity : status.getURLEntities()) {
-            System.out.println(entity.getURL());
-            System.out.println(entity.getDisplayURL());
             tweetText = tweetText.replaceAll(entity.getURL(), entity.getDisplayURL());
         }
         return tweetText;
