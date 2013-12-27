@@ -9,7 +9,9 @@ import java.awt.*;
 
 public class TweetCell extends TWPanel {
 
-    private long statusId;
+    private long    statusId;
+    private boolean isFavorited;
+
     private final JLabel    icon        = new JLabel();
     private final JLabel    retweetIcon = new JLabel();
     private final JLabel    userName    = new JLabel();
@@ -100,5 +102,13 @@ public class TweetCell extends TWPanel {
 
     public TWButton getOtherActionButton() {
         return otherActionButton;
+    }
+
+    public boolean isFavorited() {
+        return isFavorited;
+    }
+
+    public void setFavorited(boolean flag) {
+        isFavorited = flag;
     }
 }

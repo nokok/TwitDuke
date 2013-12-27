@@ -48,6 +48,10 @@ public class Twitter4jAsyncWrapper {
         twitter.createFavorite(statusId);
     }
 
+    public void removeFavoriteTweet(long statusId) {
+        twitter.destroyFavorite(statusId);
+    }
+
     public void retweetTweet(long statusId) {
         twitter.retweetStatus(statusId);
     }

@@ -56,8 +56,15 @@ public class TweetCellFactory {
         cell.getFavoriteButton().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                wrapper.favoriteTweet(status.getId());
-                cell.getFavoriteButton().setBackground(DefaultColor.TweetCell.FAVORITED_BACKGROUND);
+                if (cell.isFavorited()) {
+                    wrapper.removeFavoriteTweet(status.getId());
+                    cell.getFavoriteButton().setBackground(DefaultColor.TweetCell.FAVORITE_BUTTON);
+                    cell.setFavorited(false);
+                } else {
+                    wrapper.favoriteTweet(status.getId());
+                    cell.getFavoriteButton().setBackground(DefaultColor.TweetCell.FAVORITED_BACKGROUND);
+                    cell.setFavorited(true);
+                }
             }
         });
 
