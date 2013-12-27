@@ -26,7 +26,7 @@ public class TweetCellFactory {
     public TweetCell createTweetCell(final Status status) {
 
         int result = status.getText().indexOf("@" + AccessTokenManager.getInstance().getUserName());
-        boolean isMention = (result != -1);
+        boolean isMention = (result != -1) && !status.isRetweet();
 
         final TweetCell cell;
         if (status.isRetweet()) {
