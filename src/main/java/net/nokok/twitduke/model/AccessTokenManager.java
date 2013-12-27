@@ -13,14 +13,26 @@ public class AccessTokenManager {
     private final String ACCESS_TOKEN_PREFIX        = "token";
     private long primaryUserId;
 
-    private final File tokenListFile = new File(ACCESS_TOKEN_LIST_FILENAME);
+    private final String AUTH_DIRECTORY_PATH        = new File(new File("").getAbsolutePath(), "auth").getAbsolutePath();
+    private final File   tokenListFile              = new File(AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_LIST_FILENAME);
+    private final String TOKENFILE_PATH_WITH_PREFIX = AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_PREFIX;
 
     private ArrayList<TokenList> tokenList = new ArrayList<>();
 
     private AccessTokenManager() {
         if (isAuthenticated()) {
             readTokenList();
+        } else {
+            createTokenDirectory();
         }
+    }
+
+    private void createTokenDirectory() {
+        File authDirectory = new File(AUTH_DIRECTORY_PATH);
+        if (authDirectory.exists()) {
+            return;
+        }
+        authDirectory.mkdir();
     }
 
     public static AccessTokenManager getInstance() {
@@ -54,7 +66,7 @@ public class AccessTokenManager {
     }
 
     public AccessToken readAccessToken(long id) {
-        try (FileInputStream fileInputStream = new FileInputStream(ACCESS_TOKEN_PREFIX + id);
+        try (FileInputStream fileInputStream = new FileInputStream(TOKENFILE_PATH_WITH_PREFIX + id);
              ObjectInputStream stream = new ObjectInputStream(fileInputStream)) {
             return (AccessToken) stream.readObject();
         } catch (Exception e) {
@@ -64,8 +76,8 @@ public class AccessTokenManager {
     }
 
     public void writeAccessToken(AccessToken accessToken) {
-        File authUserListFile = new File(ACCESS_TOKEN_LIST_FILENAME);
-        try (FileOutputStream fileOutputStream = new FileOutputStream(ACCESS_TOKEN_PREFIX + accessToken.getUserId());
+        File authUserListFile = new File(AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_LIST_FILENAME);
+        try (FileOutputStream fileOutputStream = new FileOutputStream(TOKENFILE_PATH_WITH_PREFIX + accessToken.getUserId());
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
              FileWriter writer = new FileWriter(authUserListFile)) {
             writer.write(accessToken.getScreenName() + "," + accessToken.getUserId() + "\n");
