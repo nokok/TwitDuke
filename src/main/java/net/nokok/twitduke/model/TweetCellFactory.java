@@ -30,7 +30,7 @@ public class TweetCellFactory {
 
         final TweetCell cell;
         if (status.isRetweet()) {
-            cell = createRetweetCell(isMention, status.getRetweetedStatus());
+            cell = createRetweetCell(isMention, status);
         } else {
             cell = createNormalCell(isMention, status);
         }
