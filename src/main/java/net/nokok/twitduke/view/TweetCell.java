@@ -104,4 +104,8 @@ public class TweetCell extends TWPanel {
     public void setFavorited(boolean flag) {
         isFavorited = flag;
     }
+
+    public JTextArea getTweetTextArea() {
+        return tweetText;
+    }
 }

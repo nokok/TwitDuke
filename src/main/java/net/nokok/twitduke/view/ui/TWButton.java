@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class TWButton extends JButton {
 
-    public TWButton(){
+    public TWButton() {
         this("");
     }
 

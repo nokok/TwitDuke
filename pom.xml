@@ -18,12 +18,12 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <descriptorRefs>
-                    <descriptorRef>jar-with-dependencies</descriptorRef>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                     <archive>
-                    <manifest>
-                    <mainClass>net.nokok.twitduke.main.Main</mainClass>
-                    </manifest>
+                        <manifest>
+                            <mainClass>net.nokok.twitduke.main.Main</mainClass>
+                        </manifest>
                     </archive>
 
                 </configuration>

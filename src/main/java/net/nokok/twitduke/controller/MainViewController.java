@@ -15,6 +15,7 @@ public class MainViewController {
 
     private final Twitter4jAsyncWrapper twitter4jAsyncWrapper = new Twitter4jAsyncWrapper();
     private final MainView              mainView              = new MainView();
+    private final SettingViewController settingViewController = new SettingViewController();
 
     public void start() {
         mainView.setVisible(true);
@@ -46,6 +47,14 @@ public class MainViewController {
                 mainView.clearTextField();
             }
         });
+
+        mainView.getSettingButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                settingViewController.showSettingView();
+            }
+        });
+
         mainView.getSendButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -1,8 +1,10 @@
 package net.nokok.twitduke.model;
 
 import net.nokok.twitduke.view.TweetCell;
+import net.nokok.twitduke.view.TweetPopupMenu;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
+import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.URLEntity;
 
@@ -10,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -36,6 +39,20 @@ public class TweetCellFactory {
         }
 
         setCommonActionListener(cell, status);
+
+        final TweetPopupMenu functionPanel = new TweetPopupMenu();
+
+        MouseListener functionPanelMouseAdapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    functionPanel.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        };
+
+        cell.addMouseListener(functionPanelMouseAdapter);
+        cell.getTweetTextArea().addMouseListener(functionPanelMouseAdapter);
 
         return cell;
     }
@@ -72,8 +89,24 @@ public class TweetCellFactory {
         }
     }
 
+    private String formatTweet(Status status) {
+        return extendURL(status);
+    }
+
+    private String extendURL(Status status) {
+        String tweetText = status.getText();
+        for (URLEntity entity : status.getURLEntities()) {
+            tweetText = tweetText.replaceAll(entity.getURL(), entity.getDisplayURL());
+        }
+
+        for (MediaEntity entity : status.getMediaEntities()) {
+            tweetText = tweetText.replaceAll(entity.getURL(), entity.getDisplayURL());
+        }
+        return tweetText;
+    }
+
     private void setCommonActionListener(final TweetCell cell, final Status status) {
-        cell.getFavoriteButton().addMouseListener(new MouseAdapter() {
+        final MouseAdapter favoriteAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (cell.isFavorited()) {
@@ -86,31 +119,17 @@ public class TweetCellFactory {
                     cell.setFavorited(true);
                 }
             }
-        });
+        };
 
-        if (!status.getUser().isProtected() || status.getUser().getScreenName().equals(AccessTokenManager.getInstance().getUserName())) {
-            cell.getRetweetButton().addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    wrapper.retweetTweet(status.getId());
-                    cell.getRetweetButton().setBackground(DefaultColor.TweetCell.RETWEETED_BACKGROUND);
-                }
-            });
-        }
-    }
+        final MouseAdapter retweetAdapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                wrapper.retweetTweet(status.getId());
+                cell.getRetweetButton().setBackground(DefaultColor.TweetCell.RETWEETED_BACKGROUND);
+            }
+        };
 
-    private String formatTweet(Status status) {
-        if (status.getURLEntities().length == 0) {
-            return status.getText();
-        }
-        return extendURL(status);
-    }
-
-    private String extendURL(Status status) {
-        String tweetText = status.getText();
-        for (URLEntity entity : status.getURLEntities()) {
-            tweetText = tweetText.replaceAll(entity.getURL(), entity.getDisplayURL());
-        }
-        return tweetText;
+        cell.getFavoriteButton().addMouseListener(favoriteAdapter);
+        cell.getRetweetButton().addMouseListener(retweetAdapter);
     }
 }

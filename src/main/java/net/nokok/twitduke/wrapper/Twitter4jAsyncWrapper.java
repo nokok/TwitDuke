@@ -12,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -44,6 +46,10 @@ public class Twitter4jAsyncWrapper {
         }
     }
 
+    public void replyTweet(StatusUpdate status, long statusId) {
+        twitter.updateStatus(status.inReplyToStatusId(statusId));
+    }
+
     public void favoriteTweet(long statusId) {
         twitter.createFavorite(statusId);
     }
@@ -54,6 +60,10 @@ public class Twitter4jAsyncWrapper {
 
     public void retweetTweet(long statusId) {
         twitter.retweetStatus(statusId);
+    }
+
+    public void deleteTweet(long statusId) {
+        twitter.destroyStatus(statusId);
     }
 
     public void sendTweet(String text) {
@@ -95,6 +105,13 @@ public class Twitter4jAsyncWrapper {
                     e.printStackTrace();
                     throw new InternalError("認証URLオープンエラー");
                 }
+
+                textField.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+
+                    }
+                });
                 okButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
