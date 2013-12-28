@@ -24,7 +24,6 @@ public class TweetCell extends TWPanel {
     private final TWPanel  contentsNorthPanel = new TWPanel(new FlowLayout(FlowLayout.LEFT));
     private final TWButton favoriteButton     = new TWButton();
     private final TWButton retweetButton      = new TWButton();
-    private final TWButton otherActionButton  = new TWButton();
 
     public TweetCell(boolean isMention, long statusId, Icon userIcon, String userName, String tweetText) {
         this.setLayout(new BorderLayout());
@@ -36,7 +35,6 @@ public class TweetCell extends TWPanel {
         this.favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITE_BUTTON);
         this.retweetButton.setPreferredSize(FUNCTION_BUTTON_SIZE);
         this.retweetButton.setBackground(DefaultColor.TweetCell.RETWEET_BUTTON);
-        this.otherActionButton.setPreferredSize(FUNCTION_BUTTON_SIZE);
         this.tweetText.setForeground(DefaultColor.TweetCell.DEFAULT_FOREGROUND);
         this.tweetText.setEditable(false);
         this.tweetText.setLineWrap(true);
@@ -47,7 +45,6 @@ public class TweetCell extends TWPanel {
         contentsNorthPanel.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
         contentsNorthPanel.add(this.favoriteButton);
         contentsNorthPanel.add(this.retweetButton);
-        contentsNorthPanel.add(this.otherActionButton);
         contentsNorthPanel.add(this.userName);
         contentsNorthPanel.add(this.retweetIcon);
         contentsPanel.add(this.contentsNorthPanel, BorderLayout.NORTH);
@@ -98,10 +95,6 @@ public class TweetCell extends TWPanel {
 
     public TWButton getRetweetButton() {
         return retweetButton;
-    }
-
-    public TWButton getOtherActionButton() {
-        return otherActionButton;
     }
 
     public boolean isFavorited() {
