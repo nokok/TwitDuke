@@ -8,8 +8,8 @@ import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.UserStreamAdapter;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainViewController {
 
@@ -40,27 +40,20 @@ public class MainViewController {
     }
 
     private void bindActionListener() {
-        mainView.getTweetTextField().addActionListener(new ActionListener() {
+        mainView.setSendButtonAction(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                twitter4jAsyncWrapper.sendTweet(mainView.getTweetTextField().getText());
+            public void mouseClicked(MouseEvent e) {
+                twitter4jAsyncWrapper.sendTweet(mainView.getTweetText());
                 mainView.clearTextField();
             }
         });
 
-        mainView.getSettingButton().addActionListener(new ActionListener() {
+        mainView.setSettingButtonAction(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mouseClicked(MouseEvent e) {
                 settingViewController.showSettingView();
             }
         });
 
-        mainView.getSendButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                twitter4jAsyncWrapper.sendTweet(mainView.getTweetTextField().getText());
-                mainView.clearTextField();
-            }
-        });
     }
 }
