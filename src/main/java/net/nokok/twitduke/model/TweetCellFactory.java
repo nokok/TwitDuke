@@ -41,7 +41,7 @@ public class TweetCellFactory {
     }
 
     private boolean isMention(Status status) {
-        return !status.getText().contains("@" + AccessTokenManager.getInstance().getUserName()) && !status.isRetweet();
+        return status.getText().contains("@" + AccessTokenManager.getInstance().getUserName()) && !status.isRetweet();
     }
 
     private TweetCell createNormalCell(boolean isMention, Status status) {
