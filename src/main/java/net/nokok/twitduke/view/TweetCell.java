@@ -6,6 +6,7 @@ import net.nokok.twitduke.view.ui.color.DefaultColor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 
 public class TweetCell extends TWPanel {
 
@@ -85,27 +86,42 @@ public class TweetCell extends TWPanel {
         this.tweetText.setBackground(color);
     }
 
+    public void setFavoriteAction(MouseAdapter adapter) {
+        this.favoriteButton.addMouseListener(adapter);
+    }
+
+    public void setRetweetAction(MouseAdapter adapter) {
+        this.retweetButton.addMouseListener(adapter);
+    }
+
+    public void setTextAreaAction(MouseAdapter adapter) {
+        this.tweetText.addMouseListener(adapter);
+    }
+
+    public boolean toggleFavoriteState() {
+        if (isFavorited) {
+            this.favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITE_BUTTON);
+        } else {
+            this.favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITED_BACKGROUND);
+        }
+        isFavorited = !isFavorited;
+        return isFavorited;
+    }
+
     public long getStatusId() {
         return statusId;
     }
 
-    public TWButton getFavoriteButton() {
-        return favoriteButton;
-    }
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
 
-    public TWButton getRetweetButton() {
-        return retweetButton;
-    }
-
-    public boolean isFavorited() {
-        return isFavorited;
-    }
-
-    public void setFavorited(boolean flag) {
-        isFavorited = flag;
-    }
-
-    public JTextArea getTweetTextArea() {
-        return tweetText;
+        builder.append("Icon:");
+        builder.append(icon.toString()).append("\n");
+        builder.append("User:");
+        builder.append(userName.getText()).append("\n");
+        builder.append("Tweet:");
+        builder.append(tweetText.getText()).append("\n");
+        return builder.toString();
     }
 }
