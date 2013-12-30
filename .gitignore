@@ -17,6 +17,6 @@
 
 ### Maven ###
 target/
-twitter4j.properties
-token
-authlist
+
+### TwitDuke ###
+auth
