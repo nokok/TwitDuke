@@ -6,6 +6,7 @@ import net.nokok.twitduke.view.ui.color.DefaultColor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 
 public class MainView extends JFrame {
@@ -66,8 +67,8 @@ public class MainView extends JFrame {
         tweetListPanel.validate();
     }
 
-    public void setTextFieldAction(MouseAdapter adapter) {
-        this.tweetTextField.addMouseListener(adapter);
+    public void setTextFieldAction(ActionListener listener) {
+        this.tweetTextField.addActionListener(listener);
     }
 
     public void setSettingButtonAction(MouseAdapter adapter) {
