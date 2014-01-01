@@ -11,6 +11,8 @@ import java.awt.event.MouseAdapter;
 
 public class MainView extends JFrame {
 
+    private boolean isMentionVisible;
+
     private final Dimension MINIMUM_SIZE  = new Dimension(100, 0);
     private final Dimension DEFAULT_SIZE  = new Dimension(530, 600);
     private final TWButton  settingButton = new TWButton("設定");
@@ -23,7 +25,12 @@ public class MainView extends JFrame {
     private final Dimension TOP_PANEL_DEFAULT_SIZE = new Dimension(530, 60);
     private final Dimension TEXTFIELD_SIZE         = new Dimension(530, 30);
 
-    private final TWPanel tweetListPanel = new TWPanel();
+    private final CardLayout layout = new CardLayout();
+
+    private final TWPanel rootScrollPanel = new TWPanel(layout);
+    private final TWPanel tweetListPanel  = new TWPanel();
+    private final TWPanel replyListPanel  = new TWPanel();
+
 
     public MainView() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -33,13 +40,6 @@ public class MainView extends JFrame {
         this.setLayout(new BorderLayout());
         this.setBackground(DefaultColor.DEFAULT_BACKGROUND);
 
-        TWPanel toolBar = new TWPanel(new GridLayout());
-        toolBar.setBackground(DefaultColor.TWButton.DEFAULT_BACKGROUND);
-        toolBar.add(settingButton);
-        toolBar.add(mentionButton);
-        toolBar.add(userSwitcher);
-        toolBar.add(sendButton);
-
         TWPanel topPanel = new TWPanel(new BorderLayout());
         topPanel.setPreferredSize(TOP_PANEL_DEFAULT_SIZE);
         tweetTextField.setPreferredSize(TEXTFIELD_SIZE);
@@ -48,25 +48,39 @@ public class MainView extends JFrame {
         tweetTextField.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
         tweetTextField.setForeground(DefaultColor.TWButton.DEFAULT_FOREGROUND);
         tweetTextField.setCaretColor(Color.WHITE);
-
         topPanel.add(tweetTextField, BorderLayout.CENTER);
+
+        TWPanel toolBar = new TWPanel(new GridLayout());
+        toolBar.setBackground(DefaultColor.TWButton.DEFAULT_BACKGROUND);
+        toolBar.add(settingButton);
+        toolBar.add(mentionButton);
+        toolBar.add(userSwitcher);
+        toolBar.add(sendButton);
         topPanel.add(toolBar, BorderLayout.SOUTH);
 
-        JScrollPane scrollPane = new JScrollPane(tweetListPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setBackground(DefaultColor.DEFAULT_BACKGROUND);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(35);
-        scrollPane.setOpaque(true);
-        scrollPane.setBorder(null);
+        JScrollPane scrollPane = new TWScrollPane(tweetListPanel);
+        JScrollPane replyScrollPane = new TWScrollPane(replyListPanel);
         tweetListPanel.setLayout(new BoxLayout(tweetListPanel, BoxLayout.Y_AXIS));
+        replyListPanel.setLayout(new BoxLayout(replyListPanel, BoxLayout.Y_AXIS));
+
+        rootScrollPanel.add(scrollPane, "DEFAULT");
+        rootScrollPanel.add(replyScrollPane, "REPLY");
 
         this.add(topPanel, BorderLayout.NORTH);
-        this.add(scrollPane, BorderLayout.CENTER);
+        this.add(rootScrollPanel, BorderLayout.CENTER);
     }
 
     public void insertTweetCell(TweetCell cell) {
-        tweetListPanel.add(Box.createRigidArea(new Dimension(cell.getWidth(), 1)), 0);
-        tweetListPanel.add(cell, 0);
-        tweetListPanel.validate();
+        if (cell.isMention()) {
+            insertTweetCellToPanel(replyListPanel, TweetCell.copy(cell));
+        }
+        insertTweetCellToPanel(tweetListPanel, cell);
+    }
+
+    private void insertTweetCellToPanel(TWPanel panel, TweetCell cell) {
+        panel.add(Box.createRigidArea(new Dimension(cell.getWidth(), 1)), 0);
+        panel.add(cell, 0);
+        panel.validate();
     }
 
     public void setTweetTextField(String text) {
@@ -100,6 +114,18 @@ public class MainView extends JFrame {
     public void clearTextField() {
         tweetTextField.setText("");
     }
+
+    public void swapTweetList() {
+        if (isMentionVisible) {
+            layout.first(rootScrollPanel);
+            this.mentionButton.setText("＠");
+            System.out.println(tweetListPanel.getComponentCount());
+        } else {
+            layout.last(rootScrollPanel);
+            this.mentionButton.setText("戻る");
+            System.out.println(replyListPanel.getComponentCount());
+            replyListPanel.validate();
+        }
+        isMentionVisible = !isMentionVisible;
+    }
 }
-
-

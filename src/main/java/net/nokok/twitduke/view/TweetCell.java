@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 public class TweetCell extends TWPanel {
 
     private long    statusId;
+    private boolean isMention;
     private boolean isFavorited;
     private boolean isRetweeted;
 
@@ -85,6 +86,10 @@ public class TweetCell extends TWPanel {
         this.userName.setBackground(color);
         this.contentsNorthPanel.setBackground(color);
         this.tweetText.setBackground(color);
+    }
+
+    public static TweetCell copy(TweetCell oldCell) {
+        return new TweetCell(oldCell.isMention, oldCell.statusId, oldCell.icon.getIcon(), oldCell.userName.getText(), oldCell.tweetText.getText());
     }
 
     public void setFavoriteAction(MouseAdapter adapter) {

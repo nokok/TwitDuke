@@ -89,12 +89,20 @@ public class MainViewController {
             }
         });
 
+        mainView.setMentionButtonAction(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                mainView.swapTweetList();
+            }
+        });
+
         mainView.setTextFieldAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 sendTweet();
             }
         });
+
     }
 
     private void sendTweet() {
