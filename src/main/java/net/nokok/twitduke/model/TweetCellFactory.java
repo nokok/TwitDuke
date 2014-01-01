@@ -9,9 +9,14 @@ import twitter4j.URLEntity;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 public class TweetCellFactory {
@@ -92,11 +97,7 @@ public class TweetCellFactory {
         cell.setFavoriteAction(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (cell.toggleFavoriteState()) {
-                    wrapper.removeFavoriteTweet(status.getId());
-                } else {
-                    wrapper.favoriteTweet(status.getId());
-                }
+                favorite(cell, status.getId());
             }
         });
         cell.setRetweetAction(new MouseAdapter() {
@@ -119,5 +120,83 @@ public class TweetCellFactory {
 
         cell.addMouseListener(functionPanelMouseAdapter);
         cell.setTextAreaAction(functionPanelMouseAdapter);
+
+        functionPanel.setReplyAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO:リプライ機能を実装する
+            }
+        });
+
+        functionPanel.setFavoriteAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                favorite(cell, status.getId());
+            }
+        });
+
+        functionPanel.setRetweetAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                wrapper.retweetTweet(status.getId());
+            }
+        });
+
+        functionPanel.setOpenURLAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (URLEntity entity : status.getURLEntities()) {
+                    try {
+                        Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
+                    } catch (IOException | URISyntaxException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        functionPanel.setOpenMediaAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (MediaEntity entity : status.getMediaEntities()) {
+                    try {
+                        Desktop.getDesktop().browse(new URI(entity.getMediaURL()));
+                    } catch (IOException | URISyntaxException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        functionPanel.setSearchAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String searchString = cell.getSelectedText();
+                if (searchString == null) {
+                    return;
+                }
+                try {
+                    System.out.println("http://www.google.co.jp/search?q=" + cell.getSelectedText());
+                    Desktop.getDesktop().browse(new URI("http://www.google.co.jp/search?q=" + cell.getSelectedText()));
+                } catch (IOException | URISyntaxException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        functionPanel.setDeleteAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                wrapper.deleteTweet(status.getId());
+            }
+        });
+    }
+
+    private void favorite(TweetCell cell, long id) {
+        if (cell.toggleFavoriteState()) {
+            wrapper.favoriteTweet(id);
+        } else {
+            wrapper.removeFavoriteTweet(id);
+        }
     }
 }

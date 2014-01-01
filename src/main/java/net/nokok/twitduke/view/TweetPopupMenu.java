@@ -8,12 +8,13 @@ import java.awt.event.ActionListener;
 
 public class TweetPopupMenu extends JPopupMenu {
 
-    private final TWMenuItem reply      = new TWMenuItem("リプライ");
-    private final TWMenuItem favorite   = new TWMenuItem("お気に入り");
-    private final TWMenuItem retweet    = new TWMenuItem("リツイート");
-    private final TWMenuItem openURL    = new TWMenuItem("URLを開く");
-    private final TWMenuItem search     = new TWMenuItem("Googleで検索");
-    private final TWMenuItem delete     = new TWMenuItem("削除");
+    private final TWMenuItem reply     = new TWMenuItem("リプライ");
+    private final TWMenuItem favorite  = new TWMenuItem("お気に入り");
+    private final TWMenuItem retweet   = new TWMenuItem("リツイート");
+    private final TWMenuItem openURL   = new TWMenuItem("URLを開く");
+    private final TWMenuItem openMedia = new TWMenuItem("画像を開く");
+    private final TWMenuItem search    = new TWMenuItem("Googleで検索");
+    private final TWMenuItem delete    = new TWMenuItem("削除");
 
     public TweetPopupMenu() {
         super("アクション");
@@ -40,6 +41,10 @@ public class TweetPopupMenu extends JPopupMenu {
 
     public void setOpenURLAction(ActionListener listener) {
         this.openURL.addActionListener(listener);
+    }
+
+    public void setOpenMediaAction(ActionListener listener) {
+        this.openMedia.addActionListener(listener);
     }
 
     public void setSearchAction(ActionListener listener) {
