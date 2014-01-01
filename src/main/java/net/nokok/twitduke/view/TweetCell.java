@@ -29,6 +29,7 @@ public class TweetCell extends TWPanel {
     private final TWButton retweetButton      = new TWButton();
 
     public TweetCell(boolean isMention, long statusId, Icon userIcon, String userName, String tweetText) {
+        this.isMention = isMention;
         this.setLayout(new BorderLayout());
         this.icon.setPreferredSize(ICON_SIZE);
         this.retweetIcon.setPreferredSize(RETWEET_ICON_SIZE);
@@ -79,6 +80,10 @@ public class TweetCell extends TWPanel {
                      String tweetText) {
         this(isMention, statusId, userIcon, userName, tweetText);
         this.retweetIcon.setIcon(retweetIcon);
+    }
+
+    public boolean isMention() {
+        return this.isMention;
     }
 
     public void changeColor(Color color) {
