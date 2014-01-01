@@ -4,6 +4,7 @@ import net.nokok.twitduke.view.ui.TWMenuItem;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 public class TweetPopupMenu extends JPopupMenu {
 
@@ -25,25 +26,28 @@ public class TweetPopupMenu extends JPopupMenu {
         this.add(delete);
     }
 
-    public TWMenuItem getReply() {
-        return reply;
+    public void setReplyAction(ActionListener listener) {
+        this.reply.addActionListener(listener);
     }
 
-    public TWMenuItem getFavorite() {
-        return favorite;
+    public void setFavoriteAction(ActionListener listener) {
+        this.favorite.addActionListener(listener);
     }
 
+    public void setRetweetAction(ActionListener listener) {
+        this.retweet.addActionListener(listener);
     }
 
-    public TWMenuItem getRetweet() {
-        return retweet;
+    public void setOpenURLAction(ActionListener listener) {
+        this.openURL.addActionListener(listener);
     }
 
-    public TWMenuItem getOpenURL() {
-        return openURL;
+    public void setSearchAction(ActionListener listener) {
+        this.search.addActionListener(listener);
     }
 
-    public TWMenuItem getDelete() {
-        return delete;
+    public void setDeleteAction(ActionListener listener) {
+        this.delete.addActionListener(listener);
     }
+
 }
