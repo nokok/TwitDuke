@@ -112,6 +112,10 @@ public class TweetCell extends TWPanel {
         return statusId;
     }
 
+    public String getSelectedText() {
+        return tweetText.getSelectedText();
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

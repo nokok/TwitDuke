@@ -69,6 +69,10 @@ public class MainView extends JFrame {
         tweetListPanel.validate();
     }
 
+    public void setTweetTextField(String text) {
+        this.tweetTextField.setText(text);
+    }
+
     public void setTextFieldAction(ActionListener listener) {
         this.tweetTextField.addActionListener(listener);
     }

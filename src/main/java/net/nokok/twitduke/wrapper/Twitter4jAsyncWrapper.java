@@ -20,9 +20,12 @@ import java.net.URISyntaxException;
 
 public class Twitter4jAsyncWrapper {
 
-    private final        AccessTokenManager tokenManager = AccessTokenManager.getInstance();
+    private long replyId = 0L;
+
     private static final AsyncTwitter       twitter      = AsyncTwitterFactory.getSingleton();
+    private final        AccessTokenManager tokenManager = AccessTokenManager.getInstance();
     private final        TweetCellFactory   factory      = new TweetCellFactory(this);
+    private MainView          mainView;
     private UserStreamAdapter userStream;
 
     public Twitter4jAsyncWrapper() {
@@ -41,13 +44,20 @@ public class Twitter4jAsyncWrapper {
     }
 
     public void setView(MainView mainView) {
+        this.mainView = mainView;
         if (userStream == null) {
             userStream = new MyUserStreamAdapter(mainView);
         }
     }
 
-    public void replyTweet(StatusUpdate status, long statusId) {
-        twitter.updateStatus(status.inReplyToStatusId(statusId));
+    public void replyTweet(StatusUpdate status) {
+        twitter.updateStatus(status.inReplyToStatusId(replyId));
+        replyId = 0;
+    }
+
+    public void replyPreprocess(Status status) {
+        this.replyId = status.getId();
+        mainView.setTweetTextField("@" + status.getUser().getScreenName() + " ");
     }
 
     public void favoriteTweet(long statusId) {
@@ -67,6 +77,9 @@ public class Twitter4jAsyncWrapper {
     }
 
     public void sendTweet(String text) {
+        if (replyId != 0) {
+            replyTweet(new StatusUpdate(text));
+        }
         twitter.updateStatus(text);
     }
 
@@ -86,8 +99,8 @@ public class Twitter4jAsyncWrapper {
 
     class OAuthDialog extends JDialog {
 
-        private final JTextField textField = new JTextField("表示されたPINを入力後OKボタンをクリック");
-        private final JButton    okButton  = new JButton("OK");
+        private final JTextField textField = new JTextField("");
+        private final JButton    okButton  = new JButton("表示されたPINを入力後クリック");
 
         public OAuthDialog() {
             this.setLayout(new BorderLayout());

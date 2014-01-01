@@ -125,6 +125,11 @@ public class TweetCellFactory {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO:リプライ機能を実装する
+                if (status.isRetweet()) {
+                    wrapper.replyPreprocess(status.getRetweetedStatus());
+                    return;
+                }
+                wrapper.replyPreprocess(status);
             }
         });
 

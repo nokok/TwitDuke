@@ -11,7 +11,7 @@ public class AccessTokenManager {
 
     private final String ACCESS_TOKEN_LIST_FILENAME = "authlist";
     private final String ACCESS_TOKEN_PREFIX        = "token";
-    private long primaryUserId;
+    private TokenList primaryUser;
 
     private final String AUTH_DIRECTORY_PATH        = new File(new File("").getAbsolutePath(), "auth").getAbsolutePath();
     private final File   tokenListFile              = new File(AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_LIST_FILENAME);
@@ -27,12 +27,9 @@ public class AccessTokenManager {
         }
     }
 
-    private void createTokenDirectory() {
+    private boolean createTokenDirectory() {
         File authDirectory = new File(AUTH_DIRECTORY_PATH);
-        if (authDirectory.exists()) {
-            return;
-        }
-        authDirectory.mkdir();
+        return authDirectory.exists() || authDirectory.mkdir();
     }
 
     public static AccessTokenManager getInstance() {
@@ -47,9 +44,10 @@ public class AccessTokenManager {
                 long userId = Long.valueOf(readLine.split(",")[1]);
                 tokenList.add(new TokenList(userName, userId));
             }
-            primaryUserId = tokenList.get(0).userId;
+            primaryUser = tokenList.get(0);        //TODO:ヤバいのでなんとかする
         } catch (IOException e) {
             e.printStackTrace();
+            throw new IOError(e.getCause());
         }
     }
 
@@ -58,12 +56,12 @@ public class AccessTokenManager {
     }
 
     public AccessToken readPrimaryAccount() {
-        return readAccessToken(primaryUserId);
+        return readAccessToken(primaryUser.userId);
     }
 
     public String getUserName() {
-        return tokenList.get(0).userName;
-    }
+        return primaryUser.userName;
+    } //TODO:50行目と同じく
 
     public AccessToken readAccessToken(long id) {
         try (FileInputStream fileInputStream = new FileInputStream(TOKENFILE_PATH_WITH_PREFIX + id);
@@ -71,8 +69,8 @@ public class AccessTokenManager {
             return (AccessToken) stream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+            throw new IOError(e.getCause());
         }
-        return new AccessToken("", "");
     }
 
     public void writeAccessToken(AccessToken accessToken) {

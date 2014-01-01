@@ -23,6 +23,7 @@ public class TweetPopupMenu extends JPopupMenu {
         this.add(favorite);
         this.add(retweet);
         this.add(openURL);
+        this.add(openMedia);
         this.add(search);
         this.add(delete);
     }
