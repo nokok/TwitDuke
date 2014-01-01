@@ -8,13 +8,12 @@ import java.awt.event.ActionListener;
 
 public class TweetPopupMenu extends JPopupMenu {
 
-    private final TWMenuItem reply     = new TWMenuItem("リプライ");
-    private final TWMenuItem favorite  = new TWMenuItem("お気に入り");
-    private final TWMenuItem retweet   = new TWMenuItem("リツイート");
-    private final TWMenuItem openURL   = new TWMenuItem("URLを開く");
-    private final TWMenuItem openMedia = new TWMenuItem("画像を開く");
-    private final TWMenuItem search    = new TWMenuItem("Googleで検索");
-    private final TWMenuItem delete    = new TWMenuItem("削除");
+    private final TWMenuItem reply      = new TWMenuItem("リプライ");
+    private final TWMenuItem favorite   = new TWMenuItem("お気に入り");
+    private final TWMenuItem retweet    = new TWMenuItem("リツイート");
+    private final TWMenuItem allURLOpen = new TWMenuItem("すべて開く");
+    private final TWMenuItem search     = new TWMenuItem("Googleで検索");
+    private final TWMenuItem delete     = new TWMenuItem("削除");
 
     public TweetPopupMenu() {
         super("アクション");
@@ -22,10 +21,10 @@ public class TweetPopupMenu extends JPopupMenu {
         this.add(reply);
         this.add(favorite);
         this.add(retweet);
-        this.add(openURL);
-        this.add(openMedia);
+        this.add(allURLOpen);
         this.add(search);
         this.add(delete);
+        this.addSeparator();
     }
 
     public void setReplyAction(ActionListener listener) {
@@ -40,12 +39,8 @@ public class TweetPopupMenu extends JPopupMenu {
         this.retweet.addActionListener(listener);
     }
 
-    public void setOpenURLAction(ActionListener listener) {
-        this.openURL.addActionListener(listener);
-    }
-
-    public void setOpenMediaAction(ActionListener listener) {
-        this.openMedia.addActionListener(listener);
+    public void setAllURLOpenAction(ActionListener listener) {
+        this.allURLOpen.addActionListener(listener);
     }
 
     public void setSearchAction(ActionListener listener) {
@@ -56,4 +51,7 @@ public class TweetPopupMenu extends JPopupMenu {
         this.delete.addActionListener(listener);
     }
 
+    public void addURLOpenButton(TWMenuItem menuItem) {
+        this.add(menuItem);
+    }
 }

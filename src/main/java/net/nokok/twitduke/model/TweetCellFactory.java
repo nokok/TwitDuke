@@ -2,6 +2,7 @@ package net.nokok.twitduke.model;
 
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.TweetPopupMenu;
+import net.nokok.twitduke.view.ui.TWMenuItem;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
@@ -146,29 +147,11 @@ public class TweetCellFactory {
             }
         });
 
-        functionPanel.setOpenURLAction(new ActionListener() {
+        functionPanel.setAllURLOpenAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (URLEntity entity : status.getURLEntities()) {
-                    try {
-                        Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
-                    } catch (IOException | URISyntaxException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        });
-
-        functionPanel.setOpenMediaAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (MediaEntity entity : status.getMediaEntities()) {
-                    try {
-                        Desktop.getDesktop().browse(new URI(entity.getMediaURL()));
-                    } catch (IOException | URISyntaxException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+                allURLEntitiesOpen(status.getURLEntities());
+                allMediaEntitiesOpen(status.getMediaEntities());
             }
         });
 
@@ -194,6 +177,56 @@ public class TweetCellFactory {
                 wrapper.deleteTweet(status.getId());
             }
         });
+
+        for (final URLEntity entity : status.getURLEntities()) {
+            TWMenuItem menuItem = new TWMenuItem(entity.getDisplayURL() + "を開く");
+            menuItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
+                    } catch (IOException | URISyntaxException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+            functionPanel.addURLOpenButton(menuItem);
+        }
+
+        for (final MediaEntity entity : status.getMediaEntities()) {
+            TWMenuItem menuItem = new TWMenuItem(entity.getDisplayURL() + "を開く");
+            menuItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
+                    } catch (IOException | URISyntaxException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+            functionPanel.addURLOpenButton(menuItem);
+        }
+    }
+
+    private void allURLEntitiesOpen(URLEntity[] entities) {
+        for (URLEntity entity : entities) {
+            try {
+                Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
+            } catch (IOException | URISyntaxException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    private void allMediaEntitiesOpen(MediaEntity[] entities) {
+        for (URLEntity entity : entities) {
+            try {
+                Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
+            } catch (IOException | URISyntaxException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     private void favorite(TweetCell cell, long id) {
