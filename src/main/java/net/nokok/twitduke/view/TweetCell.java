@@ -12,6 +12,7 @@ public class TweetCell extends TWPanel {
 
     private long    statusId;
     private boolean isFavorited;
+    private boolean isRetweeted;
 
     private final JLabel    icon        = new JLabel();
     private final JLabel    retweetIcon = new JLabel();
@@ -106,6 +107,16 @@ public class TweetCell extends TWPanel {
         }
         isFavorited = !isFavorited;
         return isFavorited;
+    }
+
+    public boolean toggleRetweetState() {
+        if (isRetweeted) {
+            this.retweetButton.setBackground(DefaultColor.TweetCell.RETWEET_BUTTON);
+        } else {
+            this.retweetButton.setBackground(DefaultColor.TweetCell.RETWEETED_BACKGROUND);
+        }
+        isRetweeted = !isRetweeted;
+        return isRetweeted;
     }
 
     public long getStatusId() {

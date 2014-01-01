@@ -103,7 +103,7 @@ public class TweetCellFactory {
         cell.setRetweetAction(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                wrapper.retweetTweet(status.getId());
+                retweet(cell, status.getId());
             }
         });
 
@@ -143,7 +143,7 @@ public class TweetCellFactory {
         functionPanel.setRetweetAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                wrapper.retweetTweet(status.getId());
+                retweet(cell, status.getId());
             }
         });
 
@@ -203,5 +203,10 @@ public class TweetCellFactory {
         } else {
             wrapper.removeFavoriteTweet(id);
         }
+    }
+
+    private void retweet(TweetCell cell, long id) {
+        wrapper.retweetTweet(id);
+        cell.toggleRetweetState();
     }
 }
