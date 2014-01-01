@@ -48,8 +48,11 @@ public class MainViewController {
                         mainView.setTitle(welcome.substring(0, i + 1));
                         Thread.sleep(50);
                     }
-                    Thread.sleep(200);
-                    mainView.setTitle("TwitDuke");
+                    Thread.sleep(100);
+                    for (int i = 0; i < 12; i++) {
+                        mainView.setTitle(welcome.substring(i, welcome.length()));
+                        Thread.sleep(50);
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

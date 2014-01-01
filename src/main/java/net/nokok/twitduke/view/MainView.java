@@ -119,11 +119,9 @@ public class MainView extends JFrame {
         if (isMentionVisible) {
             layout.first(rootScrollPanel);
             this.mentionButton.setText("＠");
-            System.out.println(tweetListPanel.getComponentCount());
         } else {
             layout.last(rootScrollPanel);
             this.mentionButton.setText("戻る");
-            System.out.println(replyListPanel.getComponentCount());
             replyListPanel.validate();
         }
         isMentionVisible = !isMentionVisible;
