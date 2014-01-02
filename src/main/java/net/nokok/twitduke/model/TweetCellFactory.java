@@ -15,10 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.net.*;
 
 public class TweetCellFactory {
 
@@ -163,8 +160,7 @@ public class TweetCellFactory {
                     return;
                 }
                 try {
-                    System.out.println("http://www.google.co.jp/search?q=" + cell.getSelectedText());
-                    Desktop.getDesktop().browse(new URI("http://www.google.co.jp/search?q=" + cell.getSelectedText()));
+                    Desktop.getDesktop().browse(new URI("http://www.google.co.jp/search?q=" + URLEncoder.encode(cell.getSelectedText(), "utf-8")));
                 } catch (IOException | URISyntaxException ex) {
                     ex.printStackTrace();
                 }
