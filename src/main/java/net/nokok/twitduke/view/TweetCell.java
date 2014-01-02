@@ -22,7 +22,7 @@ public class TweetCell extends TWPanel {
 
     private final Dimension ICON_SIZE            = new Dimension(50, 50);
     private final Dimension RETWEET_ICON_SIZE    = new Dimension(15, 15);
-    private final Dimension FUNCTION_BUTTON_SIZE = new Dimension(18, 8);
+    private final Dimension FUNCTION_BUTTON_SIZE = new Dimension(18, 11);
 
     private final TWPanel  contentsNorthPanel = new TWPanel(new FlowLayout(FlowLayout.LEFT));
     private final TWButton favoriteButton     = new TWButton();
