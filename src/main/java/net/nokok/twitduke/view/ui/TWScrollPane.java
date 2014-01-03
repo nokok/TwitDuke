@@ -1,13 +1,12 @@
-package net.nokok.twitduke.view;
+package net.nokok.twitduke.view.ui;
 
-import net.nokok.twitduke.view.ui.TWPanel;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
 
 import javax.swing.*;
 
-class TWScrollPane extends JScrollPane {
+public class TWScrollPane extends JScrollPane {
 
-    TWScrollPane(TWPanel panel) {
+    public TWScrollPane(TWPanel panel) {
         super(panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         this.setBackground(DefaultColor.DEFAULT_BACKGROUND);
         this.getVerticalScrollBar().setUnitIncrement(35);

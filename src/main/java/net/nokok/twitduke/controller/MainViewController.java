@@ -2,21 +2,20 @@ package net.nokok.twitduke.controller;
 
 import net.nokok.twitduke.model.AccessTokenManager;
 import net.nokok.twitduke.model.ConsumerKey;
+import net.nokok.twitduke.model.TweetCellFactory;
 import net.nokok.twitduke.view.MainView;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
-import twitter4j.ConnectionLifeCycleListener;
-import twitter4j.TwitterStream;
-import twitter4j.TwitterStreamFactory;
-import twitter4j.UserStreamAdapter;
+import twitter4j.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Collections;
 
 public class MainViewController {
 
-    private final Twitter4jAsyncWrapper twitter4jAsyncWrapper = new Twitter4jAsyncWrapper();
+    private final Twitter4jAsyncWrapper wrapper               = Twitter4jAsyncWrapper.getInstance();
     private final MainView              mainView              = new MainView();
     private final SettingViewController settingViewController = new SettingViewController();
 
@@ -69,12 +68,28 @@ public class MainViewController {
         });
 
         mainView.setTitle("UserStreamに接続中です");
-        twitter4jAsyncWrapper.setView(mainView);
-        UserStreamAdapter userStream = twitter4jAsyncWrapper.getUserStream();
+        wrapper.setView(mainView);
+        UserStreamAdapter userStream = wrapper.getUserStream();
         twitterStream.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
         twitterStream.setOAuthAccessToken(AccessTokenManager.getInstance().readPrimaryAccount());
         twitterStream.addListener(userStream);
         twitterStream.user();
+
+        fetchTimeLines();
+    }
+
+    private void fetchTimeLines() {
+        TweetCellFactory cellFactory = new TweetCellFactory(wrapper);
+        ResponseList<Status> mentions = wrapper.fetchMentionsTimeLine();
+        Collections.reverse(mentions);
+        ResponseList<Status> timeline = wrapper.fetchHomeTimeLine();
+        Collections.reverse(timeline);
+        for (Status status : mentions) {
+            mainView.insertTweetCell(cellFactory.createTweetCell(status));
+        }
+        for (Status status : timeline) {
+            mainView.insertTweetCell(cellFactory.createTweetCell(status));
+        }
     }
 
     private void bindActionListener() {
@@ -109,7 +124,7 @@ public class MainViewController {
     }
 
     private void sendTweet() {
-        twitter4jAsyncWrapper.sendTweet(mainView.getTweetText());
+        wrapper.sendTweet(mainView.getTweetText());
         mainView.clearTextField();
     }
 }

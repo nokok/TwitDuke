@@ -22,21 +22,30 @@ public class Twitter4jAsyncWrapper {
 
     private long replyId = 0L;
 
-    private static final AsyncTwitter       twitter      = AsyncTwitterFactory.getSingleton();
+    private final        Twitter            twitter      = TwitterFactory.getSingleton();
+    private static final AsyncTwitter       asynctwitter = AsyncTwitterFactory.getSingleton();
     private final        AccessTokenManager tokenManager = AccessTokenManager.getInstance();
     private final        TweetCellFactory   factory      = new TweetCellFactory(this);
     private MainView          mainView;
     private UserStreamAdapter userStream;
 
-    public Twitter4jAsyncWrapper() {
+    private static final Twitter4jAsyncWrapper instance = new Twitter4jAsyncWrapper();
+
+    private Twitter4jAsyncWrapper() {
         twitter.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
+        asynctwitter.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
         if (tokenManager.isAuthenticated()) {
             twitter.setOAuthAccessToken(tokenManager.readPrimaryAccount());
+            asynctwitter.setOAuthAccessToken(tokenManager.readPrimaryAccount());
         } else {
             OAuthDialog dialog = new OAuthDialog();
             dialog.setVisible(true);
             dialog.setAlwaysOnTop(true);
         }
+    }
+
+    public static Twitter4jAsyncWrapper getInstance() {
+        return instance;
     }
 
     public UserStreamAdapter getUserStream() {
@@ -51,7 +60,7 @@ public class Twitter4jAsyncWrapper {
     }
 
     public void replyTweet(StatusUpdate status) {
-        twitter.updateStatus(status.inReplyToStatusId(replyId));
+        asynctwitter.updateStatus(status.inReplyToStatusId(replyId));
         replyId = 0;
     }
 
@@ -61,27 +70,55 @@ public class Twitter4jAsyncWrapper {
     }
 
     public void favoriteTweet(long statusId) {
-        twitter.createFavorite(statusId);
+        asynctwitter.createFavorite(statusId);
     }
 
     public void removeFavoriteTweet(long statusId) {
-        twitter.destroyFavorite(statusId);
+        asynctwitter.destroyFavorite(statusId);
     }
 
     public void retweetTweet(long statusId) {
-        twitter.retweetStatus(statusId);
+        asynctwitter.retweetStatus(statusId);
     }
 
     public void deleteTweet(long statusId) {
-        twitter.destroyStatus(statusId);
+        asynctwitter.destroyStatus(statusId);
     }
 
     public void sendTweet(String text) {
         if (replyId != 0) {
             replyTweet(new StatusUpdate(text));
         }
-        twitter.updateStatus(text);
+        asynctwitter.updateStatus(text);
     }
+
+    public ResponseList<Status> fetchHomeTimeLine() {
+        try {
+            return twitter.getHomeTimeline();
+        } catch (TwitterException e) {
+            e.printStackTrace();
+            throw new InternalError("タイムラインの取得中にエラーが発生しました。Twitter側のエラーです");
+        }
+    }
+
+    public ResponseList<Status> fetchMentionsTimeLine() {
+        try {
+            return twitter.getMentionsTimeline();
+        } catch (TwitterException e) {
+            e.printStackTrace();
+            throw new InternalError("メンションの取得中にエラーが発生しました。Twitter側のエラーです");
+        }
+    }
+
+    public ResponseList<Status> fetchUserTimeLine(long userId) {
+        try {
+            return twitter.getUserTimeline(userId);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+            throw new InternalError("ユーザーのタイムライン取得中にエラーが発生しました。Twitter側のエラーです");
+        }
+    }
+
 
     class MyUserStreamAdapter extends UserStreamAdapter {
 
@@ -110,7 +147,7 @@ public class Twitter4jAsyncWrapper {
             this.add(okButton, BorderLayout.SOUTH);
 
             try {
-                final RequestToken requestToken = twitter.getOAuthRequestToken();
+                final RequestToken requestToken = asynctwitter.getOAuthRequestToken();
 
                 try {
                     Desktop.getDesktop().browse(new URI(requestToken.getAuthenticationURL()));
@@ -144,8 +181,8 @@ public class Twitter4jAsyncWrapper {
 
         private void okButtonClicked(RequestToken requestToken) throws TwitterException {
             this.setTitle("認証処理/設定書き込み中");
-            AccessToken token = twitter.getOAuthAccessToken(requestToken, textField.getText());
-            twitter.setOAuthAccessToken(token);
+            AccessToken token = asynctwitter.getOAuthAccessToken(requestToken, textField.getText());
+            asynctwitter.setOAuthAccessToken(token);
             tokenManager.writeAccessToken(token);
             this.dispose();
         }
