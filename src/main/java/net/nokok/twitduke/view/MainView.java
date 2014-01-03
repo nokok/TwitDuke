@@ -39,6 +39,7 @@ public class MainView extends JFrame {
         this.setSize(DEFAULT_SIZE);
         this.setLayout(new BorderLayout());
         this.setBackground(DefaultColor.DEFAULT_BACKGROUND);
+        this.setLocationRelativeTo(null);
 
         TWPanel topPanel = new TWPanel(new BorderLayout());
         tweetTextField.setPreferredSize(TEXTFIELD_SIZE);
