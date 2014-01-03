@@ -2,6 +2,7 @@ package net.nokok.twitduke.model;
 
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.TweetPopupMenu;
+import net.nokok.twitduke.view.UserView;
 import net.nokok.twitduke.view.ui.TWMenuItem;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.MediaEntity;
@@ -116,8 +117,22 @@ public class TweetCellFactory {
             }
         };
 
+        MouseAdapter userViewMouseAdapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() >= 2) {
+                    UserView userView = new UserView(status.isRetweet() ? status.getRetweetedStatus() : status);
+                    cell.clearSelectedText();
+                    userView.setLocation(e.getLocationOnScreen());
+                    userView.setVisible(true);
+                }
+            }
+        };
+
         cell.addMouseListener(functionPanelMouseAdapter);
+        cell.addMouseListener(userViewMouseAdapter);
         cell.setTextAreaAction(functionPanelMouseAdapter);
+        cell.setTextAreaAction(userViewMouseAdapter);
 
         functionPanel.setReplyAction(new ActionListener() {
             @Override

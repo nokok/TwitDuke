@@ -6,17 +6,18 @@ import javax.swing.*;
 
 public class TWLabel extends JLabel {
 
-    public TWLabel(String text) {
-        super(text);
+    public TWLabel() {
+        this.setForeground(DefaultColor.TweetCell.DEFAULT_FOREGROUND);
         this.setBackground(DefaultColor.DEFAULT_BACKGROUND);
     }
 
-    public TWLabel(Icon icon) {
-        this("");
-        this.setIcon(icon);
+    public TWLabel(String text) {
+        this();
+        this.setText(text);
     }
 
-    public void setIcon(Icon icon) {
-        super.setIcon(icon);
+    public TWLabel(Icon icon) {
+        this();
+        this.setIcon(icon);
     }
 }

@@ -8,6 +8,7 @@ import java.awt.*;
 public class TWPanel extends JPanel {
 
     public TWPanel() {
+        super();
         this.setBackground(DefaultColor.DEFAULT_BACKGROUND);
     }
 
