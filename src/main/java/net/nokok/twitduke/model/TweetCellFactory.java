@@ -53,14 +53,16 @@ public class TweetCellFactory {
 
                 ImageIcon before = new ImageIcon(thumbnailURL);
 
-                ImageIcon resized = new ImageIcon(before.getImage().getScaledInstance(128, -1, Image.SCALE_SMOOTH));
+                ImageIcon resized = new ImageIcon(before.getImage().getScaledInstance(256, -1, Image.SCALE_SMOOTH));
                 TWLabel image = new TWLabel(resized);
 
                 image.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        ImageView view = new ImageView(thumbnailURL);
-                        view.setVisible(true);
+                        if (e.getButton() == MouseEvent.BUTTON1) {
+                            ImageView view = new ImageView(thumbnailURL);
+                            view.setVisible(true);
+                        }
                     }
                 });
                 cell.setThumbnail(image);
@@ -148,13 +150,8 @@ public class TweetCellFactory {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() >= 2) {
-                    UserView userView = new UserView(status.isRetweet() ? status.getRetweetedStatus() : status);
+                    new UserView(status.isRetweet() ? status.getRetweetedStatus() : status);
                     cell.clearSelectedText();
-                    userView.setLocation(e.getLocationOnScreen());
-                    userView.loadTimeLine();
-                    userView.setVisible(true);
-                    userView.validate();
-                    userView.pack();
                 }
             }
         };

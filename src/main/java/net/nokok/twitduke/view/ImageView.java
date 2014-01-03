@@ -1,5 +1,6 @@
 package net.nokok.twitduke.view;
 
+import net.nokok.twitduke.view.ui.TWButton;
 import net.nokok.twitduke.view.ui.TWLabel;
 
 import javax.swing.*;
@@ -15,25 +16,33 @@ public class ImageView extends JFrame {
     public ImageView(final URL imageURL) {
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setLocationRelativeTo(null);
         final TWLabel image = new TWLabel();
         image.setIcon(new ImageIcon(imageURL));
         image.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
-                if (e.getClickCount() >= 2) {
-                    try {
-                        Desktop.getDesktop().browse(imageURL.toURI());
-                        close();
-                    } catch (IOException | URISyntaxException ex) {
-                        ex.printStackTrace();
-                    }
+                if (e.getClickCount() == 1) {
+                    close();
                 }
             }
         });
+
+        TWButton open = new TWButton("ブラウザで見る");
+        open.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    Desktop.getDesktop().browse(imageURL.toURI());
+                    close();
+                } catch (IOException | URISyntaxException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        this.add(open, BorderLayout.NORTH);
         this.add(image, BorderLayout.CENTER);
         this.pack();
+        this.setLocationRelativeTo(null);
     }
 
     private void close() {

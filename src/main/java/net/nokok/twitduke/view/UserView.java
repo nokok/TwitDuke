@@ -30,11 +30,14 @@ public class UserView extends JFrame {
     public UserView(Status status) {
         this.status = status;
 
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setTitle(status.getUser().getScreenName() + " の詳細");
-        this.setLayout(new BorderLayout());
+        this.setTitle("読み込み中...");
+        this.setSize(new Dimension(200, 100));
         this.setBackground(DefaultColor.DEFAULT_BACKGROUND);
+        this.setVisible(true);
 
+        this.setLayout(new BorderLayout());
         User user = status.getUser();
 
         TWLabel nameLabel = new TWLabel(user.getName());
@@ -105,9 +108,7 @@ public class UserView extends JFrame {
 
         this.add(rootNorthPanel, BorderLayout.NORTH);
         this.add(tweetPanel, BorderLayout.CENTER);
-    }
 
-    public void loadTimeLine() {
         Twitter4jAsyncWrapper wrapper = Twitter4jAsyncWrapper.getInstance();
         ResponseList<Status> userTimeLine = wrapper.fetchUserTimeLine(status.getUser().getId());
         TweetCellFactory cellFactory = new TweetCellFactory(wrapper);
@@ -118,5 +119,8 @@ public class UserView extends JFrame {
             tweetPanel.add(cellFactory.createTweetCell(timeLineStatus));
             tweetPanel.validate();
         }
+
+        this.setTitle(status.getUser().getScreenName() + " の詳細");
+        this.setSize(this.getPreferredSize());
     }
 }
