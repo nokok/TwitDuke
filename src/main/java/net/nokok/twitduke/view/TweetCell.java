@@ -1,6 +1,7 @@
 package net.nokok.twitduke.view;
 
 import net.nokok.twitduke.view.ui.TWButton;
+import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.view.ui.TWPanel;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
 
@@ -17,10 +18,9 @@ public class TweetCell extends TWPanel {
 
     private final JLabel    icon        = new JLabel();
     private final JLabel    retweetIcon = new JLabel();
-    private final JLabel    userName    = new JLabel();
+    private final TWLabel   userName    = new TWLabel();
     private final JTextArea tweetText   = new JTextArea();
 
-    private final Dimension ICON_SIZE            = new Dimension(50, 50);
     private final Dimension RETWEET_ICON_SIZE    = new Dimension(15, 15);
     private final Dimension FUNCTION_BUTTON_SIZE = new Dimension(15, 13);
 
@@ -28,13 +28,13 @@ public class TweetCell extends TWPanel {
     private final TWButton favoriteButton     = new TWButton();
     private final TWButton retweetButton      = new TWButton();
 
+    private final TWPanel thumbnailPanel = new TWPanel(new FlowLayout(FlowLayout.CENTER));
+
     public TweetCell(boolean isMention, long statusId, Icon userIcon, String userName, String tweetText) {
         this.isMention = isMention;
         this.setLayout(new BorderLayout());
-        this.icon.setPreferredSize(ICON_SIZE);
         this.retweetIcon.setPreferredSize(RETWEET_ICON_SIZE);
         this.userName.setFont(new Font("", Font.BOLD, 13));
-        this.userName.setForeground(DefaultColor.TweetCell.DEFAULT_FOREGROUND);
         this.favoriteButton.setPreferredSize(FUNCTION_BUTTON_SIZE);
         this.favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITE_BUTTON);
         this.retweetButton.setPreferredSize(FUNCTION_BUTTON_SIZE);
@@ -44,6 +44,8 @@ public class TweetCell extends TWPanel {
         this.tweetText.setLineWrap(true);
         this.tweetText.setOpaque(true);
         this.tweetText.setBorder(null);
+        this.thumbnailPanel.setSize(new Dimension(1, 3));
+        this.thumbnailPanel.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
 
         TWPanel contentsPanel = new TWPanel(new BorderLayout());
         contentsNorthPanel.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
@@ -57,7 +59,7 @@ public class TweetCell extends TWPanel {
 
         this.add(this.icon, BorderLayout.WEST);
         this.add(contentsPanel, BorderLayout.CENTER);
-        this.add(Box.createRigidArea(new Dimension(this.getWidth(), 3)), BorderLayout.SOUTH);
+        this.add(thumbnailPanel, BorderLayout.SOUTH);
 
         this.statusId = statusId;
         this.icon.setIcon(userIcon);
@@ -69,7 +71,7 @@ public class TweetCell extends TWPanel {
         } else {
             this.changeColor(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
         }
-        this.setMinimumSize(this.getPreferredSize());
+        calcSize();
     }
 
     public TweetCell(boolean isMention,
@@ -82,8 +84,17 @@ public class TweetCell extends TWPanel {
         this.retweetIcon.setIcon(retweetIcon);
     }
 
+    public void setThumbnail(TWLabel imageLabel) {
+        thumbnailPanel.add(imageLabel);
+    }
+
     public boolean isMention() {
         return this.isMention;
+    }
+
+    public void calcSize() {
+        this.setPreferredSize(null);
+        this.setSize(this.getPreferredSize());
     }
 
     public void changeColor(Color color) {
@@ -135,6 +146,10 @@ public class TweetCell extends TWPanel {
 
     public String getSelectedText() {
         return tweetText.getSelectedText();
+    }
+
+    public void clearSelectedText() {
+        tweetText.select(0, 0);
     }
 
     @Override

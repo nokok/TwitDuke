@@ -2,6 +2,7 @@ package net.nokok.twitduke.view;
 
 import net.nokok.twitduke.view.ui.TWButton;
 import net.nokok.twitduke.view.ui.TWPanel;
+import net.nokok.twitduke.view.ui.TWScrollPane;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
 
 import javax.swing.*;
@@ -22,8 +23,7 @@ public class MainView extends JFrame {
 
     private JTextField tweetTextField = new JTextField();
 
-    private final Dimension TOP_PANEL_DEFAULT_SIZE = new Dimension(530, 60);
-    private final Dimension TEXTFIELD_SIZE         = new Dimension(530, 30);
+    private final Dimension TEXTFIELD_SIZE = new Dimension(530, 30);
 
     private final CardLayout layout = new CardLayout();
 
@@ -41,7 +41,6 @@ public class MainView extends JFrame {
         this.setBackground(DefaultColor.DEFAULT_BACKGROUND);
 
         TWPanel topPanel = new TWPanel(new BorderLayout());
-        topPanel.setPreferredSize(TOP_PANEL_DEFAULT_SIZE);
         tweetTextField.setPreferredSize(TEXTFIELD_SIZE);
         tweetTextField.setOpaque(true);
         tweetTextField.setBorder(null);
@@ -78,7 +77,7 @@ public class MainView extends JFrame {
     }
 
     private void insertTweetCellToPanel(TWPanel panel, TweetCell cell) {
-        panel.add(Box.createRigidArea(new Dimension(cell.getWidth(), 1)), 0);
+        panel.add(Box.createRigidArea(new Dimension(1, 1)), 0);
         panel.add(cell, 0);
         panel.validate();
     }

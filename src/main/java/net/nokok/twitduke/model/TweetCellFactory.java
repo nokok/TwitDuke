@@ -3,6 +3,7 @@ package net.nokok.twitduke.model;
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.TweetPopupMenu;
 import net.nokok.twitduke.view.UserView;
+import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.view.ui.TWMenuItem;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.MediaEntity;
@@ -40,8 +41,25 @@ public class TweetCellFactory {
             cell = createNormalCell(isMention, status);
         }
         setCommonActionListener(cell, status);
-
+        setThumbnail(cell, status);
         return cell;
+    }
+
+    private void setThumbnail(TweetCell cell, Status status) {
+        try {
+            for (MediaEntity entity : status.getMediaEntities()) {
+                URL thumbnailURL = new URL(entity.getMediaURL());
+
+                ImageIcon before = new ImageIcon(thumbnailURL);
+
+                double aspectRatio = (double) Math.max(before.getIconHeight(), before.getIconWidth()) /
+                    (double) Math.min(before.getIconHeight(), before.getIconWidth());
+                ImageIcon resized = new ImageIcon(before.getImage().getScaledInstance((int) (128 * aspectRatio), 128, Image.SCALE_SMOOTH));
+                cell.setThumbnail(new TWLabel(resized));
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean isMention(Status status) {
@@ -88,6 +106,7 @@ public class TweetCellFactory {
 
         for (MediaEntity entity : status.getMediaEntities()) {
             tweetText = tweetText.replaceAll(entity.getURL(), entity.getDisplayURL());
+
         }
         return tweetText;
     }
@@ -124,7 +143,10 @@ public class TweetCellFactory {
                     UserView userView = new UserView(status.isRetweet() ? status.getRetweetedStatus() : status);
                     cell.clearSelectedText();
                     userView.setLocation(e.getLocationOnScreen());
+                    userView.loadTimeLine();
                     userView.setVisible(true);
+                    userView.validate();
+                    userView.pack();
                 }
             }
         };
