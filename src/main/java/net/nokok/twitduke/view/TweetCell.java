@@ -44,7 +44,6 @@ public class TweetCell extends TWPanel {
         this.tweetText.setLineWrap(true);
         this.tweetText.setOpaque(true);
         this.tweetText.setBorder(null);
-        this.thumbnailPanel.setSize(new Dimension(1, 3));
         this.thumbnailPanel.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
 
         TWPanel contentsPanel = new TWPanel(new BorderLayout());

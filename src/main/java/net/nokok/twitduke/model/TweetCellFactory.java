@@ -1,5 +1,6 @@
 package net.nokok.twitduke.model;
 
+import net.nokok.twitduke.view.ImageView;
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.TweetPopupMenu;
 import net.nokok.twitduke.view.UserView;
@@ -48,14 +49,23 @@ public class TweetCellFactory {
     private void setThumbnail(TweetCell cell, Status status) {
         try {
             for (MediaEntity entity : status.getMediaEntities()) {
-                URL thumbnailURL = new URL(entity.getMediaURL());
+                final URL thumbnailURL = new URL(entity.getMediaURL());
 
                 ImageIcon before = new ImageIcon(thumbnailURL);
 
                 double aspectRatio = (double) Math.max(before.getIconHeight(), before.getIconWidth()) /
                     (double) Math.min(before.getIconHeight(), before.getIconWidth());
                 ImageIcon resized = new ImageIcon(before.getImage().getScaledInstance((int) (128 * aspectRatio), 128, Image.SCALE_SMOOTH));
-                cell.setThumbnail(new TWLabel(resized));
+                TWLabel image = new TWLabel(resized);
+
+                image.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        ImageView view = new ImageView(thumbnailURL);
+                        view.setVisible(true);
+                    }
+                });
+                cell.setThumbnail(image);
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
