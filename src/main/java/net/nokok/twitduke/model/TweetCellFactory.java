@@ -53,9 +53,7 @@ public class TweetCellFactory {
 
                 ImageIcon before = new ImageIcon(thumbnailURL);
 
-                double aspectRatio = (double) Math.max(before.getIconHeight(), before.getIconWidth()) /
-                    (double) Math.min(before.getIconHeight(), before.getIconWidth());
-                ImageIcon resized = new ImageIcon(before.getImage().getScaledInstance((int) (128 * aspectRatio), 128, Image.SCALE_SMOOTH));
+                ImageIcon resized = new ImageIcon(before.getImage().getScaledInstance(128, -1, Image.SCALE_SMOOTH));
                 TWLabel image = new TWLabel(resized);
 
                 image.addMouseListener(new MouseAdapter() {
