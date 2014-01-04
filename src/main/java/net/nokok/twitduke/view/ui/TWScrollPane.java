@@ -2,7 +2,7 @@ package net.nokok.twitduke.view.ui;
 
 import net.nokok.twitduke.view.ui.color.DefaultColor;
 
-import javax.swing.*;
+import javax.swing.JScrollPane;
 
 public class TWScrollPane extends JScrollPane {
 

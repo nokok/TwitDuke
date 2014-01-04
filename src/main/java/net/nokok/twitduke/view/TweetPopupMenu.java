@@ -3,7 +3,7 @@ package net.nokok.twitduke.view;
 import net.nokok.twitduke.view.ui.TWMenuItem;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
 
-import javax.swing.*;
+import javax.swing.JPopupMenu;
 import java.awt.event.ActionListener;
 
 public class TweetPopupMenu extends JPopupMenu {
