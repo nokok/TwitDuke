@@ -15,9 +15,8 @@ import java.util.Collections;
 
 public class MainViewController {
 
-    private final Twitter4jAsyncWrapper wrapper               = Twitter4jAsyncWrapper.getInstance();
-    private final MainView              mainView              = new MainView();
-    private final SettingViewController settingViewController = new SettingViewController();
+    private final Twitter4jAsyncWrapper wrapper  = Twitter4jAsyncWrapper.getInstance();
+    private final MainView              mainView = new MainView();
 
     public void start() {
         mainView.setVisible(true);
@@ -97,13 +96,6 @@ public class MainViewController {
             @Override
             public void mouseClicked(MouseEvent e) {
                 sendTweet();
-            }
-        });
-
-        mainView.setSettingButtonAction(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                settingViewController.showSettingView();
             }
         });
 
