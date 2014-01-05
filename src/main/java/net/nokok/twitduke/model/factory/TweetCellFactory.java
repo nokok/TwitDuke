@@ -1,5 +1,19 @@
-package net.nokok.twitduke.model;
+package net.nokok.twitduke.model.factory;
 
+import java.awt.Desktop;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLEncoder;
+import javax.swing.ImageIcon;
+import net.nokok.twitduke.model.AccessTokenManager;
 import net.nokok.twitduke.view.ImageView;
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.TweetPopupMenu;
@@ -11,20 +25,13 @@ import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.URLEntity;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.net.*;
-
 public class TweetCellFactory {
 
     private final Twitter4jAsyncWrapper wrapper;
 
     private final String ICON_INTERNAL_ERROR_MESSAGE = "ユーザーのアイコン取得中にエラーが発生しました";
+
+    private final UserViewFactory userViewFactory = new UserViewFactory();
 
     public TweetCellFactory(Twitter4jAsyncWrapper twitter) {
         this.wrapper = twitter;
@@ -150,7 +157,8 @@ public class TweetCellFactory {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() >= 2) {
-                    new UserView(status.isRetweet() ? status.getRetweetedStatus() : status);
+                    UserView view = userViewFactory.createUserView(status.isRetweet() ? status.getRetweetedStatus().getUser() : status.getUser());
+                    view.setVisible(true);
                     cell.clearSelectedText();
                 }
             }
