@@ -1,10 +1,10 @@
 package net.nokok.twitduke.controller;
 
-import net.nokok.twitduke.model.AccessTokenManager;
+import net.nokok.twitduke.model.AccountManager;
 import net.nokok.twitduke.model.ConsumerKey;
 import net.nokok.twitduke.model.TweetCellFactory;
 import net.nokok.twitduke.view.MainView;
-import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
+import net.nokok.twitduke.wrapper.Twitter4jWrapper;
 import twitter4j.ConnectionLifeCycleListener;
 import twitter4j.ResponseList;
 import twitter4j.Status;
@@ -20,23 +20,17 @@ import java.util.Collections;
 
 public class MainViewController {
 
-    private final Twitter4jAsyncWrapper wrapper               = Twitter4jAsyncWrapper.getInstance();
-    private final MainView              mainView              = new MainView();
-    private final SettingViewController settingViewController = new SettingViewController();
+    private final Twitter4jWrapper wrapper  = Twitter4jWrapper.getInstance();
+    private final MainView         mainView = new MainView();
 
     public void start() {
         mainView.setVisible(true);
         bindActionListener();
-        AccessTokenManager tokenManager = AccessTokenManager.getInstance();
+        AccountManager accountManager = AccountManager.getInstance();
 
-        while (!tokenManager.isAuthenticated()) {
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        while (accountManager.accountCount() == 0) {
+
         }
-        tokenManager.readTokenList();
         TwitterStream twitterStream = TwitterStreamFactory.getSingleton();
         twitterStream.addConnectionLifeCycleListener(new ConnectionLifeCycleListener() {
             @Override
@@ -76,7 +70,7 @@ public class MainViewController {
         wrapper.setView(mainView);
         UserStreamAdapter userStream = wrapper.getUserStream();
         twitterStream.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
-        twitterStream.setOAuthAccessToken(AccessTokenManager.getInstance().readPrimaryAccount());
+        twitterStream.setOAuthAccessToken(accountManager.getCurrentToken());
         twitterStream.addListener(userStream);
         twitterStream.user();
 
@@ -102,13 +96,6 @@ public class MainViewController {
             @Override
             public void mouseClicked(MouseEvent e) {
                 sendTweet();
-            }
-        });
-
-        mainView.setSettingButtonAction(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                settingViewController.showSettingView();
             }
         });
 

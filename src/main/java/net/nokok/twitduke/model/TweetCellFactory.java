@@ -6,7 +6,7 @@ import net.nokok.twitduke.view.TweetPopupMenu;
 import net.nokok.twitduke.view.UserView;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.view.ui.TWMenuItem;
-import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
+import net.nokok.twitduke.wrapper.Twitter4jWrapper;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.URLEntity;
@@ -27,11 +27,11 @@ import java.net.URLEncoder;
 
 public class TweetCellFactory {
 
-    private final Twitter4jAsyncWrapper wrapper;
+    private final Twitter4jWrapper wrapper;
 
     private final String ICON_INTERNAL_ERROR_MESSAGE = "ユーザーのアイコン取得中にエラーが発生しました";
 
-    public TweetCellFactory(Twitter4jAsyncWrapper twitter) {
+    public TweetCellFactory(Twitter4jWrapper twitter) {
         this.wrapper = twitter;
     }
 
@@ -78,7 +78,7 @@ public class TweetCellFactory {
     }
 
     private boolean isMention(Status status) {
-        return status.getText().contains("@" + AccessTokenManager.getInstance().getUserName()) && !status.isRetweet();
+        return status.getText().contains("@" + AccountManager.getInstance().getCurrentScreenName()) && !status.isRetweet();
     }
 
     private TweetCell createNormalCell(boolean isMention, Status status) {

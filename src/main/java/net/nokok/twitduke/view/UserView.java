@@ -5,7 +5,7 @@ import net.nokok.twitduke.view.ui.TWButton;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.view.ui.TWPanel;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
-import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
+import net.nokok.twitduke.wrapper.Twitter4jWrapper;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.User;
@@ -118,7 +118,7 @@ public class UserView extends JFrame {
         this.add(rootNorthPanel, BorderLayout.NORTH);
         this.add(tweetPanel, BorderLayout.CENTER);
 
-        Twitter4jAsyncWrapper wrapper = Twitter4jAsyncWrapper.getInstance();
+        Twitter4jWrapper wrapper = Twitter4jWrapper.getInstance();
         ResponseList<Status> userTimeLine = wrapper.fetchUserTimeLine(status.getUser().getId());
         TweetCellFactory cellFactory = new TweetCellFactory(wrapper);
 

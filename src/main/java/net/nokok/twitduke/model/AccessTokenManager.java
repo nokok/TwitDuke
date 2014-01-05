@@ -2,75 +2,62 @@ package net.nokok.twitduke.model;
 
 import twitter4j.auth.AccessToken;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOError;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class AccessTokenManager {
+class AccessTokenManager {
 
     private static final AccessTokenManager instance = new AccessTokenManager();
 
-    private final String ACCESS_TOKEN_LIST_FILENAME = "authlist";
-    private final String ACCESS_TOKEN_PREFIX        = "token";
-    private TokenList primaryUser;
+    private final String ACCESS_TOKEN_PREFIX = "token_";
 
     private final String AUTH_DIRECTORY_PATH        = new File(new File("").getAbsolutePath(), "auth").getAbsolutePath();
-    private final File   tokenListFile              = new File(AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_LIST_FILENAME);
     private final String TOKENFILE_PATH_WITH_PREFIX = AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_PREFIX;
+    private final File   authDirectory              = new File(AUTH_DIRECTORY_PATH);
 
-    private ArrayList<TokenList> tokenList = new ArrayList<>();
+    private final ArrayList<AccessToken> tokenList = new ArrayList<>();
 
     private AccessTokenManager() {
-        if (isAuthenticated()) {
+        if (authDirectory.exists()) {
             readTokenList();
         } else {
-            createTokenDirectory();
+            authDirectory.mkdir();
         }
-    }
-
-    private boolean createTokenDirectory() {
-        File authDirectory = new File(AUTH_DIRECTORY_PATH);
-        return authDirectory.exists() || authDirectory.mkdir();
     }
 
     public static AccessTokenManager getInstance() {
         return instance;
     }
 
-    public void readTokenList() {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(tokenListFile))) {
-            String readLine;
-            while ((readLine = bufferedReader.readLine()) != null) {
-                String userName = readLine.split(",")[0];
-                long userId = Long.valueOf(readLine.split(",")[1]);
-                tokenList.add(new TokenList(userName, userId));
-            }
-            primaryUser = tokenList.get(0);        //TODO:ヤバいのでなんとかする
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new IOError(e.getCause());
+    public int readTokenList() {
+        File[] files = authDirectory.listFiles();
+        if (files == null) {
+            return 0;
         }
+        for (File file : files) {
+            if (file.getName().startsWith(ACCESS_TOKEN_PREFIX)) {
+                String fileName = file.getName();
+                long fileId = Long.valueOf(fileName.split("_")[1]);
+                tokenList.add(readAccessToken(fileId));
+            }
+        }
+
+        return tokenList.size();
     }
 
     public boolean isAuthenticated() {
-        return tokenListFile.exists();
+        return readTokenList() != 0 && authDirectory.exists();
     }
 
     public AccessToken readPrimaryAccount() {
-        return readAccessToken(primaryUser.userId);
+        return readAccessToken(tokenList.get(0).getUserId());
     }
-
-    public String getUserName() {
-        return primaryUser.userName;
-    } //TODO:50行目と同じく
 
     public AccessToken readAccessToken(long id) {
         try (FileInputStream fileInputStream = new FileInputStream(TOKENFILE_PATH_WITH_PREFIX + id);
@@ -83,24 +70,11 @@ public class AccessTokenManager {
     }
 
     public void writeAccessToken(AccessToken accessToken) {
-        File authUserListFile = new File(AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_LIST_FILENAME);
         try (FileOutputStream fileOutputStream = new FileOutputStream(TOKENFILE_PATH_WITH_PREFIX + accessToken.getUserId());
-             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-             FileWriter writer = new FileWriter(authUserListFile)) {
-            writer.write(accessToken.getScreenName() + "," + accessToken.getUserId() + "\n");
+             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
             objectOutputStream.writeObject(accessToken);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    class TokenList {
-        private String userName;
-        private long   userId;
-
-        public TokenList(String userName, long userId) {
-            this.userName = userName;
-            this.userId = userId;
         }
     }
 }
