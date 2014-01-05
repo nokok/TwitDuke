@@ -1,15 +1,16 @@
 package net.nokok.twitduke.view;
 
-import net.nokok.twitduke.view.ui.TWButton;
-import net.nokok.twitduke.view.ui.TWLabel;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import net.nokok.twitduke.view.ui.TWButton;
+import net.nokok.twitduke.view.ui.TWLabel;
 
 public class ImageView extends JFrame {
 

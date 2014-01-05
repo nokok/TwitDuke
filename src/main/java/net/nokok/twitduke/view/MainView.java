@@ -1,14 +1,21 @@
 package net.nokok.twitduke.view;
 
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import net.nokok.twitduke.view.ui.TWButton;
 import net.nokok.twitduke.view.ui.TWPanel;
 import net.nokok.twitduke.view.ui.TWScrollPane;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 
 public class MainView extends JFrame {
 

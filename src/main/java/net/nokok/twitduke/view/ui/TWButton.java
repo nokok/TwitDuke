@@ -1,9 +1,8 @@
 package net.nokok.twitduke.view.ui;
 
+import java.awt.Font;
+import javax.swing.JButton;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class TWButton extends JButton {
 

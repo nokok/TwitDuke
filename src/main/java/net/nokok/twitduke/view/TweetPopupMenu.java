@@ -1,10 +1,9 @@
 package net.nokok.twitduke.view;
 
+import java.awt.event.ActionListener;
+import javax.swing.JPopupMenu;
 import net.nokok.twitduke.view.ui.TWMenuItem;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
-
-import javax.swing.*;
-import java.awt.event.ActionListener;
 
 public class TweetPopupMenu extends JPopupMenu {
 

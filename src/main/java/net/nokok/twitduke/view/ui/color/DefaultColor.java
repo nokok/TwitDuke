@@ -1,6 +1,6 @@
 package net.nokok.twitduke.view.ui.color;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class DefaultColor {
     public static final Color DEFAULT_BACKGROUND = new Color(30, 30, 30);

@@ -1,17 +1,21 @@
 package net.nokok.twitduke.controller;
 
-import net.nokok.twitduke.model.AccessTokenManager;
-import net.nokok.twitduke.model.ConsumerKey;
-import net.nokok.twitduke.model.TweetCellFactory;
-import net.nokok.twitduke.view.MainView;
-import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
-import twitter4j.*;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Collections;
+import net.nokok.twitduke.model.AccessTokenManager;
+import net.nokok.twitduke.model.ConsumerKey;
+import net.nokok.twitduke.model.factory.TweetCellFactory;
+import net.nokok.twitduke.view.MainView;
+import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
+import twitter4j.ConnectionLifeCycleListener;
+import twitter4j.ResponseList;
+import twitter4j.Status;
+import twitter4j.TwitterStream;
+import twitter4j.TwitterStreamFactory;
+import twitter4j.UserStreamAdapter;
 
 public class MainViewController {
 

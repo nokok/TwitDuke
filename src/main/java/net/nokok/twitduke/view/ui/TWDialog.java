@@ -1,8 +1,7 @@
 package net.nokok.twitduke.view.ui;
 
+import javax.swing.JDialog;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
-
-import javax.swing.*;
 
 public class TWDialog extends JDialog {
 

@@ -1,15 +1,7 @@
 package net.nokok.twitduke.wrapper;
 
-import net.nokok.twitduke.model.AccessTokenManager;
-import net.nokok.twitduke.model.ConsumerKey;
-import net.nokok.twitduke.model.TweetCellFactory;
-import net.nokok.twitduke.view.MainView;
-import twitter4j.*;
-import twitter4j.auth.AccessToken;
-import twitter4j.auth.RequestToken;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -17,6 +9,24 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JTextField;
+import net.nokok.twitduke.model.AccessTokenManager;
+import net.nokok.twitduke.model.ConsumerKey;
+import net.nokok.twitduke.model.factory.TweetCellFactory;
+import net.nokok.twitduke.view.MainView;
+import twitter4j.AsyncTwitter;
+import twitter4j.AsyncTwitterFactory;
+import twitter4j.ResponseList;
+import twitter4j.Status;
+import twitter4j.StatusUpdate;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.UserStreamAdapter;
+import twitter4j.auth.AccessToken;
+import twitter4j.auth.RequestToken;
 
 public class Twitter4jAsyncWrapper {
 
