@@ -56,7 +56,7 @@ public class TweetCellFactory {
     private void setThumbnail(TweetCell cell, Status status) {
         try {
             for (MediaEntity entity : status.getMediaEntities()) {
-                final URL thumbnailURL = new URL(entity.getMediaURL());
+                final URL thumbnailURL = new URL(entity.getMediaURLHttps());
 
                 ImageIcon before = new ImageIcon(thumbnailURL);
 
@@ -85,7 +85,7 @@ public class TweetCellFactory {
 
     private TweetCell createNormalCell(boolean isMention, Status status) {
         try {
-            URL userIconURL = new URL(status.getUser().getProfileImageURL());
+            URL userIconURL = new URL(status.getUser().getProfileImageURLHttps());
             return new TweetCell(isMention,
                                  status.getId(),
                                  new ImageIcon(userIconURL),
@@ -100,8 +100,8 @@ public class TweetCellFactory {
     private TweetCell createRetweetCell(boolean isMention, Status status) {
         try {
             URL userIconURL, retweetIconURL;
-            userIconURL = new URL(status.getRetweetedStatus().getUser().getProfileImageURL());
-            retweetIconURL = new URL(status.getUser().getProfileImageURL());
+            userIconURL = new URL(status.getRetweetedStatus().getUser().getProfileImageURLHttps());
+            retweetIconURL = new URL(status.getUser().getProfileImageURLHttps());
             Image retweetUserImage = new ImageIcon(retweetIconURL).getImage().getScaledInstance(15, 15, Image.SCALE_FAST);
             return new TweetCell(isMention,
                                  status.getId(),
