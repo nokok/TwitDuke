@@ -24,6 +24,7 @@ import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.URLEntity;
+import twitter4j.User;
 
 public class TweetCellFactory {
 
@@ -157,7 +158,8 @@ public class TweetCellFactory {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() >= 2) {
-                    UserView view = userViewFactory.createUserView(status.isRetweet() ? status.getRetweetedStatus().getUser() : status.getUser());
+                    User user = status.isRetweet() ? status.getRetweetedStatus().getUser() : status.getUser();
+                    UserView view = userViewFactory.createUserView(user);
                     view.setVisible(true);
                     cell.clearSelectedText();
                 }
