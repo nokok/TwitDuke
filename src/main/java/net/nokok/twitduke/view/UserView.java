@@ -1,7 +1,6 @@
 package net.nokok.twitduke.view;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -58,13 +57,13 @@ public class UserView extends JFrame {
         this.favoritedCount.setText("お気に入り: " + String.valueOf(favorited));
         this.location.setText("場所: " + location);
         this.bio.setText(bio);
+        this.pack();
     }
 
     private void initializeComponent() {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setTitle("読み込み中...");
-        this.setSize(new Dimension(200, 100));
         this.setBackground(DefaultColor.DEFAULT_BACKGROUND);
         this.setVisible(true);
         this.setLayout(new BorderLayout());
