@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -37,8 +39,14 @@ public class MainView extends JFrame {
     private final TWPanel tweetListPanel  = new TWPanel();
     private final TWPanel replyListPanel  = new TWPanel();
 
+    private int totalTweetListHeight = 0;
+    private int totalReplyListHeight = 0;
 
     public MainView() {
+        this.initializeComponent();
+    }
+
+    private void initializeComponent() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("TwitDuke");
         this.setSize(DEFAULT_SIZE);
@@ -73,15 +81,51 @@ public class MainView extends JFrame {
 
         this.add(topPanel, BorderLayout.NORTH);
         this.add(rootScrollPanel, BorderLayout.CENTER);
+        this.setActionListener();
     }
 
+    private void setActionListener() {
+        rootScrollPanel.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                //スクロールバーと被るのでスクロールバーの幅15pxを引く
+                resizeComponents(e.getComponent().getWidth() - 15);
+            }
+        });
+    }
+
+    private void calcListSize() {
+        resizeComponents(this.getWidth());
+    }
+
+    private void resizeComponents(int currentWidth) {
+        tweetListPanel.setPreferredSize(new Dimension(currentWidth, totalTweetListHeight));
+        replyListPanel.setPreferredSize(new Dimension(currentWidth, totalReplyListHeight));
+        rootScrollPanel.setPreferredSize(tweetListPanel.getPreferredSize());
+    }
+
+    /**
+     * セルをツイートパネルに挿入します。セルが現在選択中のユーザーへのメンションであった場合、
+     * リプライリストパネルにセルのコピーを挿入します。
+     *
+     * @param cell 挿入するセル
+     */
     public void insertTweetCell(TweetCell cell) {
         if (cell.isMention()) {
             insertTweetCellToPanel(replyListPanel, TweetCell.copy(cell));
+            totalReplyListHeight += cell.getPreferredSize().getHeight();
         }
         insertTweetCellToPanel(tweetListPanel, cell);
+        totalTweetListHeight += cell.getPreferredSize().getHeight();
+        calcListSize();
     }
 
+    /**
+     * 指定されたパネルにセルを挿入します
+     *
+     * @param panel
+     * @param cell
+     */
     private void insertTweetCellToPanel(TWPanel panel, TweetCell cell) {
         panel.add(Box.createRigidArea(new Dimension(1, 1)), 0);
         panel.add(cell, 0);
@@ -121,14 +165,14 @@ public class MainView extends JFrame {
     }
 
     public void swapTweetList() {
+        isMentionVisible = !isMentionVisible;
         if (isMentionVisible) {
             layout.first(rootScrollPanel);
             this.mentionButton.setText("＠");
-        } else {
-            layout.last(rootScrollPanel);
-            this.mentionButton.setText("戻る");
-            replyListPanel.validate();
+            return;
         }
-        isMentionVisible = !isMentionVisible;
+        layout.last(rootScrollPanel);
+        this.mentionButton.setText("戻る");
+        replyListPanel.validate();
     }
 }
