@@ -24,6 +24,7 @@ import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.User;
 import twitter4j.UserStreamAdapter;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
@@ -126,6 +127,15 @@ public class Twitter4jAsyncWrapper {
         } catch (TwitterException e) {
             e.printStackTrace();
             throw new InternalError("ユーザーのタイムライン取得中にエラーが発生しました。Twitter側のエラーです");
+        }
+    }
+
+    public User getUser(long userId) {
+        try {
+            return twitter.users().showUser(userId);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+            throw new InternalError("ユーザー情報の取得に失敗しました");
         }
     }
 

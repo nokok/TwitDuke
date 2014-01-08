@@ -15,16 +15,17 @@ public class UserViewFactory {
         } catch (MalformedURLException e) {
             throw new InternalError("アイコンの取得中にエラーが発生しました。URLが不正です" + e.getMessage());
         }
-        UserView userView = new UserView(new ImageIcon(iconURL),
-                                         user.getName(),
-                                         user.getScreenName() + (user.isProtected() ? "[Lock]" : ""),
-                                         user.getStatusesCount(),
-                                         user.getFriendsCount(),
-                                         user.getFollowersCount(),
-                                         user.getFavouritesCount(),
-                                         user.getLocation(),
-                                         user.getDescription());
-        userView.setTitle(user.getName() + " の詳細");
-        return userView;
+        UserView view = new UserView(new ImageIcon(iconURL),
+                                     user.getName(),
+                                     user.getScreenName() + (user.isProtected() ? "[Lock]" : ""),
+                                     user.getStatusesCount(),
+                                     user.getFriendsCount(),
+                                     user.getFollowersCount(),
+                                     user.getFavouritesCount(),
+                                     user.getLocation(),
+                                     user.getDescription());
+        view.setLocationRelativeTo(null);
+        view.pack();
+        return view;
     }
 }

@@ -48,6 +48,7 @@ public class UserView extends JFrame {
                     String location,
                     String bio) {
         this();
+        this.setTitle(screenName + " の詳細");
         this.userIcon.setIcon(userIcon);
         this.nameLabel.setText(name);
         this.screenNameLabel.setText("@" + screenName);

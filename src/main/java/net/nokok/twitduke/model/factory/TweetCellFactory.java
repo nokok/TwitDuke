@@ -24,6 +24,7 @@ import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.URLEntity;
+import twitter4j.UserMentionEntity;
 
 public class TweetCellFactory {
 
@@ -49,6 +50,7 @@ public class TweetCellFactory {
             cell = createNormalCell(isMention, status);
         }
         setCommonActionListener(cell, status);
+        createFunctionPanel(cell, status);
         setThumbnail(cell, status);
         return cell;
     }
@@ -141,14 +143,16 @@ public class TweetCellFactory {
                 retweet(cell, status.getId());
             }
         });
+    }
 
-        final TweetPopupMenu functionPanel = new TweetPopupMenu();
+    private void createFunctionPanel(final TweetCell cell, final Status status) {
+        final TweetPopupMenu popupMenu = new TweetPopupMenu();
 
         MouseAdapter functionPanelMouseAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON3) {
-                    functionPanel.show(e.getComponent(), e.getX(), e.getY());
+                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
         };
@@ -159,7 +163,6 @@ public class TweetCellFactory {
                 if (e.getClickCount() >= 2) {
                     UserView view = userViewFactory.createUserView(status.isRetweet() ? status.getRetweetedStatus().getUser() : status.getUser());
                     view.setLocation(e.getLocationOnScreen());
-                    view.pack();
                     view.setVisible(true);
                     cell.clearSelectedText();
                 }
@@ -171,7 +174,7 @@ public class TweetCellFactory {
         cell.setTextAreaAction(functionPanelMouseAdapter);
         cell.setTextAreaAction(userViewMouseAdapter);
 
-        functionPanel.setReplyAction(new ActionListener() {
+        popupMenu.setReplyAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (status.isRetweet()) {
@@ -182,21 +185,21 @@ public class TweetCellFactory {
             }
         });
 
-        functionPanel.setFavoriteAction(new ActionListener() {
+        popupMenu.setFavoriteAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 favorite(cell, status.getId());
             }
         });
 
-        functionPanel.setRetweetAction(new ActionListener() {
+        popupMenu.setRetweetAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 retweet(cell, status.getId());
             }
         });
 
-        functionPanel.setAllURLOpenAction(new ActionListener() {
+        popupMenu.setAllURLOpenAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 allURLEntitiesOpen(status.getURLEntities());
@@ -204,7 +207,7 @@ public class TweetCellFactory {
             }
         });
 
-        functionPanel.setSearchAction(new ActionListener() {
+        popupMenu.setSearchAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String searchString = cell.getSelectedText();
@@ -219,12 +222,23 @@ public class TweetCellFactory {
             }
         });
 
-        functionPanel.setDeleteAction(new ActionListener() {
+        popupMenu.setDeleteAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 wrapper.deleteTweet(status.getId());
             }
         });
+
+        for (final UserMentionEntity entity : status.getUserMentionEntities()) {
+            TWMenuItem menuItem = new TWMenuItem(entity.getScreenName() + " の詳細を開く");
+            menuItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    userViewFactory.createUserView(wrapper.getUser(entity.getId())).setVisible(true);
+                }
+            });
+            popupMenu.addMenuItem(menuItem);
+        }
 
         for (final URLEntity entity : status.getURLEntities()) {
             TWMenuItem menuItem = new TWMenuItem(entity.getDisplayURL() + "を開く");
@@ -238,7 +252,7 @@ public class TweetCellFactory {
                     }
                 }
             });
-            functionPanel.addURLOpenButton(menuItem);
+            popupMenu.addMenuItem(menuItem);
         }
 
         for (final MediaEntity entity : status.getMediaEntities()) {
@@ -253,8 +267,9 @@ public class TweetCellFactory {
                     }
                 }
             });
-            functionPanel.addURLOpenButton(menuItem);
+            popupMenu.addMenuItem(menuItem);
         }
+
     }
 
     private void allURLEntitiesOpen(URLEntity[] entities) {

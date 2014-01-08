@@ -49,7 +49,7 @@ public class TweetPopupMenu extends JPopupMenu {
         this.delete.addActionListener(listener);
     }
 
-    public void addURLOpenButton(TWMenuItem menuItem) {
+    public void addMenuItem(TWMenuItem menuItem) {
         this.add(menuItem);
     }
 }
