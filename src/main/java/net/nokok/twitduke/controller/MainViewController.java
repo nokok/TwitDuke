@@ -40,23 +40,9 @@ public class MainViewController {
             @Override
             public void onConnect() {
                 try {
-                    String oldTitle = mainView.getTitle();
-                    for (int i = 0; i < (oldTitle.length() / 2) + 1; i++) {
-                        mainView.setTitle(oldTitle.substring(i, oldTitle.length() - i));
-                        Thread.sleep(50);
-                    }
-                    String welcome = "Welcome to TwitDuke";
-                    for (int i = 0; i < welcome.length(); i++) {
-                        mainView.setTitle(welcome.substring(0, i + 1));
-                        Thread.sleep(50);
-                    }
-                    Thread.sleep(100);
-                    for (int i = 0; i < 12; i++) {
-                        mainView.setTitle(welcome.substring(i, welcome.length()));
-                        Thread.sleep(50);
-                    }
+                    launchTitleAnimation();
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    mainView.setTitle("TwitDuke");
                 }
             }
 
@@ -79,6 +65,24 @@ public class MainViewController {
         twitterStream.user();
 
         fetchTimeLines();
+    }
+
+    private void launchTitleAnimation() throws InterruptedException {
+        String oldTitle = mainView.getTitle();
+        for (int i = 0; i < (oldTitle.length() / 2) + 1; i++) {
+            mainView.setTitle(oldTitle.substring(i, oldTitle.length() - i));
+            Thread.sleep(50);
+        }
+        String welcome = "Welcome to TwitDuke";
+        for (int i = 0; i < welcome.length(); i++) {
+            mainView.setTitle(welcome.substring(0, i + 1));
+            Thread.sleep(50);
+        }
+        Thread.sleep(100);
+        for (int i = 0; i < 12; i++) {
+            mainView.setTitle(welcome.substring(i, welcome.length()));
+            Thread.sleep(50);
+        }
     }
 
     private void fetchTimeLines() {
