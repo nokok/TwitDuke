@@ -31,7 +31,8 @@ public class MainView extends JFrame {
 
     private JTextField tweetTextField = new JTextField();
 
-    private final Dimension TEXTFIELD_SIZE = new Dimension(530, 30);
+    private final Dimension TEXTFIELD_SIZE  = new Dimension(530, 30);
+    private final int       SCROLLBAR_WIDTH = 15;
 
     private final CardLayout layout = new CardLayout();
 
@@ -89,13 +90,13 @@ public class MainView extends JFrame {
             @Override
             public void componentResized(ComponentEvent e) {
                 //スクロールバーと被るのでスクロールバーの幅15pxを引く
-                resizeComponents(e.getComponent().getWidth() - 15);
+                resizeComponents(e.getComponent().getWidth() - SCROLLBAR_WIDTH);
             }
         });
     }
 
     private void calcListSize() {
-        resizeComponents(this.getWidth());
+        resizeComponents(this.getWidth() - SCROLLBAR_WIDTH);
     }
 
     private void resizeComponents(int currentWidth) {
