@@ -21,7 +21,6 @@ public class MainView extends JFrame {
 
     private boolean isMentionVisible;
 
-    private final Dimension MINIMUM_SIZE  = new Dimension(100, 0);
     private final Dimension DEFAULT_SIZE  = new Dimension(530, 600);
     private final TWButton  settingButton = new TWButton("設定");
     private final TWButton  mentionButton = new TWButton("＠");
@@ -42,7 +41,6 @@ public class MainView extends JFrame {
     public MainView() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("TwitDuke");
-        this.setMinimumSize(MINIMUM_SIZE);
         this.setSize(DEFAULT_SIZE);
         this.setLayout(new BorderLayout());
         this.setBackground(DefaultColor.DEFAULT_BACKGROUND);
