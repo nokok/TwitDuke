@@ -14,7 +14,7 @@ import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.view.ui.TWPanel;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
 
-public class TweetCell extends TWPanel {
+public class TweetCell extends TWPanel implements Cloneable {
 
     private long    statusId;
     private boolean isMention;
@@ -35,7 +35,11 @@ public class TweetCell extends TWPanel {
 
     private final TWPanel thumbnailPanel = new TWPanel(new FlowLayout(FlowLayout.CENTER));
 
-    public TweetCell(boolean isMention, long statusId, Icon userIcon, String userName, String tweetText) {
+    public TweetCell(boolean isMention,
+                     long statusId,
+                     Icon userIcon,
+                     String userName,
+                     String tweetText) {
         initializeComponent();
 
         this.isMention = isMention;
@@ -106,10 +110,6 @@ public class TweetCell extends TWPanel {
         this.thumbnailPanel.setBackground(color);
     }
 
-    public static TweetCell copy(TweetCell oldCell) {
-        return new TweetCell(oldCell.isMention, oldCell.statusId, oldCell.icon.getIcon(), oldCell.userName.getText(), oldCell.tweetText.getText());
-    }
-
     public void setFavoriteAction(MouseAdapter adapter) {
         this.favoriteButton.addMouseListener(adapter);
     }
@@ -152,6 +152,15 @@ public class TweetCell extends TWPanel {
 
     public void clearSelectedText() {
         tweetText.select(0, 0);
+    }
+
+    @Override
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError(e.toString());
+        }
     }
 
     @Override
