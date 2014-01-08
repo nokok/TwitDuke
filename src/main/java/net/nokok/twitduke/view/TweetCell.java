@@ -36,7 +36,32 @@ public class TweetCell extends TWPanel {
     private final TWPanel thumbnailPanel = new TWPanel(new FlowLayout(FlowLayout.CENTER));
 
     public TweetCell(boolean isMention, long statusId, Icon userIcon, String userName, String tweetText) {
+        initializeComponent();
+
         this.isMention = isMention;
+        this.statusId = statusId;
+        this.icon.setIcon(userIcon);
+        this.userName.setText(userName);
+        this.tweetText.setText(tweetText);
+
+        if (isMention) {
+            this.changeColor(DefaultColor.TweetCell.MENTION_BACKGROUND);
+        } else {
+            this.changeColor(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
+        }
+    }
+
+    public TweetCell(boolean isMention,
+                     long statusId,
+                     Icon userIcon,
+                     Icon retweetIcon,
+                     String userName,
+                     String tweetText) {
+        this(isMention, statusId, userIcon, userName, tweetText);
+        this.retweetIcon.setIcon(retweetIcon);
+    }
+
+    private void initializeComponent() {
         this.setLayout(new BorderLayout());
         this.retweetIcon.setPreferredSize(RETWEET_ICON_SIZE);
         this.userName.setFont(new Font("", Font.BOLD, 13));
@@ -60,32 +85,9 @@ public class TweetCell extends TWPanel {
         contentsPanel.add(this.contentsNorthPanel, BorderLayout.NORTH);
         contentsPanel.add(this.tweetText, BorderLayout.CENTER);
 
-
         this.add(this.icon, BorderLayout.WEST);
         this.add(contentsPanel, BorderLayout.CENTER);
         this.add(thumbnailPanel, BorderLayout.SOUTH);
-
-        this.statusId = statusId;
-        this.icon.setIcon(userIcon);
-        this.userName.setText(userName);
-        this.tweetText.setText(tweetText);
-
-        if (isMention) {
-            this.changeColor(DefaultColor.TweetCell.MENTION_BACKGROUND);
-        } else {
-            this.changeColor(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
-        }
-        calcSize();
-    }
-
-    public TweetCell(boolean isMention,
-                     long statusId,
-                     Icon userIcon,
-                     Icon retweetIcon,
-                     String userName,
-                     String tweetText) {
-        this(isMention, statusId, userIcon, userName, tweetText);
-        this.retweetIcon.setIcon(retweetIcon);
     }
 
     public void setThumbnail(TWLabel imageLabel) {
@@ -94,11 +96,6 @@ public class TweetCell extends TWPanel {
 
     public boolean isMention() {
         return this.isMention;
-    }
-
-    public void calcSize() {
-        this.setPreferredSize(null);
-        this.setSize(this.getPreferredSize());
     }
 
     public void changeColor(Color color) {
