@@ -61,11 +61,9 @@ public class UserView extends JFrame {
     }
 
     private void initializeComponent() {
-        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setTitle("読み込み中...");
         this.setBackground(DefaultColor.DEFAULT_BACKGROUND);
-        this.setVisible(true);
         this.setLayout(new BorderLayout());
 
         Font nameFont = new Font("", Font.BOLD, 15);

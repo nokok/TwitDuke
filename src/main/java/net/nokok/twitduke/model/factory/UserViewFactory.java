@@ -25,7 +25,6 @@ public class UserViewFactory {
                                          user.getLocation(),
                                          user.getDescription());
         userView.setTitle(user.getName() + " の詳細");
-        userView.pack();
         return userView;
     }
 }

@@ -158,6 +158,8 @@ public class TweetCellFactory {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() >= 2) {
                     UserView view = userViewFactory.createUserView(status.isRetweet() ? status.getRetweetedStatus().getUser() : status.getUser());
+                    view.setLocation(e.getLocationOnScreen());
+                    view.pack();
                     view.setVisible(true);
                     cell.clearSelectedText();
                 }
