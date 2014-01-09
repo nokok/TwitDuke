@@ -124,8 +124,8 @@ public class MainView extends JFrame {
     /**
      * 指定されたパネルにセルを挿入します
      *
-     * @param panel
-     * @param cell
+     * @param panel セルを挿入するパネル
+     * @param cell  挿入するセル
      */
     private void insertTweetCellToPanel(TWPanel panel, TweetCell cell) {
         panel.add(Box.createRigidArea(new Dimension(1, 1)), 0);
