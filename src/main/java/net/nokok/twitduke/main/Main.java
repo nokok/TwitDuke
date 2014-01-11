@@ -63,7 +63,7 @@ public class Main {
     }
 
     private void startUserStream() {
-        wrapper.setView(mainViewController.getMainView());
+        wrapper.setView(mainViewController);
         TWUserStream userStream = wrapper.getUserStream();
         twitterStream.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
         twitterStream.setOAuthAccessToken(AccessTokenManager.getInstance().readPrimaryAccount());

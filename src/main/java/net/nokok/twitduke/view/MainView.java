@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -15,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import net.nokok.twitduke.view.ui.TWButton;
+import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.view.ui.TWPanel;
 import net.nokok.twitduke.view.ui.TWScrollPane;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
@@ -23,15 +26,16 @@ public class MainView extends JFrame {
 
     private boolean isMentionVisible;
 
-    private final Dimension DEFAULT_SIZE  = new Dimension(530, 600);
-    private final TWButton  settingButton = new TWButton("設定");
-    private final TWButton  mentionButton = new TWButton("＠");
-    private final TWButton  userSwitcher  = new TWButton("ユーザー...");
-    private final TWButton  sendButton    = new TWButton("ツイート");
+    private final TWButton settingButton = new TWButton("設定");
+    private final TWButton mentionButton = new TWButton("＠");
+    private final TWButton userSwitcher  = new TWButton("ユーザー...");
+    private final TWButton sendButton    = new TWButton("ツイート");
 
     private JTextField tweetTextField = new JTextField();
 
+    private final Dimension DEFAULT_SIZE    = new Dimension(530, 600);
     private final Dimension TEXTFIELD_SIZE  = new Dimension(530, 30);
+    private final Dimension STATUS_BAR_SIZE = new Dimension(530, 25);
     private final int       SCROLLBAR_WIDTH = 15;
 
     private final CardLayout layout = new CardLayout();
@@ -42,6 +46,8 @@ public class MainView extends JFrame {
 
     private int totalTweetListHeight = 0;
     private int totalReplyListHeight = 0;
+
+    private final TWLabel statusLabel = new TWLabel();
 
     public MainView() {
         this.initializeComponent();
@@ -80,8 +86,15 @@ public class MainView extends JFrame {
         rootScrollPanel.add(scrollPane, "DEFAULT");
         rootScrollPanel.add(replyScrollPane, "REPLY");
 
+        TWPanel statusBar = new TWPanel(new FlowLayout(FlowLayout.LEFT));
+        Font statusFont = new Font("", Font.BOLD, 12);
+        statusBar.setPreferredSize(STATUS_BAR_SIZE);
+        statusLabel.setFont(statusFont);
+        statusBar.add(statusLabel);
+
         this.add(topPanel, BorderLayout.NORTH);
         this.add(rootScrollPanel, BorderLayout.CENTER);
+        this.add(statusBar, BorderLayout.SOUTH);
         this.setActionListener();
     }
 
@@ -155,6 +168,14 @@ public class MainView extends JFrame {
 
     public void setSendButtonAction(MouseAdapter adapter) {
         this.sendButton.addMouseListener(adapter);
+    }
+
+    public void setStatus(String text) {
+        this.statusLabel.setText(text);
+    }
+
+    public TWLabel getStatusLabel() {
+        return statusLabel;
     }
 
     public String getTweetText() {

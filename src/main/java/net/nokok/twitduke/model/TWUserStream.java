@@ -1,7 +1,7 @@
 package net.nokok.twitduke.model;
 
+import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
-import net.nokok.twitduke.view.MainView;
 import twitter4j.DirectMessage;
 import twitter4j.StallWarning;
 import twitter4j.Status;
@@ -12,17 +12,17 @@ import twitter4j.UserStreamListener;
 
 public class TWUserStream implements UserStreamListener {
 
-    private MainView         view;
-    private TweetCellFactory factory;
+    private MainViewController mainViewController;
+    private TweetCellFactory   factory;
 
-    public TWUserStream(MainView view, TweetCellFactory factory) {
-        this.view = view;
+    public TWUserStream(MainViewController mainViewController, TweetCellFactory factory) {
+        this.mainViewController = mainViewController;
         this.factory = factory;
     }
 
     @Override
     public void onStatus(Status status) {
-        view.insertTweetCell(factory.createTweetCell(status));
+        mainViewController.insertTweetCell(factory.createTweetCell(status));
     }
 
     @Override
@@ -58,7 +58,7 @@ public class TWUserStream implements UserStreamListener {
 
     @Override
     public void onFavorite(User source, User target, Status favoritedStatus) {
-
+        mainViewController.setStatus("★" + favoritedStatus.getText() + "が" + source.getScreenName() + "にお気に入り登録されました");
     }
 
     @Override
@@ -128,6 +128,6 @@ public class TWUserStream implements UserStreamListener {
 
     @Override
     public void onException(Exception ex) {
-
+        mainViewController.setStatus(ex.getLocalizedMessage());
     }
 }

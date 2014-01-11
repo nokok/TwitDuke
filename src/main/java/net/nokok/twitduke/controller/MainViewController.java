@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import net.nokok.twitduke.model.StatusBarAnimationInvoker;
+import net.nokok.twitduke.model.TitleAnimationInvoker;
 import net.nokok.twitduke.view.MainView;
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
@@ -17,41 +19,29 @@ public class MainViewController {
         this.wrapper = wrapper;
         mainView.setVisible(true);
         bindActionListener();
-        mainView.setTitle("UserStreamに接続中です");
+        this.setStatus("UserStreamに接続中です");
     }
 
     public void userStreamConnected() {
+        this.setStatus("UserStreamに接続しました");
         launchTitleAnimation();
     }
 
     public void userStreamDisconnected() {
-        mainView.setTitle("UserStreamとの接続が切れています");
+        this.setStatus("UserStreamとの接続が切れています");
     }
 
     private void launchTitleAnimation() {
-        try {
-            String oldTitle = mainView.getTitle();
-            for (int i = 0; i < (oldTitle.length() / 2) + 1; i++) {
-                mainView.setTitle(oldTitle.substring(i, oldTitle.length() - i));
-                Thread.sleep(30);
-            }
-            String welcome = "Welcome to TwitDuke";
-            for (int i = 0; i < welcome.length(); i++) {
-                mainView.setTitle(welcome.substring(0, i + 1));
-                Thread.sleep(30);
-            }
-            Thread.sleep(100);
-            for (int i = 0; i < 12; i++) {
-                mainView.setTitle(welcome.substring(i, welcome.length()));
-                Thread.sleep(30);
-            }
-        } catch (InterruptedException e) {
-            mainView.setTitle("TwitDuke");
-        }
+        new TitleAnimationInvoker(mainView).start();
     }
 
-    public MainView getMainView() {
-        return mainView;
+    public void setStatus(String text) {
+        mainView.setStatus(text);
+        new StatusBarAnimationInvoker(mainView).start();
+    }
+
+    public void setReply(String screenName) {
+        mainView.setTweetTextField("@" + screenName + " ");
     }
 
     public void insertTweetCell(TweetCell cell) {

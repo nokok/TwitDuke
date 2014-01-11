@@ -25,7 +25,7 @@ public class TweetCell extends TWPanel implements Cloneable {
     private final JLabel    icon        = new JLabel();
     private final JLabel    retweetIcon = new JLabel();
     private final TWLabel   userName    = new TWLabel();
-    private final JTextArea tweetText   = new JTextArea();
+    private       JTextArea tweetText   = new JTextArea();
 
     private final Dimension RETWEET_ICON_SIZE    = new Dimension(15, 15);
     private final Dimension FUNCTION_BUTTON_SIZE = new Dimension(15, 13);
@@ -159,6 +159,8 @@ public class TweetCell extends TWPanel implements Cloneable {
     public TweetCell clone() {
         try {
             TweetCell cell = (TweetCell) super.clone();
+            cell.tweetText = new JTextArea(cell.tweetText.getText());
+
             for (MouseListener listener : this.getMouseListeners()) {
                 cell.addMouseListener(listener);
             }
