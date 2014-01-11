@@ -4,6 +4,7 @@ import java.util.Collections;
 import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.model.AccessTokenManager;
 import net.nokok.twitduke.model.ConsumerKey;
+import net.nokok.twitduke.model.TWUserStream;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.ConnectionLifeCycleListener;
@@ -11,7 +12,6 @@ import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
-import twitter4j.UserStreamAdapter;
 
 public class Main {
 
@@ -64,7 +64,7 @@ public class Main {
 
     private void startUserStream() {
         wrapper.setView(mainViewController.getMainView());
-        UserStreamAdapter userStream = wrapper.getUserStream();
+        TWUserStream userStream = wrapper.getUserStream();
         twitterStream.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
         twitterStream.setOAuthAccessToken(AccessTokenManager.getInstance().readPrimaryAccount());
         twitterStream.addListener(userStream);

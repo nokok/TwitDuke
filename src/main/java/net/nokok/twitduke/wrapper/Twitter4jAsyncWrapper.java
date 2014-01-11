@@ -14,7 +14,7 @@ import javax.swing.JDialog;
 import javax.swing.JTextField;
 import net.nokok.twitduke.model.AccessTokenManager;
 import net.nokok.twitduke.model.ConsumerKey;
-import net.nokok.twitduke.model.MyUserStreamAdapter;
+import net.nokok.twitduke.model.TWUserStream;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.view.MainView;
 import twitter4j.AsyncTwitter;
@@ -26,7 +26,6 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
-import twitter4j.UserStreamAdapter;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
@@ -38,8 +37,8 @@ public class Twitter4jAsyncWrapper {
     private static final AsyncTwitter       asynctwitter = AsyncTwitterFactory.getSingleton();
     private final        AccessTokenManager tokenManager = AccessTokenManager.getInstance();
     private final        TweetCellFactory   factory      = new TweetCellFactory(this);
-    private MainView          mainView;
-    private UserStreamAdapter userStream;
+    private MainView     mainView;
+    private TWUserStream userStream;
 
     private static final Twitter4jAsyncWrapper instance = new Twitter4jAsyncWrapper();
 
@@ -60,9 +59,9 @@ public class Twitter4jAsyncWrapper {
         return instance;
     }
 
-    public UserStreamAdapter getUserStream() {
+    public TWUserStream getUserStream() {
         if (userStream == null) {
-            userStream = new MyUserStreamAdapter(mainView, factory);
+            userStream = new TWUserStream(mainView, factory);
         }
         return userStream;
     }
