@@ -113,7 +113,7 @@ public class MainView extends JFrame {
      */
     public void insertTweetCell(TweetCell cell) {
         if (cell.isMention()) {
-            insertTweetCellToPanel(replyListPanel, (TweetCell) cell.clone());
+            insertTweetCellToPanel(replyListPanel, cell.clone());
             totalReplyListHeight += cell.getPreferredSize().getHeight();
         }
         insertTweetCellToPanel(tweetListPanel, cell);

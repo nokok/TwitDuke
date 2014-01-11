@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -155,9 +156,13 @@ public class TweetCell extends TWPanel implements Cloneable {
     }
 
     @Override
-    public Object clone() {
+    public TweetCell clone() {
         try {
-            return super.clone();
+            TweetCell cell = (TweetCell) super.clone();
+            for (MouseListener listener : this.getMouseListeners()) {
+                cell.addMouseListener(listener);
+            }
+            return cell;
         } catch (CloneNotSupportedException e) {
             throw new InternalError(e.toString());
         }
