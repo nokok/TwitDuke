@@ -4,99 +4,58 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Collections;
-import net.nokok.twitduke.model.AccessTokenManager;
-import net.nokok.twitduke.model.ConsumerKey;
-import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.view.MainView;
+import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
-import twitter4j.ConnectionLifeCycleListener;
-import twitter4j.ResponseList;
-import twitter4j.Status;
-import twitter4j.TwitterStream;
-import twitter4j.TwitterStreamFactory;
-import twitter4j.UserStreamAdapter;
 
 public class MainViewController {
 
-    private final Twitter4jAsyncWrapper wrapper  = Twitter4jAsyncWrapper.getInstance();
-    private final MainView              mainView = new MainView();
+    private Twitter4jAsyncWrapper wrapper;
+    private final MainView mainView = new MainView();
 
-    public void start() {
+    public void start(Twitter4jAsyncWrapper wrapper) {
+        this.wrapper = wrapper;
         mainView.setVisible(true);
         bindActionListener();
-        AccessTokenManager tokenManager = AccessTokenManager.getInstance();
-
-        while (!tokenManager.isAuthenticated()) {
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        tokenManager.readTokenList();
-        TwitterStream twitterStream = TwitterStreamFactory.getSingleton();
-        twitterStream.addConnectionLifeCycleListener(new ConnectionLifeCycleListener() {
-            @Override
-            public void onConnect() {
-                try {
-                    launchTitleAnimation();
-                } catch (InterruptedException e) {
-                    mainView.setTitle("TwitDuke");
-                }
-            }
-
-            @Override
-            public void onDisconnect() {
-                mainView.setTitle("接続が切れました");
-            }
-
-            @Override
-            public void onCleanUp() {
-            }
-        });
-
         mainView.setTitle("UserStreamに接続中です");
-        wrapper.setView(mainView);
-        UserStreamAdapter userStream = wrapper.getUserStream();
-        twitterStream.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
-        twitterStream.setOAuthAccessToken(AccessTokenManager.getInstance().readPrimaryAccount());
-        twitterStream.addListener(userStream);
-        twitterStream.user();
-
-        fetchTimeLines();
     }
 
-    private void launchTitleAnimation() throws InterruptedException {
-        String oldTitle = mainView.getTitle();
-        for (int i = 0; i < (oldTitle.length() / 2) + 1; i++) {
-            mainView.setTitle(oldTitle.substring(i, oldTitle.length() - i));
-            Thread.sleep(50);
-        }
-        String welcome = "Welcome to TwitDuke";
-        for (int i = 0; i < welcome.length(); i++) {
-            mainView.setTitle(welcome.substring(0, i + 1));
-            Thread.sleep(50);
-        }
-        Thread.sleep(100);
-        for (int i = 0; i < 12; i++) {
-            mainView.setTitle(welcome.substring(i, welcome.length()));
-            Thread.sleep(50);
+    public void userStreamConnected() {
+        launchTitleAnimation();
+    }
+
+    public void userStreamDisconnected() {
+        mainView.setTitle("UserStreamとの接続が切れています");
+    }
+
+    private void launchTitleAnimation() {
+        try {
+            String oldTitle = mainView.getTitle();
+            for (int i = 0; i < (oldTitle.length() / 2) + 1; i++) {
+                mainView.setTitle(oldTitle.substring(i, oldTitle.length() - i));
+                Thread.sleep(30);
+            }
+            String welcome = "Welcome to TwitDuke";
+            for (int i = 0; i < welcome.length(); i++) {
+                mainView.setTitle(welcome.substring(0, i + 1));
+                Thread.sleep(30);
+            }
+            Thread.sleep(100);
+            for (int i = 0; i < 12; i++) {
+                mainView.setTitle(welcome.substring(i, welcome.length()));
+                Thread.sleep(30);
+            }
+        } catch (InterruptedException e) {
+            mainView.setTitle("TwitDuke");
         }
     }
 
-    private void fetchTimeLines() {
-        TweetCellFactory cellFactory = new TweetCellFactory(wrapper);
-        ResponseList<Status> mentions = wrapper.fetchMentionsTimeLine();
-        Collections.reverse(mentions);
-        ResponseList<Status> timeline = wrapper.fetchHomeTimeLine();
-        Collections.reverse(timeline);
-        for (Status status : mentions) {
-            mainView.insertTweetCell(cellFactory.createTweetCell(status));
-        }
-        for (Status status : timeline) {
-            mainView.insertTweetCell(cellFactory.createTweetCell(status));
-        }
+    public MainView getMainView() {
+        return mainView;
+    }
+
+    public void insertTweetCell(TweetCell cell) {
+        mainView.insertTweetCell(cell);
     }
 
     private void bindActionListener() {

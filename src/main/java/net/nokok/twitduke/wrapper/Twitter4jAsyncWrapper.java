@@ -14,6 +14,7 @@ import javax.swing.JDialog;
 import javax.swing.JTextField;
 import net.nokok.twitduke.model.AccessTokenManager;
 import net.nokok.twitduke.model.ConsumerKey;
+import net.nokok.twitduke.model.MyUserStreamAdapter;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.view.MainView;
 import twitter4j.AsyncTwitter;
@@ -60,14 +61,14 @@ public class Twitter4jAsyncWrapper {
     }
 
     public UserStreamAdapter getUserStream() {
+        if (userStream == null) {
+            userStream = new MyUserStreamAdapter(mainView, factory);
+        }
         return userStream;
     }
 
     public void setView(MainView mainView) {
         this.mainView = mainView;
-        if (userStream == null) {
-            userStream = new MyUserStreamAdapter(mainView);
-        }
     }
 
     public void replyTweet(StatusUpdate status) {
@@ -139,20 +140,6 @@ public class Twitter4jAsyncWrapper {
         }
     }
 
-
-    class MyUserStreamAdapter extends UserStreamAdapter {
-
-        private MainView view;
-
-        public MyUserStreamAdapter(MainView view) {
-            this.view = view;
-        }
-
-        @Override
-        public void onStatus(Status status) {
-            view.insertTweetCell(factory.createTweetCell(status));
-        }
-    }
 
     class OAuthDialog extends JDialog {
 
