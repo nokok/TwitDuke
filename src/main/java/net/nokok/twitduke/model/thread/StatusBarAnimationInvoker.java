@@ -1,4 +1,4 @@
-package net.nokok.twitduke.model;
+package net.nokok.twitduke.model.thread;
 
 import java.awt.Point;
 import net.nokok.twitduke.view.MainView;

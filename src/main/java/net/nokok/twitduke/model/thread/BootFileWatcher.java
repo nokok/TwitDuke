@@ -1,4 +1,4 @@
-package net.nokok.twitduke.model;
+package net.nokok.twitduke.model.thread;
 
 import java.io.File;
 import net.nokok.twitduke.main.Main;

@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import net.nokok.twitduke.model.StatusBarAnimationInvoker;
-import net.nokok.twitduke.model.TitleAnimationInvoker;
+import net.nokok.twitduke.model.thread.StatusBarAnimationInvoker;
+import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.view.MainView;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
@@ -58,7 +58,7 @@ public class MainViewController {
     /**
      * UserStream接続成功時のタイトルバーのアニメーション処理を実行します
      *
-     * @see net.nokok.twitduke.model.TitleAnimationInvoker
+     * @see net.nokok.twitduke.model.thread.TitleAnimationInvoker
      */
     private void launchTitleAnimation() {
         new TitleAnimationInvoker(mainView).start();
@@ -70,7 +70,7 @@ public class MainViewController {
      * また、通知が消える前に新たな通知が発生した場合、表示している通知は消え、新しい通知が表示されます
      *
      * @param text 表示する通知のテキスト
-     * @see net.nokok.twitduke.model.StatusBarAnimationInvoker
+     * @see net.nokok.twitduke.model.thread.StatusBarAnimationInvoker
      */
     public void setStatus(String text) {
         mainView.setStatus(text);
