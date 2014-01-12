@@ -1,5 +1,8 @@
 package net.nokok.twitduke.model;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
+import com.google.common.primitives.Longs;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +14,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import twitter4j.auth.AccessToken;
 
 public class AccessTokenManager {
@@ -25,7 +29,7 @@ public class AccessTokenManager {
     private final File   tokenListFile              = new File(AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_LIST_FILENAME);
     private final String TOKENFILE_PATH_WITH_PREFIX = AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_PREFIX;
 
-    private ArrayList<TokenList> tokenList = new ArrayList<>();
+    private ArrayList<TokenList> tokenList = Lists.newArrayList();
 
     private AccessTokenManager() {
         if (isAuthenticated()) {
@@ -48,11 +52,18 @@ public class AccessTokenManager {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(tokenListFile))) {
             String readLine;
             while ((readLine = bufferedReader.readLine()) != null) {
-                String userName = readLine.split(",")[0];
-                long userId = Long.valueOf(readLine.split(",")[1]);
-                tokenList.add(new TokenList(userName, userId));
+                Iterator<String> iteratableTokenList = Splitter.on(',').trimResults().omitEmptyStrings().split(readLine).iterator();
+                while (iteratableTokenList.hasNext()) {
+                    String userName = iteratableTokenList.next();
+                    long userId = Longs.tryParse(iteratableTokenList.next());
+                    tokenList.add(new TokenList(userName, userId));
+                }
             }
-            primaryUser = tokenList.get(0);        //TODO:ヤバいのでなんとかする
+            //TODO:ヤバいのでなんとかする
+            /*
+            初回起動で認証ファイルが存在しない(つまりtokenListが空の)時にnullを返す為、82行目などでNullPointerExceptionが発生する
+             */
+            primaryUser = tokenList.get(0);
         } catch (IOException e) {
             e.printStackTrace();
             throw new IOError(e.getCause());

@@ -1,5 +1,6 @@
 package net.nokok.twitduke.view;
 
+import com.google.common.base.Objects;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -172,14 +173,11 @@ public class TweetCell extends TWPanel implements Cloneable {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-
-        builder.append("Icon:");
-        builder.append(icon.toString()).append("\n");
-        builder.append("User:");
-        builder.append(userName.getText()).append("\n");
-        builder.append("Tweet:");
-        builder.append(tweetText.getText()).append("\n");
-        return builder.toString();
+        return Objects.toStringHelper(this)
+            .add("Tweet", tweetText.getText())
+            .add("User", userName.getText())
+            .add("Icon", icon.toString())
+            .add("Size", this.getSize())
+            .toString();
     }
 }
