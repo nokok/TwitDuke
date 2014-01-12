@@ -6,6 +6,7 @@ import com.google.common.primitives.Longs;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -23,14 +24,20 @@ public class AccessTokenManager {
 
     private final String ACCESS_TOKEN_LIST_FILENAME = "authlist";
     private final String ACCESS_TOKEN_PREFIX        = "token";
-    private TokenList primaryUser;
+    private SimpleToken primaryUser;
 
     private final String AUTH_DIRECTORY_PATH        = new File(new File("").getAbsolutePath(), "auth").getAbsolutePath();
     private final File   tokenListFile              = new File(AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_LIST_FILENAME);
     private final String TOKENFILE_PATH_WITH_PREFIX = AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_PREFIX;
 
-    private ArrayList<TokenList> tokenList = Lists.newArrayList();
+    private ArrayList<SimpleToken> simpleTokenList = Lists.newArrayList();
 
+    /**
+     * AccessTokenManagerのコンストラクタです
+     * このクラスはシングルトンなクラスで、他のクラスからnewを使用してのインスタンスの生成が出来ません。
+     * アクセストークンのリストが存在する場合はそのリストが読み込まれます
+     * アクセストークンのリストが存在しない場合、authディレクトリをカレントディレクトリ内に作成します。
+     */
     private AccessTokenManager() {
         if (isAuthenticated()) {
             readTokenList();
@@ -39,16 +46,35 @@ public class AccessTokenManager {
         }
     }
 
+    /**
+     * カレントディレクトリにauthディレクトリを作成します
+     *
+     * @return ディレクトリの作成に成功または既に存在していた場合true
+     */
     private boolean createTokenDirectory() {
         File authDirectory = new File(AUTH_DIRECTORY_PATH);
         return authDirectory.exists() || authDirectory.mkdir();
     }
 
+    /**
+     * AccessTokenManagerのインスタンスを返します
+     *
+     * @return AccessTokenManagerのインスタンス
+     */
     public static AccessTokenManager getInstance() {
         return instance;
     }
 
+    /**
+     * トークンリストを読み込んでtokenListに追加します
+     * トークンリストが無い場合にこのメソッドが呼び出されるとIOErrorが投げられます
+     *
+     * @throws java.io.IOError
+     */
     public void readTokenList() {
+        if (!isAuthenticated()) {
+            throw new IOError(new FileNotFoundException("トークンリストファイルが見つかりません"));
+        }
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(tokenListFile))) {
             String readLine;
             while ((readLine = bufferedReader.readLine()) != null) {
@@ -56,32 +82,51 @@ public class AccessTokenManager {
                 while (iteratableTokenList.hasNext()) {
                     String userName = iteratableTokenList.next();
                     long userId = Longs.tryParse(iteratableTokenList.next());
-                    tokenList.add(new TokenList(userName, userId));
+                    simpleTokenList.add(new SimpleToken(userName, userId));
                 }
             }
-            //TODO:ヤバいのでなんとかする
-            /*
-            初回起動で認証ファイルが存在しない(つまりtokenListが空の)時にnullを返す為、82行目などでNullPointerExceptionが発生する
-             */
-            primaryUser = tokenList.get(0);
+            primaryUser = simpleTokenList.get(0);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new IOError(e.getCause());
+            throw new InternalError("トークんリストの読み込み中にエラーが発生しました");
         }
     }
 
+    /**
+     * TwitDukeのカレントディレクトリのauthディレクトリ内にトークンリストが存在するかどうか返します
+     *
+     * @return 存在する場合true
+     */
     public boolean isAuthenticated() {
         return tokenListFile.exists();
     }
 
+    /**
+     * プライマリアカウントのアクセストークンファイルをディスクから読み込みます
+     * 認証ファイルが生成される前にはこのメソッドは使用できません
+     *
+     * @return 読み込まれたAccessToken
+     */
     public AccessToken readPrimaryAccount() {
-        return readAccessToken(primaryUser.userId);
+        if (primaryUser == null) {
+            readTokenList();
+        }
+        return readAccessToken(primaryUser.getUserId());
     }
 
+    /**
+     * @return プライマリアカウントのスクリーンネーム
+     */
     public String getUserName() {
-        return primaryUser.userName;
+        return primaryUser.getScreenName();
     } //TODO:50行目と同じく
 
+    /**
+     * 指定されたIDを持つユーザーのアクセストークンファイルをディスクから読み込みます
+     *
+     * @param id 読み込むユーザーのID
+     * @return 読み込まれたAccessToken
+     */
     public AccessToken readAccessToken(long id) {
         try (FileInputStream fileInputStream = new FileInputStream(TOKENFILE_PATH_WITH_PREFIX + id);
              ObjectInputStream stream = new ObjectInputStream(fileInputStream)) {
@@ -92,6 +137,13 @@ public class AccessTokenManager {
         }
     }
 
+    /**
+     * 渡されたアクセストークンをディスクに書き込みます
+     * アクセストークンのスクリーンネームとIDがトークンリストにコンマ区切りで追記され、
+     * 渡されたアクセストークンのオブジェクトを「token_ユーザーID」というファイル名でauthディレクトリ以下に書き込みます
+     *
+     * @param accessToken 書き込むアクセストークン
+     */
     public void writeAccessToken(AccessToken accessToken) {
         File authUserListFile = new File(AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_LIST_FILENAME);
         try (FileOutputStream fileOutputStream = new FileOutputStream(TOKENFILE_PATH_WITH_PREFIX + accessToken.getUserId());
@@ -104,13 +156,4 @@ public class AccessTokenManager {
         }
     }
 
-    class TokenList {
-        private String userName;
-        private long   userId;
-
-        public TokenList(String userName, long userId) {
-            this.userName = userName;
-            this.userId = userId;
-        }
-    }
 }

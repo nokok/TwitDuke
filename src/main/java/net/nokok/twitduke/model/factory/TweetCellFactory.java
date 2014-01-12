@@ -18,15 +18,21 @@ import twitter4j.Status;
 public class TweetCellFactory {
 
     private final Twitter4jAsyncWrapper wrapper;
-    private final PopUpMenuFactory      popUpMenuFactory;
+    private final PopupMenuFactory      popupMenuFactory;
 
     private final String ICON_INTERNAL_ERROR_MESSAGE = "ユーザーのアイコン取得中にエラーが発生しました";
 
     public TweetCellFactory(Twitter4jAsyncWrapper twitter) {
         this.wrapper = twitter;
-        this.popUpMenuFactory = new PopUpMenuFactory(wrapper);
+        this.popupMenuFactory = new PopupMenuFactory(wrapper);
     }
 
+    /**
+     * 渡されたツイートのステータスでツイートセルを作成して返します
+     *
+     * @param status ツイートのステータス
+     * @return 作成されたツイートセル
+     */
     public TweetCell createTweetCell(final Status status) {
 
         boolean isMention = isMention(status);
@@ -39,11 +45,17 @@ public class TweetCellFactory {
             cell = createNormalCell(isMention, status);
         }
         setCommonActionListener(cell, status);
-        popUpMenuFactory.createPopupMenu(cell, status);
+        popupMenuFactory.createPopupMenu(cell, status);
         setThumbnail(cell, status);
         return cell;
     }
 
+    /**
+     * ツイートのステータスに含まれる画像ファイルを取り出してサムネイルとしてセットします
+     *
+     * @param cell   サムネイルをセットするツイートセル
+     * @param status ツイートのステータス
+     */
     private void setThumbnail(TweetCell cell, Status status) {
         try {
             for (MediaEntity entity : status.getMediaEntities()) {
@@ -70,10 +82,23 @@ public class TweetCellFactory {
         }
     }
 
+    /**
+     * 渡されたツイートのステータスが自分へのリプライが含まれているかどうかを判定します
+     *
+     * @param status ツイートのステータス
+     * @return リプライが含まれている場合にtrue
+     */
     private boolean isMention(Status status) {
         return status.getText().contains("@" + AccessTokenManager.getInstance().getUserName()) && !status.isRetweet();
     }
 
+    /**
+     * 通常のセルを作成します。isMentionがtrueの場合はリプライ用の色に着色されます
+     *
+     * @param isMention リプライかどうか
+     * @param status    ツイートのステータス
+     * @return 生成されたツイートセル
+     */
     private TweetCell createNormalCell(boolean isMention, Status status) {
         try {
             URL userIconURL = new URL(status.getUser().getProfileImageURLHttps());
@@ -88,6 +113,13 @@ public class TweetCellFactory {
         }
     }
 
+    /**
+     * リツイート用のセルを作成します。isMentionは今のところ動作せず、リツイート用の色に着色されます
+     *
+     * @param isMention リプライかどうか
+     * @param status    ツイートのステータス
+     * @return 生成されたツイートセル
+     */
     private TweetCell createRetweetCell(boolean isMention, Status status) {
         try {
             URL userIconURL, retweetIconURL;
@@ -106,6 +138,12 @@ public class TweetCellFactory {
         }
     }
 
+    /**
+     * ツイートセル共通のアクションリスナを渡されたセルにセットします
+     *
+     * @param cell   アクションリスナをセットするセル
+     * @param status ツイートのステータス
+     */
     private void setCommonActionListener(final TweetCell cell, final Status status) {
         cell.setFavoriteAction(new MouseAdapter() {
             @Override
@@ -121,17 +159,28 @@ public class TweetCellFactory {
         });
     }
 
-
-    private void favorite(TweetCell cell, long id) {
+    /**
+     * お気に入りのセル側の処理です。
+     *
+     * @param cell     お気に入りのアクションが発生したセル
+     * @param statusId お気に入り登録/登録解除するステータスのID
+     */
+    private void favorite(TweetCell cell, long statusId) {
         if (cell.toggleFavoriteState()) {
-            wrapper.favoriteTweet(id);
+            wrapper.favoriteTweet(statusId);
         } else {
-            wrapper.removeFavoriteTweet(id);
+            wrapper.removeFavoriteTweet(statusId);
         }
     }
 
-    private void retweet(TweetCell cell, long id) {
-        wrapper.retweetTweet(id);
+    /**
+     * リツイートのセル側の処理です
+     *
+     * @param cell     リツイートのアクションが発生したセル
+     * @param statusId リツイートするステータスのID
+     */
+    private void retweet(TweetCell cell, long statusId) {
+        wrapper.retweetTweet(statusId);
         cell.toggleRetweetState();
     }
 }

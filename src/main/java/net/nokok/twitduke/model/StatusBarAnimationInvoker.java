@@ -4,6 +4,10 @@ import java.awt.Point;
 import net.nokok.twitduke.view.MainView;
 import net.nokok.twitduke.view.ui.TWLabel;
 
+
+/**
+ * ステータスバーに表示した通知のテキストを下に落とすアニメーション処理を実行します
+ */
 public class StatusBarAnimationInvoker extends Thread implements Runnable {
 
     private final MainView mainView;

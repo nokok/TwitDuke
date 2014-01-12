@@ -20,15 +20,27 @@ import twitter4j.Status;
 import twitter4j.URLEntity;
 import twitter4j.UserMentionEntity;
 
-public class PopUpMenuFactory {
+public class PopupMenuFactory {
 
     private final UserViewFactory userViewFactory = new UserViewFactory();
     private final Twitter4jAsyncWrapper wrapper;
 
-    public PopUpMenuFactory(Twitter4jAsyncWrapper wrapper) {
+    /**
+     * PopupMenuFactoryに必要なラッパーをセットします
+     *
+     * @param wrapper セットするラッパ
+     */
+    public PopupMenuFactory(Twitter4jAsyncWrapper wrapper) {
         this.wrapper = wrapper;
     }
 
+    /**
+     * 渡されたステータスを用いて渡されたセルにPopupMenuをセットします。
+     *
+     * @param cell   PopupMenuをセットするセル
+     * @param status PopupMenuを生成する元となるステータス
+     * @return 生成されたPopupMenu
+     */
     public TweetPopupMenu createPopupMenu(final TweetCell cell, final Status status) {
         final TweetPopupMenu popupMenu = new TweetPopupMenu();
         MouseAdapter functionPanelMouseAdapter = new MouseAdapter() {
@@ -154,6 +166,11 @@ public class PopUpMenuFactory {
         return popupMenu;
     }
 
+    /**
+     * 全てのURLエンティティを既定のブラウザで開きます
+     *
+     * @param entities URLエンティティの配列
+     */
     private void allURLEntitiesOpen(URLEntity[] entities) {
         for (URLEntity entity : entities) {
             try {
@@ -164,6 +181,11 @@ public class PopUpMenuFactory {
         }
     }
 
+    /**
+     * 全てのメディアエンティティを既定のブラウザで開きます
+     *
+     * @param entities メディアエンティティの配列
+     */
     private void allMediaEntitiesOpen(MediaEntity[] entities) {
         for (URLEntity entity : entities) {
             try {
@@ -174,16 +196,28 @@ public class PopUpMenuFactory {
         }
     }
 
-    private void favorite(TweetCell cell, long id) {
+    /**
+     * お気に入りのセル側の処理です。
+     *
+     * @param cell     お気に入りのアクションが発生したセル
+     * @param statusId お気に入り登録/登録解除するステータスのID
+     */
+    private void favorite(TweetCell cell, long statusId) {
         if (cell.toggleFavoriteState()) {
-            wrapper.favoriteTweet(id);
+            wrapper.favoriteTweet(statusId);
         } else {
-            wrapper.removeFavoriteTweet(id);
+            wrapper.removeFavoriteTweet(statusId);
         }
     }
 
-    private void retweet(TweetCell cell, long id) {
-        wrapper.retweetTweet(id);
+    /**
+     * リツイートのセル側の処理です
+     *
+     * @param cell     リツイートのアクションが発生したセル
+     * @param statusId リツイートするステータスのID
+     */
+    private void retweet(TweetCell cell, long statusId) {
+        wrapper.retweetTweet(statusId);
         cell.toggleRetweetState();
     }
 }

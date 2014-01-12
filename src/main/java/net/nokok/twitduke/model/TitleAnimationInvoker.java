@@ -2,6 +2,9 @@ package net.nokok.twitduke.model;
 
 import net.nokok.twitduke.view.MainView;
 
+/**
+ * タイトルのアニメーション処理をします
+ */
 public class TitleAnimationInvoker extends Thread implements Runnable {
 
     private MainView mainView;

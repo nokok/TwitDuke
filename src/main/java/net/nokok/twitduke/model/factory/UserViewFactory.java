@@ -8,6 +8,12 @@ import twitter4j.User;
 
 public class UserViewFactory {
 
+    /**
+     * 渡されたUserデータを用いてUserViewを生成します
+     *
+     * @param user UserViewを生成するUserのデータ
+     * @return 生成されたUserView
+     */
     public UserView createUserView(User user) {
         URL iconURL;
         try {

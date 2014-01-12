@@ -30,11 +30,11 @@ import twitter4j.api.HelpResources;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
-public class TWTwitterListener implements TwitterListener {
+public class TwitterListenerImpl implements TwitterListener {
 
     private final MainViewController mainViewController;
 
-    public TWTwitterListener(MainViewController mainViewController) {
+    public TwitterListenerImpl(MainViewController mainViewController) {
         this.mainViewController = mainViewController;
     }
 

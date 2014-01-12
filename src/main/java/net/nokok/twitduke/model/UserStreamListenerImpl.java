@@ -10,11 +10,11 @@ import twitter4j.User;
 import twitter4j.UserList;
 import twitter4j.UserStreamListener;
 
-public class TWUserStream implements UserStreamListener {
+public class UserStreamListenerImpl implements UserStreamListener {
 
     private MainViewController mainViewController;
 
-    public TWUserStream(MainViewController mainViewController) {
+    public UserStreamListenerImpl(MainViewController mainViewController) {
         this.mainViewController = mainViewController;
     }
 

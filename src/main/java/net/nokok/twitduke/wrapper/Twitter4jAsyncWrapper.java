@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.model.AccessTokenManager;
 import net.nokok.twitduke.model.ConsumerKey;
-import net.nokok.twitduke.model.TWTwitterListener;
+import net.nokok.twitduke.model.TwitterListenerImpl;
 import twitter4j.AsyncTwitter;
 import twitter4j.AsyncTwitterFactory;
 import twitter4j.Status;
@@ -54,7 +54,7 @@ public class Twitter4jAsyncWrapper {
     }
 
     public void enableTwitterListener() {
-        asynctwitter.addListener(new TWTwitterListener(mainViewController));
+        asynctwitter.addListener(new TwitterListenerImpl(mainViewController));
     }
 
     public void replyTweet(StatusUpdate status) {

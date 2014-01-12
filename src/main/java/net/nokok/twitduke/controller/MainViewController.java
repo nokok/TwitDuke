@@ -17,6 +17,12 @@ public class MainViewController {
     private TweetCellFactory      tweetCellFactory;
     private final MainView mainView = new MainView();
 
+    /**
+     * MainViewControllerの初期化に必要な処理を開始します
+     *
+     * @param wrapper Twitter4jのラッパクラス
+     * @see net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper
+     */
     public void start(Twitter4jAsyncWrapper wrapper) {
         this.wrapper = wrapper;
         this.tweetCellFactory = new TweetCellFactory(wrapper);
@@ -25,32 +31,74 @@ public class MainViewController {
         this.setStatus("UserStreamに接続中です");
     }
 
+    /**
+     * UserStreamに接続された時に呼び出されます
+     *
+     * @see net.nokok.twitduke.main.Main#boot()
+     * @see net.nokok.twitduke.main.Main#twitterAPIWrapperInitialize()
+     */
     public void userStreamConnected() {
         this.setStatus("UserStreamに接続しました");
         launchTitleAnimation();
     }
 
+
+    /**
+     * UserStreamとの接続が切れた時、切断された時に呼び出されます
+     *
+     * @see net.nokok.twitduke.main.Main#boot()
+     * @see net.nokok.twitduke.main.Main#twitterAPIWrapperInitialize()
+     */
     public void userStreamDisconnected() {
         this.setStatus("UserStreamとの接続が切れています");
     }
 
+
+    /**
+     * UserStream接続成功時のタイトルバーのアニメーション処理を実行します
+     *
+     * @see net.nokok.twitduke.model.TitleAnimationInvoker
+     */
     private void launchTitleAnimation() {
         new TitleAnimationInvoker(mainView).start();
     }
 
+    /**
+     * MainViewのステータスバーに通知を表示します
+     * 通知は設定した秒数後(規定値:5秒)に消えるようアニメーション処理が実行されます
+     * また、通知が消える前に新たな通知が発生した場合、表示している通知は消え、新しい通知が表示されます
+     *
+     * @param text 表示する通知のテキスト
+     * @see net.nokok.twitduke.model.StatusBarAnimationInvoker
+     */
     public void setStatus(String text) {
         mainView.setStatus(text);
         new StatusBarAnimationInvoker(mainView).start();
     }
 
+    /**
+     * リプライ用のメソッドです
+     * 渡されたスクリーンネームに@マークと半角スペースを付けてテキストフィールドにセットします
+     *
+     * @param screenName リプライを送信するユーザーのスクリーンネーム
+     */
     public void setReply(String screenName) {
         mainView.setTweetTextField("@" + screenName + " ");
     }
 
+    /**
+     * ツイートセルを挿入します
+     * TweetCellFactoryを呼び出しTweetCellを作成した後MainViewに挿入します
+     *
+     * @param status TweetCellを生成するステータス
+     */
     public void insertTweetCell(Status status) {
         mainView.insertTweetCell(tweetCellFactory.createTweetCell(status));
     }
 
+    /**
+     * MainViewのツールバーにあるボタンにアクションリスナーを設定します
+     */
     private void bindActionListener() {
         mainView.setSendButtonAction(new MouseAdapter() {
             @Override
@@ -75,6 +123,10 @@ public class MainViewController {
 
     }
 
+    /**
+     * ツイート送信時のView側の処理を行います
+     * ラッパクラスに入力されたツイートを渡した後、テキストフィールドのテキストをクリアします
+     */
     private void sendTweet() {
         wrapper.sendTweet(mainView.getTweetText());
         mainView.clearTextField();

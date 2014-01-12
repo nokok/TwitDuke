@@ -3,7 +3,7 @@ package net.nokok.twitduke.main;
 import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.model.AccessTokenManager;
 import net.nokok.twitduke.model.ConsumerKey;
-import net.nokok.twitduke.model.TWUserStream;
+import net.nokok.twitduke.model.UserStreamListenerImpl;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.ConnectionLifeCycleListener;
 import twitter4j.TwitterStream;
@@ -15,12 +15,20 @@ public class Main {
     MainViewController    mainViewController;
     TwitterStream         twitterStream;
 
+    /**
+     * TwitDukeのエントリーポイントです
+     * 渡された全てのオプションは無視されます
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         new Main().boot();
     }
 
+    /**
+     * TwitDukeの起動処理を行います
+     */
     private void boot() {
-        bootInitialize();
         readConfigFiles();
         twitterAPIWrapperInitialize();
         mainViewInitialize();
@@ -28,13 +36,14 @@ public class Main {
         fetchTimelines();
     }
 
-    private void bootInitialize() {
-        mainViewController = new MainViewController();
-        wrapper = Twitter4jAsyncWrapper.getInstance();
-    }
-
+    /**
+     * 設定ファイルの読み込みと再設定を行います
+     */
     private void readConfigFiles() {/*TODO:設定画面の実装時に追加する*/}
 
+    /**
+     * TwitterAPIWrapperの初期化を行います
+     */
     private void twitterAPIWrapperInitialize() {
         twitterStream = TwitterStreamFactory.getSingleton();
         twitterStream.addConnectionLifeCycleListener(new ConnectionLifeCycleListener() {
@@ -52,21 +61,32 @@ public class Main {
             public void onCleanUp() {
             }
         });
-    }
-
-    private void mainViewInitialize() {
-        mainViewController.start(wrapper);
-    }
-
-    private void startUserStream() {
+        wrapper = Twitter4jAsyncWrapper.getInstance();
         wrapper.setView(mainViewController);
         wrapper.enableTwitterListener();
         twitterStream.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
         twitterStream.setOAuthAccessToken(AccessTokenManager.getInstance().readPrimaryAccount());
-        twitterStream.addListener(new TWUserStream(mainViewController));
+        twitterStream.addListener(new UserStreamListenerImpl(mainViewController));
+    }
+
+    /**
+     * MainViewControllerの初期化を行います
+     */
+    private void mainViewInitialize() {
+        mainViewController = new MainViewController();
+        mainViewController.start(wrapper);
+    }
+
+    /**
+     * UserStreamの受信を開始します。
+     */
+    private void startUserStream() {
         twitterStream.user();
     }
 
+    /**
+     * TwitterAPIからタイムラインを非同期で取得します
+     */
     private void fetchTimelines() {
         wrapper.getMentions();
         wrapper.getHomeTimeLine();
