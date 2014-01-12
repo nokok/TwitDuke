@@ -1,5 +1,6 @@
 package net.nokok.twitduke.model;
 
+import java.util.Collections;
 import java.util.Map;
 import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.model.factory.UserViewFactory;
@@ -40,6 +41,7 @@ public class TwitterListenerImpl implements TwitterListener {
 
     @Override
     public void gotMentions(ResponseList<Status> statuses) {
+        Collections.reverse(statuses);
         for (Status status : statuses) {
             mainViewController.insertTweetCell(status);
         }
@@ -47,6 +49,7 @@ public class TwitterListenerImpl implements TwitterListener {
 
     @Override
     public void gotHomeTimeline(ResponseList<Status> statuses) {
+        Collections.reverse(statuses);
         for (Status status : statuses) {
             mainViewController.insertTweetCell(status);
         }
