@@ -30,8 +30,8 @@ public class Main {
      */
     private void boot() {
         readConfigFiles();
-        twitterAPIWrapperInitialize();
         mainViewInitialize();
+        twitterAPIWrapperInitialize();
         startUserStream();
         fetchTimelines();
     }
@@ -40,6 +40,13 @@ public class Main {
      * 設定ファイルの読み込みと再設定を行います
      */
     private void readConfigFiles() {/*TODO:設定画面の実装時に追加する*/}
+
+    /**
+     * MainViewControllerの初期化を行います
+     */
+    private void mainViewInitialize() {
+        mainViewController = new MainViewController();
+    }
 
     /**
      * TwitterAPIWrapperの初期化を行います
@@ -70,17 +77,10 @@ public class Main {
     }
 
     /**
-     * MainViewControllerの初期化を行います
-     */
-    private void mainViewInitialize() {
-        mainViewController = new MainViewController();
-        mainViewController.start(wrapper);
-    }
-
-    /**
      * UserStreamの受信を開始します。
      */
     private void startUserStream() {
+        mainViewController.start(wrapper);
         twitterStream.user();
     }
 
