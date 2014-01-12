@@ -1,7 +1,7 @@
 package net.nokok.twitduke.main;
 
 import net.nokok.twitduke.controller.MainViewController;
-import net.nokok.twitduke.model.AccessTokenManager;
+import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.model.ConsumerKey;
 import net.nokok.twitduke.model.UserStreamListenerImpl;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;

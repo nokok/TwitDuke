@@ -1,4 +1,4 @@
-package net.nokok.twitduke.model;
+package net.nokok.twitduke.model.account;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;

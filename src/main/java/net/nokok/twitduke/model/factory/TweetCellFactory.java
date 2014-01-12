@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.ImageIcon;
-import net.nokok.twitduke.model.AccessTokenManager;
+import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.util.URLExpander;
 import net.nokok.twitduke.view.ImageView;
 import net.nokok.twitduke.view.TweetCell;

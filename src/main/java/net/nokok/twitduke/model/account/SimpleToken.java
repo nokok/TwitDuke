@@ -1,4 +1,4 @@
-package net.nokok.twitduke.model;
+package net.nokok.twitduke.model.account;
 
 /**
  * AccessTokenのscreenNameとuserIdのみ保持するクラスです

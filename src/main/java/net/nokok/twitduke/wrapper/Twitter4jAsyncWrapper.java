@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
 import net.nokok.twitduke.controller.MainViewController;
-import net.nokok.twitduke.model.AccessTokenManager;
+import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.model.ConsumerKey;
 import net.nokok.twitduke.model.TwitterListenerImpl;
 import twitter4j.AsyncTwitter;
