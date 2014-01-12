@@ -1,7 +1,6 @@
 package net.nokok.twitduke.model;
 
 import net.nokok.twitduke.controller.MainViewController;
-import net.nokok.twitduke.model.factory.TweetCellFactory;
 import twitter4j.DirectMessage;
 import twitter4j.StallWarning;
 import twitter4j.Status;
@@ -13,16 +12,14 @@ import twitter4j.UserStreamListener;
 public class TWUserStream implements UserStreamListener {
 
     private MainViewController mainViewController;
-    private TweetCellFactory   factory;
 
-    public TWUserStream(MainViewController mainViewController, TweetCellFactory factory) {
+    public TWUserStream(MainViewController mainViewController) {
         this.mainViewController = mainViewController;
-        this.factory = factory;
     }
 
     @Override
     public void onStatus(Status status) {
-        mainViewController.insertTweetCell(factory.createTweetCell(status));
+        mainViewController.insertTweetCell(status);
     }
 
     @Override

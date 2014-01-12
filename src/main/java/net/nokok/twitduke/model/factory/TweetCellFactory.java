@@ -1,5 +1,6 @@
 package net.nokok.twitduke.model.factory;
 
+import com.google.common.base.Strings;
 import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -211,7 +212,7 @@ public class TweetCellFactory {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String searchString = cell.getSelectedText();
-                if (searchString == null) {
+                if (Strings.isNullOrEmpty(searchString)) {
                     return;
                 }
                 try {
@@ -234,7 +235,7 @@ public class TweetCellFactory {
             menuItem.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    userViewFactory.createUserView(wrapper.getUser(entity.getId())).setVisible(true);
+                    wrapper.getUserInfomation(entity.getId());
                 }
             });
             popupMenu.addMenuItem(menuItem);

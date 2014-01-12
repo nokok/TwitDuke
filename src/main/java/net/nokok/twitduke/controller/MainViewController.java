@@ -6,17 +6,20 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import net.nokok.twitduke.model.StatusBarAnimationInvoker;
 import net.nokok.twitduke.model.TitleAnimationInvoker;
+import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.view.MainView;
-import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
+import twitter4j.Status;
 
 public class MainViewController {
 
     private Twitter4jAsyncWrapper wrapper;
+    private TweetCellFactory      tweetCellFactory;
     private final MainView mainView = new MainView();
 
     public void start(Twitter4jAsyncWrapper wrapper) {
         this.wrapper = wrapper;
+        this.tweetCellFactory = new TweetCellFactory(wrapper);
         mainView.setVisible(true);
         bindActionListener();
         this.setStatus("UserStreamに接続中です");
@@ -44,8 +47,8 @@ public class MainViewController {
         mainView.setTweetTextField("@" + screenName + " ");
     }
 
-    public void insertTweetCell(TweetCell cell) {
-        mainView.insertTweetCell(cell);
+    public void insertTweetCell(Status status) {
+        mainView.insertTweetCell(tweetCellFactory.createTweetCell(status));
     }
 
     private void bindActionListener() {
