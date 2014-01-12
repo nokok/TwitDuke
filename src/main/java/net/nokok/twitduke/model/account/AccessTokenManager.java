@@ -41,8 +41,6 @@ public class AccessTokenManager {
     private AccessTokenManager() {
         if (isAuthenticated()) {
             readTokenList();
-        } else {
-            createTokenDirectory();
         }
     }
 
@@ -51,7 +49,7 @@ public class AccessTokenManager {
      *
      * @return ディレクトリの作成に成功または既に存在していた場合true
      */
-    private boolean createTokenDirectory() {
+    public boolean createTokenDirectory() {
         File authDirectory = new File(AUTH_DIRECTORY_PATH);
         return authDirectory.exists() || authDirectory.mkdir();
     }
@@ -99,6 +97,10 @@ public class AccessTokenManager {
      */
     public boolean isAuthenticated() {
         return tokenListFile.exists();
+    }
+
+    public String getTokenFileListPath() {
+        return tokenListFile.getPath();
     }
 
     /**

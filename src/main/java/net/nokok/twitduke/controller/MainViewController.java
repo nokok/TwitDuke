@@ -15,7 +15,7 @@ public class MainViewController {
 
     private Twitter4jAsyncWrapper wrapper;
     private TweetCellFactory      tweetCellFactory;
-    private final MainView mainView = new MainView();
+    private MainView              mainView;
 
     /**
      * MainViewControllerの初期化に必要な処理を開始します
@@ -24,6 +24,7 @@ public class MainViewController {
      * @see net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper
      */
     public void start(Twitter4jAsyncWrapper wrapper) {
+        mainView = new MainView();
         this.wrapper = wrapper;
         this.tweetCellFactory = new TweetCellFactory(wrapper);
         mainView.setVisible(true);

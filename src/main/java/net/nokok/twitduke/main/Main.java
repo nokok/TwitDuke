@@ -1,9 +1,10 @@
 package net.nokok.twitduke.main;
 
 import net.nokok.twitduke.controller.MainViewController;
-import net.nokok.twitduke.model.account.AccessTokenManager;
+import net.nokok.twitduke.model.BootFileWatcher;
 import net.nokok.twitduke.model.ConsumerKey;
 import net.nokok.twitduke.model.UserStreamListenerImpl;
+import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.ConnectionLifeCycleListener;
 import twitter4j.TwitterStream;
@@ -27,13 +28,13 @@ public class Main {
 
     /**
      * TwitDukeの起動処理を行います
+     * アクセストークンファイルの監視を開始します
      */
     private void boot() {
         readConfigFiles();
         mainViewInitialize();
         twitterAPIWrapperInitialize();
-        startUserStream();
-        fetchTimelines();
+        new BootFileWatcher(AccessTokenManager.getInstance().getTokenFileListPath(), this).start();
     }
 
     /**
@@ -72,8 +73,15 @@ public class Main {
         wrapper.setView(mainViewController);
         wrapper.enableTwitterListener();
         twitterStream.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
-        twitterStream.setOAuthAccessToken(AccessTokenManager.getInstance().readPrimaryAccount());
         twitterStream.addListener(new UserStreamListenerImpl(mainViewController));
+    }
+
+    /**
+     * 認証ファイルが書き込まれたらBootFileWatcherによって呼ばれます
+     */
+    public void writeAccessTokenFilesFinished() {
+        startUserStream();
+        fetchTimelines();
     }
 
     /**
@@ -81,6 +89,7 @@ public class Main {
      */
     private void startUserStream() {
         mainViewController.start(wrapper);
+        twitterStream.setOAuthAccessToken(AccessTokenManager.getInstance().readPrimaryAccount());
         twitterStream.user();
     }
 
