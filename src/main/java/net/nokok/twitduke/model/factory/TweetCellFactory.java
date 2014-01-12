@@ -1,42 +1,30 @@
 package net.nokok.twitduke.model.factory;
 
-import com.google.common.base.Strings;
-import java.awt.Desktop;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLEncoder;
 import javax.swing.ImageIcon;
 import net.nokok.twitduke.model.AccessTokenManager;
+import net.nokok.twitduke.util.URLExpander;
 import net.nokok.twitduke.view.ImageView;
 import net.nokok.twitduke.view.TweetCell;
-import net.nokok.twitduke.view.TweetPopupMenu;
-import net.nokok.twitduke.view.UserView;
 import net.nokok.twitduke.view.ui.TWLabel;
-import net.nokok.twitduke.view.ui.TWMenuItem;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
-import twitter4j.URLEntity;
-import twitter4j.UserMentionEntity;
 
 public class TweetCellFactory {
 
     private final Twitter4jAsyncWrapper wrapper;
+    private final PopUpMenuFactory      popUpMenuFactory;
 
     private final String ICON_INTERNAL_ERROR_MESSAGE = "ユーザーのアイコン取得中にエラーが発生しました";
 
-    private final UserViewFactory userViewFactory = new UserViewFactory();
-
     public TweetCellFactory(Twitter4jAsyncWrapper twitter) {
         this.wrapper = twitter;
+        this.popUpMenuFactory = new PopUpMenuFactory(wrapper);
     }
 
     public TweetCell createTweetCell(final Status status) {
@@ -51,7 +39,7 @@ public class TweetCellFactory {
             cell = createNormalCell(isMention, status);
         }
         setCommonActionListener(cell, status);
-        createFunctionPanel(cell, status);
+        popUpMenuFactory.createPopupMenu(cell, status);
         setThumbnail(cell, status);
         return cell;
     }
@@ -93,7 +81,7 @@ public class TweetCellFactory {
                                  status.getId(),
                                  new ImageIcon(userIconURL),
                                  status.getUser().getScreenName(),
-                                 extendURL(status));
+                                 URLExpander.extendURL(status));
         } catch (MalformedURLException e) {
             e.printStackTrace();
             throw new InternalError(ICON_INTERNAL_ERROR_MESSAGE);
@@ -111,24 +99,11 @@ public class TweetCellFactory {
                                  new ImageIcon(userIconURL),
                                  new ImageIcon(retweetUserImage),
                                  "Retweet: " + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName(),
-                                 extendURL(status.getRetweetedStatus()));
+                                 URLExpander.extendURL(status.getRetweetedStatus()));
         } catch (MalformedURLException e) {
             e.printStackTrace();
             throw new InternalError(ICON_INTERNAL_ERROR_MESSAGE);
         }
-    }
-
-    private String extendURL(Status status) {
-        String tweetText = status.getText();
-        for (URLEntity entity : status.getURLEntities()) {
-            tweetText = tweetText.replaceAll(entity.getURL(), entity.getDisplayURL());
-        }
-
-        for (MediaEntity entity : status.getMediaEntities()) {
-            tweetText = tweetText.replaceAll(entity.getURL(), entity.getDisplayURL());
-
-        }
-        return tweetText;
     }
 
     private void setCommonActionListener(final TweetCell cell, final Status status) {
@@ -146,152 +121,6 @@ public class TweetCellFactory {
         });
     }
 
-    private void createFunctionPanel(final TweetCell cell, final Status status) {
-        final TweetPopupMenu popupMenu = new TweetPopupMenu();
-
-        MouseAdapter functionPanelMouseAdapter = new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON3) {
-                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
-                }
-            }
-        };
-
-        MouseAdapter userViewMouseAdapter = new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() >= 2) {
-                    UserView view = userViewFactory.createUserView(status.isRetweet() ? status.getRetweetedStatus().getUser() : status.getUser());
-                    view.setLocation(e.getLocationOnScreen());
-                    view.setVisible(true);
-                    cell.clearSelectedText();
-                }
-            }
-        };
-
-        cell.addMouseListener(functionPanelMouseAdapter);
-        cell.addMouseListener(userViewMouseAdapter);
-        cell.setTextAreaAction(functionPanelMouseAdapter);
-        cell.setTextAreaAction(userViewMouseAdapter);
-
-        popupMenu.setReplyAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (status.isRetweet()) {
-                    wrapper.replyPreprocess(status.getRetweetedStatus());
-                    return;
-                }
-                wrapper.replyPreprocess(status);
-            }
-        });
-
-        popupMenu.setFavoriteAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                favorite(cell, status.getId());
-            }
-        });
-
-        popupMenu.setRetweetAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                retweet(cell, status.getId());
-            }
-        });
-
-        popupMenu.setAllURLOpenAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                allURLEntitiesOpen(status.getURLEntities());
-                allMediaEntitiesOpen(status.getMediaEntities());
-            }
-        });
-
-        popupMenu.setSearchAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String searchString = cell.getSelectedText();
-                if (Strings.isNullOrEmpty(searchString)) {
-                    return;
-                }
-                try {
-                    Desktop.getDesktop().browse(new URI("http://www.google.co.jp/search?q=" + URLEncoder.encode(cell.getSelectedText(), "utf-8")));
-                } catch (IOException | URISyntaxException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-
-        popupMenu.setDeleteAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                wrapper.deleteTweet(status.getId());
-            }
-        });
-
-        for (final UserMentionEntity entity : status.getUserMentionEntities()) {
-            TWMenuItem menuItem = new TWMenuItem(entity.getScreenName() + " の詳細を開く");
-            menuItem.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    wrapper.getUserInfomation(entity.getId());
-                }
-            });
-            popupMenu.addMenuItem(menuItem);
-        }
-
-        for (final URLEntity entity : status.getURLEntities()) {
-            TWMenuItem menuItem = new TWMenuItem(entity.getDisplayURL() + "を開く");
-            menuItem.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
-                    } catch (IOException | URISyntaxException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            });
-            popupMenu.addMenuItem(menuItem);
-        }
-
-        for (final MediaEntity entity : status.getMediaEntities()) {
-            TWMenuItem menuItem = new TWMenuItem(entity.getDisplayURL() + "を開く");
-            menuItem.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
-                    } catch (IOException | URISyntaxException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            });
-            popupMenu.addMenuItem(menuItem);
-        }
-
-    }
-
-    private void allURLEntitiesOpen(URLEntity[] entities) {
-        for (URLEntity entity : entities) {
-            try {
-                Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
-            } catch (IOException | URISyntaxException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
-
-    private void allMediaEntitiesOpen(MediaEntity[] entities) {
-        for (URLEntity entity : entities) {
-            try {
-                Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
-            } catch (IOException | URISyntaxException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
 
     private void favorite(TweetCell cell, long id) {
         if (cell.toggleFavoriteState()) {
