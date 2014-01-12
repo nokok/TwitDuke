@@ -126,6 +126,6 @@ public class UserStreamListenerImpl implements UserStreamListener {
 
     @Override
     public void onException(Exception ex) {
-        mainViewController.setStatus(ex.getLocalizedMessage());
+        mainViewController.setStatus(ex.getMessage());
     }
 }

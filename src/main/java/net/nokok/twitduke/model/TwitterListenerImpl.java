@@ -489,6 +489,6 @@ public class TwitterListenerImpl implements TwitterListener {
 
     @Override
     public void onException(TwitterException te, TwitterMethod method) {
-
+        mainViewController.setStatus(te.getErrorMessage());
     }
 }
