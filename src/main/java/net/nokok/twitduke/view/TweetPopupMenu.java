@@ -11,7 +11,7 @@ public class TweetPopupMenu extends JPopupMenu {
     private final TWMenuItem favorite   = new TWMenuItem("お気に入り");
     private final TWMenuItem retweet    = new TWMenuItem("リツイート");
     private final TWMenuItem allURLOpen = new TWMenuItem("URLをすべて開く");
-    private final TWMenuItem search     = new TWMenuItem("Googleで検索");
+    private final TWMenuItem search     = new TWMenuItem("選択したテキストをGoogleで検索");
     private final TWMenuItem delete     = new TWMenuItem("削除");
 
     public TweetPopupMenu() {

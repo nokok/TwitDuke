@@ -93,11 +93,13 @@ public class TweetCell extends TWPanel implements Cloneable {
 
         this.add(this.icon, BorderLayout.WEST);
         this.add(contentsPanel, BorderLayout.CENTER);
-        this.add(thumbnailPanel, BorderLayout.SOUTH);
+
     }
 
     public void setThumbnail(TWLabel imageLabel) {
         thumbnailPanel.add(imageLabel);
+        this.add(thumbnailPanel, BorderLayout.SOUTH);
+        thumbnailPanel.validate();
     }
 
     public boolean isMention() {
@@ -172,12 +174,22 @@ public class TweetCell extends TWPanel implements Cloneable {
     }
 
     @Override
+    public int getHeight() {
+        //MinimumSizeをPreferredSizeにすると隙間が出来てしまう。
+        //例えばMinimumSizeの高さが55pxの状態でPreferredSizeの高さが48pxのような状況になる
+        return (int) this.getMinimumSize().getHeight();
+    }
+
+    @Override
     public String toString() {
+        String tweetText = this.tweetText.getText();
+
         return Objects.toStringHelper(this)
-            .add("Tweet", tweetText.getText())
-            .add("User", userName.getText())
-            .add("Icon", icon.toString())
+            .add("PrefSize", this.getPreferredSize())
             .add("Size", this.getSize())
+            .add("MinimumSize", this.getMinimumSize())
+            .add("Tweet", tweetText.length() > 5 ? tweetText.substring(0, 5) : tweetText)
+            .add("User", userName.getText())
             .toString();
     }
 }
