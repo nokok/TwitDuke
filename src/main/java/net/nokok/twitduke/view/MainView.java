@@ -12,6 +12,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -135,7 +136,7 @@ public class MainView extends JFrame {
      * @param panel セルを挿入するパネル
      * @param cell  挿入するセル
      */
-    private void insertTweetCellToPanel(TWPanel panel, TweetCell cell) {
+    private void insertTweetCellToPanel(JComponent panel, TweetCell cell) {
         panel.add(cell, 0);
         panel.validate();
     }
