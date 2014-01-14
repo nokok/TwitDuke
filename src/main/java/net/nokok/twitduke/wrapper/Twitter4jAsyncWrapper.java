@@ -12,19 +12,15 @@ import java.net.URISyntaxException;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
-import net.nokok.twitduke.model.AccessTokenManager;
+import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.model.ConsumerKey;
-import net.nokok.twitduke.model.factory.TweetCellFactory;
-import net.nokok.twitduke.view.MainView;
+import net.nokok.twitduke.model.TwitterListenerImpl;
+import net.nokok.twitduke.model.account.AccessTokenManager;
 import twitter4j.AsyncTwitter;
 import twitter4j.AsyncTwitterFactory;
-import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.StatusUpdate;
-import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.UserStreamAdapter;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
@@ -32,20 +28,15 @@ public class Twitter4jAsyncWrapper {
 
     private long replyId = 0L;
 
-    private final        Twitter            twitter      = TwitterFactory.getSingleton();
     private static final AsyncTwitter       asynctwitter = AsyncTwitterFactory.getSingleton();
     private final        AccessTokenManager tokenManager = AccessTokenManager.getInstance();
-    private final        TweetCellFactory   factory      = new TweetCellFactory(this);
-    private MainView          mainView;
-    private UserStreamAdapter userStream;
+    private MainViewController mainViewController;
 
     private static final Twitter4jAsyncWrapper instance = new Twitter4jAsyncWrapper();
 
     private Twitter4jAsyncWrapper() {
-        twitter.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
         asynctwitter.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
         if (tokenManager.isAuthenticated()) {
-            twitter.setOAuthAccessToken(tokenManager.readPrimaryAccount());
             asynctwitter.setOAuthAccessToken(tokenManager.readPrimaryAccount());
         } else {
             OAuthDialog dialog = new OAuthDialog();
@@ -58,15 +49,12 @@ public class Twitter4jAsyncWrapper {
         return instance;
     }
 
-    public UserStreamAdapter getUserStream() {
-        return userStream;
+    public void setView(MainViewController mainViewController) {
+        this.mainViewController = mainViewController;
     }
 
-    public void setView(MainView mainView) {
-        this.mainView = mainView;
-        if (userStream == null) {
-            userStream = new MyUserStreamAdapter(mainView);
-        }
+    public void enableTwitterListener() {
+        asynctwitter.addListener(new TwitterListenerImpl(mainViewController));
     }
 
     public void replyTweet(StatusUpdate status) {
@@ -76,7 +64,7 @@ public class Twitter4jAsyncWrapper {
 
     public void replyPreprocess(Status status) {
         this.replyId = status.getId();
-        mainView.setTweetTextField("@" + status.getUser().getScreenName() + " ");
+        mainViewController.setReply(status.getUser().getScreenName());
     }
 
     public void favoriteTweet(long statusId) {
@@ -102,47 +90,19 @@ public class Twitter4jAsyncWrapper {
         asynctwitter.updateStatus(text);
     }
 
-    public ResponseList<Status> fetchHomeTimeLine() {
-        try {
-            return twitter.getHomeTimeline();
-        } catch (TwitterException e) {
-            e.printStackTrace();
-            throw new InternalError("タイムラインの取得中にエラーが発生しました。Twitter側のエラーです");
-        }
+    public void getHomeTimeLine() {
+        asynctwitter.getHomeTimeline();
     }
 
-    public ResponseList<Status> fetchMentionsTimeLine() {
-        try {
-            return twitter.getMentionsTimeline();
-        } catch (TwitterException e) {
-            e.printStackTrace();
-            throw new InternalError("メンションの取得中にエラーが発生しました。Twitter側のエラーです");
-        }
+    public void getMentions() {
+        asynctwitter.getMentions();
     }
 
-    public ResponseList<Status> fetchUserTimeLine(long userId) {
-        try {
-            return twitter.getUserTimeline(userId);
-        } catch (TwitterException e) {
-            e.printStackTrace();
-            throw new InternalError("ユーザーのタイムライン取得中にエラーが発生しました。Twitter側のエラーです");
-        }
+    public void getUserInfomation(long userId) {
+        long[] users = new long[]{userId};
+        asynctwitter.lookupUsers(users);
     }
 
-
-    class MyUserStreamAdapter extends UserStreamAdapter {
-
-        private MainView view;
-
-        public MyUserStreamAdapter(MainView view) {
-            this.view = view;
-        }
-
-        @Override
-        public void onStatus(Status status) {
-            view.insertTweetCell(factory.createTweetCell(status));
-        }
-    }
 
     class OAuthDialog extends JDialog {
 
@@ -193,6 +153,7 @@ public class Twitter4jAsyncWrapper {
             this.setTitle("認証処理/設定書き込み中");
             AccessToken token = asynctwitter.getOAuthAccessToken(requestToken, textField.getText());
             asynctwitter.setOAuthAccessToken(token);
+            tokenManager.createTokenDirectory();
             tokenManager.writeAccessToken(token);
             this.dispose();
         }
