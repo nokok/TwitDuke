@@ -1,8 +1,6 @@
 package net.nokok.twitduke.wrapper;
 
 import java.awt.BorderLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
@@ -114,14 +112,6 @@ public class Twitter4jAsyncWrapper {
             try {
                 final RequestToken requestToken = asynctwitter.getOAuthRequestToken();
 
-                URLUtil.openInBrowser(requestToken.getAuthenticationURL());
-
-                textField.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-
-                    }
-                });
                 okButton.addActionListener(e -> {
                     try {
                         okButtonClicked(requestToken);
@@ -129,6 +119,8 @@ public class Twitter4jAsyncWrapper {
                         ex.printStackTrace();
                     }
                 });
+
+                URLUtil.openInBrowser(requestToken.getAuthenticationURL());
 
             } catch (TwitterException e) {
                 e.printStackTrace();
