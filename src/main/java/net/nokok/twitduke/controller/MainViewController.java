@@ -1,12 +1,11 @@
 package net.nokok.twitduke.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import net.nokok.twitduke.model.factory.TweetCellFactory;
+import net.nokok.twitduke.model.thread.StatusBarAnimationThreadQueue;
 import net.nokok.twitduke.model.thread.StatusBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
-import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.view.MainView;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.Status;
@@ -16,6 +15,7 @@ public class MainViewController {
     private Twitter4jAsyncWrapper wrapper;
     private TweetCellFactory      tweetCellFactory;
     private MainView              mainView;
+    private StatusBarAnimationThreadQueue statusBarAnimationThreadQueue = new StatusBarAnimationThreadQueue();
 
     /**
      * MainViewControllerの初期化に必要な処理を開始します
@@ -73,8 +73,7 @@ public class MainViewController {
      * @see net.nokok.twitduke.model.thread.StatusBarAnimationInvoker
      */
     public void setStatus(String text) {
-        mainView.setStatus(text);
-        new StatusBarAnimationInvoker(mainView).start();
+        statusBarAnimationThreadQueue.addEvent(new StatusBarAnimationInvoker(mainView, text));
     }
 
     /**
@@ -115,12 +114,7 @@ public class MainViewController {
             }
         });
 
-        mainView.setTextFieldAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sendTweet();
-            }
-        });
+        mainView.setTextFieldAction(e -> sendTweet());
 
     }
 
