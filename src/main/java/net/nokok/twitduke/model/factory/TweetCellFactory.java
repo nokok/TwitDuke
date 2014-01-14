@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import net.nokok.twitduke.model.account.AccessTokenManager;
+import net.nokok.twitduke.util.ImageSizeChanger;
 import net.nokok.twitduke.util.URLExpander;
 import net.nokok.twitduke.view.ImageView;
 import net.nokok.twitduke.view.TweetCell;
@@ -60,12 +61,7 @@ public class TweetCellFactory {
         try {
             for (MediaEntity entity : status.getMediaEntities()) {
                 final URL thumbnailURL = new URL(entity.getMediaURLHttps());
-
-                ImageIcon before = new ImageIcon(thumbnailURL);
-
-                ImageIcon resized = new ImageIcon(before.getImage().getScaledInstance(256, -1, Image.SCALE_SMOOTH));
-                TWLabel image = new TWLabel(resized);
-
+                TWLabel image = new TWLabel(ImageSizeChanger.createThumbnail(new ImageIcon(thumbnailURL)));
                 image.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
