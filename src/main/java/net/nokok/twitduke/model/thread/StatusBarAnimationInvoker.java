@@ -1,6 +1,7 @@
 package net.nokok.twitduke.model.thread;
 
 import java.awt.Point;
+import net.nokok.twitduke.util.Threads;
 import net.nokok.twitduke.view.MainView;
 import net.nokok.twitduke.view.ui.TWLabel;
 
@@ -23,16 +24,12 @@ public class StatusBarAnimationInvoker extends Thread implements Runnable {
     public void run() {
         this.statusLabel.setText(notificationText);
         Point old = new Point(this.statusLabel.getLocation());
-        try {
-            Point moved = new Point(old);
-            Thread.sleep(NUMBER_OF_SECONDS_TO_DISPLAY_NOTIFICATOIN);
-            for (int i = 0; i < 30; i++) {
-                moved.y += i;
-                statusLabel.setLocation(moved);
-                Thread.sleep(30);
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        Point moved = new Point(old);
+        Threads.sleep(this, NUMBER_OF_SECONDS_TO_DISPLAY_NOTIFICATOIN);
+        for (int i = 0; i < 30; i++) {
+            moved.y += i;
+            statusLabel.setLocation(moved);
+            Threads.sleep(this, 30);
         }
         statusLabel.setText("");
         statusLabel.setLocation(old);

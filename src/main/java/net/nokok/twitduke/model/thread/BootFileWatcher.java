@@ -2,6 +2,8 @@ package net.nokok.twitduke.model.thread;
 
 import java.io.File;
 import net.nokok.twitduke.main.Main;
+import net.nokok.twitduke.util.Threads;
+
 
 public class BootFileWatcher extends Thread implements Runnable {
 
@@ -20,11 +22,7 @@ public class BootFileWatcher extends Thread implements Runnable {
                 main.writeAccessTokenFilesFinished();
                 break;
             } else {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-
-                }
+                Threads.sleep(this, 3000);
             }
         }
     }

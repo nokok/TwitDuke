@@ -2,6 +2,7 @@ package net.nokok.twitduke.model.thread;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import net.nokok.twitduke.util.Threads;
 
 /**
  * ステータスバーのアニメーションスレッドをキューで管理します
@@ -14,12 +15,8 @@ public class StatusBarAnimationThreadQueue extends Thread implements Runnable {
     public void run() {
         Thread currentThread;
         while ((currentThread = eventQueue.poll()) != null) {
-            try {
-                currentThread.start();
-                currentThread.join(50);
-            } catch (InterruptedException e) {
-
-            }
+            currentThread.start();
+            Threads.join(this, 50);
         }
     }
 
