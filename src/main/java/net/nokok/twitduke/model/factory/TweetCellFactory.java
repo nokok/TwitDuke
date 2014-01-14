@@ -3,12 +3,11 @@ package net.nokok.twitduke.model.factory;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.util.ImageSizeChanger;
-import net.nokok.twitduke.util.URLExpander;
+import net.nokok.twitduke.util.URLUtil;
 import net.nokok.twitduke.view.ImageView;
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.ui.TWLabel;
@@ -58,23 +57,19 @@ public class TweetCellFactory {
      * @param status ツイートのステータス
      */
     private void setThumbnail(TweetCell cell, Status status) {
-        try {
-            for (MediaEntity entity : status.getMediaEntities()) {
-                final URL thumbnailURL = new URL(entity.getMediaURLHttps());
-                TWLabel image = new TWLabel(ImageSizeChanger.createThumbnail(new ImageIcon(thumbnailURL)));
-                image.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        if (e.getButton() == MouseEvent.BUTTON1) {
-                            ImageView view = new ImageView(thumbnailURL);
-                            view.setVisible(true);
-                        }
+        for (MediaEntity entity : status.getMediaEntities()) {
+            final URL thumbnailURL = URLUtil.createURL(entity.getMediaURL());
+            TWLabel image = new TWLabel(ImageSizeChanger.createThumbnail(new ImageIcon(thumbnailURL)));
+            image.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getButton() == MouseEvent.BUTTON1) {
+                        ImageView view = new ImageView(thumbnailURL);
+                        view.setVisible(true);
                     }
-                });
-                cell.setThumbnail(image);
-            }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+                }
+            });
+            cell.setThumbnail(image);
         }
     }
 
@@ -96,17 +91,13 @@ public class TweetCellFactory {
      * @return 生成されたツイートセル
      */
     private TweetCell createNormalCell(boolean isMention, Status status) {
-        try {
-            URL userIconURL = new URL(status.getUser().getProfileImageURLHttps());
-            return new TweetCell(isMention,
-                                 status.getId(),
-                                 new ImageIcon(userIconURL),
-                                 status.getUser().getScreenName(),
-                                 URLExpander.extendURL(status));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            throw new InternalError(ICON_INTERNAL_ERROR_MESSAGE);
-        }
+        URL userIconURL = URLUtil.createURL(status.getUser().getProfileImageURLHttps());
+        return new TweetCell(isMention,
+                             status.getId(),
+                             new ImageIcon(userIconURL),
+                             status.getUser().getScreenName(),
+                             URLUtil.extendURL(status));
+
     }
 
     /**
@@ -117,21 +108,16 @@ public class TweetCellFactory {
      * @return 生成されたツイートセル
      */
     private TweetCell createRetweetCell(boolean isMention, Status status) {
-        try {
-            URL userIconURL, retweetIconURL;
-            userIconURL = new URL(status.getRetweetedStatus().getUser().getProfileImageURLHttps());
-            retweetIconURL = new URL(status.getUser().getProfileImageURLHttps());
-            Image retweetUserImage = new ImageIcon(retweetIconURL).getImage().getScaledInstance(15, 15, Image.SCALE_FAST);
-            return new TweetCell(isMention,
-                                 status.getId(),
-                                 new ImageIcon(userIconURL),
-                                 new ImageIcon(retweetUserImage),
-                                 "Retweet: " + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName(),
-                                 URLExpander.extendURL(status.getRetweetedStatus()));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            throw new InternalError(ICON_INTERNAL_ERROR_MESSAGE);
-        }
+        URL userIconURL, retweetIconURL;
+        userIconURL = URLUtil.createURL(status.getRetweetedStatus().getUser().getProfileImageURLHttps());
+        retweetIconURL = URLUtil.createURL(status.getUser().getProfileImageURLHttps());
+        Image retweetUserImage = new ImageIcon(retweetIconURL).getImage().getScaledInstance(15, 15, Image.SCALE_FAST);
+        return new TweetCell(isMention,
+                             status.getId(),
+                             new ImageIcon(userIconURL),
+                             new ImageIcon(retweetUserImage),
+                             "Retweet: " + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName(),
+                             URLUtil.extendURL(status.getRetweetedStatus()));
     }
 
     /**

@@ -1,10 +1,12 @@
 package net.nokok.twitduke.util;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.URLEntity;
 
-public class URLExpander {
+public class URLUtil {
 
     /**
      * 渡されたステータスに格納されているURLエンティティを取り出し、ツイートのテキストに含まれるt.coで始まる短縮URLを
@@ -22,5 +24,13 @@ public class URLExpander {
             statusText = statusText.replaceAll(entity.getURL(), entity.getDisplayURL());
         }
         return statusText;
+    }
+
+    public static URL createURL(String url) {
+        try {
+            return new URL(url);
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException("URLが正しくありません");
+        }
     }
 }

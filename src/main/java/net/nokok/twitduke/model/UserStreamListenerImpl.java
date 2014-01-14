@@ -1,7 +1,7 @@
 package net.nokok.twitduke.model;
 
 import net.nokok.twitduke.controller.MainViewController;
-import net.nokok.twitduke.util.URLExpander;
+import net.nokok.twitduke.util.URLUtil;
 import twitter4j.DirectMessage;
 import twitter4j.StallWarning;
 import twitter4j.Status;
@@ -56,12 +56,12 @@ public class UserStreamListenerImpl implements UserStreamListener {
 
     @Override
     public void onFavorite(User source, User target, Status favoritedStatus) {
-        mainViewController.setStatus("★" + URLExpander.extendURL(favoritedStatus) + "が" + source.getScreenName() + "にお気に入り登録されました");
+        mainViewController.setStatus("★" + URLUtil.extendURL(favoritedStatus) + "が" + source.getScreenName() + "にお気に入り登録されました");
     }
 
     @Override
     public void onUnfavorite(User source, User target, Status unfavoritedStatus) {
-        mainViewController.setStatus("☆" + source.getScreenName() + "が" + URLExpander.extendURL(unfavoritedStatus) + "のお気に入り登録を解除しました");
+        mainViewController.setStatus("☆" + source.getScreenName() + "が" + URLUtil.extendURL(unfavoritedStatus) + "のお気に入り登録を解除しました");
     }
 
     @Override
