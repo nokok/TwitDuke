@@ -1,10 +1,10 @@
 package net.nokok.twitduke.main;
 
 import net.nokok.twitduke.controller.MainViewController;
-import net.nokok.twitduke.model.thread.BootFileWatcher;
 import net.nokok.twitduke.model.ConsumerKey;
 import net.nokok.twitduke.model.UserStreamListenerImpl;
 import net.nokok.twitduke.model.account.AccessTokenManager;
+import net.nokok.twitduke.model.thread.BootFileWatcher;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.ConnectionLifeCycleListener;
 import twitter4j.TwitterStream;
@@ -20,7 +20,7 @@ public class Main {
      * TwitDukeのエントリーポイントです
      * 渡された全てのオプションは無視されます
      *
-     * @param args
+     * @param args 渡されたオプションが格納された配列
      */
     public static void main(String[] args) {
         new Main().boot();

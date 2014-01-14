@@ -2,8 +2,6 @@ package net.nokok.twitduke.model.factory;
 
 import com.google.common.base.Strings;
 import java.awt.Desktop;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -68,82 +66,50 @@ public class PopupMenuFactory {
         cell.addMouseListener(userViewMouseAdapter);
         cell.setTextAreaAction(functionPanelMouseAdapter);
         cell.setTextAreaAction(userViewMouseAdapter);
-        popupMenu.setReplyAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (status.isRetweet()) {
-                    wrapper.replyPreprocess(status.getRetweetedStatus());
-                    return;
-                }
-                wrapper.replyPreprocess(status);
+        popupMenu.setReplyAction(e -> {
+            if (status.isRetweet()) {
+                wrapper.replyPreprocess(status.getRetweetedStatus());
+                return;
+            }
+            wrapper.replyPreprocess(status);
+        });
+
+        popupMenu.setFavoriteAction(e -> favorite(cell, status.getId()));
+
+        popupMenu.setRetweetAction(e -> retweet(cell, status.getId()));
+
+        popupMenu.setAllURLOpenAction(e -> {
+            allURLEntitiesOpen(status.getURLEntities());
+            allMediaEntitiesOpen(status.getMediaEntities());
+        });
+
+        popupMenu.setSearchAction(e -> {
+            String searchString = cell.getSelectedText();
+            if (Strings.isNullOrEmpty(searchString)) {
+                return;
+            }
+            try {
+                Desktop.getDesktop().browse(new URI("http://www.google.co.jp/search?q=" + URLEncoder.encode(cell.getSelectedText(), "utf-8")));
+            } catch (IOException | URISyntaxException ex) {
+                ex.printStackTrace();
             }
         });
 
-        popupMenu.setFavoriteAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                favorite(cell, status.getId());
-            }
-        });
-
-        popupMenu.setRetweetAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                retweet(cell, status.getId());
-            }
-        });
-
-        popupMenu.setAllURLOpenAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                allURLEntitiesOpen(status.getURLEntities());
-                allMediaEntitiesOpen(status.getMediaEntities());
-            }
-        });
-
-        popupMenu.setSearchAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String searchString = cell.getSelectedText();
-                if (Strings.isNullOrEmpty(searchString)) {
-                    return;
-                }
-                try {
-                    Desktop.getDesktop().browse(new URI("http://www.google.co.jp/search?q=" + URLEncoder.encode(cell.getSelectedText(), "utf-8")));
-                } catch (IOException | URISyntaxException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-
-        popupMenu.setDeleteAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                wrapper.deleteTweet(status.getId());
-            }
-        });
+        popupMenu.setDeleteAction(e -> wrapper.deleteTweet(status.getId()));
 
         for (final UserMentionEntity entity : status.getUserMentionEntities()) {
             TWMenuItem menuItem = new TWMenuItem(entity.getScreenName() + " の詳細を開く");
-            menuItem.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    wrapper.getUserInfomation(entity.getId());
-                }
-            });
+            menuItem.addActionListener(e -> wrapper.getUserInfomation(entity.getId()));
             popupMenu.addMenuItem(menuItem);
         }
 
         for (final URLEntity entity : status.getURLEntities()) {
             TWMenuItem menuItem = new TWMenuItem(entity.getDisplayURL() + "を開く");
-            menuItem.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
-                    } catch (IOException | URISyntaxException ex) {
-                        ex.printStackTrace();
-                    }
+            menuItem.addActionListener(e -> {
+                try {
+                    Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
+                } catch (IOException | URISyntaxException ex) {
+                    ex.printStackTrace();
                 }
             });
             popupMenu.addMenuItem(menuItem);
@@ -151,14 +117,11 @@ public class PopupMenuFactory {
 
         for (final MediaEntity entity : status.getMediaEntities()) {
             TWMenuItem menuItem = new TWMenuItem(entity.getDisplayURL() + "を開く");
-            menuItem.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
-                    } catch (IOException | URISyntaxException ex) {
-                        ex.printStackTrace();
-                    }
+            menuItem.addActionListener(e -> {
+                try {
+                    Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
+                } catch (IOException | URISyntaxException ex) {
+                    ex.printStackTrace();
                 }
             });
             popupMenu.addMenuItem(menuItem);

@@ -10,20 +10,22 @@ import net.nokok.twitduke.view.ui.TWLabel;
  */
 public class StatusBarAnimationInvoker extends Thread implements Runnable {
 
-    private final MainView mainView;
-    private final TWLabel  statusLabel;
+    private final TWLabel statusLabel;
+    private final String  notificationText;
+    private int NUMBER_OF_SECONDS_TO_DISPLAY_NOTIFICATOIN = 5000; //ms
 
-    public StatusBarAnimationInvoker(MainView mainView) {
-        this.mainView = mainView;
+    public StatusBarAnimationInvoker(MainView mainView, String text) {
         this.statusLabel = mainView.getStatusLabel();
+        this.notificationText = text;
     }
 
     @Override
     public void run() {
+        this.statusLabel.setText(notificationText);
         Point old = new Point(this.statusLabel.getLocation());
-        Point moved = new Point(old);
         try {
-            Thread.sleep(5000);
+            Point moved = new Point(old);
+            Thread.sleep(NUMBER_OF_SECONDS_TO_DISPLAY_NOTIFICATOIN);
             for (int i = 0; i < 30; i++) {
                 moved.y += i;
                 statusLabel.setLocation(moved);

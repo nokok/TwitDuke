@@ -42,24 +42,18 @@ public class TwitterListenerImpl implements TwitterListener {
     @Override
     public void gotMentions(ResponseList<Status> statuses) {
         Collections.reverse(statuses);
-        for (Status status : statuses) {
-            mainViewController.insertTweetCell(status);
-        }
+        statuses.forEach(mainViewController::insertTweetCell);
     }
 
     @Override
     public void gotHomeTimeline(ResponseList<Status> statuses) {
         Collections.reverse(statuses);
-        for (Status status : statuses) {
-            mainViewController.insertTweetCell(status);
-        }
+        statuses.forEach(mainViewController::insertTweetCell);
     }
 
     @Override
     public void gotUserTimeline(ResponseList<Status> statuses) {
-        for (Status status : statuses) {
-            mainViewController.insertTweetCell(status);
-        }
+        statuses.forEach(mainViewController::insertTweetCell);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package net.nokok.twitduke.model.account;
 
 import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 import com.google.common.primitives.Longs;
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,7 +29,8 @@ public class AccessTokenManager {
     private final File   tokenListFile              = new File(AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_LIST_FILENAME);
     private final String TOKENFILE_PATH_WITH_PREFIX = AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_PREFIX;
 
-    private ArrayList<SimpleToken> simpleTokenList = Lists.newArrayList();
+    private final ArrayList<SimpleToken> simpleTokenList = new ArrayList<>();
+    private boolean isLoaded;
 
     /**
      * AccessTokenManagerのコンストラクタです
@@ -39,9 +39,10 @@ public class AccessTokenManager {
      * アクセストークンのリストが存在しない場合、authディレクトリをカレントディレクトリ内に作成します。
      */
     private AccessTokenManager() {
-        if (isAuthenticated()) {
-            readTokenList();
+        if (!isAuthenticated()) {
+            return;
         }
+        readTokenList();
     }
 
     /**
@@ -69,7 +70,7 @@ public class AccessTokenManager {
      *
      * @throws java.io.IOError
      */
-    public void readTokenList() {
+    public boolean readTokenList() {
         if (!isAuthenticated()) {
             throw new IOError(new FileNotFoundException("トークンリストファイルが見つかりません"));
         }
@@ -84,6 +85,8 @@ public class AccessTokenManager {
                 }
             }
             primaryUser = simpleTokenList.get(0);
+            isLoaded = primaryUser != null;
+            return isLoaded;
         } catch (IOException e) {
             e.printStackTrace();
             throw new InternalError("トークんリストの読み込み中にエラーが発生しました");
@@ -99,6 +102,9 @@ public class AccessTokenManager {
         return tokenListFile.exists();
     }
 
+    /**
+     * @return トークンリストファイルの絶対パス
+     */
     public String getTokenFileListPath() {
         return tokenListFile.getPath();
     }
@@ -110,8 +116,10 @@ public class AccessTokenManager {
      * @return 読み込まれたAccessToken
      */
     public AccessToken readPrimaryAccount() {
-        if (primaryUser == null) {
+        if (!isLoaded) {
             readTokenList();
+        } else if (primaryUser == null) {
+            throw new IllegalStateException("認証が完了していません");
         }
         return readAccessToken(primaryUser.getUserId());
     }
@@ -120,8 +128,11 @@ public class AccessTokenManager {
      * @return プライマリアカウントのスクリーンネーム
      */
     public String getUserName() {
+        if (primaryUser == null) {
+            throw new IllegalStateException("認証が完了していません");
+        }
         return primaryUser.getScreenName();
-    } //TODO:50行目と同じく
+    }
 
     /**
      * 指定されたIDを持つユーザーのアクセストークンファイルをディスクから読み込みます
@@ -132,6 +143,7 @@ public class AccessTokenManager {
     public AccessToken readAccessToken(long id) {
         try (FileInputStream fileInputStream = new FileInputStream(TOKENFILE_PATH_WITH_PREFIX + id);
              ObjectInputStream stream = new ObjectInputStream(fileInputStream)) {
+
             return (AccessToken) stream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -151,10 +163,12 @@ public class AccessTokenManager {
         try (FileOutputStream fileOutputStream = new FileOutputStream(TOKENFILE_PATH_WITH_PREFIX + accessToken.getUserId());
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
              FileWriter writer = new FileWriter(authUserListFile)) {
+
             writer.write(accessToken.getScreenName() + "," + accessToken.getUserId() + "\n");
             objectOutputStream.writeObject(accessToken);
         } catch (IOException e) {
             e.printStackTrace();
+            throw new IOError(e.getCause());
         }
     }
 
