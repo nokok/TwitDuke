@@ -6,9 +6,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import net.nokok.twitduke.view.ui.TWButton;
@@ -96,8 +98,17 @@ public class TweetCell extends TWPanel implements Cloneable {
 
     }
 
+    public void setThumbnail(Image image) {
+        thumbnailPanel.add(new TWLabel(new ImageIcon(image)));
+        enableThumbnail();
+    }
+
     public void setThumbnail(TWLabel imageLabel) {
         thumbnailPanel.add(imageLabel);
+        enableThumbnail();
+    }
+
+    private void enableThumbnail() {
         this.add(thumbnailPanel, BorderLayout.SOUTH);
         thumbnailPanel.validate();
     }
