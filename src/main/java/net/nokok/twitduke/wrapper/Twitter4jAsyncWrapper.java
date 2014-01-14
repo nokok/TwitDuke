@@ -1,12 +1,8 @@
 package net.nokok.twitduke.wrapper;
 
 import java.awt.BorderLayout;
-import java.awt.Desktop;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
@@ -14,6 +10,7 @@ import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.model.ConsumerKey;
 import net.nokok.twitduke.model.TwitterListenerImpl;
 import net.nokok.twitduke.model.account.AccessTokenManager;
+import net.nokok.twitduke.util.URLUtil;
 import twitter4j.AsyncTwitter;
 import twitter4j.AsyncTwitterFactory;
 import twitter4j.Status;
@@ -117,12 +114,7 @@ public class Twitter4jAsyncWrapper {
             try {
                 final RequestToken requestToken = asynctwitter.getOAuthRequestToken();
 
-                try {
-                    Desktop.getDesktop().browse(new URI(requestToken.getAuthenticationURL()));
-                } catch (IOException | URISyntaxException e) {
-                    e.printStackTrace();
-                    throw new InternalError("認証URLオープンエラー");
-                }
+                URLUtil.openInBrowser(requestToken.getAuthenticationURL());
 
                 textField.addMouseListener(new MouseAdapter() {
                     @Override

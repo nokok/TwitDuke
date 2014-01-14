@@ -1,7 +1,13 @@
 package net.nokok.twitduke.util;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLEncoder;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.URLEntity;
@@ -31,6 +37,27 @@ public class URLUtil {
             return new URL(url);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("URLが正しくありません");
+        }
+    }
+
+    public static void openInBrowser(String url) {
+        try {
+            Desktop.getDesktop().browse(new URI(url));
+        } catch (IOException | URISyntaxException e) {
+            throw new InternalError("URLを開けませんでした");
+        }
+    }
+
+    public static void openInBrowser(URL url) {
+        openInBrowser(url.toString());
+    }
+
+    public static String encodeString(String text) {
+        try {
+            return URLEncoder.encode(text, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            throw new InternalError("文字コードがサポートされていません");
         }
     }
 }

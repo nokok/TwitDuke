@@ -1,13 +1,10 @@
 package net.nokok.twitduke.model.factory;
 
 import com.google.common.base.Strings;
-import java.awt.Desktop;
+import com.google.common.collect.Lists;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
+import net.nokok.twitduke.util.URLUtil;
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.TweetPopupMenu;
 import net.nokok.twitduke.view.UserView;
@@ -88,11 +85,7 @@ public class PopupMenuFactory {
             if (Strings.isNullOrEmpty(searchString)) {
                 return;
             }
-            try {
-                Desktop.getDesktop().browse(new URI("http://www.google.co.jp/search?q=" + URLEncoder.encode(cell.getSelectedText(), "utf-8")));
-            } catch (IOException | URISyntaxException ex) {
-                ex.printStackTrace();
-            }
+            URLUtil.openInBrowser("http://www.google.co.jp/search?q=" + URLUtil.encodeString(cell.getSelectedText()));
         });
 
         popupMenu.setDeleteAction(e -> wrapper.deleteTweet(status.getId()));
@@ -106,11 +99,7 @@ public class PopupMenuFactory {
         for (final URLEntity entity : status.getURLEntities()) {
             TWMenuItem menuItem = new TWMenuItem(entity.getDisplayURL() + "を開く");
             menuItem.addActionListener(e -> {
-                try {
-                    Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
-                } catch (IOException | URISyntaxException ex) {
-                    ex.printStackTrace();
-                }
+                URLUtil.openInBrowser(entity.getExpandedURL());
             });
             popupMenu.addMenuItem(menuItem);
         }
@@ -118,11 +107,7 @@ public class PopupMenuFactory {
         for (final MediaEntity entity : status.getMediaEntities()) {
             TWMenuItem menuItem = new TWMenuItem(entity.getDisplayURL() + "を開く");
             menuItem.addActionListener(e -> {
-                try {
-                    Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
-                } catch (IOException | URISyntaxException ex) {
-                    ex.printStackTrace();
-                }
+                URLUtil.openInBrowser(entity.getExpandedURL());
             });
             popupMenu.addMenuItem(menuItem);
         }
@@ -135,13 +120,7 @@ public class PopupMenuFactory {
      * @param entities URLエンティティの配列
      */
     private void allURLEntitiesOpen(URLEntity[] entities) {
-        for (URLEntity entity : entities) {
-            try {
-                Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
-            } catch (IOException | URISyntaxException ex) {
-                ex.printStackTrace();
-            }
-        }
+        Lists.newArrayList(entities).forEach(e -> URLUtil.openInBrowser(e.getExpandedURL()));
     }
 
     /**
@@ -150,13 +129,7 @@ public class PopupMenuFactory {
      * @param entities メディアエンティティの配列
      */
     private void allMediaEntitiesOpen(MediaEntity[] entities) {
-        for (URLEntity entity : entities) {
-            try {
-                Desktop.getDesktop().browse(new URI(entity.getExpandedURL()));
-            } catch (IOException | URISyntaxException ex) {
-                ex.printStackTrace();
-            }
-        }
+        Lists.newArrayList(entities).forEach(e -> URLUtil.openInBrowser(e.getExpandedURL()));
     }
 
     /**
