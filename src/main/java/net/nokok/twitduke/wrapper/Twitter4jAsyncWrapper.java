@@ -29,7 +29,7 @@ public class Twitter4jAsyncWrapper {
 
     private Twitter4jAsyncWrapper() {
         asynctwitter.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
-        if (tokenManager.isAuthenticated()) {
+        if (tokenManager.isTokenListExists()) {
             asynctwitter.setOAuthAccessToken(tokenManager.readPrimaryAccount());
         } else {
             OAuthDialog dialog = new OAuthDialog();

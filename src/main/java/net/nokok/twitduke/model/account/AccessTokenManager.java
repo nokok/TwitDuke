@@ -39,7 +39,7 @@ public class AccessTokenManager {
      * アクセストークンのリストが存在しない場合、authディレクトリをカレントディレクトリ内に作成します。
      */
     private AccessTokenManager() {
-        if (!isAuthenticated()) {
+        if (!isTokenListExists()) {
             return;
         }
         readTokenList();
@@ -71,7 +71,7 @@ public class AccessTokenManager {
      * @throws java.io.IOError
      */
     public boolean readTokenList() {
-        if (!isAuthenticated()) {
+        if (!isTokenListExists()) {
             throw new IOError(new FileNotFoundException("トークンリストファイルが見つかりません"));
         }
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(tokenListFile))) {
@@ -98,7 +98,7 @@ public class AccessTokenManager {
      *
      * @return 存在する場合true
      */
-    public boolean isAuthenticated() {
+    public boolean isTokenListExists() {
         return tokenListFile.exists();
     }
 
