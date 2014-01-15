@@ -8,6 +8,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import javax.swing.Box;
 import javax.swing.JComponent;
@@ -15,11 +17,11 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
-import net.nokok.twitduke.model.TimelineLayout;
 import net.nokok.twitduke.view.ui.TWButton;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.view.ui.TWPanel;
 import net.nokok.twitduke.view.ui.TWScrollPane;
+import net.nokok.twitduke.view.ui.TimelineLayout;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
 
 public class MainView extends JFrame {
@@ -38,6 +40,9 @@ public class MainView extends JFrame {
     private final Dimension STATUS_BAR_SIZE     = new Dimension(530, 25);
     private final Dimension TWEETCELL_SEPARATOR = new Dimension(1, 1); //幅は1px固定 (width,height)
     private final int       SCROLLBAR_WIDTH     = 15;
+
+    private final TimelineLayout tweetListLayout = new TimelineLayout();
+    private final TimelineLayout replyListLayout = new TimelineLayout();
 
     private final CardLayout layout = new CardLayout();
 
@@ -77,8 +82,16 @@ public class MainView extends JFrame {
 
         JScrollPane scrollPane = new TWScrollPane(tweetListPanel);
         JScrollPane replyScrollPane = new TWScrollPane(replyListPanel);
-        tweetListPanel.setLayout(new TimelineLayout());
-        replyListPanel.setLayout(new TimelineLayout());
+        tweetListPanel.setLayout(tweetListLayout);
+        replyListPanel.setLayout(replyListLayout);
+
+        rootScrollPanel.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                tweetListPanel.setPreferredSize(tweetListLayout.minimumLayoutSize(tweetListPanel));
+                replyListPanel.setPreferredSize(replyListLayout.minimumLayoutSize(replyScrollPane));
+            }
+        });
 
         rootScrollPanel.add(scrollPane, "DEFAULT");
         rootScrollPanel.add(replyScrollPane, "REPLY");
@@ -117,6 +130,7 @@ public class MainView extends JFrame {
         panel.add(Box.createRigidArea(new Dimension(1, 1)), 0);
         panel.add(cell, 0);
         panel.validate();
+        panel.setPreferredSize(panel.getLayout().preferredLayoutSize(panel));
     }
 
     public void setTweetTextField(String text) {
