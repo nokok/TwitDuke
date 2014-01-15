@@ -1,7 +1,5 @@
 package net.nokok.twitduke.controller;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.thread.StatusBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.StatusBarAnimationThreadQueue;
@@ -99,22 +97,9 @@ public class MainViewController {
      * MainViewのツールバーにあるボタンにアクションリスナーを設定します
      */
     private void bindActionListener() {
-        mainView.setSendButtonAction(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                sendTweet();
-            }
-        });
-
-        mainView.setMentionButtonAction(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                mainView.swapTweetList();
-            }
-        });
-
+        mainView.setSendButtonAction(e -> sendTweet());
+        mainView.setMentionButtonAction(e -> mainView.swapTweetList());
         mainView.setTextFieldAction(e -> sendTweet());
-
     }
 
     /**

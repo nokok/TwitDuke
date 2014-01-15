@@ -56,6 +56,9 @@ public class MainView extends JFrame {
         this.initializeComponent();
     }
 
+    /**
+     * Viewのコンポーネントを配置します
+     */
     private void initializeComponent() {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setTitle("UserStreamに接続中です");
@@ -133,28 +136,48 @@ public class MainView extends JFrame {
         panel.setPreferredSize(panel.getLayout().preferredLayoutSize(panel));
     }
 
+    /**
+     * テキストフィールドに文字列をセットします
+     *
+     * @param text セットする文字列
+     */
     public void setTweetTextField(String text) {
         this.tweetTextField.setText(text);
     }
 
+    /**
+     * テキストフィールドにアクションリスナをセットします
+     *
+     * @param listener セットするアクションリスナ
+     */
     public void setTextFieldAction(ActionListener listener) {
         this.tweetTextField.addActionListener(listener);
     }
 
-    public void setSettingButtonAction(MouseAdapter adapter) {
-        this.settingButton.addMouseListener(adapter);
+    /**
+     * 設定ボタンにをセットします
+     *
+     * @param listener セットする
+     */
+    public void setSettingButtonAction(ActionListener listener) {
+        this.settingButton.addActionListener(listener);
     }
 
-    public void setMentionButtonAction(MouseAdapter adapter) {
-        this.mentionButton.addMouseListener(adapter);
+    /**
+     * メンションボタンにアクションリスナをセットします
+     *
+     * @param listener セットするアクションリスナ
+     */
+    public void setMentionButtonAction(ActionListener listener) {
+        this.mentionButton.addActionListener(listener);
     }
 
     public void setUserSwitcherAction(MouseAdapter adapter) {
         this.userSwitcher.addMouseListener(adapter);
     }
 
-    public void setSendButtonAction(MouseAdapter adapter) {
-        this.sendButton.addMouseListener(adapter);
+    public void setSendButtonAction(ActionListener listener) {
+        this.sendButton.addActionListener(listener);
     }
 
     public void setStatus(String text) {
