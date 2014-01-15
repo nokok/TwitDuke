@@ -3,9 +3,6 @@
 ### IntelliJ ###
 *.ipr
 *.iws
-.idea/*
-!.idea/codeStyleSettings.xml
-!.idea/runConfigurations/Run.xml
 
 ### Java ###
 *.class
