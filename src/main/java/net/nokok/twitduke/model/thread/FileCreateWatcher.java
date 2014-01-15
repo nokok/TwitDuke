@@ -1,25 +1,26 @@
 package net.nokok.twitduke.model.thread;
 
 import java.io.File;
-import net.nokok.twitduke.main.Main;
 import net.nokok.twitduke.util.Threads;
 
+/**
+ * 指定したファイルが作成されるのを待ちます
+ */
+public class FileCreateWatcher extends Thread implements Runnable {
 
-public class BootFileWatcher extends Thread implements Runnable {
+    private File         watchingFile;
+    private IFileWatcher watcher;
 
-    private File watchingFile;
-    private Main main;
-
-    public BootFileWatcher(String path, Main main) {
+    public FileCreateWatcher(String path, IFileWatcher watcher) {
         this.watchingFile = new File(path);
-        this.main = main;
+        this.watcher = watcher;
     }
 
     @Override
     public void run() {
         while (true) {
             if (watchingFile.exists()) {
-                main.writeAccessTokenFilesFinished();
+                watcher.filesCreated();
                 break;
             } else {
                 Threads.sleep(this, 3000);
