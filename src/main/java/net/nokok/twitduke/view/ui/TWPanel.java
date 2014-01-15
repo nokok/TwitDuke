@@ -1,10 +1,9 @@
 package net.nokok.twitduke.view.ui;
 
-import net.nokok.twitduke.view.ui.color.DefaultColor;
-
-import javax.swing.JPanel;
 import java.awt.Component;
 import java.awt.LayoutManager;
+import javax.swing.JPanel;
+import net.nokok.twitduke.view.ui.color.DefaultColor;
 
 public class TWPanel extends JPanel {
 

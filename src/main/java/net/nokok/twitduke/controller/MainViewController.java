@@ -1,96 +1,103 @@
 package net.nokok.twitduke.controller;
 
-import net.nokok.twitduke.model.AccountManager;
-import net.nokok.twitduke.model.ConsumerKey;
-import net.nokok.twitduke.model.TweetCellFactory;
-import net.nokok.twitduke.view.MainView;
-import net.nokok.twitduke.wrapper.Twitter4jWrapper;
-import twitter4j.ConnectionLifeCycleListener;
-import twitter4j.ResponseList;
-import twitter4j.Status;
-import twitter4j.TwitterStream;
-import twitter4j.TwitterStreamFactory;
-import twitter4j.UserStreamAdapter;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Collections;
+import net.nokok.twitduke.model.factory.TweetCellFactory;
+import net.nokok.twitduke.model.thread.StatusBarAnimationInvoker;
+import net.nokok.twitduke.model.thread.StatusBarAnimationThreadQueue;
+import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
+import net.nokok.twitduke.view.MainView;
+import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
+import twitter4j.Status;
 
 public class MainViewController {
 
-    private final Twitter4jWrapper wrapper  = Twitter4jWrapper.getInstance();
-    private final MainView         mainView = new MainView();
+    private Twitter4jAsyncWrapper wrapper;
+    private TweetCellFactory      tweetCellFactory;
+    private MainView              mainView;
+    private StatusBarAnimationThreadQueue statusBarAnimationThreadQueue = new StatusBarAnimationThreadQueue();
 
-    public void start() {
+    /**
+     * MainViewControllerの初期化に必要な処理を開始します
+     *
+     * @param wrapper Twitter4jのラッパクラス
+     * @see net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper
+     */
+    public void start(Twitter4jAsyncWrapper wrapper) {
+        mainView = new MainView();
+        this.wrapper = wrapper;
+        this.tweetCellFactory = new TweetCellFactory(wrapper);
         mainView.setVisible(true);
         bindActionListener();
-        AccountManager accountManager = AccountManager.getInstance();
-
-        while (accountManager.accountCount() == 0) {
-
-        }
-        TwitterStream twitterStream = TwitterStreamFactory.getSingleton();
-        twitterStream.addConnectionLifeCycleListener(new ConnectionLifeCycleListener() {
-            @Override
-            public void onConnect() {
-                try {
-                    String oldTitle = mainView.getTitle();
-                    for (int i = 0; i < (oldTitle.length() / 2) + 1; i++) {
-                        mainView.setTitle(oldTitle.substring(i, oldTitle.length() - i));
-                        Thread.sleep(50);
-                    }
-                    String welcome = "Welcome to TwitDuke";
-                    for (int i = 0; i < welcome.length(); i++) {
-                        mainView.setTitle(welcome.substring(0, i + 1));
-                        Thread.sleep(50);
-                    }
-                    Thread.sleep(100);
-                    for (int i = 0; i < 12; i++) {
-                        mainView.setTitle(welcome.substring(i, welcome.length()));
-                        Thread.sleep(50);
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onDisconnect() {
-                mainView.setTitle("接続が切れました");
-            }
-
-            @Override
-            public void onCleanUp() {
-            }
-        });
-
-        mainView.setTitle("UserStreamに接続中です");
-        wrapper.setView(mainView);
-        UserStreamAdapter userStream = wrapper.getUserStream();
-        twitterStream.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
-        twitterStream.setOAuthAccessToken(accountManager.getCurrentToken());
-        twitterStream.addListener(userStream);
-        twitterStream.user();
-
-        fetchTimeLines();
+        this.setStatus("UserStreamに接続中です");
     }
 
-    private void fetchTimeLines() {
-        TweetCellFactory cellFactory = new TweetCellFactory(wrapper);
-        ResponseList<Status> mentions = wrapper.fetchMentionsTimeLine();
-        Collections.reverse(mentions);
-        ResponseList<Status> timeline = wrapper.fetchHomeTimeLine();
-        Collections.reverse(timeline);
-        for (Status status : mentions) {
-            mainView.insertTweetCell(cellFactory.createTweetCell(status));
-        }
-        for (Status status : timeline) {
-            mainView.insertTweetCell(cellFactory.createTweetCell(status));
-        }
+    /**
+     * UserStreamに接続された時に呼び出されます
+     *
+     * @see net.nokok.twitduke.main.Main#boot()
+     * @see net.nokok.twitduke.main.Main#twitterAPIWrapperInitialize()
+     */
+    public void userStreamConnected() {
+        this.setStatus("UserStreamに接続しました");
+        launchTitleAnimation();
     }
 
+    /**
+     * UserStreamとの接続が切れた時、切断された時に呼び出されます
+     *
+     * @see net.nokok.twitduke.main.Main#boot()
+     * @see net.nokok.twitduke.main.Main#twitterAPIWrapperInitialize()
+     */
+    public void userStreamDisconnected() {
+        this.setStatus("UserStreamとの接続が切れています");
+    }
+
+
+    /**
+     * UserStream接続成功時のタイトルバーのアニメーション処理を実行します
+     *
+     * @see net.nokok.twitduke.model.thread.TitleAnimationInvoker
+     */
+    private void launchTitleAnimation() {
+        new TitleAnimationInvoker(mainView).start();
+    }
+
+    /**
+     * MainViewのステータスバーに通知を表示します
+     * 通知は設定した秒数後(規定値:5秒)に消えるようアニメーション処理が実行されます
+     * また、通知が消える前に新たな通知が発生した場合、表示している通知は消え、新しい通知が表示されます
+     *
+     * @param text 表示する通知のテキスト
+     * @see net.nokok.twitduke.model.thread.StatusBarAnimationInvoker
+     */
+    public void setStatus(String text) {
+        statusBarAnimationThreadQueue.addEvent(new StatusBarAnimationInvoker(mainView, text));
+    }
+
+    /**
+     * リプライ用のメソッドです
+     * 渡されたスクリーンネームに@マークと半角スペースを付けてテキストフィールドにセットします
+     *
+     * @param screenName リプライを送信するユーザーのスクリーンネーム
+     */
+    public void setReply(String screenName) {
+        mainView.setTweetTextField("@" + screenName + " ");
+    }
+
+    /**
+     * ツイートセルを挿入します
+     * TweetCellFactoryを呼び出しTweetCellを作成した後MainViewに挿入します
+     *
+     * @param status TweetCellを生成するステータス
+     */
+    public void insertTweetCell(Status status) {
+        mainView.insertTweetCell(tweetCellFactory.createTweetCell(status));
+    }
+
+    /**
+     * MainViewのツールバーにあるボタンにアクションリスナーを設定します
+     */
     private void bindActionListener() {
         mainView.setSendButtonAction(new MouseAdapter() {
             @Override
@@ -106,15 +113,14 @@ public class MainViewController {
             }
         });
 
-        mainView.setTextFieldAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sendTweet();
-            }
-        });
+        mainView.setTextFieldAction(e -> sendTweet());
 
     }
 
+    /**
+     * ツイート送信時のView側の処理を行います
+     * ラッパクラスに入力されたツイートを渡した後、テキストフィールドのテキストをクリアします
+     */
     private void sendTweet() {
         wrapper.sendTweet(mainView.getTweetText());
         mainView.clearTextField();

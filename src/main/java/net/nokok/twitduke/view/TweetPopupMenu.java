@@ -1,10 +1,9 @@
 package net.nokok.twitduke.view;
 
+import java.awt.event.ActionListener;
+import javax.swing.JPopupMenu;
 import net.nokok.twitduke.view.ui.TWMenuItem;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
-
-import javax.swing.JPopupMenu;
-import java.awt.event.ActionListener;
 
 public class TweetPopupMenu extends JPopupMenu {
 
@@ -12,7 +11,7 @@ public class TweetPopupMenu extends JPopupMenu {
     private final TWMenuItem favorite   = new TWMenuItem("お気に入り");
     private final TWMenuItem retweet    = new TWMenuItem("リツイート");
     private final TWMenuItem allURLOpen = new TWMenuItem("URLをすべて開く");
-    private final TWMenuItem search     = new TWMenuItem("Googleで検索");
+    private final TWMenuItem search     = new TWMenuItem("選択したテキストをGoogleで検索");
     private final TWMenuItem delete     = new TWMenuItem("削除");
 
     public TweetPopupMenu() {
@@ -50,7 +49,7 @@ public class TweetPopupMenu extends JPopupMenu {
         this.delete.addActionListener(listener);
     }
 
-    public void addURLOpenButton(TWMenuItem menuItem) {
+    public void addMenuItem(TWMenuItem menuItem) {
         this.add(menuItem);
     }
 }

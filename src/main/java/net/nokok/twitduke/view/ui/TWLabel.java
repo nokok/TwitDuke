@@ -1,9 +1,8 @@
 package net.nokok.twitduke.view.ui;
 
-import net.nokok.twitduke.view.ui.color.DefaultColor;
-
 import javax.swing.Icon;
 import javax.swing.JLabel;
+import net.nokok.twitduke.view.ui.color.DefaultColor;
 
 public class TWLabel extends JLabel {
 

@@ -1,21 +1,24 @@
 package net.nokok.twitduke.view;
 
-import net.nokok.twitduke.view.ui.TWButton;
-import net.nokok.twitduke.view.ui.TWLabel;
-import net.nokok.twitduke.view.ui.TWPanel;
-import net.nokok.twitduke.view.ui.color.DefaultColor;
-
-import javax.swing.Icon;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
+import com.google.common.base.Objects;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import net.nokok.twitduke.view.ui.TWButton;
+import net.nokok.twitduke.view.ui.TWLabel;
+import net.nokok.twitduke.view.ui.TWPanel;
+import net.nokok.twitduke.view.ui.color.DefaultColor;
 
-public class TweetCell extends TWPanel {
+public class TweetCell extends TWPanel implements Cloneable {
 
     private long    statusId;
     private boolean isMention;
@@ -25,7 +28,7 @@ public class TweetCell extends TWPanel {
     private final JLabel    icon        = new JLabel();
     private final JLabel    retweetIcon = new JLabel();
     private final TWLabel   userName    = new TWLabel();
-    private final JTextArea tweetText   = new JTextArea();
+    private       JTextArea tweetText   = new JTextArea();
 
     private final Dimension RETWEET_ICON_SIZE    = new Dimension(15, 15);
     private final Dimension FUNCTION_BUTTON_SIZE = new Dimension(15, 13);
@@ -36,8 +39,37 @@ public class TweetCell extends TWPanel {
 
     private final TWPanel thumbnailPanel = new TWPanel(new FlowLayout(FlowLayout.CENTER));
 
-    public TweetCell(boolean isMention, long statusId, Icon userIcon, String userName, String tweetText) {
+    public TweetCell(boolean isMention,
+                     long statusId,
+                     Icon userIcon,
+                     String userName,
+                     String tweetText) {
+        initializeComponent();
+
         this.isMention = isMention;
+        this.statusId = statusId;
+        this.icon.setIcon(userIcon);
+        this.userName.setText(userName);
+        this.tweetText.setText(tweetText);
+
+        if (isMention) {
+            this.changeColor(DefaultColor.TweetCell.MENTION_BACKGROUND);
+        } else {
+            this.changeColor(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
+        }
+    }
+
+    public TweetCell(boolean isMention,
+                     long statusId,
+                     Icon userIcon,
+                     Icon retweetIcon,
+                     String userName,
+                     String tweetText) {
+        this(isMention, statusId, userIcon, userName, tweetText);
+        this.retweetIcon.setIcon(retweetIcon);
+    }
+
+    private void initializeComponent() {
         this.setLayout(new BorderLayout());
         this.retweetIcon.setPreferredSize(RETWEET_ICON_SIZE);
         this.userName.setFont(new Font("", Font.BOLD, 13));
@@ -61,45 +93,28 @@ public class TweetCell extends TWPanel {
         contentsPanel.add(this.contentsNorthPanel, BorderLayout.NORTH);
         contentsPanel.add(this.tweetText, BorderLayout.CENTER);
 
-
         this.add(this.icon, BorderLayout.WEST);
         this.add(contentsPanel, BorderLayout.CENTER);
-        this.add(thumbnailPanel, BorderLayout.SOUTH);
 
-        this.statusId = statusId;
-        this.icon.setIcon(userIcon);
-        this.userName.setText(userName);
-        this.tweetText.setText(tweetText);
-
-        if (isMention) {
-            this.changeColor(DefaultColor.TweetCell.MENTION_BACKGROUND);
-        } else {
-            this.changeColor(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
-        }
-        calcSize();
     }
 
-    public TweetCell(boolean isMention,
-                     long statusId,
-                     Icon userIcon,
-                     Icon retweetIcon,
-                     String userName,
-                     String tweetText) {
-        this(isMention, statusId, userIcon, userName, tweetText);
-        this.retweetIcon.setIcon(retweetIcon);
+    public void setThumbnail(Image image) {
+        thumbnailPanel.add(new TWLabel(new ImageIcon(image)));
+        enableThumbnail();
     }
 
     public void setThumbnail(TWLabel imageLabel) {
         thumbnailPanel.add(imageLabel);
+        enableThumbnail();
+    }
+
+    private void enableThumbnail() {
+        this.add(thumbnailPanel, BorderLayout.SOUTH);
+        thumbnailPanel.validate();
     }
 
     public boolean isMention() {
         return this.isMention;
-    }
-
-    public void calcSize() {
-        this.setPreferredSize(null);
-        this.setSize(this.getPreferredSize());
     }
 
     public void changeColor(Color color) {
@@ -108,10 +123,6 @@ public class TweetCell extends TWPanel {
         this.contentsNorthPanel.setBackground(color);
         this.tweetText.setBackground(color);
         this.thumbnailPanel.setBackground(color);
-    }
-
-    public static TweetCell copy(TweetCell oldCell) {
-        return new TweetCell(oldCell.isMention, oldCell.statusId, oldCell.icon.getIcon(), oldCell.userName.getText(), oldCell.tweetText.getText());
     }
 
     public void setFavoriteAction(MouseAdapter adapter) {
@@ -159,15 +170,37 @@ public class TweetCell extends TWPanel {
     }
 
     @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
+    public TweetCell clone() {
+        try {
+            TweetCell cell = (TweetCell) super.clone();
+            cell.tweetText = new JTextArea(cell.tweetText.getText());
 
-        builder.append("Icon:");
-        builder.append(icon.toString()).append("\n");
-        builder.append("User:");
-        builder.append(userName.getText()).append("\n");
-        builder.append("Tweet:");
-        builder.append(tweetText.getText()).append("\n");
-        return builder.toString();
+            for (MouseListener listener : this.getMouseListeners()) {
+                cell.addMouseListener(listener);
+            }
+            return cell;
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError(e.toString());
+        }
+    }
+
+    @Override
+    public int getHeight() {
+        //MinimumSizeをPreferredSizeにすると隙間が出来てしまう。
+        //例えばMinimumSizeの高さが55pxの状態でPreferredSizeの高さが48pxのような状況になる
+        return (int) this.getMinimumSize().getHeight();
+    }
+
+    @Override
+    public String toString() {
+        String tweetText = this.tweetText.getText();
+
+        return Objects.toStringHelper(this)
+            .add("PrefSize", this.getPreferredSize())
+            .add("Size", this.getSize())
+            .add("MinimumSize", this.getMinimumSize())
+            .add("Tweet", tweetText.length() > 5 ? tweetText.substring(0, 5) : tweetText)
+            .add("User", userName.getText())
+            .toString();
     }
 }

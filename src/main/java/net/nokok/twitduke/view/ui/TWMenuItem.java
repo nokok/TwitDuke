@@ -1,8 +1,7 @@
 package net.nokok.twitduke.view.ui;
 
-import net.nokok.twitduke.view.ui.color.DefaultColor;
-
 import javax.swing.JMenuItem;
+import net.nokok.twitduke.view.ui.color.DefaultColor;
 
 public class TWMenuItem extends JMenuItem {
 
