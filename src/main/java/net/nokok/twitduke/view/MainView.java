@@ -170,30 +170,48 @@ public class MainView extends JFrame {
         this.mentionButton.addActionListener(listener);
     }
 
+    /**
+     * ユーザースイッチャーにマウスアダプターをセットします
+     *
+     * @param adapter セットするマウスアダプター
+     */
     public void setUserSwitcherAction(MouseAdapter adapter) {
         this.userSwitcher.addMouseListener(adapter);
     }
 
+    /**
+     * ツイート送信ボタンにアクションリスナをセットします
+     *
+     * @param listener セットするアクションリスナー
+     */
     public void setSendButtonAction(ActionListener listener) {
         this.sendButton.addActionListener(listener);
     }
 
-    public void setStatus(String text) {
-        this.statusLabel.setText(text);
-    }
-
+    /**
+     * @return 通知表示用のラベル
+     */
     public TWLabel getStatusLabel() {
         return statusLabel;
     }
 
+    /**
+     * @return このメソッドが呼ばれた時点でテキストフィールドに入力されていたテキスト
+     */
     public String getTweetText() {
         return this.tweetTextField.getText();
     }
 
+    /**
+     * テキストフィールドに入力されたテキストをすべて消去します
+     */
     public void clearTextField() {
         tweetTextField.setText("");
     }
 
+    /**
+     * メインのタイムラインのパネルとメンションのパネルを入れ替えます
+     */
     public void swapTweetList() {
         isMentionVisible = !isMentionVisible;
         if (isMentionVisible) {

@@ -4,7 +4,7 @@ import java.io.File;
 import net.nokok.twitduke.util.Threads;
 
 /**
- * 指定したファイルが作成されるのを待ちます
+ * 指定したファイルが作成されるのを3秒間隔で監視し、作成されたらfilesCreatedが呼ばれます
  */
 public class FileCreateWatcher extends Thread implements Runnable {
 
