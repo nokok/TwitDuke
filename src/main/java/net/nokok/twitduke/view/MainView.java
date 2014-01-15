@@ -155,7 +155,7 @@ public class MainView extends JFrame {
     /**
      * 設定ボタンにをセットします
      *
-     * @param listener セットする
+     * @param listener セットするアクションリスナ
      */
     public void setSettingButtonAction(ActionListener listener) {
         this.settingButton.addActionListener(listener);
