@@ -68,7 +68,7 @@ public class MainViewController {
      * @see net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker
      */
     public void setNotification(String text) {
-        new NotificationBarAnimationInvoker(mainView, text);
+        new NotificationBarAnimationInvoker(mainView, text).start();
     }
 
     /**
