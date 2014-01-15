@@ -8,15 +8,14 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
-import javax.swing.BoxLayout;
+import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import net.nokok.twitduke.model.TimelineLayout;
 import net.nokok.twitduke.view.ui.TWButton;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.view.ui.TWPanel;
@@ -45,9 +44,6 @@ public class MainView extends JFrame {
     private final TWPanel rootScrollPanel = new TWPanel(layout);
     private final TWPanel tweetListPanel  = new TWPanel();
     private final TWPanel replyListPanel  = new TWPanel();
-
-    private int totalTweetListHeight = 0;
-    private int totalReplyListHeight = 0;
 
     private final TWLabel statusLabel = new TWLabel();
 
@@ -81,8 +77,8 @@ public class MainView extends JFrame {
 
         JScrollPane scrollPane = new TWScrollPane(tweetListPanel);
         JScrollPane replyScrollPane = new TWScrollPane(replyListPanel);
-        tweetListPanel.setLayout(new BoxLayout(tweetListPanel, BoxLayout.Y_AXIS));
-        replyListPanel.setLayout(new BoxLayout(replyListPanel, BoxLayout.Y_AXIS));
+        tweetListPanel.setLayout(new TimelineLayout());
+        replyListPanel.setLayout(new TimelineLayout());
 
         rootScrollPanel.add(scrollPane, "DEFAULT");
         rootScrollPanel.add(replyScrollPane, "REPLY");
@@ -96,17 +92,6 @@ public class MainView extends JFrame {
         this.add(topPanel, BorderLayout.NORTH);
         this.add(rootScrollPanel, BorderLayout.CENTER);
         this.add(statusBar, BorderLayout.SOUTH);
-        this.setActionListener();
-    }
-
-    private void setActionListener() {
-        rootScrollPanel.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                //スクロールバーと被るのでスクロールバーの幅15pxを引く
-                resizeComponents(e.getComponent().getWidth() - SCROLLBAR_WIDTH);
-            }
-        });
     }
 
     /**
@@ -118,17 +103,8 @@ public class MainView extends JFrame {
     public void insertTweetCell(TweetCell cell) {
         if (cell.isMention()) {
             insertTweetCellToPanel(replyListPanel, cell.clone());
-            totalReplyListHeight += cell.getHeight();
         }
         insertTweetCellToPanel(tweetListPanel, cell);
-        totalTweetListHeight += cell.getHeight();
-        resizeComponents(this.getWidth() - SCROLLBAR_WIDTH);
-    }
-
-    private void resizeComponents(int currentWidth) {
-        tweetListPanel.setPreferredSize(new Dimension(currentWidth, totalTweetListHeight));
-        replyListPanel.setPreferredSize(new Dimension(currentWidth, totalReplyListHeight));
-        rootScrollPanel.setPreferredSize(tweetListPanel.getPreferredSize());
     }
 
     /**
@@ -138,6 +114,7 @@ public class MainView extends JFrame {
      * @param cell  挿入するセル
      */
     private void insertTweetCellToPanel(JComponent panel, TweetCell cell) {
+        panel.add(Box.createRigidArea(new Dimension(1, 1)), 0);
         panel.add(cell, 0);
         panel.validate();
     }
