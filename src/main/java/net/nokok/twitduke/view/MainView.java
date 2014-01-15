@@ -97,15 +97,15 @@ public class MainView extends JFrame {
         rootScrollPanel.add(scrollPane, "DEFAULT");
         rootScrollPanel.add(replyScrollPane, "REPLY");
 
-        TWPanel statusBar = new TWPanel(new FlowLayout(FlowLayout.LEFT));
+        TWPanel notificationBar = new TWPanel(new FlowLayout(FlowLayout.LEFT));
         Font statusFont = new Font("", Font.BOLD, 12);
-        statusBar.setPreferredSize(STATUS_BAR_SIZE);
+        notificationBar.setPreferredSize(STATUS_BAR_SIZE);
         statusLabel.setFont(statusFont);
-        statusBar.add(statusLabel);
+        notificationBar.add(statusLabel);
 
         this.add(topPanel, BorderLayout.NORTH);
         this.add(rootScrollPanel, BorderLayout.CENTER);
-        this.add(statusBar, BorderLayout.SOUTH);
+        this.add(notificationBar, BorderLayout.SOUTH);
     }
 
     /**
