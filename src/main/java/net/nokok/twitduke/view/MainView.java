@@ -131,7 +131,7 @@ public class MainView extends JFrame {
         panel.add(Box.createRigidArea(new Dimension(1, 1)), 0);
         panel.add(cell, 0);
         panel.validate();
-        panel.setPreferredSize(panel.getLayout().preferredLayoutSize(panel));
+        panel.setPreferredSize(panel.getLayout().minimumLayoutSize(panel));
     }
 
     /**

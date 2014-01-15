@@ -6,11 +6,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import net.nokok.twitduke.view.ui.TWButton;
@@ -98,11 +96,6 @@ public class TweetCell extends TWPanel implements Cloneable {
 
     }
 
-    public void setThumbnail(Image image) {
-        thumbnailPanel.add(new TWLabel(new ImageIcon(image)));
-        enableThumbnail();
-    }
-
     public void setThumbnail(TWLabel imageLabel) {
         thumbnailPanel.add(imageLabel);
         enableThumbnail();
@@ -157,10 +150,6 @@ public class TweetCell extends TWPanel implements Cloneable {
         return isRetweeted;
     }
 
-    public long getStatusId() {
-        return statusId;
-    }
-
     public String getSelectedText() {
         return tweetText.getSelectedText();
     }
@@ -174,7 +163,6 @@ public class TweetCell extends TWPanel implements Cloneable {
         try {
             TweetCell cell = (TweetCell) super.clone();
             cell.tweetText = new JTextArea(cell.tweetText.getText());
-
             for (MouseListener listener : this.getMouseListeners()) {
                 cell.addMouseListener(listener);
             }
@@ -186,9 +174,7 @@ public class TweetCell extends TWPanel implements Cloneable {
 
     @Override
     public int getHeight() {
-        //MinimumSizeをPreferredSizeにすると隙間が出来てしまう。
-        //例えばMinimumSizeの高さが55pxの状態でPreferredSizeの高さが48pxのような状況になる
-        return (int) this.getMinimumSize().getHeight();
+        return (int) this.getPreferredSize().getHeight();
     }
 
     @Override
