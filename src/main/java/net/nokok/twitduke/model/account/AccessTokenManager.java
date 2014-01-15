@@ -78,11 +78,9 @@ public class AccessTokenManager {
             String readLine;
             while ((readLine = bufferedReader.readLine()) != null) {
                 Iterator<String> iteratableTokenList = Splitter.on(',').trimResults().omitEmptyStrings().split(readLine).iterator();
-                while (iteratableTokenList.hasNext()) {
-                    String userName = iteratableTokenList.next();
-                    long userId = Longs.tryParse(iteratableTokenList.next());
-                    simpleTokenList.add(new SimpleToken(userName, userId));
-                }
+                String userName = iteratableTokenList.next();
+                long userId = Longs.tryParse(iteratableTokenList.next());
+                simpleTokenList.add(new SimpleToken(userName, userId));
             }
             primaryUser = simpleTokenList.get(0);
             isLoaded = primaryUser != null;

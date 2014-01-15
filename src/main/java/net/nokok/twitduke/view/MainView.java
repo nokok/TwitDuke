@@ -35,11 +35,9 @@ public class MainView extends JFrame {
 
     private JTextField tweetTextField = new JTextField();
 
-    private final Dimension DEFAULT_SIZE        = new Dimension(530, 600);
-    private final Dimension TEXTFIELD_SIZE      = new Dimension(530, 30);
-    private final Dimension STATUS_BAR_SIZE     = new Dimension(530, 25);
-    private final Dimension TWEETCELL_SEPARATOR = new Dimension(1, 1); //幅は1px固定 (width,height)
-    private final int       SCROLLBAR_WIDTH     = 15;
+    private final Dimension DEFAULT_SIZE    = new Dimension(530, 600);
+    private final Dimension TEXTFIELD_SIZE  = new Dimension(530, 30);
+    private final Dimension STATUS_BAR_SIZE = new Dimension(530, 25);
 
     private final TimelineLayout tweetListLayout = new TimelineLayout();
     private final TimelineLayout replyListLayout = new TimelineLayout();
