@@ -127,18 +127,8 @@ public class TweetCellFactory {
      * @param status ツイートのステータス
      */
     private void setCommonActionListener(final TweetCell cell, final Status status) {
-        cell.setFavoriteAction(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                favorite(cell, status.getId());
-            }
-        });
-        cell.setRetweetAction(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                retweet(cell, status.getId());
-            }
-        });
+        cell.setFavoriteAction(e -> favorite(cell, status.getId()));
+        cell.setRetweetAction(e -> retweet(cell, status.getId()));
     }
 
     /**

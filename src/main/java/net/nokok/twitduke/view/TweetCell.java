@@ -6,8 +6,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -16,7 +23,7 @@ import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.view.ui.TWPanel;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
 
-public class TweetCell extends TWPanel implements Cloneable {
+public class TweetCell extends TWPanel implements Cloneable, Serializable {
 
     private long    statusId;
     private boolean isMention;
@@ -118,12 +125,12 @@ public class TweetCell extends TWPanel implements Cloneable {
         this.thumbnailPanel.setBackground(color);
     }
 
-    public void setFavoriteAction(MouseAdapter adapter) {
-        this.favoriteButton.addMouseListener(adapter);
+    public void setFavoriteAction(ActionListener listener) {
+        this.favoriteButton.addActionListener(listener);
     }
 
-    public void setRetweetAction(MouseAdapter adapter) {
-        this.retweetButton.addMouseListener(adapter);
+    public void setRetweetAction(ActionListener listener) {
+        this.retweetButton.addActionListener(listener);
     }
 
     public void setTextAreaAction(MouseAdapter adapter) {
@@ -161,14 +168,24 @@ public class TweetCell extends TWPanel implements Cloneable {
     @Override
     public TweetCell clone() {
         try {
-            TweetCell cell = (TweetCell) super.clone();
-            cell.tweetText = new JTextArea(cell.tweetText.getText());
-            for (MouseListener listener : this.getMouseListeners()) {
-                cell.addMouseListener(listener);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+            objectOutputStream.writeObject(this);
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+            TweetCell cell = (TweetCell) objectInputStream.readObject();
+            for (ActionListener listener : this.favoriteButton.getActionListeners()) {
+                cell.favoriteButton.addActionListener(listener);
+            }
+            for (ActionListener listener : this.retweetButton.getActionListeners()) {
+                cell.retweetButton.addActionListener(listener);
+            }
+            for (MouseListener listener : this.tweetText.getMouseListeners()) {
+                cell.tweetText.addMouseListener(listener);
             }
             return cell;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e.toString());
+        } catch (IOException | ClassNotFoundException e) {
+            throw new InternalError(e.getMessage());
         }
     }
 
