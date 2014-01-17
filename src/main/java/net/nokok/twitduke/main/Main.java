@@ -4,13 +4,14 @@ import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.model.ConsumerKey;
 import net.nokok.twitduke.model.UserStreamListenerImpl;
 import net.nokok.twitduke.model.account.AccessTokenManager;
-import net.nokok.twitduke.model.thread.BootFileWatcher;
+import net.nokok.twitduke.model.thread.FileCreateWatcher;
+import net.nokok.twitduke.model.thread.IFileWatcher;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.ConnectionLifeCycleListener;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 
-public class Main {
+public class Main implements IFileWatcher {
 
     Twitter4jAsyncWrapper wrapper;
     MainViewController    mainViewController;
@@ -34,7 +35,8 @@ public class Main {
         readConfigFiles();
         mainViewInitialize();
         twitterAPIWrapperInitialize();
-        new BootFileWatcher(AccessTokenManager.getInstance().getTokenFileListPath(), this).start();
+        String accessTokenFilePath = AccessTokenManager.getInstance().getTokenFileListPath();
+        new FileCreateWatcher(accessTokenFilePath, this).start();
     }
 
     /**
@@ -79,7 +81,7 @@ public class Main {
     /**
      * 認証ファイルが書き込まれたらBootFileWatcherによって呼ばれます
      */
-    public void writeAccessTokenFilesFinished() {
+    public void filesCreated() {
         startUserStream();
         fetchTimelines();
     }

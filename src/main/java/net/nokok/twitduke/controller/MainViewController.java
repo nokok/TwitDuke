@@ -1,10 +1,7 @@
 package net.nokok.twitduke.controller;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
-import net.nokok.twitduke.model.thread.StatusBarAnimationThreadQueue;
-import net.nokok.twitduke.model.thread.StatusBarAnimationInvoker;
+import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
 import net.nokok.twitduke.view.MainView;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
@@ -15,7 +12,6 @@ public class MainViewController {
     private Twitter4jAsyncWrapper wrapper;
     private TweetCellFactory      tweetCellFactory;
     private MainView              mainView;
-    private StatusBarAnimationThreadQueue statusBarAnimationThreadQueue = new StatusBarAnimationThreadQueue();
 
     /**
      * MainViewControllerの初期化に必要な処理を開始します
@@ -29,7 +25,7 @@ public class MainViewController {
         this.tweetCellFactory = new TweetCellFactory(wrapper);
         mainView.setVisible(true);
         bindActionListener();
-        this.setStatus("UserStreamに接続中です");
+        this.setNotification("UserStreamに接続中です");
     }
 
     /**
@@ -39,10 +35,9 @@ public class MainViewController {
      * @see net.nokok.twitduke.main.Main#twitterAPIWrapperInitialize()
      */
     public void userStreamConnected() {
-        this.setStatus("UserStreamに接続しました");
+        this.setNotification("UserStreamに接続しました");
         launchTitleAnimation();
     }
-
 
     /**
      * UserStreamとの接続が切れた時、切断された時に呼び出されます
@@ -51,7 +46,7 @@ public class MainViewController {
      * @see net.nokok.twitduke.main.Main#twitterAPIWrapperInitialize()
      */
     public void userStreamDisconnected() {
-        this.setStatus("UserStreamとの接続が切れています");
+        this.setNotification("UserStreamとの接続が切れています");
     }
 
 
@@ -70,10 +65,10 @@ public class MainViewController {
      * また、通知が消える前に新たな通知が発生した場合、表示している通知は消え、新しい通知が表示されます
      *
      * @param text 表示する通知のテキスト
-     * @see net.nokok.twitduke.model.thread.StatusBarAnimationInvoker
+     * @see net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker
      */
-    public void setStatus(String text) {
-        statusBarAnimationThreadQueue.addEvent(new StatusBarAnimationInvoker(mainView, text));
+    public void setNotification(String text) {
+        new NotificationBarAnimationInvoker(mainView, text).start();
     }
 
     /**
@@ -100,22 +95,9 @@ public class MainViewController {
      * MainViewのツールバーにあるボタンにアクションリスナーを設定します
      */
     private void bindActionListener() {
-        mainView.setSendButtonAction(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                sendTweet();
-            }
-        });
-
-        mainView.setMentionButtonAction(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                mainView.swapTweetList();
-            }
-        });
-
+        mainView.setSendButtonAction(e -> sendTweet());
+        mainView.setMentionButtonAction(e -> mainView.swapTweetList());
         mainView.setTextFieldAction(e -> sendTweet());
-
     }
 
     /**

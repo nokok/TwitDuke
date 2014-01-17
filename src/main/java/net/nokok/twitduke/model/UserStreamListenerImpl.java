@@ -56,17 +56,17 @@ public class UserStreamListenerImpl implements UserStreamListener {
 
     @Override
     public void onFavorite(User source, User target, Status favoritedStatus) {
-        mainViewController.setStatus("★" + URLUtil.extendURL(favoritedStatus) + "が" + source.getScreenName() + "にお気に入り登録されました");
+        mainViewController.setNotification("★" + URLUtil.extendURL(favoritedStatus) + "が" + source.getScreenName() + "にお気に入り登録されました");
     }
 
     @Override
     public void onUnfavorite(User source, User target, Status unfavoritedStatus) {
-        mainViewController.setStatus("☆" + source.getScreenName() + "が" + URLUtil.extendURL(unfavoritedStatus) + "のお気に入り登録を解除しました");
+        mainViewController.setNotification("☆" + source.getScreenName() + "が" + URLUtil.extendURL(unfavoritedStatus) + "のお気に入り登録を解除しました");
     }
 
     @Override
     public void onFollow(User source, User followedUser) {
-        mainViewController.setStatus(source.getScreenName() + "が" + followedUser.getScreenName() + "をフォローしました");
+        mainViewController.setNotification(source.getScreenName() + "が" + followedUser.getScreenName() + "をフォローしました");
     }
 
     @Override
@@ -126,6 +126,6 @@ public class UserStreamListenerImpl implements UserStreamListener {
 
     @Override
     public void onException(Exception ex) {
-        mainViewController.setStatus(ex.getMessage());
+        mainViewController.setNotification(ex.getMessage());
     }
 }

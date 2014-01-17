@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -30,11 +30,11 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="org.twitter4j:twitter4j-async:3.0.5" level="project" />
-    <orderEntry type="library" name="org.twitter4j:twitter4j-core:3.0.5" level="project" />
-    <orderEntry type="library" name="org.twitter4j:twitter4j-stream:3.0.5" level="project" />
-    <orderEntry type="library" name="com.google.guava:guava:15.0" level="project" />
-    <orderEntry type="library" name="org.projectlombok:lombok:1.12.2" level="project" />
+    <orderEntry type="library" name="com.google.guava:guava:15.0" level="application" />
+    <orderEntry type="library" name="org.projectlombok:lombok:1.12.2" level="application" />
+    <orderEntry type="library" name="org.twitter4j:twitter4j-async:3.0.5" level="application" />
+    <orderEntry type="library" name="org.twitter4j:twitter4j-core:3.0.5" level="application" />
+    <orderEntry type="library" name="org.twitter4j:twitter4j-stream:3.0.5" level="application" />
   </component>
 </module>
 

@@ -19,7 +19,7 @@ public class BootFileWatcher extends Thread implements Runnable {
     public void run() {
         while (true) {
             if (watchingFile.exists()) {
-                main.writeAccessTokenFilesFinished();
+                main.filesCreated();
                 break;
             } else {
                 Threads.sleep(this, 3000);
