@@ -79,6 +79,7 @@ public class Twitter4jAsyncWrapper {
     public void sendTweet(String text) {
         if (replyId != 0) {
             replyTweet(new StatusUpdate(text));
+            return;
         }
         asynctwitter.updateStatus(text);
     }
