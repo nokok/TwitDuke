@@ -27,9 +27,9 @@ IntelliJ 12,13のCE+Java7の環境にて開発をしています。
 が、近いうちにWindowsでもテストをしたいと考えています。
 
 #使用ライブラリ
-Twitter4j(Apache License 2.0) http://twitter4j.org/ja/index.html
-guava-libraries(Apache License 2.0) http://code.google.com/p/guava-libraries/
-Project Lombok(MIT license) http://projectlombok.org/
+Twitter4j(Apache License 2.0) http://twitter4j.org/ja/index.html  
+guava-libraries(Apache License 2.0) http://code.google.com/p/guava-libraries/  
+Project Lombok(MIT license) http://projectlombok.org/  
 
 ####開発者:
 Twitter:@noko_k
