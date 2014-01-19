@@ -19,7 +19,7 @@ import twitter4j.auth.AccessToken;
 
 public class AccessTokenManager {
 
-    private static final AccessTokenManager instance = new AccessTokenManager();
+    private static final AccessTokenManager accessTokenManager = new AccessTokenManager();
 
     private final String ACCESS_TOKEN_LIST_FILENAME = "authlist";
     private final String ACCESS_TOKEN_PREFIX        = "token";
@@ -47,12 +47,12 @@ public class AccessTokenManager {
 
     /**
      * カレントディレクトリにauthディレクトリを作成します
-     *
-     * @return ディレクトリの作成に成功または既に存在していた場合true
      */
-    public boolean createTokenDirectory() {
+    public void createTokenDirectory() {
         File authDirectory = new File(AUTH_DIRECTORY_PATH);
-        return authDirectory.exists() || authDirectory.mkdir();
+        if (!authDirectory.exists()) {
+            authDirectory.mkdir();
+        }
     }
 
     /**
@@ -60,8 +60,8 @@ public class AccessTokenManager {
      *
      * @return AccessTokenManagerのインスタンス
      */
-    public static AccessTokenManager getInstance() {
-        return instance;
+    public static AccessTokenManager getAccessTokenManager() {
+        return accessTokenManager;
     }
 
     /**
@@ -70,7 +70,7 @@ public class AccessTokenManager {
      *
      * @throws java.io.IOError
      */
-    public boolean readTokenList() {
+    void readTokenList() {
         if (!isTokenListExists()) {
             throw new IOError(new FileNotFoundException("トークンリストファイルが見つかりません"));
         }
@@ -84,9 +84,7 @@ public class AccessTokenManager {
             }
             primaryUser = simpleTokenList.get(0);
             isLoaded = primaryUser != null;
-            return isLoaded;
         } catch (IOException e) {
-            e.printStackTrace();
             throw new InternalError("トークんリストの読み込み中にエラーが発生しました");
         }
     }
@@ -138,13 +136,12 @@ public class AccessTokenManager {
      * @param id 読み込むユーザーのID
      * @return 読み込まれたAccessToken
      */
-    public AccessToken readAccessToken(long id) {
-        try (FileInputStream fileInputStream = new FileInputStream(TOKENFILE_PATH_WITH_PREFIX + id);
+    AccessToken readAccessToken(long id) {
+        try (FileInputStream fileInputStream = new FileInputStream(String.format("%s%d", TOKENFILE_PATH_WITH_PREFIX, id));
              ObjectInputStream stream = new ObjectInputStream(fileInputStream)) {
 
             return (AccessToken) stream.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
             throw new IOError(e.getCause());
         }
     }
@@ -157,15 +154,14 @@ public class AccessTokenManager {
      * @param accessToken 書き込むアクセストークン
      */
     public void writeAccessToken(AccessToken accessToken) {
-        File authUserListFile = new File(AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_LIST_FILENAME);
-        try (FileOutputStream fileOutputStream = new FileOutputStream(TOKENFILE_PATH_WITH_PREFIX + accessToken.getUserId());
+        File authUserListFile = new File(String.format("%s%s%s", AUTH_DIRECTORY_PATH, File.separator, ACCESS_TOKEN_LIST_FILENAME));
+        try (FileOutputStream fileOutputStream = new FileOutputStream(String.format("%s%d", TOKENFILE_PATH_WITH_PREFIX, accessToken.getUserId()));
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
              FileWriter writer = new FileWriter(authUserListFile)) {
 
-            writer.write(accessToken.getScreenName() + "," + accessToken.getUserId() + "\n");
+            writer.write(accessToken.getScreenName() + ',' + accessToken.getUserId() + '\n');
             objectOutputStream.writeObject(accessToken);
         } catch (IOException e) {
-            e.printStackTrace();
             throw new IOError(e.getCause());
         }
     }

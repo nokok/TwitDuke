@@ -7,7 +7,7 @@ public class TWMenuItem extends JMenuItem {
 
     public TWMenuItem(String text) {
         super(text);
-        this.setForeground(DefaultColor.TWButton.DEFAULT_FOREGROUND);
-        this.setBackground(DefaultColor.TWButton.DEFAULT_BACKGROUND);
+        setForeground(DefaultColor.TWButton.DEFAULT_FOREGROUND);
+        setBackground(DefaultColor.TWButton.DEFAULT_BACKGROUND);
     }
 }

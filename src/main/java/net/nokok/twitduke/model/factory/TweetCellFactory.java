@@ -12,19 +12,20 @@ import net.nokok.twitduke.view.ImageView;
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
+import twitter4j.EntitySupport;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
 
 public class TweetCellFactory {
 
+    private static final int RETWEET_ICON_WIDTH  = 15;
+    private static final int RETWEET_ICON_HEIGHT = 15;
     private final Twitter4jAsyncWrapper wrapper;
     private final PopupMenuFactory      popupMenuFactory;
 
-    private final String ICON_INTERNAL_ERROR_MESSAGE = "ユーザーのアイコン取得中にエラーが発生しました";
-
     public TweetCellFactory(Twitter4jAsyncWrapper twitter) {
-        this.wrapper = twitter;
-        this.popupMenuFactory = new PopupMenuFactory(wrapper);
+        wrapper = twitter;
+        popupMenuFactory = new PopupMenuFactory(wrapper);
     }
 
     /**
@@ -33,11 +34,11 @@ public class TweetCellFactory {
      * @param status ツイートのステータス
      * @return 作成されたツイートセル
      */
-    public TweetCell createTweetCell(final Status status) {
+    public TweetCell createTweetCell(Status status) {
 
         boolean isMention = isMention(status);
 
-        final TweetCell cell;
+        TweetCell cell;
 
         if (status.isRetweet()) {
             cell = createRetweetCell(isMention, status);
@@ -56,7 +57,7 @@ public class TweetCellFactory {
      * @param cell   サムネイルをセットするツイートセル
      * @param status ツイートのステータス
      */
-    private void setThumbnail(TweetCell cell, Status status) {
+    private void setThumbnail(TweetCell cell, EntitySupport status) {
         for (MediaEntity entity : status.getMediaEntities()) {
             final URL thumbnailURL = URLUtil.createURL(entity.getMediaURL());
             TWLabel image = new TWLabel(ImageSizeChanger.createThumbnail(new ImageIcon(thumbnailURL)));
@@ -80,7 +81,7 @@ public class TweetCellFactory {
      * @return リプライが含まれている場合にtrue
      */
     private boolean isMention(Status status) {
-        return status.getText().contains("@" + AccessTokenManager.getInstance().getUserName()) && !status.isRetweet();
+        return status.getText().contains("@" + AccessTokenManager.getAccessTokenManager().getUserName()) && !status.isRetweet();
     }
 
     /**
@@ -108,10 +109,9 @@ public class TweetCellFactory {
      * @return 生成されたツイートセル
      */
     private TweetCell createRetweetCell(boolean isMention, Status status) {
-        URL userIconURL, retweetIconURL;
-        userIconURL = URLUtil.createURL(status.getRetweetedStatus().getUser().getProfileImageURLHttps());
-        retweetIconURL = URLUtil.createURL(status.getUser().getProfileImageURLHttps());
-        Image retweetUserImage = new ImageIcon(retweetIconURL).getImage().getScaledInstance(15, 15, Image.SCALE_FAST);
+        URL userIconURL = URLUtil.createURL(status.getRetweetedStatus().getUser().getProfileImageURLHttps());
+        URL retweetIconURL = URLUtil.createURL(status.getUser().getProfileImageURLHttps());
+        Image retweetUserImage = new ImageIcon(retweetIconURL).getImage().getScaledInstance(RETWEET_ICON_WIDTH, RETWEET_ICON_HEIGHT, Image.SCALE_FAST);
         return new TweetCell(isMention,
                              status.getId(),
                              new ImageIcon(userIconURL),
@@ -126,7 +126,7 @@ public class TweetCellFactory {
      * @param cell   アクションリスナをセットするセル
      * @param status ツイートのステータス
      */
-    private void setCommonActionListener(final TweetCell cell, final Status status) {
+    private void setCommonActionListener(TweetCell cell, Status status) {
         cell.setFavoriteAction(e -> favorite(cell, status.getId()));
         cell.setRetweetAction(e -> retweet(cell, status.getId()));
     }

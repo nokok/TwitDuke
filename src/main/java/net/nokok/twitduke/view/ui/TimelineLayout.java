@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 
 public class TimelineLayout implements LayoutManager {
 
+    public static final int SCROLLBAR_WIDTH = 15;
+
     @Override
     public void addLayoutComponent(String name, Component comp) {
 
@@ -22,8 +24,7 @@ public class TimelineLayout implements LayoutManager {
     @Override
     public synchronized Dimension preferredLayoutSize(Container parent) {
         //MainViewのレイアウトが変更されたらこことminimumLayoutを変更する
-        //15はスクロールバーの幅
-        int width = parent.getParent().getWidth() - 15;
+        int width = parent.getParent().getWidth() - SCROLLBAR_WIDTH;
         double height = Lists.newArrayList(parent.getComponents()).stream().collect(
             Collectors.summingDouble(e -> e.getPreferredSize().getHeight())
         );
@@ -32,7 +33,7 @@ public class TimelineLayout implements LayoutManager {
 
     @Override
     public synchronized Dimension minimumLayoutSize(Container parent) {
-        int width = parent.getParent().getWidth() - 15;
+        int width = parent.getParent().getWidth() - SCROLLBAR_WIDTH;
         double height = Lists.newArrayList(parent.getComponents()).stream().collect(
             Collectors.summingDouble(e -> e.getMinimumSize().getHeight())
         );

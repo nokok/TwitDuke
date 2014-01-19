@@ -27,7 +27,7 @@ public class ImageSizeChanger {
      * @param width 横方向のサイズ
      * @return 横方向のサイズが指定したサイズの画像
      */
-    public static ImageIcon resizeImage(ImageIcon image, int width) {
+    private static ImageIcon resizeImage(ImageIcon image, int width) {
         return new ImageIcon(image.getImage().getScaledInstance(width, -1, Image.SCALE_SMOOTH));
     }
 }

@@ -16,13 +16,14 @@ import net.nokok.twitduke.view.ui.color.DefaultColor;
 
 public class UserView extends JFrame {
 
-    private final TWPanel  tweetPanel = new TWPanel();
-    private final TWButton follow     = new TWButton("フォロー");
-    private final TWButton sendReply  = new TWButton("リプライ");
-    private final TWButton sendDM     = new TWButton("DM");
-    private final TWButton block      = new TWButton("ブロック");
-    private final TWButton reportSpam = new TWButton("スパム報告");
-    private final TWButton openWeb    = new TWButton("TwitterWeb");
+    public static final int      USERNAME_FONT_SIZE = 15;
+    private final       TWPanel  tweetPanel         = new TWPanel();
+    private final       TWButton follow             = new TWButton("フォロー");
+    private final       TWButton sendReply          = new TWButton("リプライ");
+    private final       TWButton sendDM             = new TWButton("DM");
+    private final       TWButton block              = new TWButton("ブロック");
+    private final       TWButton reportSpam         = new TWButton("スパム報告");
+    private final       TWButton openWeb            = new TWButton("TwitterWeb");
 
     private final TWLabel   nameLabel       = new TWLabel();
     private final TWLabel   screenNameLabel = new TWLabel();
@@ -51,23 +52,23 @@ public class UserView extends JFrame {
         this.setTitle(screenName + " の詳細");
         this.userIcon.setIcon(userIcon);
         this.nameLabel.setText(name);
-        this.screenNameLabel.setText("@" + screenName);
-        this.tweetCount.setText("ツイート: " + String.valueOf(tweetCount));
-        this.followingCount.setText("フォロー: " + String.valueOf(following));
-        this.followerCount.setText("フォロワー: " + String.valueOf(follower));
-        this.favoritedCount.setText("お気に入り: " + String.valueOf(favorited));
+        this.screenNameLabel.setText('@' + screenName);
+        this.tweetCount.setText("ツイート: " + tweetCount);
+        this.followingCount.setText("フォロー: " + following);
+        this.followerCount.setText("フォロワー: " + follower);
+        this.favoritedCount.setText("お気に入り: " + favorited);
         this.location.setText("場所: " + location);
         this.bio.setText(bio);
         this.pack();
     }
 
     private void initializeComponent() {
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setTitle("読み込み中...");
-        this.setBackground(DefaultColor.DEFAULT_BACKGROUND);
-        this.setLayout(new BorderLayout());
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setTitle("読み込み中...");
+        setBackground(DefaultColor.DEFAULT_BACKGROUND);
+        setLayout(new BorderLayout());
 
-        Font nameFont = new Font("", Font.BOLD, 15);
+        Font nameFont = new Font("", Font.BOLD, USERNAME_FONT_SIZE);
         nameLabel.setFont(nameFont);
         screenNameLabel.setFont(nameFont);
 
@@ -118,7 +119,7 @@ public class UserView extends JFrame {
 
         tweetPanel.setLayout(new BoxLayout(tweetPanel, BoxLayout.Y_AXIS));
 
-        this.add(rootNorthPanel, BorderLayout.NORTH);
-        this.add(tweetPanel, BorderLayout.CENTER);
+        add(rootNorthPanel, BorderLayout.NORTH);
+        add(tweetPanel, BorderLayout.CENTER);
     }
 }

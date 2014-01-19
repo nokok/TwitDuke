@@ -8,20 +8,21 @@ import net.nokok.twitduke.view.ui.color.DefaultColor;
 public class TWPanel extends JPanel {
 
     public TWPanel() {
-        super();
-        this.setBackground(DefaultColor.DEFAULT_BACKGROUND);
+        setBackground(DefaultColor.DEFAULT_BACKGROUND);
     }
 
     public TWPanel(LayoutManager layoutManager) {
         this();
-        this.setLayout(layoutManager);
+        setLayout(layoutManager);
     }
 
-    public Component add(Component component, int index) {
-        return super.add(component, index);
+    @Override
+    public Component add(Component comp, int index) {
+        return super.add(comp, index);
     }
 
-    public void add(Component component, Object constraints) {
-        super.add(component, constraints);
+    @Override
+    public void add(Component comp, Object constraints) {
+        super.add(comp, constraints);
     }
 }

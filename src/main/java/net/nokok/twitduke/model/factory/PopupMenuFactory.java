@@ -1,7 +1,6 @@
 package net.nokok.twitduke.model.factory;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import net.nokok.twitduke.util.URLUtil;
@@ -15,9 +14,8 @@ import twitter4j.Status;
 import twitter4j.URLEntity;
 import twitter4j.UserMentionEntity;
 
-public class PopupMenuFactory {
+class PopupMenuFactory {
 
-    private final UserViewFactory userViewFactory = new UserViewFactory();
     private final Twitter4jAsyncWrapper wrapper;
 
     /**
@@ -51,7 +49,12 @@ public class PopupMenuFactory {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() >= 2) {
-                    UserView view = userViewFactory.createUserView(status.isRetweet() ? status.getRetweetedStatus().getUser() : status.getUser());
+                    UserView view;
+                    if (status.isRetweet()) {
+                        view = UserViewFactory.createUserView(status.getRetweetedStatus().getUser());
+                    } else {
+                        view = UserViewFactory.createUserView(status.getUser());
+                    }
                     view.setLocation(e.getLocationOnScreen());
                     view.setVisible(true);
                     cell.clearSelectedText();
@@ -76,8 +79,8 @@ public class PopupMenuFactory {
         popupMenu.setRetweetAction(e -> retweet(cell, status.getId()));
 
         popupMenu.setAllURLOpenAction(e -> {
-            allURLEntitiesOpen(status.getURLEntities());
-            allMediaEntitiesOpen(status.getMediaEntities());
+            URLUtil.allURLEntitiesOpen(status.getURLEntities());
+            URLUtil.allMediaEntitiesOpen(status.getMediaEntities());
         });
 
         popupMenu.setSearchAction(e -> {
@@ -90,46 +93,24 @@ public class PopupMenuFactory {
 
         popupMenu.setDeleteAction(e -> wrapper.deleteTweet(status.getId()));
 
-        for (final UserMentionEntity entity : status.getUserMentionEntities()) {
+        for (UserMentionEntity entity : status.getUserMentionEntities()) {
             TWMenuItem menuItem = new TWMenuItem(entity.getScreenName() + " の詳細を開く");
             menuItem.addActionListener(e -> wrapper.getUserInfomation(entity.getId()));
             popupMenu.addMenuItem(menuItem);
         }
 
-        for (final URLEntity entity : status.getURLEntities()) {
+        for (URLEntity entity : status.getURLEntities()) {
             TWMenuItem menuItem = new TWMenuItem(entity.getDisplayURL() + "を開く");
-            menuItem.addActionListener(e -> {
-                URLUtil.openInBrowser(entity.getExpandedURL());
-            });
+            menuItem.addActionListener(e -> URLUtil.openInBrowser(entity.getExpandedURL()));
             popupMenu.addMenuItem(menuItem);
         }
 
-        for (final MediaEntity entity : status.getMediaEntities()) {
+        for (MediaEntity entity : status.getMediaEntities()) {
             TWMenuItem menuItem = new TWMenuItem(entity.getDisplayURL() + "を開く");
-            menuItem.addActionListener(e -> {
-                URLUtil.openInBrowser(entity.getExpandedURL());
-            });
+            menuItem.addActionListener(e -> URLUtil.openInBrowser(entity.getExpandedURL()));
             popupMenu.addMenuItem(menuItem);
         }
         return popupMenu;
-    }
-
-    /**
-     * 全てのURLエンティティを既定のブラウザで開きます
-     *
-     * @param entities URLエンティティの配列
-     */
-    private void allURLEntitiesOpen(URLEntity[] entities) {
-        Lists.newArrayList(entities).forEach(e -> URLUtil.openInBrowser(e.getExpandedURL()));
-    }
-
-    /**
-     * 全てのメディアエンティティを既定のブラウザで開きます
-     *
-     * @param entities メディアエンティティの配列
-     */
-    private void allMediaEntitiesOpen(MediaEntity[] entities) {
-        Lists.newArrayList(entities).forEach(e -> URLUtil.openInBrowser(e.getExpandedURL()));
     }
 
     /**

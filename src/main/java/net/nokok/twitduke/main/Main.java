@@ -13,9 +13,9 @@ import twitter4j.TwitterStreamFactory;
 
 public class Main implements IFileWatcher {
 
-    Twitter4jAsyncWrapper wrapper;
-    MainViewController    mainViewController;
-    TwitterStream         twitterStream;
+    private Twitter4jAsyncWrapper wrapper;
+    private MainViewController    mainViewController;
+    private TwitterStream         twitterStream;
 
     /**
      * TwitDukeのエントリーポイントです
@@ -35,7 +35,7 @@ public class Main implements IFileWatcher {
         readConfigFiles();
         mainViewInitialize();
         twitterAPIWrapperInitialize();
-        String accessTokenFilePath = AccessTokenManager.getInstance().getTokenFileListPath();
+        String accessTokenFilePath = AccessTokenManager.getAccessTokenManager().getTokenFileListPath();
         new FileCreateWatcher(accessTokenFilePath, this).start();
     }
 
@@ -81,6 +81,7 @@ public class Main implements IFileWatcher {
     /**
      * 認証ファイルが書き込まれたらBootFileWatcherによって呼ばれます
      */
+    @Override
     public void filesCreated() {
         startUserStream();
         fetchTimelines();
@@ -91,7 +92,7 @@ public class Main implements IFileWatcher {
      */
     private void startUserStream() {
         mainViewController.start(wrapper);
-        twitterStream.setOAuthAccessToken(AccessTokenManager.getInstance().readPrimaryAccount());
+        twitterStream.setOAuthAccessToken(AccessTokenManager.getAccessTokenManager().readPrimaryAccount());
         twitterStream.user();
     }
 

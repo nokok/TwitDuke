@@ -8,11 +8,12 @@ import net.nokok.twitduke.util.Threads;
  */
 public class FileCreateWatcher extends Thread implements Runnable {
 
-    private File         watchingFile;
-    private IFileWatcher watcher;
+    private static final int CHECK_INTERVAL = 3000;
+    private final File         watchingFile;
+    private final IFileWatcher watcher;
 
     public FileCreateWatcher(String path, IFileWatcher watcher) {
-        this.watchingFile = new File(path);
+        watchingFile = new File(path);
         this.watcher = watcher;
     }
 
@@ -23,7 +24,7 @@ public class FileCreateWatcher extends Thread implements Runnable {
                 watcher.filesCreated();
                 break;
             } else {
-                Threads.sleep(this, 3000);
+                Threads.sleep(this, CHECK_INTERVAL);
             }
         }
     }

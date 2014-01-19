@@ -12,7 +12,7 @@ import twitter4j.UserStreamListener;
 
 public class UserStreamListenerImpl implements UserStreamListener {
 
-    private MainViewController mainViewController;
+    private final MainViewController mainViewController;
 
     public UserStreamListenerImpl(MainViewController mainViewController) {
         this.mainViewController = mainViewController;

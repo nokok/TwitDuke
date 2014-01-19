@@ -4,8 +4,8 @@ package net.nokok.twitduke.model.account;
  * AccessTokenのscreenNameとuserIdのみ保持するクラスです
  */
 class SimpleToken {
-    private String screenName;
-    private long   userId;
+    private final String screenName;
+    private final long   userId;
 
     public SimpleToken(String screenName, long userId) {
         this.screenName = screenName;

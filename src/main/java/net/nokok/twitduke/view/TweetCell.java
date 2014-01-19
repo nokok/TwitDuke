@@ -7,17 +7,12 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
+import net.nokok.twitduke.util.ObjectCloner;
 import net.nokok.twitduke.view.ui.TWButton;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.view.ui.TWPanel;
@@ -25,15 +20,15 @@ import net.nokok.twitduke.view.ui.color.DefaultColor;
 
 public class TweetCell extends TWPanel implements Cloneable, Serializable {
 
-    private long    statusId;
-    private boolean isMention;
-    private boolean isFavorited;
-    private boolean isRetweeted;
+    public static final int USERNAME_FONT_SIZE = 13;
+    private final boolean isMention;
+    private       boolean isFavorited;
+    private       boolean isRetweeted;
 
     private final JLabel    icon        = new JLabel();
     private final JLabel    retweetIcon = new JLabel();
     private final TWLabel   userName    = new TWLabel();
-    private       JTextArea tweetText   = new JTextArea();
+    private final JTextArea tweetText   = new JTextArea();
 
     private final Dimension RETWEET_ICON_SIZE    = new Dimension(15, 15);
     private final Dimension FUNCTION_BUTTON_SIZE = new Dimension(15, 13);
@@ -52,15 +47,14 @@ public class TweetCell extends TWPanel implements Cloneable, Serializable {
         initializeComponent();
 
         this.isMention = isMention;
-        this.statusId = statusId;
-        this.icon.setIcon(userIcon);
+        icon.setIcon(userIcon);
         this.userName.setText(userName);
         this.tweetText.setText(tweetText);
 
         if (isMention) {
-            this.changeColor(DefaultColor.TweetCell.MENTION_BACKGROUND);
+            changeColor(DefaultColor.TweetCell.MENTION_BACKGROUND);
         } else {
-            this.changeColor(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
+            changeColor(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
         }
     }
 
@@ -75,31 +69,31 @@ public class TweetCell extends TWPanel implements Cloneable, Serializable {
     }
 
     private void initializeComponent() {
-        this.setLayout(new BorderLayout());
-        this.retweetIcon.setPreferredSize(RETWEET_ICON_SIZE);
-        this.userName.setFont(new Font("", Font.BOLD, 13));
-        this.favoriteButton.setPreferredSize(FUNCTION_BUTTON_SIZE);
-        this.favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITE_BUTTON);
-        this.retweetButton.setPreferredSize(FUNCTION_BUTTON_SIZE);
-        this.retweetButton.setBackground(DefaultColor.TweetCell.RETWEET_BUTTON);
-        this.tweetText.setForeground(DefaultColor.TweetCell.DEFAULT_FOREGROUND);
-        this.tweetText.setEditable(false);
-        this.tweetText.setLineWrap(true);
-        this.tweetText.setOpaque(true);
-        this.tweetText.setBorder(null);
-        this.thumbnailPanel.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
+        setLayout(new BorderLayout());
+        retweetIcon.setPreferredSize(RETWEET_ICON_SIZE);
+        userName.setFont(new Font("", Font.BOLD, USERNAME_FONT_SIZE));
+        favoriteButton.setPreferredSize(FUNCTION_BUTTON_SIZE);
+        favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITE_BUTTON);
+        retweetButton.setPreferredSize(FUNCTION_BUTTON_SIZE);
+        retweetButton.setBackground(DefaultColor.TweetCell.RETWEET_BUTTON);
+        tweetText.setForeground(DefaultColor.TweetCell.DEFAULT_FOREGROUND);
+        tweetText.setEditable(false);
+        tweetText.setLineWrap(true);
+        tweetText.setOpaque(true);
+        tweetText.setBorder(null);
+        thumbnailPanel.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
 
         TWPanel contentsPanel = new TWPanel(new BorderLayout());
         contentsNorthPanel.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
-        contentsNorthPanel.add(this.favoriteButton);
-        contentsNorthPanel.add(this.retweetButton);
-        contentsNorthPanel.add(this.userName);
-        contentsNorthPanel.add(this.retweetIcon);
-        contentsPanel.add(this.contentsNorthPanel, BorderLayout.NORTH);
-        contentsPanel.add(this.tweetText, BorderLayout.CENTER);
+        contentsNorthPanel.add(favoriteButton);
+        contentsNorthPanel.add(retweetButton);
+        contentsNorthPanel.add(userName);
+        contentsNorthPanel.add(retweetIcon);
+        contentsPanel.add(contentsNorthPanel, BorderLayout.NORTH);
+        contentsPanel.add(tweetText, BorderLayout.CENTER);
 
-        this.add(this.icon, BorderLayout.WEST);
-        this.add(contentsPanel, BorderLayout.CENTER);
+        add(icon, BorderLayout.WEST);
+        add(contentsPanel, BorderLayout.CENTER);
 
     }
 
@@ -109,39 +103,39 @@ public class TweetCell extends TWPanel implements Cloneable, Serializable {
     }
 
     private void enableThumbnail() {
-        this.add(thumbnailPanel, BorderLayout.SOUTH);
+        add(thumbnailPanel, BorderLayout.SOUTH);
         thumbnailPanel.validate();
     }
 
     public boolean isMention() {
-        return this.isMention;
+        return isMention;
     }
 
     public void changeColor(Color color) {
-        this.setBackground(color);
-        this.userName.setBackground(color);
-        this.contentsNorthPanel.setBackground(color);
-        this.tweetText.setBackground(color);
-        this.thumbnailPanel.setBackground(color);
+        setBackground(color);
+        userName.setBackground(color);
+        contentsNorthPanel.setBackground(color);
+        tweetText.setBackground(color);
+        thumbnailPanel.setBackground(color);
     }
 
     public void setFavoriteAction(ActionListener listener) {
-        this.favoriteButton.addActionListener(listener);
+        favoriteButton.addActionListener(listener);
     }
 
     public void setRetweetAction(ActionListener listener) {
-        this.retweetButton.addActionListener(listener);
+        retweetButton.addActionListener(listener);
     }
 
-    public void setTextAreaAction(MouseAdapter adapter) {
-        this.tweetText.addMouseListener(adapter);
+    public void setTextAreaAction(MouseListener adapter) {
+        tweetText.addMouseListener(adapter);
     }
 
     public boolean toggleFavoriteState() {
         if (isFavorited) {
-            this.favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITE_BUTTON);
+            favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITE_BUTTON);
         } else {
-            this.favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITED_BACKGROUND);
+            favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITED_BACKGROUND);
         }
         isFavorited = !isFavorited;
         return isFavorited;
@@ -149,9 +143,9 @@ public class TweetCell extends TWPanel implements Cloneable, Serializable {
 
     public boolean toggleRetweetState() {
         if (isRetweeted) {
-            this.retweetButton.setBackground(DefaultColor.TweetCell.RETWEET_BUTTON);
+            retweetButton.setBackground(DefaultColor.TweetCell.RETWEET_BUTTON);
         } else {
-            this.retweetButton.setBackground(DefaultColor.TweetCell.RETWEETED_BACKGROUND);
+            retweetButton.setBackground(DefaultColor.TweetCell.RETWEETED_BACKGROUND);
         }
         isRetweeted = !isRetweeted;
         return isRetweeted;
@@ -167,42 +161,40 @@ public class TweetCell extends TWPanel implements Cloneable, Serializable {
 
     @Override
     public TweetCell clone() {
-        try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-            objectOutputStream.writeObject(this);
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-            TweetCell cell = (TweetCell) objectInputStream.readObject();
-            for (ActionListener listener : this.favoriteButton.getActionListeners()) {
-                cell.favoriteButton.addActionListener(listener);
-            }
-            for (ActionListener listener : this.retweetButton.getActionListeners()) {
-                cell.retweetButton.addActionListener(listener);
-            }
-            for (MouseListener listener : this.tweetText.getMouseListeners()) {
-                cell.tweetText.addMouseListener(listener);
-            }
-            return cell;
-        } catch (IOException | ClassNotFoundException e) {
-            throw new InternalError(e.getMessage());
+        TweetCell cell = (TweetCell) ObjectCloner.cloneObject(this);
+        for (ActionListener listener : favoriteButton.getActionListeners()) {
+            cell.favoriteButton.addActionListener(listener);
         }
+        for (ActionListener listener : retweetButton.getActionListeners()) {
+            cell.retweetButton.addActionListener(listener);
+        }
+        for (MouseListener listener : tweetText.getMouseListeners()) {
+            cell.tweetText.addMouseListener(listener);
+        }
+        return cell;
     }
 
     @Override
     public int getHeight() {
-        return (int) this.getPreferredSize().getHeight();
+        return (int) getPreferredSize().getHeight();
     }
 
     @Override
     public String toString() {
         String tweetText = this.tweetText.getText();
 
+        String displayTweetText;
+        if (tweetText.length() > 5) {
+            displayTweetText = tweetText.substring(0, 5);
+        } else {
+            displayTweetText = tweetText;
+        }
+
         return Objects.toStringHelper(this)
-            .add("PrefSize", this.getPreferredSize())
-            .add("Size", this.getSize())
-            .add("MinimumSize", this.getMinimumSize())
-            .add("Tweet", tweetText.length() > 5 ? tweetText.substring(0, 5) : tweetText)
+            .add("PrefSize", getPreferredSize())
+            .add("Size", getSize())
+            .add("MinimumSize", getMinimumSize())
+            .add("Tweet", displayTweetText)
             .add("User", userName.getText())
             .toString();
     }

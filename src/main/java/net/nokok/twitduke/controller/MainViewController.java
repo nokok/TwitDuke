@@ -4,6 +4,7 @@ import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
 import net.nokok.twitduke.view.MainView;
+import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.Status;
 
@@ -22,10 +23,10 @@ public class MainViewController {
     public void start(Twitter4jAsyncWrapper wrapper) {
         mainView = new MainView();
         this.wrapper = wrapper;
-        this.tweetCellFactory = new TweetCellFactory(wrapper);
+        tweetCellFactory = new TweetCellFactory(wrapper);
         mainView.setVisible(true);
         bindActionListener();
-        this.setNotification("UserStreamに接続中です");
+        setNotification("UserStreamに接続中です");
     }
 
     /**
@@ -35,7 +36,7 @@ public class MainViewController {
      * @see net.nokok.twitduke.main.Main#twitterAPIWrapperInitialize()
      */
     public void userStreamConnected() {
-        this.setNotification("UserStreamに接続しました");
+        setNotification("UserStreamに接続しました");
         launchTitleAnimation();
     }
 
@@ -46,7 +47,7 @@ public class MainViewController {
      * @see net.nokok.twitduke.main.Main#twitterAPIWrapperInitialize()
      */
     public void userStreamDisconnected() {
-        this.setNotification("UserStreamとの接続が切れています");
+        setNotification("UserStreamとの接続が切れています");
     }
 
 
@@ -68,7 +69,34 @@ public class MainViewController {
      * @see net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker
      */
     public void setNotification(String text) {
-        new NotificationBarAnimationInvoker(mainView, text).start();
+        new NotificationBarAnimationInvoker(this, text).start();
+    }
+
+    /**
+     * 通知を表示するラベルを移動します。
+     *
+     * @param x 横方向の座標
+     * @param y 縦方向の座標
+     * @see net.nokok.twitduke.view.MainView#move(int, int)
+     */
+    public void moveNotificationLabel(int x, int y) {
+        mainView.moveStatusLabel(x, y);
+    }
+
+    /**
+     * 通知を表示するラベルをデフォルトの位置に戻します
+     */
+    public void notificationLabelMoveToDefault() {
+        moveNotificationLabel(0, 0);
+    }
+
+    /**
+     * MainViewの横幅が通知を表示するラベルの横幅より大きいかを返します
+     *
+     * @return MainViewの幅 < 通知ラベルの場合 true
+     */
+    public boolean isLargerThanNotificationLabel() {
+        return mainView.getWidth() < mainView.getNotificationLabelWidth();
     }
 
     /**
@@ -78,7 +106,7 @@ public class MainViewController {
      * @param screenName リプライを送信するユーザーのスクリーンネーム
      */
     public void setReply(String screenName) {
-        mainView.setTweetTextField("@" + screenName + " ");
+        mainView.setTweetTextField('@' + screenName + ' ');
     }
 
     /**
@@ -107,5 +135,12 @@ public class MainViewController {
     private void sendTweet() {
         wrapper.sendTweet(mainView.getTweetText());
         mainView.clearTextField();
+    }
+
+    /**
+     * @return 通知を表示するラベルを返します
+     */
+    public TWLabel getNotificationLabel() {
+        return mainView.getNotificationLabel();
     }
 }

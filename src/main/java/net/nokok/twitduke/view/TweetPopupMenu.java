@@ -16,40 +16,40 @@ public class TweetPopupMenu extends JPopupMenu {
 
     public TweetPopupMenu() {
         super("アクション");
-        this.setBackground(DefaultColor.TWButton.DEFAULT_BACKGROUND);
-        this.add(reply);
-        this.add(favorite);
-        this.add(retweet);
-        this.add(allURLOpen);
-        this.add(search);
-        this.add(delete);
+        setBackground(DefaultColor.TWButton.DEFAULT_BACKGROUND);
+        add(reply);
+        add(favorite);
+        add(retweet);
+        add(allURLOpen);
+        add(search);
+        add(delete);
     }
 
     public void setReplyAction(ActionListener listener) {
-        this.reply.addActionListener(listener);
+        reply.addActionListener(listener);
     }
 
     public void setFavoriteAction(ActionListener listener) {
-        this.favorite.addActionListener(listener);
+        favorite.addActionListener(listener);
     }
 
     public void setRetweetAction(ActionListener listener) {
-        this.retweet.addActionListener(listener);
+        retweet.addActionListener(listener);
     }
 
     public void setAllURLOpenAction(ActionListener listener) {
-        this.allURLOpen.addActionListener(listener);
+        allURLOpen.addActionListener(listener);
     }
 
     public void setSearchAction(ActionListener listener) {
-        this.search.addActionListener(listener);
+        search.addActionListener(listener);
     }
 
     public void setDeleteAction(ActionListener listener) {
-        this.delete.addActionListener(listener);
+        delete.addActionListener(listener);
     }
 
     public void addMenuItem(TWMenuItem menuItem) {
-        this.add(menuItem);
+        add(menuItem);
     }
 }

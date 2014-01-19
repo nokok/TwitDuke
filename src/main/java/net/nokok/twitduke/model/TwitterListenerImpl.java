@@ -238,7 +238,7 @@ public class TwitterListenerImpl implements TwitterListener {
 
     @Override
     public void gotUserDetail(User user) {
-        new UserViewFactory().createUserView(user).setVisible(true);
+        UserViewFactory.createUserView(user).setVisible(true);
     }
 
     @Override

@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.LayoutManager;
+import java.awt.Point;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -26,6 +28,7 @@ import net.nokok.twitduke.view.ui.color.DefaultColor;
 
 public class MainView extends JFrame {
 
+    private static final int FONT_SIZE = 12;
     private boolean isMentionVisible;
 
     private final TWButton settingButton = new TWButton("設定");
@@ -33,14 +36,14 @@ public class MainView extends JFrame {
     private final TWButton userSwitcher  = new TWButton("ユーザー...");
     private final TWButton sendButton    = new TWButton("ツイート");
 
-    private JTextField tweetTextField = new JTextField();
+    private final JTextField tweetTextField = new JTextField();
 
     private final Dimension DEFAULT_SIZE    = new Dimension(530, 600);
     private final Dimension TEXTFIELD_SIZE  = new Dimension(530, 30);
     private final Dimension STATUS_BAR_SIZE = new Dimension(530, 25);
 
-    private final TimelineLayout tweetListLayout = new TimelineLayout();
-    private final TimelineLayout replyListLayout = new TimelineLayout();
+    private final LayoutManager tweetListLayout = new TimelineLayout();
+    private final LayoutManager replyListLayout = new TimelineLayout();
 
     private final CardLayout layout = new CardLayout();
 
@@ -48,21 +51,21 @@ public class MainView extends JFrame {
     private final TWPanel tweetListPanel  = new TWPanel();
     private final TWPanel replyListPanel  = new TWPanel();
 
-    private final TWLabel statusLabel = new TWLabel();
+    private final TWLabel notificationLabel = new TWLabel();
 
     public MainView() {
-        this.initializeComponent();
+        initializeComponent();
     }
 
     /**
      * Viewのコンポーネントを配置します
      */
     private void initializeComponent() {
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setTitle("UserStreamに接続中です");
-        this.setSize(DEFAULT_SIZE);
-        this.setLayout(new BorderLayout());
-        this.setLocationRelativeTo(null);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setTitle("UserStreamに接続中です");
+        setSize(DEFAULT_SIZE);
+        setLayout(new BorderLayout());
+        setLocationRelativeTo(null);
 
         TWPanel topPanel = new TWPanel(new BorderLayout());
         tweetTextField.setPreferredSize(TEXTFIELD_SIZE);
@@ -98,14 +101,14 @@ public class MainView extends JFrame {
         rootScrollPanel.add(replyScrollPane, "REPLY");
 
         TWPanel notificationBar = new TWPanel(new FlowLayout(FlowLayout.LEFT));
-        Font statusFont = new Font("", Font.BOLD, 12);
         notificationBar.setPreferredSize(STATUS_BAR_SIZE);
-        statusLabel.setFont(statusFont);
-        notificationBar.add(statusLabel);
+        Font statusFont = new Font("", Font.BOLD, FONT_SIZE);
+        notificationLabel.setFont(statusFont);
+        notificationBar.add(notificationLabel);
 
-        this.add(topPanel, BorderLayout.NORTH);
-        this.add(rootScrollPanel, BorderLayout.CENTER);
-        this.add(notificationBar, BorderLayout.SOUTH);
+        add(topPanel, BorderLayout.NORTH);
+        add(rootScrollPanel, BorderLayout.CENTER);
+        add(notificationBar, BorderLayout.SOUTH);
     }
 
     /**
@@ -140,7 +143,7 @@ public class MainView extends JFrame {
      * @param text セットする文字列
      */
     public void setTweetTextField(String text) {
-        this.tweetTextField.setText(text);
+        tweetTextField.setText(text);
     }
 
     /**
@@ -149,16 +152,16 @@ public class MainView extends JFrame {
      * @param listener セットするアクションリスナ
      */
     public void setTextFieldAction(ActionListener listener) {
-        this.tweetTextField.addActionListener(listener);
+        tweetTextField.addActionListener(listener);
     }
 
     /**
-     * 設定ボタンにをセットします
+     * 設定ボタンにアクションリスナをセットします
      *
      * @param listener セットするアクションリスナ
      */
     public void setSettingButtonAction(ActionListener listener) {
-        this.settingButton.addActionListener(listener);
+        settingButton.addActionListener(listener);
     }
 
     /**
@@ -167,7 +170,7 @@ public class MainView extends JFrame {
      * @param listener セットするアクションリスナ
      */
     public void setMentionButtonAction(ActionListener listener) {
-        this.mentionButton.addActionListener(listener);
+        mentionButton.addActionListener(listener);
     }
 
     /**
@@ -176,7 +179,7 @@ public class MainView extends JFrame {
      * @param adapter セットするマウスアダプター
      */
     public void setUserSwitcherAction(MouseAdapter adapter) {
-        this.userSwitcher.addMouseListener(adapter);
+        userSwitcher.addMouseListener(adapter);
     }
 
     /**
@@ -185,21 +188,40 @@ public class MainView extends JFrame {
      * @param listener セットするアクションリスナー
      */
     public void setSendButtonAction(ActionListener listener) {
-        this.sendButton.addActionListener(listener);
+        sendButton.addActionListener(listener);
     }
 
     /**
-     * @return 通知表示用のラベル
+     * 通知を表示するラベルを移動します。
+     * 元々表示していた位置を基準にして相対的に移動させます。
+     * 0,0を渡すと元の位置に戻ります
+     *
+     * @param x 横方向の座標
+     * @param y 縦方向の座標
      */
-    public TWLabel getStatusLabel() {
-        return statusLabel;
+    public void moveStatusLabel(int x, int y) {
+        Point point = notificationLabel.getLocation();
+        point.x += x;
+        point.y += y;
+        notificationLabel.setLocation(point);
+    }
+
+    public int getNotificationLabelWidth() {
+        return (int) notificationLabel.getPreferredSize().getWidth();
+    }
+
+    /**
+     * 通知を表示するラベルにテキストをセットします
+     */
+    public void setNotificationLabelText(String text) {
+        notificationLabel.setText(text);
     }
 
     /**
      * @return このメソッドが呼ばれた時点でテキストフィールドに入力されていたテキスト
      */
     public String getTweetText() {
-        return this.tweetTextField.getText();
+        return tweetTextField.getText();
     }
 
     /**
@@ -216,11 +238,15 @@ public class MainView extends JFrame {
         isMentionVisible = !isMentionVisible;
         if (isMentionVisible) {
             layout.first(rootScrollPanel);
-            this.mentionButton.setText("＠");
+            mentionButton.setText("＠");
             return;
         }
         layout.last(rootScrollPanel);
-        this.mentionButton.setText("戻る");
+        mentionButton.setText("戻る");
         replyListPanel.validate();
+    }
+
+    public TWLabel getNotificationLabel() {
+        return notificationLabel;
     }
 }

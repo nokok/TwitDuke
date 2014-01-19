@@ -1,8 +1,8 @@
 package net.nokok.twitduke.model.thread;
 
 import java.awt.Point;
+import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.util.Threads;
-import net.nokok.twitduke.view.MainView;
 import net.nokok.twitduke.view.ui.TWLabel;
 
 
@@ -11,38 +11,39 @@ import net.nokok.twitduke.view.ui.TWLabel;
  */
 public class NotificationBarAnimationInvoker extends Thread implements Runnable {
 
-    private final TWLabel statusLabel;
-    private final String  notificationText;
-    private int NUMBER_OF_SECONDS_TO_DISPLAY_NOTIFICATOIN = 5000; //ms
-    private int mainViewWidth;
+    private static final int WAIT_SHOW_DISPLAY_NOTIFICATION = 5000; //ms
+    private static final int ANIMATION_SLEEP_MS             = 15;
+    private final TWLabel            statusLabel;
+    private final String             notificationText;
+    private final MainViewController mainViewController;
 
-    public NotificationBarAnimationInvoker(MainView mainView, String text) {
-        this.statusLabel = mainView.getStatusLabel();
-        this.notificationText = text;
-        this.mainViewWidth = mainView.getWidth();
+    public NotificationBarAnimationInvoker(MainViewController mainViewController, String text) {
+        this.mainViewController = mainViewController;
+        notificationText = text;
+        statusLabel = mainViewController.getNotificationLabel();
     }
 
     @Override
     public synchronized void run() {
-        this.statusLabel.setText(notificationText);
-        Point old = new Point(this.statusLabel.getLocation());
-        Point moved = new Point(old);
-        if (mainViewWidth < statusLabel.getPreferredSize().getWidth()) {
+        statusLabel.setText(notificationText);
+        mainViewController.notificationLabelMoveToDefault();
+        Point moved = statusLabel.getLocation();
+        if (mainViewController.isLargerThanNotificationLabel()) {
             int statusLabelWidth = statusLabel.getWidth();
             for (int i = statusLabel.getLocation().x + statusLabelWidth; i > -statusLabelWidth; i--) {
                 moved.x--;
                 statusLabel.setLocation(moved);
-                Threads.sleep(this, 15);
+                Threads.sleep(this, ANIMATION_SLEEP_MS);
             }
         } else {
-            Threads.sleep(this, NUMBER_OF_SECONDS_TO_DISPLAY_NOTIFICATOIN);
+            Threads.sleep(this, WAIT_SHOW_DISPLAY_NOTIFICATION);
             for (int i = 0; i < 30; i++) {
                 moved.y += i;
                 statusLabel.setLocation(moved);
-                Threads.sleep(this, 15);
+                Threads.sleep(this, ANIMATION_SLEEP_MS);
             }
         }
         statusLabel.setText("");
-        statusLabel.setLocation(old);
+        mainViewController.notificationLabelMoveToDefault();
     }
 }
