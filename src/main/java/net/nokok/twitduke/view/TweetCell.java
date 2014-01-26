@@ -8,17 +8,15 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import java.io.Serializable;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
-import net.nokok.twitduke.util.ObjectCloner;
 import net.nokok.twitduke.view.ui.TWButton;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.view.ui.TWPanel;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
 
-public class TweetCell extends TWPanel implements Cloneable, Serializable {
+public class TweetCell extends TWPanel {
 
     public static final int USERNAME_FONT_SIZE = 13;
     private final boolean isMention;
@@ -157,21 +155,6 @@ public class TweetCell extends TWPanel implements Cloneable, Serializable {
 
     public void clearSelectedText() {
         tweetText.select(0, 0);
-    }
-
-    @Override
-    public TweetCell clone() {
-        TweetCell cell = (TweetCell) ObjectCloner.cloneObject(this);
-        for (ActionListener listener : favoriteButton.getActionListeners()) {
-            cell.favoriteButton.addActionListener(listener);
-        }
-        for (ActionListener listener : retweetButton.getActionListeners()) {
-            cell.retweetButton.addActionListener(listener);
-        }
-        for (MouseListener listener : tweetText.getMouseListeners()) {
-            cell.tweetText.addMouseListener(listener);
-        }
-        return cell;
     }
 
     @Override

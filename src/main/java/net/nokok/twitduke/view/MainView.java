@@ -112,16 +112,21 @@ public class MainView extends JFrame {
     }
 
     /**
-     * セルをツイートパネルに挿入します。セルが現在選択中のユーザーへのメンションであった場合、
-     * リプライリストパネルにセルのコピーを挿入します。
+     * セルをメインのツイートパネルに挿入します。
      *
      * @param cell 挿入するセル
      */
     public void insertTweetCell(TweetCell cell) {
-        if (cell.isMention()) {
-            insertTweetCellToPanel(replyListPanel, cell.clone());
-        }
         insertTweetCellToPanel(tweetListPanel, cell);
+    }
+
+    /**
+     * セルをリプライ用のツイートパネルに挿入します。
+     *
+     * @param cell 挿入するセル
+     */
+    public void insertMentionTweetCell(TweetCell cell) {
+        insertTweetCellToPanel(replyListPanel, cell);
     }
 
     /**
