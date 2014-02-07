@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import net.nokok.twitduke.model.account.AccessTokenManager;
+import net.nokok.twitduke.util.DateUtil;
 import net.nokok.twitduke.util.ImageSizeChanger;
 import net.nokok.twitduke.util.URLUtil;
 import net.nokok.twitduke.view.ImageView;
@@ -47,8 +48,19 @@ public class TweetCellFactory {
         }
         setCommonActionListener(cell, status);
         popupMenuFactory.createPopupMenu(cell, status);
-        setThumbnail(cell, status);
+        if (!isMealTerroTime()) {
+            setThumbnail(cell, status);
+        }
         return cell;
+    }
+
+    /**
+     * 現在時刻が0〜5時かどうかを返します
+     *
+     * @return 現在時刻が0〜5時ならtrue
+     */
+    private boolean isMealTerroTime() {
+        return DateUtil.nowHour() < 6;
     }
 
     /**
