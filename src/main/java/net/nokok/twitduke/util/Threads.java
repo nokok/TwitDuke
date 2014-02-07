@@ -12,12 +12,4 @@ public class Threads {
 
         }
     }
-
-    public static void join(Thread wantToJoinThread, long milliseconds) {
-        try {
-            wantToJoinThread.join(milliseconds);
-        } catch (InterruptedException ignored) {
-
-        }
-    }
 }

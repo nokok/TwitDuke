@@ -89,6 +89,4 @@ public class Twitter4jAsyncWrapper {
         long[] users = {userId};
         asyncTwitter.lookupUsers(users);
     }
-
-
 }

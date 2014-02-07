@@ -148,4 +148,5 @@ public class MainViewController {
     public TWLabel getNotificationLabel() {
         return mainView.getNotificationLabel();
     }
+
 }

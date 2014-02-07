@@ -211,6 +211,9 @@ public class MainView extends JFrame {
         notificationLabel.setLocation(point);
     }
 
+    /**
+     * @return 通知を表示するラベルの横幅
+     */
     public int getNotificationLabelWidth() {
         return (int) notificationLabel.getPreferredSize().getWidth();
     }
@@ -251,6 +254,9 @@ public class MainView extends JFrame {
         replyListPanel.validate();
     }
 
+    /**
+     * @return 通知を表示するラベル
+     */
     public TWLabel getNotificationLabel() {
         return notificationLabel;
     }

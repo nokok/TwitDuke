@@ -27,27 +27,25 @@ public class OAuthDialog extends JDialog {
         add(textField, BorderLayout.NORTH);
         add(okButton, BorderLayout.SOUTH);
 
+        RequestToken requestToken;
         try {
-            RequestToken requestToken = asyncTwitter.getOAuthRequestToken();
-
-            okButton.addActionListener(e -> {
-                try {
-                    okButtonClicked(requestToken);
-                } catch (TwitterException ignored) {
-
-                }
-            });
-
-            URLUtil.openInBrowser(requestToken.getAuthenticationURL());
-
-        } catch (TwitterException ignored) {
+            requestToken = asyncTwitter.getOAuthRequestToken();
+        } catch (TwitterException e) {
+            throw new InternalError("認証中にTwitter側のエラーが発生しました" + e.getErrorMessage());
         }
+        okButton.addActionListener(e -> okButtonClicked(requestToken));
+        URLUtil.openInBrowser(requestToken.getAuthenticationURL());
         pack();
     }
 
-    private void okButtonClicked(RequestToken requestToken) throws TwitterException {
+    private void okButtonClicked(RequestToken requestToken) {
         setTitle("認証処理/設定書き込み中");
-        AccessToken token = asyncTwitter.getOAuthAccessToken(requestToken, textField.getText());
+        AccessToken token;
+        try {
+            token = asyncTwitter.getOAuthAccessToken(requestToken, textField.getText());
+        } catch (TwitterException e) {
+            throw new InternalError("認証中にTwitter側のエラーが発生しました: " + e.getErrorMessage());
+        }
         asyncTwitter.setOAuthAccessToken(token);
         tokenManager.createTokenDirectory();
         tokenManager.writeAccessToken(token);
