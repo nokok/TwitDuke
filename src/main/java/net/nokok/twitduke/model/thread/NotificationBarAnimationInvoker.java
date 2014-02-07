@@ -9,7 +9,9 @@ import net.nokok.twitduke.view.ui.TWLabel;
 /**
  * ステータスバーに表示した通知のテキストを下に落とすアニメーション処理を実行します
  */
-public class NotificationBarAnimationInvoker extends Thread implements Runnable {
+public class NotificationBarAnimationInvoker extends Thread {
+
+    private AnimationThreadSyncronizer animationThreadSyncronizer;
 
     private static final int WAIT_SHOW_DISPLAY_NOTIFICATION = 5000; //ms
     private static final int ANIMATION_SLEEP_MS             = 15;
@@ -17,7 +19,9 @@ public class NotificationBarAnimationInvoker extends Thread implements Runnable 
     private final String             notificationText;
     private final MainViewController mainViewController;
 
+
     public NotificationBarAnimationInvoker(MainViewController mainViewController, String text) {
+        animationThreadSyncronizer = AnimationThreadSyncronizer.getInstance();
         this.mainViewController = mainViewController;
         notificationText = text;
         statusLabel = mainViewController.getNotificationLabel();
@@ -25,6 +29,8 @@ public class NotificationBarAnimationInvoker extends Thread implements Runnable 
 
     @Override
     public synchronized void run() {
+        animationThreadSyncronizer.lock();
+        mainViewController.notificationLabelMoveToDefault();
         statusLabel.setText(notificationText);
         mainViewController.notificationLabelMoveToDefault();
         Point moved = statusLabel.getLocation();
@@ -45,5 +51,6 @@ public class NotificationBarAnimationInvoker extends Thread implements Runnable 
         }
         statusLabel.setText("");
         mainViewController.notificationLabelMoveToDefault();
+        animationThreadSyncronizer.unlock();
     }
 }
