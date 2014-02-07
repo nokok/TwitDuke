@@ -73,7 +73,7 @@ public class TwitterListenerImpl implements TwitterListener {
 
     @Override
     public void destroyedStatus(Status destroyedStatus) {
-
+        mainViewController.setNotification(new StringBuilder().append("[！]ツイ消し検知 ").append(destroyedStatus.getUser().getScreenName()).append('が').append(destroyedStatus.getText()).append("を削除しました").toString());
     }
 
     @Override
