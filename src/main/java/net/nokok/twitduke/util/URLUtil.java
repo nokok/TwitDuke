@@ -5,7 +5,6 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -33,6 +32,13 @@ public class URLUtil {
         return statusText;
     }
 
+    /**
+     * 渡された文字列からURLオブジェクトを作成します。
+     *
+     * @param url URLオブジェクトを作成する文字列(例:"http://google.com")
+     * @return 作成されたURLオブジェクト
+     * @throws java.lang.IllegalArgumentException URLでない文字列が渡された時にスローされます
+     */
     public static URL createURL(String url) {
         try {
             return new URL(url);
@@ -41,23 +47,41 @@ public class URLUtil {
         }
     }
 
+    /**
+     * 渡された文字列からなるURLを既定のブラウザで開きます。
+     *
+     * @param url ブラウザで開くURL
+     * @throws java.lang.IllegalArgumentException URLでない文字列が渡された時、または既定のブラウザが見つからない、起動できない時にスローされます
+     */
     public static void openInBrowser(String url) {
         try {
-            Desktop.getDesktop().browse(new URI(url));
+            Desktop.getDesktop().browse(createURL(url).toURI());
         } catch (IOException | URISyntaxException e) {
-            throw new InternalError("URLを開けませんでした");
+            throw new IllegalArgumentException("URLをブラウザで開くと時にエラーが発生しました", e.getCause());
         }
     }
 
+    /**
+     * 渡されたURLオブジェクトに格納されているURLを既定のブラウザで開きます。
+     *
+     * @param url ブラウザで開くURLオブジェクト
+     */
     public static void openInBrowser(URL url) {
         openInBrowser(url.toString());
     }
 
+    /**
+     * 渡された日本語を含むURLをURLEncoderを用いてUTF-8でエンコードします。
+     *
+     * @param text エンコードする文字列(主にURL)
+     * @return エンコードされた文字列
+     * @throws java.lang.InternalError TwitDukeを実行しているマシンでUTF-8がサポートされていない場合にスローされます
+     */
     public static String encodeString(String text) {
         try {
             return URLEncoder.encode(text, "utf-8");
         } catch (UnsupportedEncodingException e) {
-            throw new InternalError("文字コードがサポートされていません");
+            throw new InternalError("文字コードがサポートされていません: ", e.getCause());
         }
     }
 

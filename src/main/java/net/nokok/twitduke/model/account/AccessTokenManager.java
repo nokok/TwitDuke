@@ -152,6 +152,7 @@ public class AccessTokenManager {
      * 渡されたアクセストークンのオブジェクトを「token_ユーザーID」というファイル名でauthディレクトリ以下に書き込みます
      *
      * @param accessToken 書き込むアクセストークン
+     * @throws java.io.IOError ファイルが見つからなかったり、ファイルがオープンできなかったりするなどの理由で処理が失敗した時にスローされます
      */
     public void writeAccessToken(AccessToken accessToken) {
         File authUserListFile = new File(String.format("%s%s%s", AUTH_DIRECTORY_PATH, File.separator, ACCESS_TOKEN_LIST_FILENAME));
