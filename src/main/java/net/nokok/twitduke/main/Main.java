@@ -8,6 +8,8 @@ import net.nokok.twitduke.model.thread.FileCreateWatcher;
 import net.nokok.twitduke.model.thread.IFileWatcher;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.ConnectionLifeCycleListener;
+import twitter4j.RateLimitStatusEvent;
+import twitter4j.RateLimitStatusListener;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 
@@ -69,6 +71,17 @@ public class Main implements IFileWatcher {
 
             @Override
             public void onCleanUp() {
+            }
+        });
+        twitterStream.addRateLimitStatusListener(new RateLimitStatusListener() {
+            @Override
+            public void onRateLimitStatus(RateLimitStatusEvent event) {
+                mainViewController.setNotification("onRateLimitStatus:" + event.getRateLimitStatus());
+            }
+
+            @Override
+            public void onRateLimitReached(RateLimitStatusEvent event) {
+                mainViewController.setNotification("onRateLimitReached:" + event.getRateLimitStatus());
             }
         });
         wrapper = Twitter4jAsyncWrapper.getInstance();
