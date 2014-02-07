@@ -233,12 +233,12 @@ public class TwitterListenerImpl implements TwitterListener {
 
     @Override
     public void lookedupUsers(ResponseList<User> users) {
-
+        users.forEach(e -> UserViewFactory.createUserView(e).setVisible(true));
     }
 
     @Override
     public void gotUserDetail(User user) {
-        UserViewFactory.createUserView(user).setVisible(true);
+
     }
 
     @Override
@@ -484,5 +484,6 @@ public class TwitterListenerImpl implements TwitterListener {
     @Override
     public void onException(TwitterException te, TwitterMethod method) {
         mainViewController.setNotification(te.getErrorMessage());
+        System.out.println("Error");
     }
 }
