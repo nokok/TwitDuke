@@ -205,10 +205,7 @@ public class MainView extends JFrame {
      * @param y 縦方向の座標
      */
     public void moveStatusLabel(int x, int y) {
-        Point point = notificationLabel.getLocation();
-        point.x += x;
-        point.y += y;
-        notificationLabel.setLocation(point);
+        notificationLabel.setLocation(new Point(x, y));
     }
 
     /**
@@ -216,13 +213,6 @@ public class MainView extends JFrame {
      */
     public int getNotificationLabelWidth() {
         return (int) notificationLabel.getPreferredSize().getWidth();
-    }
-
-    /**
-     * 通知を表示するラベルにテキストをセットします
-     */
-    public void setNotificationLabelText(String text) {
-        notificationLabel.setText(text);
     }
 
     /**

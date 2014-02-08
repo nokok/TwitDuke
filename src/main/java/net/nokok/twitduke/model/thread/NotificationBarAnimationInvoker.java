@@ -13,8 +13,8 @@ public class NotificationBarAnimationInvoker extends Thread {
 
     private AnimationThreadSyncronizer animationThreadSyncronizer;
 
-    private static final int WAIT_SHOW_DISPLAY_NOTIFICATION = 5000; //ms
-    private static final int ANIMATION_SLEEP_MS             = 15;
+    private static final int WAIT_SHOW_DISPLAY_NOTIFICATION = 3000; //ms
+    private static final int ANIMATION_SLEEP_MS             = 10;
     private final TWLabel            statusLabel;
     private final String             notificationText;
     private final MainViewController mainViewController;
@@ -32,25 +32,33 @@ public class NotificationBarAnimationInvoker extends Thread {
         animationThreadSyncronizer.lock();
         mainViewController.notificationLabelMoveToDefault();
         statusLabel.setText(notificationText);
-        mainViewController.notificationLabelMoveToDefault();
-        Point moved = statusLabel.getLocation();
         if (mainViewController.isLargerThanNotificationLabel()) {
-            int statusLabelWidth = statusLabel.getWidth();
-            for (int i = statusLabel.getLocation().x + statusLabelWidth; i > -statusLabelWidth; i--) {
-                moved.x--;
-                statusLabel.setLocation(moved);
-                Threads.sleep(this, ANIMATION_SLEEP_MS);
-            }
+            moveToLeft();
         } else {
-            Threads.sleep(this, WAIT_SHOW_DISPLAY_NOTIFICATION);
-            for (int i = 0; i < 30; i++) {
-                moved.y += i;
-                statusLabel.setLocation(moved);
-                Threads.sleep(this, ANIMATION_SLEEP_MS);
-            }
+            dropDown();
         }
         statusLabel.setText("");
         mainViewController.notificationLabelMoveToDefault();
         animationThreadSyncronizer.unlock();
+    }
+
+    private synchronized void moveToLeft() {
+        Point moved = statusLabel.getLocation();
+        int statusLabelWidth = (int) statusLabel.getPreferredSize().getWidth();
+        for (int i = statusLabelWidth; i > 0; i--) {
+            moved.x--;
+            statusLabel.setLocation(moved);
+            Threads.sleep(this, ANIMATION_SLEEP_MS);
+        }
+    }
+
+    private synchronized void dropDown() {
+        Point moved = statusLabel.getLocation();
+        Threads.sleep(this, WAIT_SHOW_DISPLAY_NOTIFICATION);
+        for (int i = 0; i < 30; i++) {
+            moved.y += i;
+            statusLabel.setLocation(moved);
+            Threads.sleep(this, ANIMATION_SLEEP_MS);
+        }
     }
 }

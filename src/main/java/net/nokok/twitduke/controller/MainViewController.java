@@ -74,21 +74,10 @@ public class MainViewController {
     }
 
     /**
-     * 通知を表示するラベルを移動します。
-     *
-     * @param x 横方向の座標
-     * @param y 縦方向の座標
-     * @see net.nokok.twitduke.view.MainView#move(int, int)
-     */
-    public void moveNotificationLabel(int x, int y) {
-        mainView.moveStatusLabel(x, y);
-    }
-
-    /**
      * 通知を表示するラベルをデフォルトの位置に戻します
      */
     public void notificationLabelMoveToDefault() {
-        moveNotificationLabel(0, 0);
+        mainView.moveStatusLabel(5, 5);
     }
 
     /**
