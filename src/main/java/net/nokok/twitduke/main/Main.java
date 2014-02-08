@@ -111,7 +111,9 @@ public class Main implements IFileWatcher {
     }
 
     /**
-     * 認証ファイルが書き込まれたらBootFileWatcherによって呼ばれます
+     * 認証ファイルが書き込まれたらFileCreateWatcherによって呼ばれます
+     *
+     * @see net.nokok.twitduke.model.thread.FileCreateWatcher
      */
     @Override
     public void filesCreated() {
