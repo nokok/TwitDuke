@@ -27,6 +27,10 @@ public class NotificationBarAnimationInvoker extends Thread {
         statusLabel = mainViewController.getNotificationLabel();
     }
 
+    /**
+     * アニメーション処理を開始します。通知テキストをセットした後の通知ラベルの横幅がウィンドウサイズを超えた場合、横方向にスクロールします。
+     * そうでない場合は通知ラベルを下方向に動かすアニメーションを実行します
+     */
     @Override
     public synchronized void run() {
         animationThreadSyncronizer.lock();
@@ -42,6 +46,9 @@ public class NotificationBarAnimationInvoker extends Thread {
         animationThreadSyncronizer.unlock();
     }
 
+    /**
+     * 通知ラベルを左に動かすアニメーションを実行します
+     */
     private synchronized void moveToLeft() {
         Point moved = statusLabel.getLocation();
         int statusLabelWidth = (int) statusLabel.getPreferredSize().getWidth();
@@ -52,6 +59,9 @@ public class NotificationBarAnimationInvoker extends Thread {
         }
     }
 
+    /**
+     * 通知ラベルを下に動かすアニメーションを実行します
+     */
     private synchronized void dropDown() {
         Point moved = statusLabel.getLocation();
         Threads.sleep(this, WAIT_SHOW_DISPLAY_NOTIFICATION);
