@@ -58,6 +58,22 @@ public class Main implements IFileWatcher {
      */
     private void twitterAPIWrapperInitialize() {
         twitterStream = TwitterStreamFactory.getSingleton();
+        connectionLifeCycleListenerInitialize(twitterStream);
+        rateLimitListenerInitialize(twitterStream);
+
+        wrapper = Twitter4jAsyncWrapper.getInstance();
+        wrapper.setView(mainViewController);
+        wrapper.enableTwitterListener();
+        twitterStream.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
+        twitterStream.addListener(new UserStreamListenerImpl(mainViewController));
+    }
+
+    /**
+     * TwitterStreamに接続状態を監視するリスナをセットします
+     *
+     * @param twitterStream リスナをセットするTwitterStream
+     */
+    private void connectionLifeCycleListenerInitialize(TwitterStream twitterStream) {
         twitterStream.addConnectionLifeCycleListener(new ConnectionLifeCycleListener() {
             @Override
             public void onConnect() {
@@ -73,6 +89,14 @@ public class Main implements IFileWatcher {
             public void onCleanUp() {
             }
         });
+    }
+
+    /**
+     * TwitterStreamに残りAPI状態を監視するリスナをセットします
+     *
+     * @param twitterStream リスナをセットするTwitterStream
+     */
+    private void rateLimitListenerInitialize(TwitterStream twitterStream) {
         twitterStream.addRateLimitStatusListener(new RateLimitStatusListener() {
             @Override
             public void onRateLimitStatus(RateLimitStatusEvent event) {
@@ -84,11 +108,6 @@ public class Main implements IFileWatcher {
                 mainViewController.setNotification("onRateLimitReached:" + event.getRateLimitStatus());
             }
         });
-        wrapper = Twitter4jAsyncWrapper.getInstance();
-        wrapper.setView(mainViewController);
-        wrapper.enableTwitterListener();
-        twitterStream.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
-        twitterStream.addListener(new UserStreamListenerImpl(mainViewController));
     }
 
     /**
