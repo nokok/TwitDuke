@@ -1,6 +1,7 @@
 package net.nokok.twitduke.model;
 
 import net.nokok.twitduke.controller.MainViewController;
+import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.util.URLUtil;
 import twitter4j.DirectMessage;
 import twitter4j.StallWarning;
@@ -56,16 +57,25 @@ public class UserStreamListenerImpl implements UserStreamListener {
 
     @Override
     public void onFavorite(User source, User target, Status favoritedStatus) {
-        mainViewController.setNotification("★" + URLUtil.extendURL(favoritedStatus) + "が" + source.getScreenName() + "にお気に入り登録されました");
+        if (isMe(source)) {
+            return;
+        }
+        mainViewController.setNotification("★" + URLUtil.extendURL(favoritedStatus) + " が @" + source.getScreenName() + " にお気に入り登録されました");
     }
 
     @Override
     public void onUnfavorite(User source, User target, Status unfavoritedStatus) {
+        if (isMe(source)) {
+            return;
+        }
         mainViewController.setNotification("☆" + source.getScreenName() + "が" + URLUtil.extendURL(unfavoritedStatus) + "のお気に入り登録を解除しました");
     }
 
     @Override
     public void onFollow(User source, User followedUser) {
+        if (isMe(source)) {
+            return;
+        }
         mainViewController.setNotification(source.getScreenName() + "が" + followedUser.getScreenName() + "をフォローしました");
     }
 
@@ -127,5 +137,9 @@ public class UserStreamListenerImpl implements UserStreamListener {
     @Override
     public void onException(Exception ex) {
         mainViewController.setNotification(ex.getMessage());
+    }
+
+    private boolean isMe(User user) {
+        return user.getScreenName().equals(AccessTokenManager.getAccessTokenManager().getUserName());
     }
 }
