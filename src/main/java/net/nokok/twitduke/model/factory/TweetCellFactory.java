@@ -48,19 +48,10 @@ public class TweetCellFactory {
         }
         setCommonActionListener(cell, status);
         popupMenuFactory.createPopupMenu(cell, status);
-        if (!isMealTerroTime()) {
+        if (!DateUtil.isMealTerroTime()) {
             setThumbnail(cell, status);
         }
         return cell;
-    }
-
-    /**
-     * 現在時刻が0〜5時かどうかを返します
-     *
-     * @return 現在時刻が0〜5時ならtrue
-     */
-    private boolean isMealTerroTime() {
-        return DateUtil.nowHour() < 6;
     }
 
     /**
