@@ -1,5 +1,6 @@
 package net.nokok.twitduke.model.factory;
 
+import com.google.common.collect.Lists;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -64,25 +65,37 @@ public class TweetCellFactory {
             return;
         }
         if (DateUtil.isMealTerroTime()) {
-            TWLabel label = new TWLabel("[飯テロ防止機能が作動しました]");
+            TWLabel label = new TWLabel("[クリックで画像を表示]");
             label.setFont(new Font("", Font.BOLD, 10));
+            label.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    Lists.newArrayList(status.getMediaEntities()).forEach(ex -> new ImageView(URLUtil.createURL(ex.getMediaURL())).setVisible(true));
+                }
+            });
             cell.setThumbnail(label);
             return;
         }
-        for (MediaEntity entity : status.getMediaEntities()) {
-            final URL thumbnailURL = URLUtil.createURL(entity.getMediaURL());
-            TWLabel image = new TWLabel(ImageSizeChanger.createThumbnail(new ImageIcon(thumbnailURL)));
-            image.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (e.getButton() == MouseEvent.BUTTON1) {
-                        ImageView view = new ImageView(thumbnailURL);
-                        view.setVisible(true);
-                    }
-                }
-            });
-            cell.setThumbnail(image);
-        }
+        Lists.newArrayList(status.getMediaEntities()).forEach((MediaEntity e) -> addThumbnail(cell, e));
+    }
+
+    /**
+     * セルのサムネイルを作成してセルに貼り付けます
+     *
+     * @param cell   サムネイルをはりつけるセル
+     * @param entity セルに貼り付ける画像のエンティティ
+     */
+    private void addThumbnail(TweetCell cell, MediaEntity entity) {
+        URL imageURL = URLUtil.createURL(entity.getMediaURL());
+        TWLabel image = new TWLabel(ImageSizeChanger.createThumbnail(new ImageIcon(imageURL)));
+        image.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ImageView view = new ImageView(imageURL);
+                view.setVisible(true);
+            }
+        });
+        cell.setThumbnail(image);
     }
 
     /**
