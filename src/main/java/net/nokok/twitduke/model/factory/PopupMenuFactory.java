@@ -3,6 +3,7 @@ package net.nokok.twitduke.model.factory;
 import com.google.common.base.Strings;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import net.nokok.twitduke.util.MouseUtil;
 import net.nokok.twitduke.util.URLUtil;
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.TweetPopupMenu;
@@ -39,7 +40,7 @@ class PopupMenuFactory {
         MouseAdapter functionPanelMouseAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON3) {
+                if (MouseUtil.isRightButtonClicked(e)) {
                     popupMenu.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
@@ -48,7 +49,7 @@ class PopupMenuFactory {
         MouseAdapter userViewMouseAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() >= 2) {
+                if (MouseUtil.isDoubleClicked(e)) {
                     UserView view;
                     if (status.isRetweet()) {
                         view = UserViewFactory.createUserView(status.getRetweetedStatus().getUser());

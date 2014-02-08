@@ -28,12 +28,7 @@ public class ImageView extends JFrame {
         });
 
         TWButton open = new TWButton("ブラウザで見る");
-        open.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                URLUtil.openInBrowser(imageURL);
-            }
-        });
+        open.addActionListener(e -> URLUtil.openInBrowser(imageURL));
         add(open, BorderLayout.NORTH);
         add(image, BorderLayout.CENTER);
         pack();
