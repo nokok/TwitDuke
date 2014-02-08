@@ -47,8 +47,7 @@ public class OAuthDialog extends JDialog {
             throw new InternalError("認証中にTwitter側のエラーが発生しました: " + e.getErrorMessage());
         }
         asyncTwitter.setOAuthAccessToken(token);
-        tokenManager.createTokenDirectory();
-        tokenManager.writeAccessToken(token);
+        tokenManager.createPrimaryAccount(token);
         dispose();
     }
 }

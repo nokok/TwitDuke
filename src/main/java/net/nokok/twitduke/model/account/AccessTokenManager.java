@@ -46,9 +46,21 @@ public class AccessTokenManager {
     }
 
     /**
+     * 初回認証時のアクセストークン関連の処理を行います。
+     * アクセストークンを保存するauthディレクトリを作成し渡された
+     * アクセストークンをを保存します
+     *
+     * @param accessToken
+     */
+    public void createPrimaryAccount(AccessToken accessToken) {
+        createTokenDirectory();
+        writeAccessToken(accessToken);
+    }
+
+    /**
      * カレントディレクトリにauthディレクトリを作成します
      */
-    public void createTokenDirectory() {
+    private void createTokenDirectory() {
         File authDirectory = new File(AUTH_DIRECTORY_PATH);
         if (!authDirectory.exists()) {
             authDirectory.mkdir();
