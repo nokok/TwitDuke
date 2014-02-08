@@ -1,5 +1,6 @@
 package net.nokok.twitduke.model.factory;
 
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -48,9 +49,7 @@ public class TweetCellFactory {
         }
         setCommonActionListener(cell, status);
         popupMenuFactory.createPopupMenu(cell, status);
-        if (!DateUtil.isMealTerroTime()) {
-            setThumbnail(cell, status);
-        }
+        setThumbnail(cell, status);
         return cell;
     }
 
@@ -61,6 +60,15 @@ public class TweetCellFactory {
      * @param status ツイートのステータス
      */
     private void setThumbnail(TweetCell cell, EntitySupport status) {
+        if (status.getMediaEntities().length == 0) {
+            return;
+        }
+        if (DateUtil.isMealTerroTime()) {
+            TWLabel label = new TWLabel("[飯テロ防止機能が作動しました]");
+            label.setFont(new Font("", Font.BOLD, 10));
+            cell.setThumbnail(label);
+            return;
+        }
         for (MediaEntity entity : status.getMediaEntities()) {
             final URL thumbnailURL = URLUtil.createURL(entity.getMediaURL());
             TWLabel image = new TWLabel(ImageSizeChanger.createThumbnail(new ImageIcon(thumbnailURL)));
