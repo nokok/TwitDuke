@@ -15,7 +15,7 @@ public class Twitter4jAsyncWrapper {
     private long replyId;
 
     private static final AsyncTwitter       asyncTwitter = AsyncTwitterFactory.getSingleton();
-    private final        AccessTokenManager tokenManager = AccessTokenManager.getAccessTokenManager();
+    private final        AccessTokenManager tokenManager = AccessTokenManager.getInstance();
     private MainViewController mainViewController;
 
     private static final Twitter4jAsyncWrapper wrapper = new Twitter4jAsyncWrapper();

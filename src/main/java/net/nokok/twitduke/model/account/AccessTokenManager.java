@@ -72,7 +72,7 @@ public class AccessTokenManager {
      *
      * @return AccessTokenManagerのインスタンス
      */
-    public static AccessTokenManager getAccessTokenManager() {
+    public static AccessTokenManager getInstance() {
         return accessTokenManager;
     }
 

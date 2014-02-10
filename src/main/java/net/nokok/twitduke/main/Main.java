@@ -37,7 +37,7 @@ public class Main implements IFileWatcher {
         readConfigFiles();
         mainViewInitialize();
         twitterAPIWrapperInitialize();
-        String accessTokenFilePath = AccessTokenManager.getAccessTokenManager().getTokenFileListPath();
+        String accessTokenFilePath = AccessTokenManager.getInstance().getTokenFileListPath();
         new FileCreateWatcher(accessTokenFilePath, this).start();
     }
 
@@ -126,7 +126,7 @@ public class Main implements IFileWatcher {
      */
     private void startUserStream() {
         mainViewController.start(wrapper);
-        twitterStream.setOAuthAccessToken(AccessTokenManager.getAccessTokenManager().readPrimaryAccount());
+        twitterStream.setOAuthAccessToken(AccessTokenManager.getInstance().readPrimaryAccount());
         twitterStream.user();
     }
 

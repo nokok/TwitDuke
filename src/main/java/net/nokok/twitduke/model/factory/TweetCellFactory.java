@@ -105,7 +105,7 @@ public class TweetCellFactory {
      * @return リプライが含まれている場合にtrue
      */
     private boolean isMention(Status status) {
-        return status.getText().contains("@" + AccessTokenManager.getAccessTokenManager().getUserName()) && !status.isRetweet();
+        return status.getText().contains("@" + AccessTokenManager.getInstance().getUserName()) && !status.isRetweet();
     }
 
     /**

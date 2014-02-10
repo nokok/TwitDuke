@@ -140,6 +140,6 @@ public class UserStreamListenerImpl implements UserStreamListener {
     }
 
     private boolean isMe(User user) {
-        return user.getScreenName().equals(AccessTokenManager.getAccessTokenManager().getUserName());
+        return user.getScreenName().equals(AccessTokenManager.getInstance().getUserName());
     }
 }
