@@ -1,5 +1,6 @@
 package net.nokok.twitduke.wrapper;
 
+import java.util.Random;
 import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.model.ConsumerKey;
 import net.nokok.twitduke.model.TwitterListenerImpl;
@@ -88,5 +89,14 @@ public class Twitter4jAsyncWrapper {
     public void getUserInfomation(long userId) {
         long[] users = {userId};
         asyncTwitter.lookupUsers(users);
+    }
+
+    public void sendJavaJava() {
+        int wCount = new Random().nextInt(100);
+        StringBuilder stringBuilder = new StringBuilder("JavaJavaJava〜〜〜");
+        for (int i = 0; i < wCount; i++) {
+            stringBuilder.append('ｗ');
+        }
+        asyncTwitter.updateStatus(stringBuilder.toString());
     }
 }

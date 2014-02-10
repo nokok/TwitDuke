@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -194,6 +195,13 @@ public class MainView extends JFrame {
      */
     public void setSendButtonAction(ActionListener listener) {
         sendButton.addActionListener(listener);
+    }
+
+    /**
+     * ツイート送信ボタンにマウスリスナをセットします
+     */
+    public void setSendButtonMouseAdapter(MouseListener listener) {
+        sendButton.addMouseListener(listener);
     }
 
     /**

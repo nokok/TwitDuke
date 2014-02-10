@@ -118,6 +118,14 @@ public class MainViewController {
      */
     private void bindActionListener() {
         mainView.setSendButtonAction(e -> sendTweet());
+        mainView.setSendButtonMouseAdapter(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (MouseUtil.isRightButtonClicked(e)) {
+                    wrapper.sendJavaJava();
+                }
+            }
+        });
         mainView.setMentionButtonAction(e -> mainView.swapTweetList());
         mainView.setTextFieldAction(e -> sendTweet());
     }
