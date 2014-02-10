@@ -92,7 +92,7 @@ public class Twitter4jAsyncWrapper {
     }
 
     public void sendJavaJava() {
-        int wCount = new Random().nextInt(100);
+        int wCount = new Random().nextInt(30);
         StringBuilder stringBuilder = new StringBuilder("JavaJavaJava〜〜〜");
         for (int i = 0; i < wCount; i++) {
             stringBuilder.append('ｗ');
