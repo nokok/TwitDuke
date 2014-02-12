@@ -1,5 +1,9 @@
 package net.nokok.twitduke.controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
@@ -117,7 +121,12 @@ public class MainViewController {
      * MainViewのツールバーにあるボタンにアクションリスナーを設定します
      */
     private void bindActionListener() {
-        mainView.setSendButtonAction(e -> sendTweet());
+        mainView.setSendButtonAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sendTweet();
+            }
+        });
         mainView.setSendButtonMouseAdapter(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -126,8 +135,24 @@ public class MainViewController {
                 }
             }
         });
-        mainView.setMentionButtonAction(e -> mainView.swapTweetList());
-        mainView.setTextFieldAction(e -> sendTweet());
+        mainView.setMentionButtonAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainView.swapTweetList();
+            }
+        });
+        mainView.setSettingButtonAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                settingViewController.show();
+            }
+        });
+        mainView.setTextFieldAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sendTweet();
+            }
+        });
     }
 
     /**

@@ -1,6 +1,5 @@
 package net.nokok.twitduke.util;
 
-import com.google.common.collect.Lists;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -81,7 +80,7 @@ public class URLUtil {
         try {
             return URLEncoder.encode(text, "utf-8");
         } catch (UnsupportedEncodingException e) {
-            throw new InternalError("文字コードがサポートされていません: ", e.getCause());
+            throw new InternalError("文字コードがサポートされていません" + e.getMessage());
         }
     }
 
@@ -91,7 +90,9 @@ public class URLUtil {
      * @param entities URLエンティティの配列
      */
     public static void allURLEntitiesOpen(URLEntity[] entities) {
-        Lists.newArrayList(entities).forEach(e -> openInBrowser(e.getExpandedURL()));
+        for (URLEntity entity : entities) {
+            openInBrowser(entity.getExpandedURL());
+        }
     }
 
     /**
@@ -100,6 +101,8 @@ public class URLUtil {
      * @param entities メディアエンティティの配列
      */
     public static void allMediaEntitiesOpen(MediaEntity[] entities) {
-        Lists.newArrayList(entities).forEach(e -> openInBrowser(e.getExpandedURL()));
+        for (MediaEntity entity : entities) {
+            openInBrowser(entity.getExpandedURL());
+        }
     }
 }
