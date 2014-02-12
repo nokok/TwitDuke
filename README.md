@@ -21,9 +21,9 @@ TwitDukeはMITライセンスで配布されています。
 #環境
 OS X + IntelliJ 13 CE + Java **8** の環境にて開発をしています。  
 現在、Windowsの環境では動作には問題ありませんが一部私が意図しない描画をする場合があります。  
-`master`ブランチはJava8ブランチで開発したコードがマージされます。  
 `java8`ブランチはJava8で開発をしていますので、Java7以前のJDKではビルドが通りません。  
-`java7`ブランチではJava7でもコンパイル出来るコードとなっています。master(java8)ブランチと同等の機能が実装されるとは限りません。
+`java7`ブランチではJava7でもコンパイル出来るコードとなっています。  
+`java7`と`java8`双方のブランチで同じ機能が実装されるとは限りません。
 
 #使用ライブラリ
 Twitter4j(Apache License 2.0) http://twitter4j.org/ja/index.html  
