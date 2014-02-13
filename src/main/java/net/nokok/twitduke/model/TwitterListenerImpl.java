@@ -42,18 +42,24 @@ public class TwitterListenerImpl implements TwitterListener {
     @Override
     public void gotMentions(ResponseList<Status> statuses) {
         Collections.reverse(statuses);
-        statuses.forEach(mainViewController::insertTweetCell);
+        for (Status status : statuses) {
+            mainViewController.insertTweetCell(status);
+        }
     }
 
     @Override
     public void gotHomeTimeline(ResponseList<Status> statuses) {
         Collections.reverse(statuses);
-        statuses.forEach(mainViewController::insertTweetCell);
+        for (Status status : statuses) {
+            mainViewController.insertTweetCell(status);
+        }
     }
 
     @Override
     public void gotUserTimeline(ResponseList<Status> statuses) {
-        statuses.forEach(mainViewController::insertTweetCell);
+        for (Status status : statuses) {
+            mainViewController.insertTweetCell(status);
+        }
     }
 
     @Override
@@ -233,7 +239,9 @@ public class TwitterListenerImpl implements TwitterListener {
 
     @Override
     public void lookedupUsers(ResponseList<User> users) {
-        users.forEach(e -> UserViewFactory.createUserView(e).setVisible(true));
+        for (User user : users) {
+            UserViewFactory.createUserView(user).setVisible(true);
+        }
     }
 
     @Override
