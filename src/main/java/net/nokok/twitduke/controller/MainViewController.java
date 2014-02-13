@@ -141,12 +141,6 @@ public class MainViewController {
                 mainView.swapTweetList();
             }
         });
-        mainView.setSettingButtonAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                settingViewController.show();
-            }
-        });
         mainView.setTextFieldAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
