@@ -51,6 +51,7 @@ public class NotificationBarAnimationInvoker extends Thread {
      */
     private synchronized void moveToLeft() {
         Point moved = statusLabel.getLocation();
+        ThreadUtil.sleep(this, WAIT_SHOW_DISPLAY_NOTIFICATION);
         int statusLabelWidth = (int) statusLabel.getPreferredSize().getWidth();
         for (int i = statusLabelWidth; i > 0; i--) {
             moved.x--;
