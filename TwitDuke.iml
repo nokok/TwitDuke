@@ -36,6 +36,10 @@
     <orderEntry type="library" name="com.google.guava:guava:15.0" level="application" />
     <orderEntry type="library" name="uk.com.robust-it:cloning:1.9.0" level="application" />
     <orderEntry type="library" name="org.twitter4j:twitter4j-core:3.0.5" level="application" />
+    <orderEntry type="library" name="guava-15.0-javadoc" level="project" />
+    <orderEntry type="library" name="twitter4j-async-3.0.5-javadoc" level="project" />
+    <orderEntry type="library" name="twitter4j-core-3.0.5-javadoc" level="project" />
+    <orderEntry type="library" name="twitter4j-stream-3.0.5-javadoc" level="project" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">
