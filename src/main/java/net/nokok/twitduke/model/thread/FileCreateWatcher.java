@@ -24,7 +24,7 @@ public class FileCreateWatcher extends Thread implements Runnable {
                 watcher.filesCreated();
                 break;
             } else {
-                Threads.sleep(this, CHECK_INTERVAL);
+                ThreadUtil.sleep(this, CHECK_INTERVAL);
             }
         }
     }

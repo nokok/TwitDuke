@@ -2,7 +2,7 @@ package net.nokok.twitduke.model.thread;
 
 import java.awt.Point;
 import net.nokok.twitduke.controller.MainViewController;
-import net.nokok.twitduke.util.Threads;
+import net.nokok.twitduke.util.ThreadUtil;
 import net.nokok.twitduke.view.ui.TWLabel;
 
 
@@ -55,7 +55,7 @@ public class NotificationBarAnimationInvoker extends Thread {
         for (int i = statusLabelWidth; i > 0; i--) {
             moved.x--;
             statusLabel.setLocation(moved);
-            Threads.sleep(this, ANIMATION_SLEEP_MS);
+            ThreadUtil.sleep(this, ANIMATION_SLEEP_MS);
         }
     }
 
@@ -64,11 +64,11 @@ public class NotificationBarAnimationInvoker extends Thread {
      */
     private synchronized void dropDown() {
         Point moved = statusLabel.getLocation();
-        Threads.sleep(this, WAIT_SHOW_DISPLAY_NOTIFICATION);
+        ThreadUtil.sleep(this, WAIT_SHOW_DISPLAY_NOTIFICATION);
         for (int i = 0; i < 30; i++) {
             moved.y += i;
             statusLabel.setLocation(moved);
-            Threads.sleep(this, ANIMATION_SLEEP_MS);
+            ThreadUtil.sleep(this, ANIMATION_SLEEP_MS);
         }
     }
 }
