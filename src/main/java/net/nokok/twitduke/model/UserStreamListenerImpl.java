@@ -136,7 +136,7 @@ public class UserStreamListenerImpl implements UserStreamListener {
 
     @Override
     public void onException(Exception ex) {
-        mainViewController.setNotification(ex.getMessage());
+        mainViewController.setNotification("エラーが発生しました" + ex.getMessage());
     }
 
     private boolean isMe(User user) {
