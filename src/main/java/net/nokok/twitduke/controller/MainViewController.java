@@ -63,8 +63,8 @@ public class MainViewController {
 
     /**
      * MainViewのステータスバーに通知を表示します
-     * 通知は設定した秒数後(規定値:5秒)に消えるようアニメーション処理が実行されます
-     * また、通知が消える前に新たな通知が発生した場合、表示している通知は消え、新しい通知が表示されます
+     * 通知は設定した秒数後(規定値:3秒)に消えるようアニメーション処理が実行されます
+     * また、通知が消える前に新たな通知が発生した場合、今表示中の通知の処理が終わり次第、次の通知が表示される。
      *
      * @param text 表示する通知のテキスト
      * @see net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker
