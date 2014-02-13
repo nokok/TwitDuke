@@ -86,7 +86,7 @@ public class MainView extends JFrame {
         topPanel.add(toolBar, BorderLayout.SOUTH);
 
         JScrollPane scrollPane = new TWScrollPane(tweetListPanel);
-        JScrollPane replyScrollPane = new TWScrollPane(replyListPanel);
+        final JScrollPane replyScrollPane = new TWScrollPane(replyListPanel);
         tweetListPanel.setLayout(tweetListLayout);
         replyListPanel.setLayout(replyListLayout);
 

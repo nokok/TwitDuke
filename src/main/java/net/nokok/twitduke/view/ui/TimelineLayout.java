@@ -1,6 +1,5 @@
 package net.nokok.twitduke.view.ui;
 
-import com.google.common.collect.Lists;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -24,14 +23,20 @@ public class TimelineLayout implements LayoutManager {
     public synchronized Dimension preferredLayoutSize(Container parent) {
         //MainViewのレイアウトが変更されたらこことminimumLayoutを変更する
         int width = parent.getParent().getWidth() - SCROLLBAR_WIDTH;
-        double height = Lists.newArrayList(parent.getComponents()).stream().mapToDouble(e -> e.getPreferredSize().getHeight()).sum();
+        double height = 0;
+        for (Component component : parent.getComponents()) {
+            height += component.getPreferredSize().getHeight();
+        }
         return new Dimension(width, (int) height);
     }
 
     @Override
     public synchronized Dimension minimumLayoutSize(Container parent) {
         int width = parent.getParent().getWidth() - SCROLLBAR_WIDTH;
-        double height = Lists.newArrayList(parent.getComponents()).stream().mapToDouble(e -> e.getMinimumSize().getHeight()).sum();
+        double height = 0;
+        for (Component component : parent.getComponents()) {
+            height += component.getMinimumSize().getHeight();
+        }
         return new Dimension(width, (int) height);
     }
 

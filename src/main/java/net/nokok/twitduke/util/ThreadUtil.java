@@ -3,7 +3,7 @@ package net.nokok.twitduke.util;
 /**
  * スレッドのsleepメソッドとjoinメソッドのInterrupterExceptionをキャッチし、使いやすくするクラスです
  */
-public class Threads {
+public class ThreadUtil {
 
     public static void sleep(Thread wantToStopThread, long milliseconds) {
         try {
