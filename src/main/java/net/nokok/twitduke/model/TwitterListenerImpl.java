@@ -491,6 +491,7 @@ public class TwitterListenerImpl implements TwitterListener {
 
     @Override
     public void onException(TwitterException te, TwitterMethod method) {
-        mainViewController.setNotification(te.getErrorMessage());
+        String errorMessage = te.getErrorMessage();
+        mainViewController.setNotification("エラーが発生しました: " + errorMessage);
     }
 }
