@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
+import net.nokok.twitduke.util.MouseUtil;
 import net.nokok.twitduke.view.MainView;
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.ui.TWLabel;
@@ -139,12 +140,6 @@ public class MainViewController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainView.swapTweetList();
-            }
-        });
-        mainView.setSettingButtonAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                settingViewController.show();
             }
         });
         mainView.setTextFieldAction(new ActionListener() {
