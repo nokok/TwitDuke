@@ -29,7 +29,7 @@ public class AccessTokenManager {
     private final File   tokenListFile              = new File(AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_LIST_FILENAME);
     private final String TOKENFILE_PATH_WITH_PREFIX = AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_PREFIX;
 
-    private final ArrayList<SimpleToken> simpleTokenList = new ArrayList<>();
+    private final ArrayList<SimpleToken> simpleTokenList = new ArrayList<>(3);
     private boolean isLoaded;
 
     /**
@@ -167,10 +167,9 @@ public class AccessTokenManager {
      * @throws java.io.IOError ファイルが見つからなかったり、ファイルがオープンできなかったりするなどの理由で処理が失敗した時にスローされます
      */
     public void writeAccessToken(AccessToken accessToken) {
-        File authUserListFile = new File(String.format("%s%s%s", AUTH_DIRECTORY_PATH, File.separator, ACCESS_TOKEN_LIST_FILENAME));
         try (FileOutputStream fileOutputStream = new FileOutputStream(String.format("%s%d", TOKENFILE_PATH_WITH_PREFIX, accessToken.getUserId()));
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-             FileWriter writer = new FileWriter(authUserListFile)) {
+             FileWriter writer = new FileWriter(tokenListFile, true) /*true指定で追記出来る*/) {
 
             writer.write(accessToken.getScreenName() + ',' + accessToken.getUserId() + '\n');
             objectOutputStream.writeObject(accessToken);
@@ -179,4 +178,7 @@ public class AccessTokenManager {
         }
     }
 
+    public void removeAccessToken(long id) {
+        new File(String.format("%s%d", TOKENFILE_PATH_WITH_PREFIX, id)).delete();
+    }
 }
