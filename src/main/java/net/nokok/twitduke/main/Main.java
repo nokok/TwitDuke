@@ -1,11 +1,13 @@
 package net.nokok.twitduke.main;
 
 import net.nokok.twitduke.controller.MainViewController;
+import net.nokok.twitduke.controller.SettingViewController;
 import net.nokok.twitduke.model.ConsumerKey;
 import net.nokok.twitduke.model.UserStreamListenerImpl;
 import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.model.thread.FileCreateWatcher;
 import net.nokok.twitduke.model.thread.IFileWatcher;
+import net.nokok.twitduke.view.SettingView;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.ConnectionLifeCycleListener;
 import twitter4j.RateLimitStatusEvent;
@@ -17,6 +19,7 @@ public class Main implements IFileWatcher {
 
     private Twitter4jAsyncWrapper wrapper;
     private MainViewController    mainViewController;
+    private SettingViewController settingViewController;
     private TwitterStream         twitterStream;
 
     /**
@@ -36,6 +39,7 @@ public class Main implements IFileWatcher {
     private void boot() {
         readConfigFiles();
         mainViewInitialize();
+        settingViewInitialize();
         twitterAPIWrapperInitialize();
         String accessTokenFilePath = AccessTokenManager.getInstance().getTokenFileListPath();
         new FileCreateWatcher(accessTokenFilePath, this).start();
@@ -51,6 +55,13 @@ public class Main implements IFileWatcher {
      */
     private void mainViewInitialize() {
         mainViewController = new MainViewController();
+    }
+
+    /**
+     * SettingViewControllerの初期化を行います
+     */
+    private void settingViewInitialize() {
+        settingViewController = new SettingViewController(new SettingView());
     }
 
     /**
@@ -125,7 +136,7 @@ public class Main implements IFileWatcher {
      * UserStreamの受信を開始します。
      */
     private void startUserStream() {
-        mainViewController.start(wrapper);
+        mainViewController.start(wrapper, settingViewController);
         twitterStream.setOAuthAccessToken(AccessTokenManager.getInstance().readPrimaryAccount());
         twitterStream.user();
     }
