@@ -16,7 +16,6 @@ import net.nokok.twitduke.view.ImageView;
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
-import twitter4j.EntitySupport;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
 
@@ -61,8 +60,7 @@ public class TweetCellFactory {
      * @param cell   サムネイルをセットするツイートセル
      * @param status ツイートのステータス
      */
-    private void setThumbnail(TweetCell cell, final EntitySupport status) {
-        final MediaEntity[] entities = status.getMediaEntities();
+    private void setThumbnail(TweetCell cell, final Status status) {
         if (status.getMediaEntities().length == 0) {
             return;
         }
@@ -72,15 +70,25 @@ public class TweetCellFactory {
             label.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    for (MediaEntity entity : entities) {
-                        new ImageView(URLUtil.createURL(entity.getMediaURL())).setVisible(true);
-                    }
+                    addAllThumbnail(cell, status);
+                    cell.getParent().validate();
+                    label.setText("");
                 }
             });
             cell.setThumbnail(label);
             return;
         }
-        for (MediaEntity entity : entities) {
+        addAllThumbnail(cell, status);
+    }
+
+    /**
+     * ステータスに含まれる全てのサムネイルをセルに貼り付けます
+     *
+     * @param cell   サムネイルを貼り付けるセル
+     * @param status セルに貼り付ける画像のステータス
+     */
+    private void addAllThumbnail(TweetCell cell, Status status) {
+        for (MediaEntity entity : status.getMediaEntities()) {
             addThumbnail(cell, entity);
         }
     }
@@ -88,7 +96,7 @@ public class TweetCellFactory {
     /**
      * セルのサムネイルを作成してセルに貼り付けます
      *
-     * @param cell   サムネイルをはりつけるセル
+     * @param cell   サムネイルを貼り付けるセル
      * @param entity セルに貼り付ける画像のエンティティ
      */
     private void addThumbnail(TweetCell cell, MediaEntity entity) {
