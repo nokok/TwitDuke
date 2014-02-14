@@ -49,7 +49,11 @@ public class TweetCellFactory {
         }
         setCommonActionListener(cell, status);
         popupMenuFactory.createPopupMenu(cell, status);
-        setThumbnail(cell, status);
+        if (status.isRetweeted()) {
+            setThumbnail(cell, status.getRetweetedStatus());
+        } else {
+            setThumbnail(cell, status);
+        }
         return cell;
     }
 
