@@ -99,7 +99,7 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
     public void enableThumbnail(TWLabel imageLabel) {
         thumbnailPanel.add(imageLabel);
         add(thumbnailPanel, BorderLayout.SOUTH);
-        thumbnailPanel.validate();
+        getParent().validate();
     }
 
     public boolean isMention() {
