@@ -6,10 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URL;
 import javax.swing.ImageIcon;
 import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.model.thread.AsyncImageLoader;
+import net.nokok.twitduke.util.CacheUtil;
 import net.nokok.twitduke.util.DateUtil;
 import net.nokok.twitduke.util.URLUtil;
 import net.nokok.twitduke.view.TweetCell;
@@ -24,6 +24,7 @@ public class TweetCellFactory {
     private static final int RETWEET_ICON_HEIGHT = 15;
     private final Twitter4jAsyncWrapper wrapper;
     private final PopupMenuFactory      popupMenuFactory;
+    private final CacheUtil cacheUtil = CacheUtil.getInstance();
 
     public TweetCellFactory(Twitter4jAsyncWrapper twitter) {
         wrapper = twitter;
@@ -114,10 +115,9 @@ public class TweetCellFactory {
      * @return 生成されたツイートセル
      */
     private TweetCell createNormalCell(boolean isMention, Status status) {
-        URL userIconURL = URLUtil.createURL(status.getUser().getProfileImageURLHttps());
         return new TweetCell(isMention,
                              status.getId(),
-                             new ImageIcon(userIconURL),
+                             createUserImageIcon(status.getUser().getProfileImageURL()),
                              status.getUser().getScreenName(),
                              URLUtil.extendURL(status));
 
@@ -131,15 +131,37 @@ public class TweetCellFactory {
      * @return 生成されたツイートセル
      */
     private TweetCell createRetweetCell(boolean isMention, Status status) {
-        URL userIconURL = URLUtil.createURL(status.getRetweetedStatus().getUser().getProfileImageURLHttps());
-        URL retweetIconURL = URLUtil.createURL(status.getUser().getProfileImageURLHttps());
-        Image retweetUserImage = new ImageIcon(retweetIconURL).getImage().getScaledInstance(RETWEET_ICON_WIDTH, RETWEET_ICON_HEIGHT, Image.SCALE_FAST);
+        String userIconURL = status.getRetweetedStatus().getUser().getProfileImageURLHttps();
+        String retweetIconURL = status.getUser().getProfileImageURLHttps();
+        ImageIcon userIcon = createUserImageIcon(userIconURL);
+        ImageIcon retweetUserIcon = new ImageIcon(
+            createUserImageIcon(retweetIconURL)
+                .getImage()
+                .getScaledInstance(RETWEET_ICON_WIDTH, RETWEET_ICON_HEIGHT, Image.SCALE_FAST)
+        );
         return new TweetCell(isMention,
                              status.getId(),
-                             new ImageIcon(userIconURL),
-                             new ImageIcon(retweetUserImage),
+                             userIcon,
+                             retweetUserIcon,
                              "Retweet: " + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName(),
                              URLUtil.extendURL(status.getRetweetedStatus()));
+    }
+
+    /**
+     * ユーザーのアイコン画像をキャッシュからアイコンを読み込みます。
+     * キャッシュに無かった場合、読み込んでキャッシュに保存します
+     *
+     * @param imageURL アイコン画像のURL
+     * @return ユーザーのアイコン
+     */
+    private ImageIcon createUserImageIcon(String imageURL) {
+        if (cacheUtil.containsKey(imageURL)) {
+            return (ImageIcon) cacheUtil.get(imageURL);
+        } else {
+            ImageIcon imageIcon = new ImageIcon(URLUtil.createURL(imageURL));
+            cacheUtil.set(imageURL, imageIcon);
+            return imageIcon;
+        }
     }
 
     /**
