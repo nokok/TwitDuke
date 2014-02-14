@@ -11,12 +11,13 @@ import java.awt.event.MouseListener;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
+import net.nokok.twitduke.model.thread.IAsyncImageLoader;
 import net.nokok.twitduke.view.ui.TWButton;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.view.ui.TWPanel;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
 
-public class TweetCell extends TWPanel {
+public class TweetCell extends TWPanel implements IAsyncImageLoader {
 
     public static final int USERNAME_FONT_SIZE = 13;
     private final boolean isMention;
@@ -95,12 +96,8 @@ public class TweetCell extends TWPanel {
 
     }
 
-    public void setThumbnail(TWLabel imageLabel) {
+    public void enableThumbnail(TWLabel imageLabel) {
         thumbnailPanel.add(imageLabel);
-        enableThumbnail();
-    }
-
-    private void enableThumbnail() {
         add(thumbnailPanel, BorderLayout.SOUTH);
         thumbnailPanel.validate();
     }
@@ -180,5 +177,19 @@ public class TweetCell extends TWPanel {
             .add("Tweet", displayTweetText)
             .add("User", userName.getText())
             .toString();
+    }
+
+    @Override
+    public void imageLoading() {
+        TWLabel loadingLabel = new TWLabel("[サムネイルの読み込み中...]");
+        loadingLabel.setFont(new Font("", Font.BOLD, 10));
+        thumbnailPanel.add(loadingLabel);
+        add(thumbnailPanel, BorderLayout.SOUTH);
+    }
+
+    @Override
+    public void imageLoaded(TWLabel label) {
+        thumbnailPanel.removeAll();
+        enableThumbnail(label);
     }
 }
