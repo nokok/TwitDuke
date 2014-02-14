@@ -9,10 +9,9 @@ import java.awt.event.MouseEvent;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import net.nokok.twitduke.model.account.AccessTokenManager;
+import net.nokok.twitduke.model.thread.AsyncImageLoader;
 import net.nokok.twitduke.util.DateUtil;
-import net.nokok.twitduke.util.ImageSizeChanger;
 import net.nokok.twitduke.util.URLUtil;
-import net.nokok.twitduke.view.ImageView;
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
@@ -60,56 +59,37 @@ public class TweetCellFactory {
      * @param cell   サムネイルをセットするツイートセル
      * @param status ツイートのステータス
      */
-    private void setThumbnail(TweetCell cell, final Status status) {
+    private void setThumbnail(final TweetCell cell, final Status status) {
         if (status.getMediaEntities().length == 0) {
             return;
         }
         if (DateUtil.isMealTerroTime()) {
-            TWLabel label = new TWLabel("[クリックで画像を表示]");
+            final TWLabel label = new TWLabel("[クリックで画像を表示]");
             label.setFont(new Font("", Font.BOLD, 10));
             label.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     addAllThumbnail(cell, status);
-                    cell.getParent().validate();
                     label.setText("");
                 }
             });
-            cell.setThumbnail(label);
+            cell.enableThumbnail(label);
             return;
         }
         addAllThumbnail(cell, status);
     }
 
     /**
-     * ステータスに含まれる全てのサムネイルをセルに貼り付けます
+     * ステータスに含まれる全てのサムネイルをセルに貼り付けます。
+     * 画像の読み込みはAsyncImageLoaderスレッドで非同期でセルに反映されます
      *
      * @param cell   サムネイルを貼り付けるセル
      * @param status セルに貼り付ける画像のステータス
      */
     private void addAllThumbnail(TweetCell cell, Status status) {
         for (MediaEntity entity : status.getMediaEntities()) {
-            addThumbnail(cell, entity);
+            new AsyncImageLoader(entity.getMediaURL(), cell).start();
         }
-    }
-
-    /**
-     * セルのサムネイルを作成してセルに貼り付けます
-     *
-     * @param cell   サムネイルを貼り付けるセル
-     * @param entity セルに貼り付ける画像のエンティティ
-     */
-    private void addThumbnail(TweetCell cell, MediaEntity entity) {
-        final URL imageURL = URLUtil.createURL(entity.getMediaURL());
-        TWLabel image = new TWLabel(ImageSizeChanger.createThumbnail(new ImageIcon(imageURL)));
-        image.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                ImageView view = new ImageView(imageURL);
-                view.setVisible(true);
-            }
-        });
-        cell.setThumbnail(image);
     }
 
     /**
