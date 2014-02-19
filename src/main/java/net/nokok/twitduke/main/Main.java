@@ -2,7 +2,6 @@ package net.nokok.twitduke.main;
 
 import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.controller.SettingViewController;
-import net.nokok.twitduke.model.ConsumerKey;
 import net.nokok.twitduke.model.UserStreamListenerImpl;
 import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.model.thread.FileCreateWatcher;
@@ -75,7 +74,7 @@ public class Main implements IFileWatcher {
         wrapper = Twitter4jAsyncWrapper.getInstance();
         wrapper.setController(mainViewController);
         wrapper.enableTwitterListener();
-        twitterStream.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
+        twitterStream.setOAuthConsumer(Config.TWITTER_CONSUMER_KEY, Config.TWITTER_CONSUMER_SECRET);
         twitterStream.addListener(new UserStreamListenerImpl(mainViewController));
     }
 

@@ -1,10 +1,11 @@
 package net.nokok.twitduke.util;
 
 import java.util.HashMap;
+import net.nokok.twitduke.main.Config;
 
 public class CacheUtil {
     private static final CacheUtil               instance = new CacheUtil();
-    private final        HashMap<String, Object> cacheMap = new HashMap<>(1000);
+    private final        HashMap<String, Object> cacheMap = new HashMap<>(Config.CACHE_SIZE);
 
     private CacheUtil() {
 
@@ -15,6 +16,9 @@ public class CacheUtil {
     }
 
     public void set(String key, Object value) {
+        if (cacheMap.size() > 1000) {
+            cacheMap.clear();
+        }
         cacheMap.put(key, value);
     }
 

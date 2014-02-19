@@ -2,7 +2,7 @@ package net.nokok.twitduke.wrapper;
 
 import java.util.Random;
 import net.nokok.twitduke.controller.MainViewController;
-import net.nokok.twitduke.model.ConsumerKey;
+import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.TwitterListenerImpl;
 import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.view.OAuthDialog;
@@ -22,7 +22,7 @@ public class Twitter4jAsyncWrapper {
     private static final Twitter4jAsyncWrapper wrapper = new Twitter4jAsyncWrapper();
 
     private Twitter4jAsyncWrapper() {
-        asyncTwitter.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
+        asyncTwitter.setOAuthConsumer(Config.TWITTER_CONSUMER_KEY, Config.TWITTER_CONSUMER_SECRET);
         if (tokenManager.isTokenListExists()) {
             asyncTwitter.setOAuthAccessToken(tokenManager.readPrimaryAccount());
         } else {

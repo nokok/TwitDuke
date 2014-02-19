@@ -1,11 +1,11 @@
 package net.nokok.twitduke.view.ui;
 
-import java.awt.Dimension;
+import net.nokok.twitduke.main.Config;
 
 public class TWSlimButton extends TWButton {
 
     public TWSlimButton(String title) {
         super(title);
-        setPreferredSize(new Dimension(120, 20));
+        setPreferredSize(Config.ComponentSize.SLIM_BUTTON_SIZE);
     }
 }

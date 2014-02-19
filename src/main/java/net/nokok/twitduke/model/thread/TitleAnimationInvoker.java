@@ -1,5 +1,6 @@
 package net.nokok.twitduke.model.thread;
 
+import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.util.ThreadUtil;
 import net.nokok.twitduke.view.MainView;
 
@@ -8,7 +9,6 @@ import net.nokok.twitduke.view.MainView;
  */
 public class TitleAnimationInvoker extends Thread implements Runnable {
 
-    public static final int ANIMATION_SLEEP_MS = 30;
     private final MainView mainView;
 
     public TitleAnimationInvoker(MainView mainView) {
@@ -20,17 +20,17 @@ public class TitleAnimationInvoker extends Thread implements Runnable {
         String oldTitle = mainView.getTitle();
         for (int i = 0; i < ((oldTitle.length() / 2) + 1); i++) {
             mainView.setTitle(oldTitle.substring(i, oldTitle.length() - i));
-            ThreadUtil.sleep(this, ANIMATION_SLEEP_MS);
+            ThreadUtil.sleep(this, Config.AnimationWait.TITLE_ANIMATION_WAIT);
         }
         String welcome = "Welcome to TwitDuke";
         for (int i = 0; i < welcome.length(); i++) {
             mainView.setTitle(welcome.substring(0, i + 1));
-            ThreadUtil.sleep(this, ANIMATION_SLEEP_MS);
+            ThreadUtil.sleep(this, Config.AnimationWait.TITLE_ANIMATION_WAIT);
         }
         ThreadUtil.sleep(this, 100);
         for (int i = 0; i < 12; i++) {
             mainView.setTitle(welcome.substring(i, welcome.length()));
-            ThreadUtil.sleep(this, ANIMATION_SLEEP_MS);
+            ThreadUtil.sleep(this, Config.AnimationWait.TITLE_ANIMATION_WAIT);
         }
     }
 }

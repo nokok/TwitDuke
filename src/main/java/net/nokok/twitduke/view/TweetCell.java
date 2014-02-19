@@ -13,6 +13,7 @@ import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
+import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.thread.IAsyncImageLoader;
 import net.nokok.twitduke.view.ui.TWButton;
 import net.nokok.twitduke.view.ui.TWLabel;
@@ -21,7 +22,6 @@ import net.nokok.twitduke.view.ui.color.DefaultColor;
 
 public class TweetCell extends TWPanel implements IAsyncImageLoader {
 
-    public static final int USERNAME_FONT_SIZE = 13;
     private final boolean isMention;
     private       boolean isFavorited;
     private       boolean isRetweeted;
@@ -31,9 +31,6 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
     private final TWLabel   userName    = new TWLabel();
     private final TWLabel   screenName  = new TWLabel();
     private final JTextArea tweetText   = new JTextArea();
-
-    private final Dimension RETWEET_ICON_SIZE    = new Dimension(15, 15);
-    private final Dimension FUNCTION_BUTTON_SIZE = new Dimension(15, 13);
 
     private final TWPanel  contentsNorthPanel = new TWPanel(new FlowLayout(FlowLayout.LEFT));
     private final TWButton favoriteButton     = new TWButton();
@@ -77,12 +74,13 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
 
         icon.setBorder(new EmptyBorder(2, 0, 2, 5));
 
-        retweetIcon.setPreferredSize(RETWEET_ICON_SIZE);
-        userName.setFont(new Font("", Font.PLAIN, USERNAME_FONT_SIZE));
-        screenName.setFont(new Font("", Font.BOLD, 11));
-        favoriteButton.setPreferredSize(FUNCTION_BUTTON_SIZE);
+        retweetIcon.setPreferredSize(Config.ComponentSize.RETWEET_USER_ICON_SIZE);
+        userName.setFont(Config.FontConfig.USER_NAME_FONT);
+        screenName.setFont(Config.FontConfig.SCREEN_NAME_FONT);
+        screenName.setForeground(DefaultColor.TweetCell.DEFAULT_FOREGROUND.darker());
+        favoriteButton.setPreferredSize(Config.ComponentSize.FUNCTION_BUTTON_SIZE);
         favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITE_BUTTON);
-        retweetButton.setPreferredSize(FUNCTION_BUTTON_SIZE);
+        retweetButton.setPreferredSize(Config.ComponentSize.FUNCTION_BUTTON_SIZE);
         retweetButton.setBackground(DefaultColor.TweetCell.RETWEET_BUTTON);
         tweetText.setForeground(DefaultColor.TweetCell.DEFAULT_FOREGROUND);
         tweetText.setEditable(false);
@@ -127,7 +125,6 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
         contentsNorthPanel.setBackground(color);
         tweetText.setBackground(color);
         thumbnailPanel.setBackground(color);
-        screenName.setForeground(getBackground().brighter().brighter().brighter());
     }
 
     public void setFavoriteAction(ActionListener listener) {

@@ -2,6 +2,7 @@ package net.nokok.twitduke.model.thread;
 
 import java.awt.Point;
 import net.nokok.twitduke.controller.MainViewController;
+import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.util.ThreadUtil;
 import net.nokok.twitduke.view.ui.TWLabel;
 
@@ -13,8 +14,6 @@ public class NotificationBarAnimationInvoker extends Thread {
 
     private AnimationThreadSyncronizer animationThreadSyncronizer;
 
-    private static final int WAIT_SHOW_DISPLAY_NOTIFICATION = 3000; //ms
-    private static final int ANIMATION_SLEEP_MS             = 10;
     private final TWLabel            statusLabel;
     private final String             notificationText;
     private final MainViewController mainViewController;
@@ -51,12 +50,12 @@ public class NotificationBarAnimationInvoker extends Thread {
      */
     private synchronized void moveToLeft() {
         Point moved = statusLabel.getLocation();
-        ThreadUtil.sleep(this, WAIT_SHOW_DISPLAY_NOTIFICATION);
+        ThreadUtil.sleep(this, Config.AnimationWait.WAIT_SHOW_DISPLAY_NOTIFICATION);
         int statusLabelWidth = (int) statusLabel.getPreferredSize().getWidth();
         for (int i = statusLabelWidth; i > 0; i--) {
             moved.x--;
             statusLabel.setLocation(moved);
-            ThreadUtil.sleep(this, ANIMATION_SLEEP_MS);
+            ThreadUtil.sleep(this, Config.AnimationWait.NOTIFICATION_ANIMATION_WAIT);
         }
     }
 
@@ -65,11 +64,11 @@ public class NotificationBarAnimationInvoker extends Thread {
      */
     private synchronized void dropDown() {
         Point moved = statusLabel.getLocation();
-        ThreadUtil.sleep(this, WAIT_SHOW_DISPLAY_NOTIFICATION);
+        ThreadUtil.sleep(this, Config.AnimationWait.WAIT_SHOW_DISPLAY_NOTIFICATION);
         for (int i = 0; i < 30; i++) {
             moved.y += i;
             statusLabel.setLocation(moved);
-            ThreadUtil.sleep(this, ANIMATION_SLEEP_MS);
+            ThreadUtil.sleep(this, Config.AnimationWait.NOTIFICATION_ANIMATION_WAIT);
         }
     }
 }

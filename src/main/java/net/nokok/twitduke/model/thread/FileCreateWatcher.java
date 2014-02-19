@@ -1,6 +1,7 @@
 package net.nokok.twitduke.model.thread;
 
 import java.io.File;
+import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.util.ThreadUtil;
 
 /**
@@ -8,7 +9,6 @@ import net.nokok.twitduke.util.ThreadUtil;
  */
 public class FileCreateWatcher extends Thread implements Runnable {
 
-    private static final int CHECK_INTERVAL = 3000;
     private final File         watchingFile;
     private final IFileWatcher watcher;
 
@@ -24,7 +24,7 @@ public class FileCreateWatcher extends Thread implements Runnable {
                 watcher.filesCreated();
                 break;
             } else {
-                ThreadUtil.sleep(this, CHECK_INTERVAL);
+                ThreadUtil.sleep(this, Config.FILE_CHECK_INTERVAL);
             }
         }
     }
