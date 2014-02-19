@@ -73,7 +73,7 @@ public class Main implements IFileWatcher {
         rateLimitListenerInitialize(twitterStream);
 
         wrapper = Twitter4jAsyncWrapper.getInstance();
-        wrapper.setView(mainViewController);
+        wrapper.setController(mainViewController);
         wrapper.enableTwitterListener();
         twitterStream.setOAuthConsumer(ConsumerKey.TWITTER_CONSUMER_KEY, ConsumerKey.TWITTER_CONSUMER_SECRET);
         twitterStream.addListener(new UserStreamListenerImpl(mainViewController));
