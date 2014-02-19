@@ -8,9 +8,11 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 import net.nokok.twitduke.model.thread.IAsyncImageLoader;
 import net.nokok.twitduke.view.ui.TWButton;
 import net.nokok.twitduke.view.ui.TWLabel;
@@ -27,6 +29,7 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
     private final JLabel    icon        = new JLabel();
     private final JLabel    retweetIcon = new JLabel();
     private final TWLabel   userName    = new TWLabel();
+    private final TWLabel   screenName  = new TWLabel();
     private final JTextArea tweetText   = new JTextArea();
 
     private final Dimension RETWEET_ICON_SIZE    = new Dimension(15, 15);
@@ -42,12 +45,14 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
                      long statusId,
                      Icon userIcon,
                      String userName,
+                     String screenName,
                      String tweetText) {
         initializeComponent();
 
         this.isMention = isMention;
         icon.setIcon(userIcon);
         this.userName.setText(userName);
+        this.screenName.setText(screenName);
         this.tweetText.setText(tweetText);
 
         if (isMention) {
@@ -63,14 +68,18 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
                      Icon retweetIcon,
                      String userName,
                      String tweetText) {
-        this(isMention, statusId, userIcon, userName, tweetText);
+        this(isMention, statusId, userIcon, userName, "", tweetText);
         this.retweetIcon.setIcon(retweetIcon);
     }
 
     private void initializeComponent() {
         setLayout(new BorderLayout());
+
+        icon.setBorder(new EmptyBorder(2, 0, 2, 5));
+
         retweetIcon.setPreferredSize(RETWEET_ICON_SIZE);
-        userName.setFont(new Font("", Font.BOLD, USERNAME_FONT_SIZE));
+        userName.setFont(new Font("", Font.PLAIN, USERNAME_FONT_SIZE));
+        screenName.setFont(new Font("", Font.BOLD, 11));
         favoriteButton.setPreferredSize(FUNCTION_BUTTON_SIZE);
         favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITE_BUTTON);
         retweetButton.setPreferredSize(FUNCTION_BUTTON_SIZE);
@@ -79,15 +88,21 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
         tweetText.setEditable(false);
         tweetText.setLineWrap(true);
         tweetText.setOpaque(true);
-        tweetText.setBorder(null);
+        tweetText.setBorder(new EmptyBorder(2, 0, 5, 0));
         thumbnailPanel.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
 
         TWPanel contentsPanel = new TWPanel(new BorderLayout());
         contentsNorthPanel.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
+        contentsNorthPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 3));
         contentsNorthPanel.add(favoriteButton);
+        contentsNorthPanel.add(Box.createRigidArea(new Dimension(2, 0)));
         contentsNorthPanel.add(retweetButton);
+        contentsNorthPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         contentsNorthPanel.add(userName);
+        contentsNorthPanel.add(Box.createRigidArea(new Dimension(3, 0)));
+        contentsNorthPanel.add(screenName);
         contentsNorthPanel.add(retweetIcon);
+
         contentsPanel.add(contentsNorthPanel, BorderLayout.NORTH);
         contentsPanel.add(tweetText, BorderLayout.CENTER);
 
@@ -112,6 +127,7 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
         contentsNorthPanel.setBackground(color);
         tweetText.setBackground(color);
         thumbnailPanel.setBackground(color);
+        screenName.setForeground(getBackground().brighter().brighter().brighter());
     }
 
     public void setFavoriteAction(ActionListener listener) {
