@@ -1,17 +1,7 @@
 package net.nokok.twitduke.model.thread;
 
-public class LoaderThreadSyncronizer {
-
-    private static LoaderThreadSyncronizer instance    = new LoaderThreadSyncronizer();
-    private        boolean                 isAvailable = true;
-
-    private LoaderThreadSyncronizer() {
-
-    }
-
-    public static LoaderThreadSyncronizer getInstance() {
-        return instance;
-    }
+public abstract class AbstractSyncronizer {
+    protected boolean isAvailable = true;
 
     public synchronized void lock() {
         while (!isAvailable) {

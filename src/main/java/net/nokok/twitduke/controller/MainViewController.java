@@ -7,9 +7,9 @@ import java.awt.event.MouseEvent;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
+import net.nokok.twitduke.model.thread.TweetCellThread;
 import net.nokok.twitduke.util.MouseUtil;
 import net.nokok.twitduke.view.MainView;
-import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.Status;
@@ -111,11 +111,7 @@ public class MainViewController {
      * @param status TweetCellを生成するステータス
      */
     public void insertTweetCell(Status status) {
-        TweetCell cell = tweetCellFactory.createTweetCell(status);
-        mainView.insertTweetCell(cell);
-        if (cell.isMention()) {
-            mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));
-        }
+        new TweetCellThread(mainView, tweetCellFactory, status).start();
     }
 
     /**
