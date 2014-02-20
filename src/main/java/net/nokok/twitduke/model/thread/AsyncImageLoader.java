@@ -12,7 +12,6 @@ import net.nokok.twitduke.view.ui.TWLabel;
 
 public class AsyncImageLoader extends Thread {
 
-    private LoaderThreadSyncronizer loaderThreadSyncronizer = LoaderThreadSyncronizer.getInstance();
     private       String            imageURLString;
     private final IAsyncImageLoader loader;
     private final CacheUtil cacheUtil = CacheUtil.getInstance();
@@ -24,24 +23,20 @@ public class AsyncImageLoader extends Thread {
 
     @Override
     public void run() {
+        loader.imageLoading();
         TWLabel label = (TWLabel) cacheUtil.get(imageURLString);
         if (label == null) {
-            loader.imageLoading();
-            loaderThreadSyncronizer.lock();
             final URL imageURL = URLUtil.createURL(imageURLString);
-            TWLabel imageLabel = new TWLabel(ImageSizeChanger.createThumbnail(new ImageIcon(imageURL)));
-            imageLabel.addMouseListener(new MouseAdapter() {
+            label = new TWLabel(ImageSizeChanger.createThumbnail(new ImageIcon(imageURL)));
+            label.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     ImageView view = new ImageView(imageURL);
                     view.setVisible(true);
                 }
             });
-            cacheUtil.set(imageURLString, imageLabel);
-            loader.imageLoaded(imageLabel);
-            loaderThreadSyncronizer.unlock();
-        } else {
-            loader.imageLoaded(label);
+            cacheUtil.set(imageURLString, label);
         }
+        loader.imageLoaded(label);
     }
 }

@@ -1,7 +1,7 @@
 package net.nokok.twitduke.model.thread;
 
 import java.io.File;
-import net.nokok.twitduke.util.Threads;
+import net.nokok.twitduke.util.ThreadUtil;
 
 /**
  * 指定したファイルが作成されるのを3秒間隔で監視し、作成されたらfilesCreatedが呼ばれます
@@ -24,7 +24,7 @@ public class FileCreateWatcher extends Thread implements Runnable {
                 watcher.filesCreated();
                 break;
             } else {
-                Threads.sleep(this, CHECK_INTERVAL);
+                ThreadUtil.sleep(this, CHECK_INTERVAL);
             }
         }
     }

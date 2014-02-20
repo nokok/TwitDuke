@@ -17,6 +17,7 @@ import java.awt.event.MouseListener;
 import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
@@ -51,6 +52,7 @@ public class MainView extends JFrame {
     private final TWPanel rootScrollPanel = new TWPanel(layout);
     private final TWPanel tweetListPanel  = new TWPanel();
     private final TWPanel replyListPanel  = new TWPanel();
+    private JScrollBar verticalScrollbar;
 
     private final TWLabel notificationLabel = new TWLabel();
 
@@ -89,6 +91,7 @@ public class MainView extends JFrame {
         final JScrollPane replyScrollPane = new TWScrollPane(replyListPanel);
         tweetListPanel.setLayout(tweetListLayout);
         replyListPanel.setLayout(replyListLayout);
+        verticalScrollbar = scrollPane.getVerticalScrollBar();
 
         rootScrollPanel.addComponentListener(new ComponentAdapter() {
             @Override
@@ -255,5 +258,13 @@ public class MainView extends JFrame {
      */
     public TWLabel getNotificationLabel() {
         return notificationLabel;
+    }
+
+    public boolean isScrollbarTop() {
+        return verticalScrollbar.getValue() == 0;
+    }
+
+    public void shiftScrollBar(int value) {
+        verticalScrollbar.setValue(verticalScrollbar.getValue() + value);
     }
 }

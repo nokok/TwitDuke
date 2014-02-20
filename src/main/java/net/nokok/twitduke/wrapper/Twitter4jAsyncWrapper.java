@@ -36,7 +36,7 @@ public class Twitter4jAsyncWrapper {
         return wrapper;
     }
 
-    public void setView(MainViewController mainViewController) {
+    public void setController(MainViewController mainViewController) {
         this.mainViewController = mainViewController;
     }
 

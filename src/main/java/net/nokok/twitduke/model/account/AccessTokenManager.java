@@ -48,9 +48,9 @@ public class AccessTokenManager {
     /**
      * 初回認証時のアクセストークン関連の処理を行います。
      * アクセストークンを保存するauthディレクトリを作成し渡された
-     * アクセストークンをを保存します
+     * アクセストークンを保存します
      *
-     * @param accessToken
+     * @param accessToken 保存するアクセストークン
      */
     public void createPrimaryAccount(AccessToken accessToken) {
         createTokenDirectory();
