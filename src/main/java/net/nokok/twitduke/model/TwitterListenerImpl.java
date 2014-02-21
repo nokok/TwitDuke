@@ -45,6 +45,7 @@ public class TwitterListenerImpl implements TwitterListener {
         for (Status status : statuses) {
             mainViewController.insertTweetCell(status);
         }
+        mainViewController.setNotification("リプライリストの読み込みを完了しました");
     }
 
     @Override
@@ -53,6 +54,7 @@ public class TwitterListenerImpl implements TwitterListener {
         for (Status status : statuses) {
             mainViewController.insertTweetCell(status);
         }
+        mainViewController.setNotification("ホームライムラインの読み込みを完了しました");
     }
 
     @Override

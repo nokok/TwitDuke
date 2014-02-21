@@ -25,10 +25,10 @@ public class TweetCellThread extends Thread {
         if (!mainView.isScrollbarTop()) {
             mainView.shiftScrollBar((int) cell.getPreferredSize().getHeight());
         }
-        if (cell.isMention()) {
-            mainView.insertMentionTweetCell(cell);
-        }
         mainView.insertTweetCell(cell);
+        if (cell.isMention()) {
+            mainView.insertMentionTweetCell(factory.createTweetCell(status));
+        }
         tweetCellThreadSyncronizer.unlock();
     }
 }

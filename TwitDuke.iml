@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -36,10 +36,10 @@
     <orderEntry type="library" name="com.google.guava:guava:15.0" level="application" />
     <orderEntry type="library" name="uk.com.robust-it:cloning:1.9.0" level="application" />
     <orderEntry type="library" name="org.twitter4j:twitter4j-core:3.0.5" level="application" />
-    <orderEntry type="library" name="guava-15.0-javadoc" level="project" />
-    <orderEntry type="library" name="twitter4j-async-3.0.5-javadoc" level="project" />
-    <orderEntry type="library" name="twitter4j-core-3.0.5-javadoc" level="project" />
-    <orderEntry type="library" name="twitter4j-stream-3.0.5-javadoc" level="project" />
+    <orderEntry type="library" name="Maven: org.twitter4j:twitter4j-core:3.0.5" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:15.0" level="project" />
+    <orderEntry type="library" name="Maven: org.twitter4j:twitter4j-async:3.0.5" level="project" />
+    <orderEntry type="library" name="Maven: org.twitter4j:twitter4j-stream:3.0.5" level="project" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

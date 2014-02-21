@@ -118,7 +118,8 @@ public class TweetCellFactory {
         return new TweetCell(isMention,
                              status.getId(),
                              createUserImageIcon(status.getUser().getProfileImageURL()),
-                             status.getUser().getScreenName(),
+                             status.getUser().getName(),
+                             '@' + status.getUser().getScreenName(),
                              URLUtil.extendURL(status));
 
     }
