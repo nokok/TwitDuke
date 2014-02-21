@@ -75,7 +75,16 @@ public class Twitter4jAsyncWrapper {
             replyTweet(new StatusUpdate(text));
             return;
         }
+        if (text.startsWith("D ")) {
+            String screenName = text.split(" ")[1];
+            sendDM(screenName, text.replace(screenName, "").substring(2));
+            return;
+        }
         asyncTwitter.updateStatus(text);
+    }
+
+    public void sendDM(String screenName, String text) {
+        asyncTwitter.sendDirectMessage(screenName, text);
     }
 
     public void getHomeTimeLine() {
