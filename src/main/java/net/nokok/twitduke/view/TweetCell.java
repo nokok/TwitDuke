@@ -93,11 +93,11 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
         contentsNorthPanel.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
         contentsNorthPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 3));
         contentsNorthPanel.add(favoriteButton);
-        contentsNorthPanel.add(Box.createRigidArea(new Dimension(2, 0)));
+        contentsNorthPanel.add(Box.createRigidArea(new Dimension(Config.ComponentSize.FUNCTION_BUTTON_MARGIN, 0)));
         contentsNorthPanel.add(retweetButton);
-        contentsNorthPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+        contentsNorthPanel.add(Box.createRigidArea(new Dimension(Config.ComponentSize.BEFORE_USERNAME_MARGIN, 0)));
         contentsNorthPanel.add(userName);
-        contentsNorthPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+        contentsNorthPanel.add(Box.createRigidArea(new Dimension(Config.ComponentSize.BEFORE_SCREENNAME_MARGIN, 0)));
         contentsNorthPanel.add(screenName);
         contentsNorthPanel.add(retweetIcon);
 

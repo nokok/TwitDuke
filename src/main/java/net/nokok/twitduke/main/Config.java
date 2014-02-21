@@ -25,15 +25,18 @@ public class Config {
 
     public static class ComponentSize {
 
-        public static final Dimension RETWEET_USER_ICON_SIZE = new Dimension(15, 15);
-        public static final Dimension FUNCTION_BUTTON_SIZE   = new Dimension(15, 13);
-        public static final Dimension SLIM_BUTTON_SIZE       = new Dimension(120, 20);
-        public static final Dimension SMALL_BUTTON_SIZE      = new Dimension(70, 20);
-        public static final Dimension MAINVIEW_DEFAULT_SIZE  = new Dimension(530, 600);
-        public static final Dimension TEXTFIELD_SIZE         = new Dimension(530, 30);
-        public static final Dimension STATUS_BAR_SIZE        = new Dimension(530, 25);
-        public static final int       CELL_SEPARATOR_HEIGHT  = 1;
-        public static final int       THUMBNAIL_WIDTH        = 256;
+        public static final Dimension RETWEET_USER_ICON_SIZE   = new Dimension(15, 15);
+        public static final Dimension FUNCTION_BUTTON_SIZE     = new Dimension(15, 13);
+        public static final Dimension SLIM_BUTTON_SIZE         = new Dimension(120, 20);
+        public static final Dimension SMALL_BUTTON_SIZE        = new Dimension(70, 20);
+        public static final Dimension MAINVIEW_DEFAULT_SIZE    = new Dimension(530, 600);
+        public static final Dimension TEXTFIELD_SIZE           = new Dimension(530, 30);
+        public static final Dimension STATUS_BAR_SIZE          = new Dimension(530, 25);
+        public static final int       CELL_SEPARATOR_HEIGHT    = 1;
+        public static final int       THUMBNAIL_WIDTH          = 256;
+        public static final int       FUNCTION_BUTTON_MARGIN   = 2;
+        public static final int       BEFORE_USERNAME_MARGIN   = 5;
+        public static final int       BEFORE_SCREENNAME_MARGIN = 5;
     }
 
     public static class Name {
