@@ -2,6 +2,7 @@ package net.nokok.twitduke.util;
 
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import net.nokok.twitduke.main.Config;
 
 /**
  * このクラスは画像サイズを変更する機能を提供します
@@ -16,7 +17,7 @@ public class ImageSizeChanger {
      * @return 横方向のサイズが256pxの画像
      */
     public static ImageIcon createThumbnail(ImageIcon image) {
-        return resizeImage(image, 256);
+        return resizeImage(image, Config.ComponentSize.THUMBNAIL_WIDTH);
     }
 
     /**

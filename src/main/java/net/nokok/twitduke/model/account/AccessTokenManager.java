@@ -15,22 +15,18 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import net.nokok.twitduke.main.Config;
 import twitter4j.auth.AccessToken;
 
 public class AccessTokenManager {
 
-    private static final AccessTokenManager accessTokenManager = new AccessTokenManager();
-
-    private final String ACCESS_TOKEN_LIST_FILENAME = "authlist";
-    private final String ACCESS_TOKEN_PREFIX        = "token";
+    private boolean     isLoaded;
     private SimpleToken primaryUser;
 
-    private final String AUTH_DIRECTORY_PATH        = new File(new File("").getAbsolutePath(), "auth").getAbsolutePath();
-    private final File   tokenListFile              = new File(AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_LIST_FILENAME);
-    private final String TOKENFILE_PATH_WITH_PREFIX = AUTH_DIRECTORY_PATH + File.separator + ACCESS_TOKEN_PREFIX;
+    private static final AccessTokenManager INSTANCE = new AccessTokenManager();
 
+    private final File                   tokenListFile   = new File(Config.Path.TOKEN_LIST_FILE_PATH);
     private final ArrayList<SimpleToken> simpleTokenList = new ArrayList<>(3);
-    private boolean isLoaded;
 
     /**
      * AccessTokenManagerのコンストラクタです
@@ -61,7 +57,7 @@ public class AccessTokenManager {
      * カレントディレクトリにauthディレクトリを作成します
      */
     private void createTokenDirectory() {
-        File authDirectory = new File(AUTH_DIRECTORY_PATH);
+        File authDirectory = new File(Config.Path.AUTH_DIRECTORY_PATH);
         if (!authDirectory.exists()) {
             authDirectory.mkdir();
         }
@@ -73,7 +69,7 @@ public class AccessTokenManager {
      * @return AccessTokenManagerのインスタンス
      */
     public static AccessTokenManager getInstance() {
-        return accessTokenManager;
+        return INSTANCE;
     }
 
     /**
@@ -149,7 +145,7 @@ public class AccessTokenManager {
      * @return 読み込まれたAccessToken
      */
     AccessToken readAccessToken(long id) {
-        try (FileInputStream fileInputStream = new FileInputStream(String.format("%s%d", TOKENFILE_PATH_WITH_PREFIX, id));
+        try (FileInputStream fileInputStream = new FileInputStream(String.format("%s%d", Config.Path.TOKENFILE_PATH_WITH_PREFIX, id));
              ObjectInputStream stream = new ObjectInputStream(fileInputStream)) {
 
             return (AccessToken) stream.readObject();
@@ -167,7 +163,7 @@ public class AccessTokenManager {
      * @throws java.io.IOError ファイルが見つからなかったり、ファイルがオープンできなかったりするなどの理由で処理が失敗した時にスローされます
      */
     public void writeAccessToken(AccessToken accessToken) {
-        try (FileOutputStream fileOutputStream = new FileOutputStream(String.format("%s%d", TOKENFILE_PATH_WITH_PREFIX, accessToken.getUserId()));
+        try (FileOutputStream fileOutputStream = new FileOutputStream(String.format("%s%d", Config.Path.TOKENFILE_PATH_WITH_PREFIX, accessToken.getUserId()));
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
              FileWriter writer = new FileWriter(tokenListFile, true) /*true指定で追記出来る*/) {
 
@@ -179,6 +175,6 @@ public class AccessTokenManager {
     }
 
     public void removeAccessToken(long id) {
-        new File(String.format("%s%d", TOKENFILE_PATH_WITH_PREFIX, id)).delete();
+        new File(String.format("%s%d", Config.Path.TOKENFILE_PATH_WITH_PREFIX, id)).delete();
     }
 }

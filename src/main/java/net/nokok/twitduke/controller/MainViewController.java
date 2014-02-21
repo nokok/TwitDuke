@@ -1,7 +1,5 @@
 package net.nokok.twitduke.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
@@ -19,6 +17,7 @@ public class MainViewController {
     private Twitter4jAsyncWrapper wrapper;
     private TweetCellFactory      tweetCellFactory;
     private MainView              mainView;
+    private SettingViewController settingViewController;
 
     /**
      * MainViewControllerの初期化に必要な処理を開始します
@@ -26,9 +25,10 @@ public class MainViewController {
      * @param wrapper Twitter4jのラッパクラス
      * @see net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper
      */
-    public void start(Twitter4jAsyncWrapper wrapper) {
+    public void start(Twitter4jAsyncWrapper wrapper, SettingViewController settingViewController) {
         mainView = new MainView();
         this.wrapper = wrapper;
+        this.settingViewController = settingViewController;
         tweetCellFactory = new TweetCellFactory(wrapper);
         mainView.setVisible(true);
         bindActionListener();
@@ -118,12 +118,7 @@ public class MainViewController {
      * MainViewのツールバーにあるボタンにアクションリスナーを設定します
      */
     private void bindActionListener() {
-        mainView.setSendButtonAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sendTweet();
-            }
-        });
+        mainView.setSendButtonAction(e -> sendTweet());
         mainView.setSendButtonMouseAdapter(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -132,18 +127,9 @@ public class MainViewController {
                 }
             }
         });
-        mainView.setMentionButtonAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainView.swapTweetList();
-            }
-        });
-        mainView.setTextFieldAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sendTweet();
-            }
-        });
+        mainView.setMentionButtonAction(e -> mainView.swapTweetList());
+        mainView.setTextFieldAction(e -> sendTweet());
+        mainView.setSettingButtonAction(e -> settingViewController.show());
     }
 
     /**

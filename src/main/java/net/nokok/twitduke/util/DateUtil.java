@@ -3,11 +3,11 @@ package net.nokok.twitduke.util;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import net.nokok.twitduke.main.Config;
 
 public class DateUtil {
-    public static final int      UPDATE_INTERVAL = 1800000; //30分
-    private static      long     lastUpdated     = System.currentTimeMillis();
-    private static      Calendar calendar        = new GregorianCalendar(Locale.JAPANESE);
+    private static long     lastUpdated = System.currentTimeMillis();
+    private static Calendar calendar    = new GregorianCalendar(Locale.JAPANESE);
 
     private DateUtil() {
 
@@ -22,7 +22,7 @@ public class DateUtil {
      */
     public static int nowHour() {
         long current = System.currentTimeMillis();
-        if ((lastUpdated - current) > UPDATE_INTERVAL) {
+        if ((lastUpdated - current) > Config.UPDATE_INTERVAL) {
             calendar = new GregorianCalendar(Locale.JAPANESE);
             lastUpdated = current;
         }

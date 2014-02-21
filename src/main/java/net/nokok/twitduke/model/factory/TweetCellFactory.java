@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
+import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.model.thread.AsyncImageLoader;
 import net.nokok.twitduke.util.CacheUtil;
@@ -20,8 +21,6 @@ import twitter4j.Status;
 
 public class TweetCellFactory {
 
-    private static final int RETWEET_ICON_WIDTH  = 15;
-    private static final int RETWEET_ICON_HEIGHT = 15;
     private final Twitter4jAsyncWrapper wrapper;
     private final PopupMenuFactory      popupMenuFactory;
     private final CacheUtil cacheUtil = CacheUtil.getInstance();
@@ -138,7 +137,10 @@ public class TweetCellFactory {
         ImageIcon retweetUserIcon = new ImageIcon(
             createUserImageIcon(retweetIconURL)
                 .getImage()
-                .getScaledInstance(RETWEET_ICON_WIDTH, RETWEET_ICON_HEIGHT, Image.SCALE_FAST)
+                .getScaledInstance(
+                    Config.ComponentSize.RETWEET_USER_ICON_SIZE.width,
+                    Config.ComponentSize.RETWEET_USER_ICON_SIZE.height,
+                    Image.SCALE_SMOOTH)
         );
         return new TweetCell(isMention,
                              status.getId(),
