@@ -5,9 +5,8 @@
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/test" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -30,16 +29,13 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="org.twitter4j:twitter4j-stream:3.0.5" level="application" />
-    <orderEntry type="library" name="org.twitter4j:twitter4j-async:3.0.5" level="application" />
-    <orderEntry type="library" name="org.projectlombok:lombok:1.12.2" level="application" />
-    <orderEntry type="library" name="com.google.guava:guava:15.0" level="application" />
-    <orderEntry type="library" name="uk.com.robust-it:cloning:1.9.0" level="application" />
-    <orderEntry type="library" name="org.twitter4j:twitter4j-core:3.0.5" level="application" />
-    <orderEntry type="library" name="Maven: org.twitter4j:twitter4j-core:3.0.5" level="project" />
-    <orderEntry type="library" name="Maven: com.google.guava:guava:15.0" level="project" />
-    <orderEntry type="library" name="Maven: org.twitter4j:twitter4j-async:3.0.5" level="project" />
-    <orderEntry type="library" name="Maven: org.twitter4j:twitter4j-stream:3.0.5" level="project" />
+    <orderEntry type="library" exported="" name="Maven: com.google.guava:guava:15.0" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.twitter4j:twitter4j-async:3.0.5" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.twitter4j:twitter4j-stream:3.0.5" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.twitter4j:twitter4j-core:3.0.5" level="project" />
+    <orderEntry type="library" exported="" name="Maven: com.google.guava:guava:15.0" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.twitter4j:twitter4j-async:3.0.5" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.twitter4j:twitter4j-stream:3.0.5" level="project" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">
