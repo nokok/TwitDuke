@@ -25,6 +25,7 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
     private final boolean isMention;
     private       boolean isFavorited;
     private       boolean isRetweeted;
+    private       boolean isSelected;
 
     private final JLabel    icon        = new JLabel();
     private final JLabel    retweetIcon = new JLabel();
@@ -119,6 +120,18 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
         return isMention;
     }
 
+    public void selectCell() {
+        isSelected = true;
+    }
+
+    public void unSelectCell() {
+        isSelected = false;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
     public void changeColor(Color color) {
         setBackground(color);
         userName.setBackground(color);
@@ -135,8 +148,9 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
         retweetButton.addActionListener(listener);
     }
 
-    public void setTextAreaAction(MouseListener adapter) {
-        tweetText.addMouseListener(adapter);
+    public void setMouseAction(MouseListener listener) {
+        addMouseListener(listener);
+        tweetText.addMouseListener(listener);
     }
 
     public boolean toggleFavoriteState() {

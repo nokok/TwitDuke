@@ -11,6 +11,7 @@ import net.nokok.twitduke.util.MouseUtil;
 import net.nokok.twitduke.view.MainView;
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.ui.TWLabel;
+import net.nokok.twitduke.view.ui.color.DefaultColor;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.Status;
 
@@ -21,7 +22,8 @@ public class MainViewController {
     private MainView              mainView;
     private SettingViewController settingViewController;
 
-    private final HashMap<Long, TweetCell> cellHashMap = new HashMap<>();
+    private final HashMap<Status, TweetCell> cellHashMap  = new HashMap<>();
+    private       long                       selectedUser = 0;
 
     /**
      * MainViewControllerの初期化に必要な処理を開始します
@@ -33,7 +35,7 @@ public class MainViewController {
         mainView = new MainView();
         this.wrapper = wrapper;
         this.settingViewController = settingViewController;
-        tweetCellFactory = new TweetCellFactory(wrapper);
+        tweetCellFactory = new TweetCellFactory(wrapper, this);
         mainView.setVisible(true);
         bindActionListener();
         setNotification("UserStreamに接続中です");
@@ -120,6 +122,9 @@ public class MainViewController {
      */
     public void insertTweetCell(Status status) {
         TweetCell cell = tweetCellFactory.createTweetCell(status);
+        if (status.getUser().getId() == selectedUser) {
+            cell.changeColor(DefaultColor.TweetCell.SELECTED_BACKGROUND);
+        }
         if (!mainView.isScrollbarTop()) {
             mainView.shiftScrollBar((int) cell.getPreferredSize().getHeight());
         }
@@ -131,7 +136,7 @@ public class MainViewController {
             }
             mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));
         }
-        cellHashMap.put(status.getId(), cell);
+        cellHashMap.put(status, cell);
     }
 
     /**
@@ -168,4 +173,23 @@ public class MainViewController {
         return mainView.getNotificationLabel();
     }
 
+    /**
+     *
+     */
+    public void highlightUserCell(long userId) {
+        selectedUser = userId;
+        cellHashMap.forEach((status, cell) -> {
+            if (status.getUser().getId() == userId) {
+                cell.changeColor(DefaultColor.TweetCell.SELECTED_BACKGROUND);
+                cell.selectCell();
+            } else {
+                cell.unSelectCell();
+                if (cell.isMention()) {
+                    cell.changeColor(DefaultColor.TweetCell.MENTION_BACKGROUND);
+                } else {
+                    cell.changeColor(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
+                }
+            }
+        });
+    }
 }

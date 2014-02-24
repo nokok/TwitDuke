@@ -11,6 +11,7 @@ public class TweetPopupMenu extends JPopupMenu {
     private final TWMenuItem favorite   = new TWMenuItem("お気に入り");
     private final TWMenuItem retweet    = new TWMenuItem("リツイート");
     private final TWMenuItem allURLOpen = new TWMenuItem("URLをすべて開く");
+    private final TWMenuItem highlight  = new TWMenuItem("選択したセルのユーザーをハイライト/解除");
     private final TWMenuItem search     = new TWMenuItem("選択したテキストをGoogleで検索");
     private final TWMenuItem delete     = new TWMenuItem("削除");
 
@@ -20,6 +21,7 @@ public class TweetPopupMenu extends JPopupMenu {
         add(reply);
         add(favorite);
         add(retweet);
+        add(highlight);
         add(allURLOpen);
         add(search);
         add(delete);
@@ -39,6 +41,10 @@ public class TweetPopupMenu extends JPopupMenu {
 
     public void setAllURLOpenAction(ActionListener listener) {
         allURLOpen.addActionListener(listener);
+    }
+
+    public void setHighlightAction(ActionListener listener) {
+        highlight.addActionListener(listener);
     }
 
     public void setSearchAction(ActionListener listener) {
