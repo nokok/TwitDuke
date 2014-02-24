@@ -44,16 +44,13 @@ public class TweetCellFactory {
 
         if (status.isRetweet()) {
             cell = createRetweetCell(isMention, status);
+            setThumbnail(cell, status.getRetweetedStatus());
         } else {
             cell = createNormalCell(isMention, status);
+            setThumbnail(cell, status);
         }
         setCommonActionListener(cell, status);
         popupMenuFactory.createPopupMenu(cell, status);
-        if (status.isRetweeted()) {
-            setThumbnail(cell, status.getRetweetedStatus());
-        } else {
-            setThumbnail(cell, status);
-        }
         return cell;
     }
 
