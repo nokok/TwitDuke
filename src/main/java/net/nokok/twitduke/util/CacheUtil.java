@@ -16,9 +16,6 @@ public class CacheUtil {
     }
 
     public void set(String key, Object value) {
-        if (cacheMap.size() > 1000) {
-            cacheMap.clear();
-        }
         cacheMap.put(key, value);
     }
 
