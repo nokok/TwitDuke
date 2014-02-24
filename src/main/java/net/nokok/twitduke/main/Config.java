@@ -15,6 +15,8 @@ public class Config {
     public static final int SCROLL_SPEED = 35;
     public static final int CACHE_SIZE   = 1000;
 
+    public static boolean IS_MUTE_UNOFFICIAL_RT = true;
+
     public static class FontConfig {
         public static final Font USER_NAME_FONT    = new Font("", Font.PLAIN, 13);
         public static final Font SCREEN_NAME_FONT  = new Font("", Font.BOLD, 11);

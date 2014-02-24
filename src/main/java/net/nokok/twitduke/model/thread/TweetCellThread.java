@@ -1,5 +1,6 @@
 package net.nokok.twitduke.model.thread;
 
+import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.view.MainView;
 import net.nokok.twitduke.view.TweetCell;
@@ -27,6 +28,10 @@ public class TweetCellThread extends Thread {
         }
         mainView.insertTweetCell(cell);
         if (cell.isMention()) {
+            if ((status.getText().contains("QT") || status.getText().contains("RT")) && Config.IS_MUTE_UNOFFICIAL_RT) {
+                tweetCellThreadSyncronizer.unlock();
+                return;
+            }
             mainView.insertMentionTweetCell(factory.createTweetCell(status));
         }
         tweetCellThreadSyncronizer.unlock();
