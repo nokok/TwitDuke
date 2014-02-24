@@ -138,6 +138,7 @@ public class Main implements IFileWatcher {
         mainViewController.start(wrapper, settingViewController);
         twitterStream.setOAuthAccessToken(AccessTokenManager.getInstance().readPrimaryAccount());
         twitterStream.user();
+        mainViewController.setNotification("TwitDuke " + Config.VERSION);
     }
 
     /**

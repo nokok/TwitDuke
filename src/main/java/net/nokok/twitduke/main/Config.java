@@ -6,6 +6,8 @@ import java.io.File;
 
 public class Config {
 
+    public static final String VERSION = "0.1 Alpha";
+
     public static final String TWITTER_CONSUMER_KEY    = "VOIW6nzPVPEGyILu0kgMRQ";
     public static final String TWITTER_CONSUMER_SECRET = "x42tjv2Xrzsi3p5hfiGSYSiNLfa7VZv8Ozd0VHEaQ";
 
