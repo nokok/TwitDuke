@@ -129,10 +129,13 @@ class PopupMenuFactory {
      * @param statusId お気に入り登録/登録解除するステータスのID
      */
     private void favorite(TweetCell cell, long statusId) {
-        if (cell.toggleFavoriteState()) {
-            wrapper.favoriteTweet(statusId);
-        } else {
+        //TODO:TweetCellFactoryと重複
+        if (cell.isFavorited()) {
+            cell.unFavorite();
             wrapper.removeFavoriteTweet(statusId);
+        } else {
+            cell.favorite();
+            wrapper.favoriteTweet(statusId);
         }
     }
 
@@ -143,7 +146,13 @@ class PopupMenuFactory {
      * @param statusId リツイートするステータスのID
      */
     private void retweet(TweetCell cell, long statusId) {
-        wrapper.retweetTweet(statusId);
-        cell.toggleRetweetState();
+        //TODO:TweetCellFactoryと重複
+        if (cell.isRetweeted()) {
+            cell.unRetweet();
+            wrapper.deleteTweet(statusId);
+        } else {
+            cell.retweet();
+            wrapper.retweetTweet(statusId);
+        }
     }
 }

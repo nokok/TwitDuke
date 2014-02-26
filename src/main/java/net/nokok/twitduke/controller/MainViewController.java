@@ -11,7 +11,6 @@ import net.nokok.twitduke.util.MouseUtil;
 import net.nokok.twitduke.view.MainView;
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.ui.TWLabel;
-import net.nokok.twitduke.view.ui.color.DefaultColor;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.Status;
 
@@ -123,7 +122,7 @@ public class MainViewController {
     public void insertTweetCell(Status status) {
         TweetCell cell = tweetCellFactory.createTweetCell(status);
         if (status.getUser().getId() == selectedUser) {
-            cell.changeColor(DefaultColor.TweetCell.SELECTED_BACKGROUND);
+            cell.selectCell();
         }
         if (!mainView.isScrollbarTop()) {
             mainView.shiftScrollBar((int) cell.getPreferredSize().getHeight());
@@ -180,14 +179,12 @@ public class MainViewController {
         selectedUser = userId;
         cellHashMap.forEach((status, cell) -> {
             if (status.getUser().getId() == userId) {
-                cell.changeColor(DefaultColor.TweetCell.SELECTED_BACKGROUND);
                 cell.selectCell();
             } else {
-                cell.unSelectCell();
                 if (cell.isMention()) {
-                    cell.changeColor(DefaultColor.TweetCell.MENTION_BACKGROUND);
+                    cell.unSelectMentionCell();
                 } else {
-                    cell.changeColor(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
+                    cell.unSelectCell();
                 }
             }
         });

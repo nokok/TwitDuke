@@ -181,10 +181,12 @@ public class TweetCellFactory {
      * @param statusId お気に入り登録/登録解除するステータスのID
      */
     private void favorite(TweetCell cell, long statusId) {
-        if (cell.toggleFavoriteState()) {
-            twitter.favoriteTweet(statusId);
-        } else {
+        if (cell.isFavorited()) {
+            cell.unFavorite();
             twitter.removeFavoriteTweet(statusId);
+        } else {
+            cell.favorite();
+            twitter.favoriteTweet(statusId);
         }
     }
 
@@ -195,7 +197,12 @@ public class TweetCellFactory {
      * @param statusId リツイートするステータスのID
      */
     private void retweet(TweetCell cell, long statusId) {
-        twitter.retweetTweet(statusId);
-        cell.toggleRetweetState();
+        if (cell.isRetweeted()) {
+            cell.unRetweet();
+            twitter.deleteTweet(statusId);
+        } else {
+            cell.retweet();
+            twitter.retweetTweet(statusId);
+        }
     }
 }
