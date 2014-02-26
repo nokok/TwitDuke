@@ -45,7 +45,6 @@ public class TwitterListenerImpl implements TwitterListener {
         for (Status status : statuses) {
             mainViewController.insertTweetCell(status);
         }
-        mainViewController.setNotification("リプライリストの読み込みを完了しました");
     }
 
     @Override
@@ -54,7 +53,6 @@ public class TwitterListenerImpl implements TwitterListener {
         for (Status status : statuses) {
             mainViewController.insertTweetCell(status);
         }
-        mainViewController.setNotification("ホームライムラインの読み込みを完了しました");
     }
 
     @Override
@@ -81,7 +79,7 @@ public class TwitterListenerImpl implements TwitterListener {
 
     @Override
     public void destroyedStatus(Status destroyedStatus) {
-        mainViewController.setNotification(new StringBuilder().append("[！]ツイ消し検知 ").append(destroyedStatus.getUser().getScreenName()).append('が').append(destroyedStatus.getText()).append("を削除しました").toString());
+        mainViewController.setNotification(new StringBuilder().append("[！]ツイ消し検知 ").append(destroyedStatus.getUser().getScreenName()).append(" が ").append(destroyedStatus.getText()).append(" を削除しました").toString());
     }
 
     @Override
@@ -494,6 +492,12 @@ public class TwitterListenerImpl implements TwitterListener {
     @Override
     public void onException(TwitterException te, TwitterMethod method) {
         String errorMessage = te.getErrorMessage();
-        mainViewController.setNotification("エラーが発生しました: " + errorMessage);
+        String exceptionString = te.toString();
+        mainViewController
+            .setNotification("エラーが発生しました: " +
+                                 errorMessage +
+                                 ((exceptionString.length() > 100) ? (exceptionString.substring(0, 100) + "...長すぎるので省略されました") : exceptionString) +
+                                 " API: " + method
+            );
     }
 }

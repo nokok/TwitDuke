@@ -2,12 +2,14 @@ package net.nokok.twitduke.controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
-import net.nokok.twitduke.model.thread.TweetCellThread;
 import net.nokok.twitduke.util.MouseUtil;
 import net.nokok.twitduke.view.MainView;
+import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.Status;
@@ -19,6 +21,9 @@ public class MainViewController {
     private MainView              mainView;
     private SettingViewController settingViewController;
 
+    private final HashMap<Status, TweetCell> cellHashMap  = new HashMap<>();
+    private       long                       selectedUser = 0;
+
     /**
      * MainViewControllerの初期化に必要な処理を開始します
      *
@@ -29,7 +34,7 @@ public class MainViewController {
         mainView = new MainView();
         this.wrapper = wrapper;
         this.settingViewController = settingViewController;
-        tweetCellFactory = new TweetCellFactory(wrapper);
+        tweetCellFactory = new TweetCellFactory(wrapper, this);
         mainView.setVisible(true);
         bindActionListener();
         setNotification("UserStreamに接続中です");
@@ -105,13 +110,32 @@ public class MainViewController {
     }
 
     /**
-     * ツイートセルを挿入します
-     * TweetCellFactoryを呼び出しTweetCellを作成した後MainViewに挿入します
+     * ツイートセルをビューに挿入します
+     * もしスクロールバーが一番上に無ければセルの高さ分スクロールバーを移動し、
+     * セル挿入によって発生するずれを防止します。セルがもし自分へのリプライのツイートだった場合、
+     * 同じセルをメンションリストに挿入するとメインリストのセルがメンションリストに移動してしまうため
+     * セルを再生成してメンションリストへ挿入します。
+     * ただし、ツイートにRTやQTが含まれる非公式RTの場合はこのメンションリストへの挿入処理はスキップされます。
      *
      * @param status TweetCellを生成するステータス
      */
     public void insertTweetCell(Status status) {
-        new TweetCellThread(mainView, tweetCellFactory, status).start();
+        TweetCell cell = tweetCellFactory.createTweetCell(status);
+        if (status.getUser().getId() == selectedUser) {
+            cell.selectCell();
+        }
+        if (!mainView.isScrollbarTop()) {
+            mainView.shiftScrollBar((int) cell.getPreferredSize().getHeight());
+        }
+        mainView.insertTweetCell(cell);
+        if (cell.isMention()) {
+            String tweetText = status.getText();
+            if ((tweetText.contains("QT") || tweetText.contains("RT")) && Config.IS_MUTE_UNOFFICIAL_RT) {
+                return;
+            }
+            mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));
+        }
+        cellHashMap.put(status, cell);
     }
 
     /**
@@ -148,4 +172,21 @@ public class MainViewController {
         return mainView.getNotificationLabel();
     }
 
+    /**
+     *
+     */
+    public void highlightUserCell(long userId) {
+        selectedUser = userId;
+        cellHashMap.forEach((status, cell) -> {
+            if (status.getUser().getId() == userId) {
+                cell.selectCell();
+            } else {
+                if (cell.isMention()) {
+                    cell.unSelectMentionCell();
+                } else {
+                    cell.unSelectCell();
+                }
+            }
+        });
+    }
 }

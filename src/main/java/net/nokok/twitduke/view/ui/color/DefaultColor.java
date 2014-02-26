@@ -13,6 +13,7 @@ public class DefaultColor {
         public static final Color FAVORITE_BUTTON      = new Color(90, 90, 50);
         public static final Color FAVORITED_BACKGROUND = new Color(250, 250, 50);
         public static final Color MENTION_BACKGROUND   = new Color(90, 50, 50);
+        public static final Color SELECTED_BACKGROUND  = new Color(40, 55, 75);
     }
 
     public static class TWButton {

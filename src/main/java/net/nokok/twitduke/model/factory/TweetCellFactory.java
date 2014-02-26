@@ -2,11 +2,10 @@ package net.nokok.twitduke.model.factory;
 
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
+import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.model.thread.AsyncImageLoader;
@@ -21,13 +20,13 @@ import twitter4j.Status;
 
 public class TweetCellFactory {
 
-    private final Twitter4jAsyncWrapper wrapper;
+    private final Twitter4jAsyncWrapper twitter;
     private final PopupMenuFactory      popupMenuFactory;
     private final CacheUtil cacheUtil = CacheUtil.getInstance();
 
-    public TweetCellFactory(Twitter4jAsyncWrapper twitter) {
-        wrapper = twitter;
-        popupMenuFactory = new PopupMenuFactory(wrapper);
+    public TweetCellFactory(Twitter4jAsyncWrapper twitter, MainViewController mainViewController) {
+        this.twitter = twitter;
+        popupMenuFactory = new PopupMenuFactory(twitter, mainViewController);
     }
 
     /**
@@ -44,16 +43,13 @@ public class TweetCellFactory {
 
         if (status.isRetweet()) {
             cell = createRetweetCell(isMention, status);
+            setThumbnail(cell, status.getRetweetedStatus());
         } else {
             cell = createNormalCell(isMention, status);
+            setThumbnail(cell, status);
         }
         setCommonActionListener(cell, status);
         popupMenuFactory.createPopupMenu(cell, status);
-        if (status.isRetweeted()) {
-            setThumbnail(cell, status.getRetweetedStatus());
-        } else {
-            setThumbnail(cell, status);
-        }
         return cell;
     }
 
@@ -103,7 +99,7 @@ public class TweetCellFactory {
      * @return リプライが含まれている場合にtrue
      */
     private boolean isMention(Status status) {
-        return status.getText().contains("@" + AccessTokenManager.getInstance().getUserName()) && !status.isRetweet();
+        return status.getText().contains('@' + AccessTokenManager.getInstance().getUserName()) && !status.isRetweet();
     }
 
     /**
@@ -173,19 +169,9 @@ public class TweetCellFactory {
      * @param cell   アクションリスナをセットするセル
      * @param status ツイートのステータス
      */
-    private void setCommonActionListener(final TweetCell cell, final Status status) {
-        cell.setFavoriteAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                favorite(cell, status.getId());
-            }
-        });
-        cell.setRetweetAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                retweet(cell, status.getId());
-            }
-        });
+    private void setCommonActionListener(TweetCell cell, Status status) {
+        cell.setFavoriteAction(e -> favorite(cell, status.getId()));
+        cell.setRetweetAction(e -> retweet(cell, status.getId()));
     }
 
     /**
@@ -195,10 +181,12 @@ public class TweetCellFactory {
      * @param statusId お気に入り登録/登録解除するステータスのID
      */
     private void favorite(TweetCell cell, long statusId) {
-        if (cell.toggleFavoriteState()) {
-            wrapper.favoriteTweet(statusId);
+        if (cell.isFavorited()) {
+            cell.unFavorite();
+            twitter.removeFavoriteTweet(statusId);
         } else {
-            wrapper.removeFavoriteTweet(statusId);
+            cell.favorite();
+            twitter.favoriteTweet(statusId);
         }
     }
 
@@ -209,7 +197,12 @@ public class TweetCellFactory {
      * @param statusId リツイートするステータスのID
      */
     private void retweet(TweetCell cell, long statusId) {
-        wrapper.retweetTweet(statusId);
-        cell.toggleRetweetState();
+        if (cell.isRetweeted()) {
+            cell.unRetweet();
+            twitter.deleteTweet(statusId);
+        } else {
+            cell.retweet();
+            twitter.retweetTweet(statusId);
+        }
     }
 }

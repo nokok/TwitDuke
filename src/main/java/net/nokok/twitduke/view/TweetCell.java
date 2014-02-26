@@ -25,6 +25,7 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
     private final boolean isMention;
     private       boolean isFavorited;
     private       boolean isRetweeted;
+    private       boolean isSelected;
 
     private final JLabel    icon        = new JLabel();
     private final JLabel    retweetIcon = new JLabel();
@@ -119,7 +120,26 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
         return isMention;
     }
 
-    public void changeColor(Color color) {
+    public void selectCell() {
+        isSelected = true;
+        changeColor(DefaultColor.TweetCell.SELECTED_BACKGROUND);
+    }
+
+    public void unSelectCell() {
+        isSelected = false;
+        changeColor(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
+    }
+
+    public void unSelectMentionCell() {
+        isSelected = false;
+        changeColor(DefaultColor.TweetCell.MENTION_BACKGROUND);
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    private void changeColor(Color color) {
         setBackground(color);
         userName.setBackground(color);
         contentsNorthPanel.setBackground(color);
@@ -135,28 +155,37 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
         retweetButton.addActionListener(listener);
     }
 
-    public void setTextAreaAction(MouseListener adapter) {
-        tweetText.addMouseListener(adapter);
+    public void setMouseAction(MouseListener listener) {
+        addMouseListener(listener);
+        tweetText.addMouseListener(listener);
     }
 
-    public boolean toggleFavoriteState() {
-        if (isFavorited) {
-            favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITE_BUTTON);
-        } else {
-            favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITED_BACKGROUND);
-        }
-        isFavorited = !isFavorited;
+    public boolean isFavorited() {
         return isFavorited;
     }
 
-    public boolean toggleRetweetState() {
-        if (isRetweeted) {
-            retweetButton.setBackground(DefaultColor.TweetCell.RETWEET_BUTTON);
-        } else {
-            retweetButton.setBackground(DefaultColor.TweetCell.RETWEETED_BACKGROUND);
-        }
-        isRetweeted = !isRetweeted;
+    public void favorite() {
+        isFavorited = true;
+        favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITED_BACKGROUND);
+    }
+
+    public void unFavorite() {
+        isFavorited = false;
+        favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITE_BUTTON);
+    }
+
+    public boolean isRetweeted() {
         return isRetweeted;
+    }
+
+    public void retweet() {
+        isRetweeted = true;
+        retweetButton.setBackground(DefaultColor.TweetCell.RETWEETED_BACKGROUND);
+    }
+
+    public void unRetweet() {
+        isRetweeted = false;
+        retweetButton.setBackground(DefaultColor.TweetCell.RETWEET_BUTTON);
     }
 
     public String getSelectedText() {

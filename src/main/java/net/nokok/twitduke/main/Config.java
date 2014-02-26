@@ -6,6 +6,8 @@ import java.io.File;
 
 public class Config {
 
+    public static final String VERSION = "0.1 Alpha";
+
     public static final String TWITTER_CONSUMER_KEY    = "VOIW6nzPVPEGyILu0kgMRQ";
     public static final String TWITTER_CONSUMER_SECRET = "x42tjv2Xrzsi3p5hfiGSYSiNLfa7VZv8Ozd0VHEaQ";
 
@@ -14,6 +16,8 @@ public class Config {
 
     public static final int SCROLL_SPEED = 35;
     public static final int CACHE_SIZE   = 1000;
+
+    public static boolean IS_MUTE_UNOFFICIAL_RT = true;
 
     public static class FontConfig {
         public static final Font USER_NAME_FONT    = new Font("", Font.PLAIN, 13);
