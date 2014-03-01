@@ -2,6 +2,8 @@ package net.nokok.twitduke.model.factory;
 
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
@@ -169,9 +171,19 @@ public class TweetCellFactory {
      * @param cell   アクションリスナをセットするセル
      * @param status ツイートのステータス
      */
-    private void setCommonActionListener(TweetCell cell, Status status) {
-        cell.setFavoriteAction(e -> favorite(cell, status.getId()));
-        cell.setRetweetAction(e -> retweet(cell, status.getId()));
+    private void setCommonActionListener(final TweetCell cell, final Status status) {
+        cell.setFavoriteAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                favorite(cell, status.getId());
+            }
+        });
+        cell.setRetweetAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                retweet(cell, status.getId());
+            }
+        });
     }
 
     /**

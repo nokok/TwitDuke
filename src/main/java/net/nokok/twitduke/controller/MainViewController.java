@@ -1,8 +1,11 @@
 package net.nokok.twitduke.controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.Map;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
@@ -142,7 +145,12 @@ public class MainViewController {
      * MainViewのツールバーにあるボタンにアクションリスナーを設定します
      */
     private void bindActionListener() {
-        mainView.setSendButtonAction(e -> sendTweet());
+        mainView.setSendButtonAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sendTweet();
+            }
+        });
         mainView.setSendButtonMouseAdapter(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -151,9 +159,24 @@ public class MainViewController {
                 }
             }
         });
-        mainView.setMentionButtonAction(e -> mainView.swapTweetList());
-        mainView.setTextFieldAction(e -> sendTweet());
-        mainView.setSettingButtonAction(e -> settingViewController.show());
+        mainView.setMentionButtonAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainView.swapTweetList();
+            }
+        });
+        mainView.setTextFieldAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sendTweet();
+            }
+        });
+        mainView.setSettingButtonAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                settingViewController.show();
+            }
+        });
     }
 
     /**
@@ -173,11 +196,13 @@ public class MainViewController {
     }
 
     /**
-     *
+     * 指定されたユーザーIDのセルをハイライトします
      */
     public void highlightUserCell(long userId) {
         selectedUser = userId;
-        cellHashMap.forEach((status, cell) -> {
+        for (Map.Entry<Status, TweetCell> cellEntry : cellHashMap.entrySet()) {
+            Status status = cellEntry.getKey();
+            TweetCell cell = cellEntry.getValue();
             if (status.getUser().getId() == userId) {
                 cell.selectCell();
             } else {
@@ -187,6 +212,6 @@ public class MainViewController {
                     cell.unSelectCell();
                 }
             }
-        });
+        }
     }
 }

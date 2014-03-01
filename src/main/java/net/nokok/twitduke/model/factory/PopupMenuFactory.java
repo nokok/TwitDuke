@@ -1,6 +1,8 @@
 package net.nokok.twitduke.model.factory;
 
 import com.google.common.base.Strings;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import net.nokok.twitduke.controller.MainViewController;
@@ -39,7 +41,7 @@ class PopupMenuFactory {
      * @return 生成されたPopupMenu
      */
     public TweetPopupMenu createPopupMenu(final TweetCell cell, final Status status) {
-        TweetPopupMenu popupMenu = new TweetPopupMenu();
+        final TweetPopupMenu popupMenu = new TweetPopupMenu();
 
         cell.setMouseAction(new MouseAdapter() {
             @Override
@@ -66,57 +68,99 @@ class PopupMenuFactory {
             }
         });
 
-        popupMenu.setReplyAction(e -> {
-            if (status.isRetweet()) {
-                wrapper.replyPreprocess(status.getRetweetedStatus());
-                return;
-            }
-            wrapper.replyPreprocess(status);
-        });
-
-        popupMenu.setFavoriteAction(e -> favorite(cell, status.getId()));
-
-        popupMenu.setRetweetAction(e -> retweet(cell, status.getId()));
-
-        popupMenu.setAllURLOpenAction(e -> {
-            URLUtil.allURLEntitiesOpen(status.getURLEntities());
-            URLUtil.allMediaEntitiesOpen(status.getMediaEntities());
-        });
-
-        popupMenu.setHighlightAction(e -> {
-            if (cell.isSelected()) {
-                mainViewController.highlightUserCell(0);
-            } else {
-                mainViewController.highlightUserCell(status.getUser().getId());
+        popupMenu.setReplyAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (status.isRetweet()) {
+                    wrapper.replyPreprocess(status.getRetweetedStatus());
+                    return;
+                }
+                wrapper.replyPreprocess(status);
             }
         });
 
-
-        popupMenu.setSearchAction(e -> {
-            String searchString = cell.getSelectedText();
-            if (Strings.isNullOrEmpty(searchString)) {
-                return;
+        popupMenu.setFavoriteAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                favorite(cell, status.getId());
             }
-            URLUtil.openInBrowser("http://www.google.co.jp/search?q=" + URLUtil.encodeString(cell.getSelectedText()));
         });
 
-        popupMenu.setDeleteAction(e -> wrapper.deleteTweet(status.getId()));
+        popupMenu.setRetweetAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                retweet(cell, status.getId());
+            }
+        });
 
-        for (UserMentionEntity entity : status.getUserMentionEntities()) {
+        popupMenu.setAllURLOpenAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                URLUtil.allURLEntitiesOpen(status.getURLEntities());
+                URLUtil.allMediaEntitiesOpen(status.getMediaEntities());
+            }
+        });
+
+        popupMenu.setHighlightAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (cell.isSelected()) {
+                    mainViewController.highlightUserCell(0);
+                } else {
+                    mainViewController.highlightUserCell(status.getUser().getId());
+                }
+            }
+        });
+
+
+        popupMenu.setSearchAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String searchString = cell.getSelectedText();
+                if (Strings.isNullOrEmpty(searchString)) {
+                    return;
+                }
+                URLUtil.openInBrowser("http://www.google.co.jp/search?q=" + URLUtil.encodeString(cell.getSelectedText()));
+            }
+        });
+
+        popupMenu.setDeleteAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                wrapper.deleteTweet(status.getId());
+            }
+        });
+
+        for (final UserMentionEntity entity : status.getUserMentionEntities()) {
             TWMenuItem menuItem = new TWMenuItem(entity.getScreenName() + " の詳細を開く");
-            menuItem.addActionListener(e -> wrapper.getUserInfomation(entity.getId()));
+            menuItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    wrapper.getUserInfomation(entity.getId());
+                }
+            });
             popupMenu.addMenuItem(menuItem);
         }
 
-        for (URLEntity entity : status.getURLEntities()) {
+        for (final URLEntity entity : status.getURLEntities()) {
             TWMenuItem menuItem = new TWMenuItem(entity.getDisplayURL() + "を開く");
-            menuItem.addActionListener(e -> URLUtil.openInBrowser(entity.getExpandedURL()));
+            menuItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    URLUtil.openInBrowser(entity.getExpandedURL());
+                }
+            });
             popupMenu.addMenuItem(menuItem);
         }
 
-        for (MediaEntity entity : status.getMediaEntities()) {
+        for (final MediaEntity entity : status.getMediaEntities()) {
             TWMenuItem menuItem = new TWMenuItem(entity.getDisplayURL() + "を開く");
-            menuItem.addActionListener(e -> URLUtil.openInBrowser(entity.getExpandedURL()));
+            menuItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    URLUtil.openInBrowser(entity.getExpandedURL());
+                }
+            });
             popupMenu.addMenuItem(menuItem);
         }
         return popupMenu;
