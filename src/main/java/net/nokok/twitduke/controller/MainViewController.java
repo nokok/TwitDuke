@@ -125,10 +125,10 @@ public class MainViewController {
     public void insertTweetCell(Status status) {
         TweetCell cell = tweetCellFactory.createTweetCell(status);
         if (status.getUser().getId() == selectedUser) {
-            cell.selectCell();
+            cell.setSelectState(true);
         }
         if (!mainView.isScrollbarTop()) {
-            mainView.shiftScrollBar((int) cell.getPreferredSize().getHeight());
+            mainView.shiftScrollBar(cell.getHeight());
         }
         mainView.insertTweetCell(cell);
         if (cell.isMention()) {
@@ -204,13 +204,9 @@ public class MainViewController {
             Status status = cellEntry.getKey();
             TweetCell cell = cellEntry.getValue();
             if (status.getUser().getId() == userId) {
-                cell.selectCell();
+                cell.setSelectState(true);
             } else {
-                if (cell.isMention()) {
-                    cell.unSelectMentionCell();
-                } else {
-                    cell.unSelectCell();
-                }
+                cell.setSelectState(false);
             }
         }
     }

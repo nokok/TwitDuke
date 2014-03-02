@@ -194,10 +194,10 @@ public class TweetCellFactory {
      */
     private void favorite(TweetCell cell, long statusId) {
         if (cell.isFavorited()) {
-            cell.unFavorite();
+            cell.setFavoriteState(false);
             twitter.removeFavoriteTweet(statusId);
         } else {
-            cell.favorite();
+            cell.setFavoriteState(true);
             twitter.favoriteTweet(statusId);
         }
     }
@@ -210,10 +210,10 @@ public class TweetCellFactory {
      */
     private void retweet(TweetCell cell, long statusId) {
         if (cell.isRetweeted()) {
-            cell.unRetweet();
+            cell.setRetweetState(false);
             twitter.deleteTweet(statusId);
         } else {
-            cell.retweet();
+            cell.setRetweetState(true);
             twitter.retweetTweet(statusId);
         }
     }

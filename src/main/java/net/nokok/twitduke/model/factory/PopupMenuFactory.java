@@ -175,10 +175,10 @@ class PopupMenuFactory {
     private void favorite(TweetCell cell, long statusId) {
         //TODO:TweetCellFactoryと重複
         if (cell.isFavorited()) {
-            cell.unFavorite();
+            cell.setFavoriteState(false);
             wrapper.removeFavoriteTweet(statusId);
         } else {
-            cell.favorite();
+            cell.setFavoriteState(true);
             wrapper.favoriteTweet(statusId);
         }
     }
@@ -192,10 +192,10 @@ class PopupMenuFactory {
     private void retweet(TweetCell cell, long statusId) {
         //TODO:TweetCellFactoryと重複
         if (cell.isRetweeted()) {
-            cell.unRetweet();
+            cell.setRetweetState(false);
             wrapper.deleteTweet(statusId);
         } else {
-            cell.retweet();
+            cell.setRetweetState(true);
             wrapper.retweetTweet(statusId);
         }
     }
