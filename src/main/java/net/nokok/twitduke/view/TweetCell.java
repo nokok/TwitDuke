@@ -220,11 +220,13 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
         loadingLabel.setFont(new Font("", Font.BOLD, 10));
         thumbnailPanel.add(loadingLabel);
         add(thumbnailPanel, BorderLayout.SOUTH);
+        validate();
     }
 
     @Override
     public void imageLoaded(TWLabel label) {
         thumbnailPanel.removeAll();
         enableThumbnail(label);
+        validate();
     }
 }
