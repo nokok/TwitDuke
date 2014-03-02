@@ -8,6 +8,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.util.EventListener;
+import java.util.Map;
 import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.JLabel;
@@ -15,6 +17,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.thread.IAsyncImageLoader;
+import net.nokok.twitduke.view.action.TweetCellAction;
 import net.nokok.twitduke.view.ui.TWButton;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.view.ui.TWPanel;
@@ -142,17 +145,13 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
         thumbnailPanel.setBackground(color);
     }
 
-    public void setFavoriteAction(ActionListener listener) {
-        favoriteButton.addActionListener(listener);
+    public void configureActions(Map<TweetCellAction, EventListener> actions) {
+        favoriteButton.addActionListener((ActionListener) actions.get(TweetCellAction.FAVORITE));
+        retweetButton.addActionListener((ActionListener) actions.get(TweetCellAction.RETWEET));
     }
 
-    public void setRetweetAction(ActionListener listener) {
-        retweetButton.addActionListener(listener);
-    }
-
-    public void setMouseAction(MouseListener listener) {
+    public void setMouseListener(MouseListener listener) {
         addMouseListener(listener);
-        tweetText.addMouseListener(listener);
     }
 
     public boolean isFavorited() {

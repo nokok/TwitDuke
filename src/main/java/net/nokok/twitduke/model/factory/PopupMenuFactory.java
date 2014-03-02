@@ -3,14 +3,10 @@ package net.nokok.twitduke.model.factory;
 import com.google.common.base.Strings;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import net.nokok.twitduke.controller.MainViewController;
-import net.nokok.twitduke.util.MouseUtil;
 import net.nokok.twitduke.util.URLUtil;
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.TweetPopupMenu;
-import net.nokok.twitduke.view.UserView;
 import net.nokok.twitduke.view.ui.TWMenuItem;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.MediaEntity;
@@ -41,32 +37,9 @@ class PopupMenuFactory {
      * @return 生成されたPopupMenu
      */
     public TweetPopupMenu createPopupMenu(final TweetCell cell, final Status status) {
-        final TweetPopupMenu popupMenu = new TweetPopupMenu();
+        TweetPopupMenu popupMenu = new TweetPopupMenu();
 
-        cell.setMouseAction(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (MouseUtil.isRightButtonClicked(e)) {
-                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
-                }
-            }
-        });
-        cell.setMouseAction(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (MouseUtil.isDoubleClicked(e)) {
-                    UserView view;
-                    if (status.isRetweet()) {
-                        view = UserViewFactory.createUserView(status.getRetweetedStatus().getUser());
-                    } else {
-                        view = UserViewFactory.createUserView(status.getUser());
-                    }
-                    view.setLocation(e.getLocationOnScreen());
-                    view.setVisible(true);
-                    cell.clearSelectedText();
-                }
-            }
-        });
+        cell.setMouseListener(new TweetCellMouseAdapter(popupMenu, status, cell));
 
         popupMenu.setReplyAction(new ActionListener() {
             @Override
@@ -199,4 +172,5 @@ class PopupMenuFactory {
             wrapper.retweetTweet(statusId);
         }
     }
+
 }
