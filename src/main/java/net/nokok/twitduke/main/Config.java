@@ -16,6 +16,7 @@ public class Config {
 
     public static final int SCROLL_SPEED = 35;
     public static final int CACHE_SIZE   = 1000;
+    public static final int JAVAJAVA_MAX_W_COUNT = 30;
 
     public static boolean IS_MUTE_UNOFFICIAL_RT = true;
 
