@@ -65,7 +65,7 @@ public class NotificationBarAnimationInvoker extends Thread {
     private synchronized void dropDown() {
         Point moved = statusLabel.getLocation();
         ThreadUtil.sleep(this, Config.AnimationWait.NOTIFICATION);
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < statusLabel.getPreferredSize().getHeight(); i++) {
             moved.y += i;
             statusLabel.setLocation(moved);
             ThreadUtil.sleep(this, Config.AnimationWait.NOTIFICATION_SPEED);
