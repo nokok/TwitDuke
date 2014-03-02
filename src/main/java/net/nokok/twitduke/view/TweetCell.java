@@ -75,13 +75,13 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
 
         icon.setBorder(new EmptyBorder(2, 0, 2, 5));
 
-        retweetIcon.setPreferredSize(Config.ComponentSize.RETWEET_USER_ICON_SIZE);
-        userName.setFont(Config.FontConfig.USER_NAME_FONT);
-        screenName.setFont(Config.FontConfig.SCREEN_NAME_FONT);
+        retweetIcon.setPreferredSize(Config.ComponentSize.RETWEET_USER_ICON);
+        userName.setFont(Config.FontConfig.USER_NAME);
+        screenName.setFont(Config.FontConfig.SCREEN_NAME);
         screenName.setForeground(DefaultColor.TweetCell.DEFAULT_FOREGROUND.darker());
-        favoriteButton.setPreferredSize(Config.ComponentSize.FUNCTION_BUTTON_SIZE);
+        favoriteButton.setPreferredSize(Config.ComponentSize.FUNCTION_BUTTON);
         favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITE_BUTTON);
-        retweetButton.setPreferredSize(Config.ComponentSize.FUNCTION_BUTTON_SIZE);
+        retweetButton.setPreferredSize(Config.ComponentSize.FUNCTION_BUTTON);
         retweetButton.setBackground(DefaultColor.TweetCell.RETWEET_BUTTON);
         tweetText.setForeground(DefaultColor.TweetCell.DEFAULT_FOREGROUND);
         tweetText.setEditable(false);

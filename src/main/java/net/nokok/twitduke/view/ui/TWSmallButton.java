@@ -6,7 +6,7 @@ public class TWSmallButton extends TWButton {
 
     public TWSmallButton(String title) {
         super(title);
-        setPreferredSize(Config.ComponentSize.SMALL_BUTTON_SIZE);
-        setFont(Config.FontConfig.SMALL_BUTTON_FONT);
+        setPreferredSize(Config.ComponentSize.SMALL_BUTTON);
+        setFont(Config.FontConfig.SMALL_BUTTON);
     }
 }

@@ -50,12 +50,12 @@ public class NotificationBarAnimationInvoker extends Thread {
      */
     private synchronized void moveToLeft() {
         Point moved = statusLabel.getLocation();
-        ThreadUtil.sleep(this, Config.AnimationWait.WAIT_SHOW_DISPLAY_NOTIFICATION);
+        ThreadUtil.sleep(this, Config.AnimationWait.NOTIFICATION);
         int statusLabelWidth = (int) statusLabel.getPreferredSize().getWidth();
         for (int i = statusLabelWidth; i > 0; i--) {
             moved.x--;
             statusLabel.setLocation(moved);
-            ThreadUtil.sleep(this, Config.AnimationWait.NOTIFICATION_ANIMATION_WAIT);
+            ThreadUtil.sleep(this, Config.AnimationWait.NOTIFICATION_SPEED);
         }
     }
 
@@ -64,11 +64,11 @@ public class NotificationBarAnimationInvoker extends Thread {
      */
     private synchronized void dropDown() {
         Point moved = statusLabel.getLocation();
-        ThreadUtil.sleep(this, Config.AnimationWait.WAIT_SHOW_DISPLAY_NOTIFICATION);
+        ThreadUtil.sleep(this, Config.AnimationWait.NOTIFICATION);
         for (int i = 0; i < 30; i++) {
             moved.y += i;
             statusLabel.setLocation(moved);
-            ThreadUtil.sleep(this, Config.AnimationWait.NOTIFICATION_ANIMATION_WAIT);
+            ThreadUtil.sleep(this, Config.AnimationWait.NOTIFICATION_SPEED);
         }
     }
 }

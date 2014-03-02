@@ -136,8 +136,8 @@ public class TweetCellFactory {
             createUserImageIcon(retweetIconURL)
                 .getImage()
                 .getScaledInstance(
-                    Config.ComponentSize.RETWEET_USER_ICON_SIZE.width,
-                    Config.ComponentSize.RETWEET_USER_ICON_SIZE.height,
+                    Config.ComponentSize.RETWEET_USER_ICON.width,
+                    Config.ComponentSize.RETWEET_USER_ICON.height,
                     Image.SCALE_SMOOTH)
         );
         return new TweetCell(isMention,

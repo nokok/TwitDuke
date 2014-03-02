@@ -6,6 +6,6 @@ public class TWSlimButton extends TWButton {
 
     public TWSlimButton(String title) {
         super(title);
-        setPreferredSize(Config.ComponentSize.SLIM_BUTTON_SIZE);
+        setPreferredSize(Config.ComponentSize.SLIM_BUTTON);
     }
 }

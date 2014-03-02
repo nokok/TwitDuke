@@ -61,12 +61,12 @@ public class MainView extends JFrame {
     private void initializeComponent() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("UserStreamに接続中です");
-        setSize(Config.ComponentSize.MAINVIEW_DEFAULT_SIZE);
+        setSize(Config.ComponentSize.MAINVIEW_DEFAULT);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
 
         TWPanel topPanel = new TWPanel(new BorderLayout());
-        tweetTextField.setPreferredSize(Config.ComponentSize.TEXTFIELD_SIZE);
+        tweetTextField.setPreferredSize(Config.ComponentSize.TEXTFIELD);
         tweetTextField.setOpaque(true);
         tweetTextField.setBorder(null);
         tweetTextField.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
@@ -100,8 +100,8 @@ public class MainView extends JFrame {
         rootScrollPanel.add(replyScrollPane, "REPLY");
 
         TWPanel notificationBar = new TWPanel(new FlowLayout(FlowLayout.LEFT));
-        notificationBar.setPreferredSize(Config.ComponentSize.STATUS_BAR_SIZE);
-        notificationLabel.setFont(Config.FontConfig.NOTIFICATION_FONT);
+        notificationBar.setPreferredSize(Config.ComponentSize.STATUS_BAR);
+        notificationLabel.setFont(Config.FontConfig.NOTIFICATION);
         notificationBar.add(notificationLabel);
 
         add(topPanel, BorderLayout.NORTH);

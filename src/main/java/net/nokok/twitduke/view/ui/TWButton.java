@@ -16,6 +16,6 @@ public class TWButton extends JButton {
         setForeground(DefaultColor.TWButton.DEFAULT_FOREGROUND);
         setOpaque(true);
         setBorderPainted(false);
-        setFont(Config.FontConfig.BUTTON_FONT);
+        setFont(Config.FontConfig.BUTTON);
     }
 }
