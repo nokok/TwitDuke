@@ -40,7 +40,6 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
     private final TWPanel thumbnailPanel = new TWPanel(new FlowLayout(FlowLayout.CENTER));
 
     public TweetCell(boolean isMention,
-                     long statusId,
                      Icon userIcon,
                      String userName,
                      String screenName,
@@ -61,12 +60,11 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
     }
 
     public TweetCell(boolean isMention,
-                     long statusId,
                      Icon userIcon,
                      Icon retweetIcon,
                      String userName,
                      String tweetText) {
-        this(isMention, statusId, userIcon, userName, "", tweetText);
+        this(isMention, userIcon, userName, "", tweetText);
         this.retweetIcon.setIcon(retweetIcon);
     }
 

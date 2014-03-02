@@ -113,7 +113,6 @@ public class TweetCellFactory {
      */
     private TweetCell createNormalCell(boolean isMention, Status status) {
         return new TweetCell(isMention,
-                             status.getId(),
                              createUserImageIcon(status.getUser().getProfileImageURL()),
                              status.getUser().getName(),
                              '@' + status.getUser().getScreenName(),
@@ -141,7 +140,6 @@ public class TweetCellFactory {
                     Image.SCALE_SMOOTH)
         );
         return new TweetCell(isMention,
-                             status.getId(),
                              userIcon,
                              retweetUserIcon,
                              "Retweet: " + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName(),
