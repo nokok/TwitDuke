@@ -75,6 +75,10 @@ public class Twitter4jAsyncWrapper {
             replyTweet(new StatusUpdate(text));
             return;
         }
+        if (text.isEmpty()) {
+            mainViewController.setNotification("ツイートが空です。JavaJavaするにはツイートボタンを右クリックをして下さい。");
+            return;
+        }
         asyncTwitter.updateStatus(text);
     }
 
