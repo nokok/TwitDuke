@@ -23,6 +23,9 @@ public class UserStreamListenerImpl implements UserStreamListener {
 
     @Override
     public void onStatus(Status status) {
+        if (status.isRetweet() && isMe(status.getRetweetedStatus().getUser())) {
+            mainViewController.setNotification("「" + status.getRetweetedStatus().getText() + "」が @" + status.getUser().getScreenName() + " にリツイートされました");
+        }
         mainViewController.insertTweetCell(status);
     }
 
