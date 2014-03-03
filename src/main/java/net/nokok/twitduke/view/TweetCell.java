@@ -133,6 +133,14 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
         isSelected = state;
     }
 
+    public void setDeleted() {
+        favoriteButton.setEnabled(false);
+        retweetButton.setEnabled(false);
+        userName.setText("");
+        screenName.setText("");
+        tweetText.setText("DELETED");
+    }
+
     public boolean isSelected() {
         return isSelected;
     }

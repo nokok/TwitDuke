@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
+import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
@@ -24,8 +25,8 @@ public class MainViewController {
     private MainView              mainView;
     private SettingViewController settingViewController;
 
-    private final HashMap<Status, TweetCell> cellHashMap  = new HashMap<>();
-    private       long                       selectedUser = 0;
+    private final HashMap<Long, CellStatus> cellHashMap  = new HashMap<>();
+    private       long                      selectedUser = 0;
 
     /**
      * MainViewControllerの初期化に必要な処理を開始します
@@ -138,7 +139,7 @@ public class MainViewController {
             }
             mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));
         }
-        cellHashMap.put(status, cell);
+        cellHashMap.put(status.getId(), new CellStatus(cell, status));
     }
 
     /**
@@ -198,16 +199,44 @@ public class MainViewController {
     /**
      * 指定されたユーザーIDのセルをハイライトします
      */
-    public void highlightUserCell(long userId) {
+    private void highlightUserCell(long userId) {
         selectedUser = userId;
-        for (Map.Entry<Status, TweetCell> cellEntry : cellHashMap.entrySet()) {
-            Status status = cellEntry.getKey();
-            TweetCell cell = cellEntry.getValue();
-            if (status.getUser().getId() == userId) {
+        for (Map.Entry<Long, CellStatus> cellEntry : cellHashMap.entrySet()) {
+            long cellUserId = cellEntry.getValue().status.getUser().getId();
+            TweetCell cell = cellEntry.getValue().tweetCell;
+            if (cellUserId == userId) {
                 cell.setSelectState(true);
             } else {
                 cell.setSelectState(false);
             }
+        }
+    }
+
+    /**
+     * 渡されたTweetCellStatusBaseによってセルの状態を変更します
+     *
+     * @param update
+     */
+    public void updateTweetCellStatus(TweetCellUpdater update) {
+        long id = update.id;
+        switch (update.category) {
+            case FAVORITED:
+                cellHashMap.get(id).tweetCell.setFavoriteState(true);
+                break;
+            case UNFAVORITED:
+                cellHashMap.get(id).tweetCell.setFavoriteState(false);
+                break;
+            case RETWEETED:
+                cellHashMap.get(id).tweetCell.setRetweetState(true);
+                break;
+            case DELETED:
+                cellHashMap.get(id).tweetCell.setDeleted();
+                break;
+            case SELECTED:
+                highlightUserCell(id);
+                break;
+            default:
+                break;
         }
     }
 }

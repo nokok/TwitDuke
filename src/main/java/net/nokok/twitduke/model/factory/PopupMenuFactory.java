@@ -4,6 +4,8 @@ import com.google.common.base.Strings;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import net.nokok.twitduke.controller.MainViewController;
+import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
+import net.nokok.twitduke.controller.tweetcellstatus.UpdateCategory;
 import net.nokok.twitduke.util.URLUtil;
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.TweetPopupMenu;
@@ -78,9 +80,9 @@ class PopupMenuFactory {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (cell.isSelected()) {
-                    mainViewController.highlightUserCell(0);
+                    mainViewController.updateTweetCellStatus(new TweetCellUpdater(0, UpdateCategory.SELECTED));
                 } else {
-                    mainViewController.highlightUserCell(status.getUser().getId());
+                    mainViewController.updateTweetCellStatus(new TweetCellUpdater(status.getUser().getId(), UpdateCategory.SELECTED));
                 }
             }
         });

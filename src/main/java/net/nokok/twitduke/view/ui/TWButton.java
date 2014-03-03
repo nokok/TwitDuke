@@ -10,7 +10,6 @@ import net.nokok.twitduke.view.ui.color.DefaultColor;
 public class TWButton extends JButton {
 
     private Color bgColor;
-    private Color fgColor;
 
     public TWButton() {
         this("");
@@ -26,36 +25,14 @@ public class TWButton extends JButton {
 
         addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(MouseEvent e) {
-                setForeground(getForeground().brighter());
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                setForeground(fgColor);
-            }
-
-            @Override
             public void mouseEntered(MouseEvent e) {
                 setBackground(getBackground().darker());
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                setBackground(bgColor);
+                setBackground(getBackground().brighter());
             }
         });
-    }
-
-    @Override
-    public void setBackground(Color bg) {
-        bgColor = getBackground();
-        super.setBackground(bg);
-    }
-
-    @Override
-    public void setForeground(Color fg) {
-        fgColor = getForeground();
-        super.setForeground(fg);
     }
 }

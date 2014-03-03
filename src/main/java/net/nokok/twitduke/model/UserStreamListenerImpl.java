@@ -1,6 +1,8 @@
 package net.nokok.twitduke.model;
 
 import net.nokok.twitduke.controller.MainViewController;
+import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
+import net.nokok.twitduke.controller.tweetcellstatus.UpdateCategory;
 import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.util.URLUtil;
 import twitter4j.DirectMessage;
@@ -26,7 +28,7 @@ public class UserStreamListenerImpl implements UserStreamListener {
 
     @Override
     public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
-
+        mainViewController.updateTweetCellStatus(new TweetCellUpdater(statusDeletionNotice.getStatusId(), UpdateCategory.DELETED));
     }
 
     @Override
@@ -58,14 +60,16 @@ public class UserStreamListenerImpl implements UserStreamListener {
     @Override
     public void onFavorite(User source, User target, Status favoritedStatus) {
         if (isMe(source)) {
+            mainViewController.updateTweetCellStatus(new TweetCellUpdater(favoritedStatus.getId(), UpdateCategory.FAVORITED));
             return;
         }
-        mainViewController.setNotification("★" + URLUtil.extendURL(favoritedStatus) + " が @" + source.getScreenName() + " にお気に入り登録されました");
+        mainViewController.setNotification("★" + URLUtil.extendURL(favoritedStatus) + " が @" + source.getScreenName() + " をお気に入り登録しました");
     }
 
     @Override
     public void onUnfavorite(User source, User target, Status unfavoritedStatus) {
         if (isMe(source)) {
+            mainViewController.updateTweetCellStatus(new TweetCellUpdater(unfavoritedStatus.getId(), UpdateCategory.UNFAVORITED));
             return;
         }
         mainViewController.setNotification("☆" + source.getScreenName() + "が" + URLUtil.extendURL(unfavoritedStatus) + "のお気に入り登録を解除しました");
