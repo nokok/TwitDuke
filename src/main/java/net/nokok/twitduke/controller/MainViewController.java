@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.SwingUtilities;
 import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
@@ -123,22 +124,27 @@ public class MainViewController {
      *
      * @param status TweetCellを生成するステータス
      */
-    public void insertTweetCell(Status status) {
-        TweetCell cell = tweetCellFactory.createTweetCell(status);
+    public void insertTweetCell(final Status status) {
+        final TweetCell cell = tweetCellFactory.createTweetCell(status);
         if (status.getUser().getId() == selectedUser) {
             cell.setSelectState(true);
         }
-        if (!mainView.isScrollbarTop()) {
-            mainView.shiftScrollBar(cell.getHeight());
-        }
-        mainView.insertTweetCell(cell);
-        if (cell.isMention()) {
-            String tweetText = status.getText();
-            if ((tweetText.contains("QT") || tweetText.contains("RT")) && Config.IS_MUTE_UNOFFICIAL_RT) {
-                return;
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                mainView.insertTweetCell(cell);
+                if (cell.isMention()) {
+                    String tweetText = status.getText();
+                    if ((tweetText.contains("QT") || tweetText.contains("RT")) && Config.IS_MUTE_UNOFFICIAL_RT) {
+                        return;
+                    }
+                    mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));
+                }
+                if (!mainView.isScrollbarTop()) {
+                    mainView.shiftScrollBar(cell.getHeight() + 1);
+                }
             }
-            mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));
-        }
+        });
         cellHashMap.put(status.getId(), new CellStatus(cell, status));
     }
 
