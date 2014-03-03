@@ -6,6 +6,7 @@
 TwitDukeはJavaで書かれたTwitterクライアントです。  
 SwingなのにSwingっぽくないクライアントを目標に開発しています  
 2014/4あたりまでに`TwitDuke 1.0`をリリースする*予定*です  
+現在リリース中のTwitDukeについては、`RELEASE.md`をご覧ください。
 
 TwitDukeはMITライセンスで配布されています。  
 開発者は一切の義務や責任を負いません。  
@@ -39,4 +40,3 @@ Project Lombok(MIT license) http://projectlombok.org/
 ####開発者:
 Twitter:@noko_k
 
-ｋっｊ
