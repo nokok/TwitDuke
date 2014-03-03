@@ -6,7 +6,6 @@
 TwitDukeはJavaで書かれたTwitterクライアントです。  
 SwingなのにSwingっぽくないクライアントを目標に開発しています  
 2014/4あたりまでに`TwitDuke 1.0`をリリースする*予定*です  
-現在リリース中のTwitDukeについては、`RELEASE.md`をご覧ください。
 
 TwitDukeはMITライセンスで配布されています。  
 開発者は一切の義務や責任を負いません。  
@@ -17,9 +16,8 @@ TwitDukeはMITライセンスで配布されています。
 正式版のリリースまでお待ちください。Pull Request大歓迎です。**
 
 #ダウンロード
-
-TwitDuke-0.1がダウンロード可能です。  
-TwitDuke-0.1-Alpha.jarを[こちらからダウンロード](http://nokok.net/release/TwitDuke-0.1-Alpha.jar)  
+[RELEASE.md](https://github.com/nokok/TwitDuke/blob/master/RELEASE.md)に実行可能Jarのダウンロードリンクがあります。  
+一番上が最新版です。  
 既知のバグについては[Issue](https://github.com/nokok/TwitDuke/issues)をご覧ください。  
 
 
