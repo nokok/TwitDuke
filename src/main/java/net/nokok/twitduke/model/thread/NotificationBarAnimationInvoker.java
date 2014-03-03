@@ -32,9 +32,17 @@ public class NotificationBarAnimationInvoker extends Thread {
      */
     @Override
     public synchronized void run() {
+        int waitingThread = animationThreadSyncronizer.getThreadCount();
         animationThreadSyncronizer.lock();
         mainViewController.notificationLabelMoveToDefault();
         statusLabel.setText(notificationText);
+        int wait;
+        if (waitingThread < Config.ANIMATION_THREAD_CAPACITY) {
+            wait = Config.AnimationWait.NOTIFICATION;
+        } else {
+            wait = Config.AnimationWait.FAST_NOTIFICATION;
+        }
+        ThreadUtil.sleep(this, wait);
         if (mainViewController.isLargerThanNotificationLabel()) {
             moveToLeft();
         } else {
@@ -50,7 +58,6 @@ public class NotificationBarAnimationInvoker extends Thread {
      */
     private synchronized void moveToLeft() {
         Point moved = statusLabel.getLocation();
-        ThreadUtil.sleep(this, Config.AnimationWait.NOTIFICATION);
         int statusLabelWidth = (int) statusLabel.getPreferredSize().getWidth();
         for (int i = statusLabelWidth; i > 0; i--) {
             moved.x--;
@@ -64,7 +71,6 @@ public class NotificationBarAnimationInvoker extends Thread {
      */
     private synchronized void dropDown() {
         Point moved = statusLabel.getLocation();
-        ThreadUtil.sleep(this, Config.AnimationWait.NOTIFICATION);
         for (int i = 0; i < statusLabel.getPreferredSize().getHeight(); i++) {
             moved.y += i;
             statusLabel.setLocation(moved);

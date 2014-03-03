@@ -14,9 +14,10 @@ public class Config {
     public static final int FILE_CHECK_INTERVAL = 3000;
     public static final int UPDATE_INTERVAL     = 1800000;
 
-    public static final int SCROLL_SPEED         = 35;
-    public static final int CACHE_SIZE           = 1000;
-    public static final int JAVAJAVA_MAX_W_COUNT = 30;
+    public static final int SCROLL_SPEED              = 35;
+    public static final int CACHE_SIZE                = 1000;
+    public static final int JAVAJAVA_MAX_W_COUNT      = 30;
+    public static final int ANIMATION_THREAD_CAPACITY = 10;
 
     public static boolean IS_MUTE_UNOFFICIAL_RT = true;
 
@@ -60,6 +61,7 @@ public class Config {
     public static class AnimationWait {
 
         public static final int NOTIFICATION       = 3000;
+        public static final int FAST_NOTIFICATION  = 500;
         public static final int NOTIFICATION_SPEED = 10;
         public static final int TITLE_SPEED        = 30;
     }
