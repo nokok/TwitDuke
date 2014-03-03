@@ -152,6 +152,7 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
 
     public void setMouseListener(MouseListener listener) {
         addMouseListener(listener);
+        tweetText.addMouseListener(listener);
     }
 
     public boolean isFavorited() {

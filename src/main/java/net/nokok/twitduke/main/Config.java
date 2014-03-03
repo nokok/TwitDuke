@@ -6,7 +6,7 @@ import java.io.File;
 
 public class Config {
 
-    public static final String VERSION = "0.1 Alpha";
+    public static final String VERSION = "0.1.1 Alpha";
 
     public static final String TWITTER_CONSUMER_KEY    = "VOIW6nzPVPEGyILu0kgMRQ";
     public static final String TWITTER_CONSUMER_SECRET = "x42tjv2Xrzsi3p5hfiGSYSiNLfa7VZv8Ozd0VHEaQ";
@@ -14,8 +14,8 @@ public class Config {
     public static final int FILE_CHECK_INTERVAL = 3000;
     public static final int UPDATE_INTERVAL     = 1800000;
 
-    public static final int SCROLL_SPEED = 35;
-    public static final int CACHE_SIZE   = 1000;
+    public static final int SCROLL_SPEED         = 35;
+    public static final int CACHE_SIZE           = 1000;
     public static final int JAVAJAVA_MAX_W_COUNT = 30;
 
     public static boolean IS_MUTE_UNOFFICIAL_RT = true;

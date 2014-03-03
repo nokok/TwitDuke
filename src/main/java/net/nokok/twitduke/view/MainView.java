@@ -16,6 +16,7 @@ import java.awt.event.MouseListener;
 import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -74,13 +75,7 @@ public class MainView extends JFrame {
         tweetTextField.setCaretColor(Color.WHITE);
         topPanel.add(tweetTextField, BorderLayout.CENTER);
 
-        TWPanel toolBar = new TWPanel(new GridLayout());
-        toolBar.setBackground(DefaultColor.TWButton.DEFAULT_BACKGROUND);
-        toolBar.add(settingButton);
-        toolBar.add(mentionButton);
-        toolBar.add(userSwitcher);
-        toolBar.add(sendButton);
-        topPanel.add(toolBar, BorderLayout.SOUTH);
+        topPanel.add(buildToolBar(), BorderLayout.SOUTH);
 
         JScrollPane scrollPane = new TWScrollPane(tweetListPanel);
         final JScrollPane replyScrollPane = new TWScrollPane(replyListPanel);
@@ -107,6 +102,16 @@ public class MainView extends JFrame {
         add(topPanel, BorderLayout.NORTH);
         add(rootScrollPanel, BorderLayout.CENTER);
         add(notificationBar, BorderLayout.SOUTH);
+    }
+
+    private JPanel buildToolBar() {
+        TWPanel toolBar = new TWPanel(new GridLayout());
+        toolBar.setBackground(DefaultColor.TWButton.DEFAULT_BACKGROUND);
+        toolBar.add(settingButton);
+        toolBar.add(mentionButton);
+        toolBar.add(userSwitcher);
+        toolBar.add(sendButton);
+        return toolBar;
     }
 
     /**
