@@ -19,7 +19,13 @@ public class Config {
     public static final int JAVAJAVA_MAX_W_COUNT      = 30;
     public static final int ANIMATION_THREAD_CAPACITY = 10;
 
-    public static boolean IS_MUTE_UNOFFICIAL_RT = true;
+
+    public static class Flags {
+        public static boolean isMuteUnOfficialRT         = true;
+        public static boolean isShowFavoriteNotification = true;
+        public static boolean isShowRetweetNotification  = true;
+        public static boolean isShowFollowNotification   = true;
+    }
 
     public static class FontConfig {
         public static final Font USER_NAME    = new Font("", Font.PLAIN, 13);

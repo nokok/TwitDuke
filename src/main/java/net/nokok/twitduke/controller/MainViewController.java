@@ -135,7 +135,7 @@ public class MainViewController {
                 mainView.insertTweetCell(cell);
                 if (cell.isMention()) {
                     String tweetText = status.getText();
-                    if ((tweetText.contains("QT") || tweetText.contains("RT")) && Config.IS_MUTE_UNOFFICIAL_RT) {
+                    if ((tweetText.contains("QT") || tweetText.contains("RT")) && Config.Flags.isMuteUnOfficialRT) {
                         return;
                     }
                     mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));

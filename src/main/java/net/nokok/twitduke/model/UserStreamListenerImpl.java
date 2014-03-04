@@ -3,6 +3,7 @@ package net.nokok.twitduke.model;
 import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
 import net.nokok.twitduke.controller.tweetcellstatus.UpdateCategory;
+import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.util.URLUtil;
 import twitter4j.DirectMessage;
@@ -23,7 +24,7 @@ public class UserStreamListenerImpl implements UserStreamListener {
 
     @Override
     public void onStatus(Status status) {
-        if (status.isRetweet() && isMe(status.getRetweetedStatus().getUser())) {
+        if (status.isRetweet() && isMe(status.getRetweetedStatus().getUser()) && Config.Flags.isShowRetweetNotification) {
             mainViewController.setNotification("「" + status.getRetweetedStatus().getText() + "」が @" + status.getUser().getScreenName() + " にリツイートされました");
         }
         mainViewController.insertTweetCell(status);
@@ -66,6 +67,9 @@ public class UserStreamListenerImpl implements UserStreamListener {
             mainViewController.updateTweetCellStatus(new TweetCellUpdater(favoritedStatus.getId(), UpdateCategory.FAVORITED));
             return;
         }
+        if (!Config.Flags.isShowFavoriteNotification) {
+            return;
+        }
         mainViewController.setNotification("★" + URLUtil.extendURL(favoritedStatus) + " が @" + source.getScreenName() + " をお気に入り登録しました");
     }
 
@@ -75,12 +79,18 @@ public class UserStreamListenerImpl implements UserStreamListener {
             mainViewController.updateTweetCellStatus(new TweetCellUpdater(unfavoritedStatus.getId(), UpdateCategory.UNFAVORITED));
             return;
         }
+        if (!Config.Flags.isShowFavoriteNotification) {
+            return;
+        }
         mainViewController.setNotification("☆" + source.getScreenName() + "が" + URLUtil.extendURL(unfavoritedStatus) + "のお気に入り登録を解除しました");
     }
 
     @Override
     public void onFollow(User source, User followedUser) {
         if (isMe(source)) {
+            return;
+        }
+        if (!Config.Flags.isShowFollowNotification) {
             return;
         }
         mainViewController.setNotification(source.getScreenName() + "が" + followedUser.getScreenName() + "をフォローしました");
