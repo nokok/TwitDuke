@@ -42,13 +42,13 @@ public class Config {
         public static final Dimension SLIM_BUTTON              = new Dimension(120, 20);
         public static final Dimension SMALL_BUTTON             = new Dimension(70, 20);
         public static final Dimension MAINVIEW_DEFAULT         = new Dimension(530, 600);
-        public static final Dimension TEXTFIELD                = new Dimension(530, 30);
         public static final Dimension STATUS_BAR               = new Dimension(530, 25);
         public static final int       CELL_SEPARATOR_HEIGHT    = 1;
         public static final int       THUMBNAIL_WIDTH          = 256;
         public static final int       FUNCTION_BUTTON_MARGIN   = 5;
         public static final int       BEFORE_USERNAME_MARGIN   = 5;
         public static final int       BEFORE_SCREENNAME_MARGIN = 5;
+        public static final int       INPUT_FIELD_HEIGHT       = 50;
     }
 
     public static class Name {

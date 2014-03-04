@@ -5,7 +5,6 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.Point;
 import java.awt.event.ComponentAdapter;
@@ -36,9 +35,9 @@ public class MainView extends JFrame {
 
     private final CardLayout layout = new CardLayout();
 
-    private final TWPanel rootScrollPanel = new TWPanel(layout);
-    private final TWPanel tweetListPanel  = new TWPanel();
-    private final TWPanel replyListPanel  = new TWPanel();
+    private final TWPanel centerScrollPanel = new TWPanel(layout);
+    private final TWPanel tweetListPanel    = new TWPanel();
+    private final TWPanel replyListPanel    = new TWPanel();
     private JScrollBar verticalScrollbar;
 
     private final TWLabel notificationLabel = new TWLabel();
@@ -58,13 +57,13 @@ public class MainView extends JFrame {
         setLocationRelativeTo(null);
 
         TWPanel topPanel = new TWPanel(new BorderLayout());
-        tweetTextArea.setPreferredSize(Config.ComponentSize.TEXTFIELD);
+        JScrollPane topScrollPanel = new TWScrollPane(topPanel);
+        topScrollPanel.setPreferredSize(new Dimension(-1, Config.ComponentSize.INPUT_FIELD_HEIGHT));
         tweetTextArea.setOpaque(true);
+        tweetTextArea.setBorder(null);
         tweetTextArea.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
         tweetTextArea.setForeground(DefaultColor.TWButton.DEFAULT_FOREGROUND);
         tweetTextArea.setCaretColor(Color.WHITE);
-        tweetTextArea.setAutoscrolls(true);
-        tweetTextArea.setMargin(new Insets(3, 3, 3, 3));
 
         topPanel.add(tweetTextArea, BorderLayout.CENTER);
 
@@ -74,7 +73,7 @@ public class MainView extends JFrame {
         replyListPanel.setLayout(replyListLayout);
         verticalScrollbar = scrollPane.getVerticalScrollBar();
 
-        rootScrollPanel.addComponentListener(new ComponentAdapter() {
+        centerScrollPanel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 tweetListPanel.setPreferredSize(tweetListLayout.minimumLayoutSize(tweetListPanel));
@@ -82,16 +81,16 @@ public class MainView extends JFrame {
             }
         });
 
-        rootScrollPanel.add(scrollPane, "DEFAULT");
-        rootScrollPanel.add(replyScrollPane, "REPLY");
+        centerScrollPanel.add(scrollPane, "DEFAULT");
+        centerScrollPanel.add(replyScrollPane, "REPLY");
 
         TWPanel notificationBar = new TWPanel(new FlowLayout(FlowLayout.LEFT));
         notificationBar.setPreferredSize(Config.ComponentSize.STATUS_BAR);
         notificationLabel.setFont(Config.FontConfig.NOTIFICATION);
         notificationBar.add(notificationLabel);
 
-        add(topPanel, BorderLayout.NORTH);
-        add(rootScrollPanel, BorderLayout.CENTER);
+        add(topScrollPanel, BorderLayout.NORTH);
+        add(centerScrollPanel, BorderLayout.CENTER);
         add(notificationBar, BorderLayout.SOUTH);
     }
 
@@ -181,10 +180,10 @@ public class MainView extends JFrame {
     public void swapTweetList() {
         isMentionVisible = !isMentionVisible;
         if (isMentionVisible) {
-            layout.first(rootScrollPanel);
+            layout.first(centerScrollPanel);
             return;
         }
-        layout.last(rootScrollPanel);
+        layout.last(centerScrollPanel);
         replyListPanel.validate();
     }
 
