@@ -59,7 +59,6 @@ public class Main implements IFileWatcher {
         twitterStream = TwitterStreamFactory.getSingleton();
         connectionLifeCycleListenerInitialize(twitterStream);
         rateLimitListenerInitialize(twitterStream);
-
         wrapper = Twitter4jAsyncWrapper.getInstance();
         wrapper.setController(mainViewController);
         wrapper.enableTwitterListener();
@@ -87,6 +86,7 @@ public class Main implements IFileWatcher {
 
             @Override
             public void onCleanUp() {
+                mainViewController.setNotification("UserStream:onCleanUp");
             }
         });
     }
