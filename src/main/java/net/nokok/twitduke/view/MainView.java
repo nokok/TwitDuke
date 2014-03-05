@@ -16,6 +16,7 @@ import java.awt.event.MouseListener;
 import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -61,12 +62,12 @@ public class MainView extends JFrame {
     private void initializeComponent() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("UserStreamに接続中です");
-        setSize(Config.ComponentSize.MAINVIEW_DEFAULT_SIZE);
+        setSize(Config.ComponentSize.MAINVIEW_DEFAULT);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
 
         TWPanel topPanel = new TWPanel(new BorderLayout());
-        tweetTextField.setPreferredSize(Config.ComponentSize.TEXTFIELD_SIZE);
+        tweetTextField.setPreferredSize(Config.ComponentSize.TEXTFIELD);
         tweetTextField.setOpaque(true);
         tweetTextField.setBorder(null);
         tweetTextField.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
@@ -74,13 +75,7 @@ public class MainView extends JFrame {
         tweetTextField.setCaretColor(Color.WHITE);
         topPanel.add(tweetTextField, BorderLayout.CENTER);
 
-        TWPanel toolBar = new TWPanel(new GridLayout());
-        toolBar.setBackground(DefaultColor.TWButton.DEFAULT_BACKGROUND);
-        toolBar.add(settingButton);
-        toolBar.add(mentionButton);
-        toolBar.add(userSwitcher);
-        toolBar.add(sendButton);
-        topPanel.add(toolBar, BorderLayout.SOUTH);
+        topPanel.add(buildToolBar(), BorderLayout.SOUTH);
 
         JScrollPane scrollPane = new TWScrollPane(tweetListPanel);
         final JScrollPane replyScrollPane = new TWScrollPane(replyListPanel);
@@ -100,13 +95,23 @@ public class MainView extends JFrame {
         rootScrollPanel.add(replyScrollPane, "REPLY");
 
         TWPanel notificationBar = new TWPanel(new FlowLayout(FlowLayout.LEFT));
-        notificationBar.setPreferredSize(Config.ComponentSize.STATUS_BAR_SIZE);
-        notificationLabel.setFont(Config.FontConfig.NOTIFICATION_FONT);
+        notificationBar.setPreferredSize(Config.ComponentSize.STATUS_BAR);
+        notificationLabel.setFont(Config.FontConfig.NOTIFICATION);
         notificationBar.add(notificationLabel);
 
         add(topPanel, BorderLayout.NORTH);
         add(rootScrollPanel, BorderLayout.CENTER);
         add(notificationBar, BorderLayout.SOUTH);
+    }
+
+    private JPanel buildToolBar() {
+        TWPanel toolBar = new TWPanel(new GridLayout());
+        toolBar.setBackground(DefaultColor.TWButton.DEFAULT_BACKGROUND);
+        toolBar.add(settingButton);
+        toolBar.add(mentionButton);
+        toolBar.add(userSwitcher);
+        toolBar.add(sendButton);
+        return toolBar;
     }
 
     /**

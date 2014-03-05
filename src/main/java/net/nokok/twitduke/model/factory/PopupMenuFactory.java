@@ -1,14 +1,14 @@
 package net.nokok.twitduke.model.factory;
 
 import com.google.common.base.Strings;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import net.nokok.twitduke.controller.MainViewController;
-import net.nokok.twitduke.util.MouseUtil;
+import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
+import net.nokok.twitduke.controller.tweetcellstatus.UpdateCategory;
 import net.nokok.twitduke.util.URLUtil;
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.TweetPopupMenu;
-import net.nokok.twitduke.view.UserView;
 import net.nokok.twitduke.view.ui.TWMenuItem;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.MediaEntity;
@@ -41,82 +41,101 @@ class PopupMenuFactory {
     public TweetPopupMenu createPopupMenu(final TweetCell cell, final Status status) {
         TweetPopupMenu popupMenu = new TweetPopupMenu();
 
-        cell.setMouseAction(new MouseAdapter() {
+        cell.setMouseListener(new TweetCellMouseAdapter(popupMenu, status, cell));
+
+        popupMenu.setReplyAction(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                if (MouseUtil.isRightButtonClicked(e)) {
-                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
+            public void actionPerformed(ActionEvent e) {
+                if (status.isRetweet()) {
+                    wrapper.replyPreprocess(status.getRetweetedStatus());
+                    return;
+                }
+                wrapper.replyPreprocess(status);
+            }
+        });
+
+        popupMenu.setFavoriteAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                favorite(cell, status.getId());
+            }
+        });
+
+        popupMenu.setRetweetAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                retweet(cell, status.getId());
+            }
+        });
+
+        popupMenu.setAllURLOpenAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                URLUtil.allURLEntitiesOpen(status.getURLEntities());
+                URLUtil.allMediaEntitiesOpen(status.getMediaEntities());
+            }
+        });
+
+        popupMenu.setHighlightAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (cell.isSelected()) {
+                    mainViewController.updateTweetCellStatus(new TweetCellUpdater(0, UpdateCategory.SELECTED));
+                } else {
+                    mainViewController.updateTweetCellStatus(new TweetCellUpdater(status.getUser().getId(), UpdateCategory.SELECTED));
                 }
             }
         });
-        cell.setMouseAction(new MouseAdapter() {
+
+
+        popupMenu.setSearchAction(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                if (MouseUtil.isDoubleClicked(e)) {
-                    UserView view;
-                    if (status.isRetweet()) {
-                        view = UserViewFactory.createUserView(status.getRetweetedStatus().getUser());
-                    } else {
-                        view = UserViewFactory.createUserView(status.getUser());
-                    }
-                    view.setLocation(e.getLocationOnScreen());
-                    view.setVisible(true);
-                    cell.clearSelectedText();
+            public void actionPerformed(ActionEvent e) {
+                String searchString = cell.getSelectedText();
+                if (Strings.isNullOrEmpty(searchString)) {
+                    return;
                 }
+                URLUtil.openInBrowser("http://www.google.co.jp/search?q=" + URLUtil.encodeString(cell.getSelectedText()));
             }
         });
 
-        popupMenu.setReplyAction(e -> {
-            if (status.isRetweet()) {
-                wrapper.replyPreprocess(status.getRetweetedStatus());
-                return;
-            }
-            wrapper.replyPreprocess(status);
-        });
-
-        popupMenu.setFavoriteAction(e -> favorite(cell, status.getId()));
-
-        popupMenu.setRetweetAction(e -> retweet(cell, status.getId()));
-
-        popupMenu.setAllURLOpenAction(e -> {
-            URLUtil.allURLEntitiesOpen(status.getURLEntities());
-            URLUtil.allMediaEntitiesOpen(status.getMediaEntities());
-        });
-
-        popupMenu.setHighlightAction(e -> {
-            if (cell.isSelected()) {
-                mainViewController.highlightUserCell(0);
-            } else {
-                mainViewController.highlightUserCell(status.getUser().getId());
+        popupMenu.setDeleteAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                wrapper.deleteTweet(status.getId());
             }
         });
 
-
-        popupMenu.setSearchAction(e -> {
-            String searchString = cell.getSelectedText();
-            if (Strings.isNullOrEmpty(searchString)) {
-                return;
-            }
-            URLUtil.openInBrowser("http://www.google.co.jp/search?q=" + URLUtil.encodeString(cell.getSelectedText()));
-        });
-
-        popupMenu.setDeleteAction(e -> wrapper.deleteTweet(status.getId()));
-
-        for (UserMentionEntity entity : status.getUserMentionEntities()) {
+        for (final UserMentionEntity entity : status.getUserMentionEntities()) {
             TWMenuItem menuItem = new TWMenuItem(entity.getScreenName() + " の詳細を開く");
-            menuItem.addActionListener(e -> wrapper.getUserInfomation(entity.getId()));
+            menuItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    wrapper.getUserInfomation(entity.getId());
+                }
+            });
             popupMenu.addMenuItem(menuItem);
         }
 
-        for (URLEntity entity : status.getURLEntities()) {
+        for (final URLEntity entity : status.getURLEntities()) {
             TWMenuItem menuItem = new TWMenuItem(entity.getDisplayURL() + "を開く");
-            menuItem.addActionListener(e -> URLUtil.openInBrowser(entity.getExpandedURL()));
+            menuItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    URLUtil.openInBrowser(entity.getExpandedURL());
+                }
+            });
             popupMenu.addMenuItem(menuItem);
         }
 
-        for (MediaEntity entity : status.getMediaEntities()) {
+        for (final MediaEntity entity : status.getMediaEntities()) {
             TWMenuItem menuItem = new TWMenuItem(entity.getDisplayURL() + "を開く");
-            menuItem.addActionListener(e -> URLUtil.openInBrowser(entity.getExpandedURL()));
+            menuItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    URLUtil.openInBrowser(entity.getExpandedURL());
+                }
+            });
             popupMenu.addMenuItem(menuItem);
         }
         return popupMenu;
@@ -131,10 +150,10 @@ class PopupMenuFactory {
     private void favorite(TweetCell cell, long statusId) {
         //TODO:TweetCellFactoryと重複
         if (cell.isFavorited()) {
-            cell.unFavorite();
+            cell.setFavoriteState(false);
             wrapper.removeFavoriteTweet(statusId);
         } else {
-            cell.favorite();
+            cell.setFavoriteState(true);
             wrapper.favoriteTweet(statusId);
         }
     }
@@ -148,11 +167,12 @@ class PopupMenuFactory {
     private void retweet(TweetCell cell, long statusId) {
         //TODO:TweetCellFactoryと重複
         if (cell.isRetweeted()) {
-            cell.unRetweet();
+            cell.setRetweetState(false);
             wrapper.deleteTweet(statusId);
         } else {
-            cell.retweet();
+            cell.setRetweetState(true);
             wrapper.retweetTweet(statusId);
         }
     }
+
 }

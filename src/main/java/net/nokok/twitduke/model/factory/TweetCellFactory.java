@@ -2,8 +2,13 @@ package net.nokok.twitduke.model.factory;
 
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.EnumMap;
+import java.util.EventListener;
+import java.util.Map;
 import javax.swing.ImageIcon;
 import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.main.Config;
@@ -13,6 +18,7 @@ import net.nokok.twitduke.util.CacheUtil;
 import net.nokok.twitduke.util.DateUtil;
 import net.nokok.twitduke.util.URLUtil;
 import net.nokok.twitduke.view.TweetCell;
+import net.nokok.twitduke.view.action.TweetCellAction;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.MediaEntity;
@@ -111,7 +117,6 @@ public class TweetCellFactory {
      */
     private TweetCell createNormalCell(boolean isMention, Status status) {
         return new TweetCell(isMention,
-                             status.getId(),
                              createUserImageIcon(status.getUser().getProfileImageURL()),
                              status.getUser().getName(),
                              '@' + status.getUser().getScreenName(),
@@ -134,12 +139,11 @@ public class TweetCellFactory {
             createUserImageIcon(retweetIconURL)
                 .getImage()
                 .getScaledInstance(
-                    Config.ComponentSize.RETWEET_USER_ICON_SIZE.width,
-                    Config.ComponentSize.RETWEET_USER_ICON_SIZE.height,
+                    Config.ComponentSize.RETWEET_USER_ICON.width,
+                    Config.ComponentSize.RETWEET_USER_ICON.height,
                     Image.SCALE_SMOOTH)
         );
         return new TweetCell(isMention,
-                             status.getId(),
                              userIcon,
                              retweetUserIcon,
                              "Retweet: " + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName(),
@@ -169,9 +173,22 @@ public class TweetCellFactory {
      * @param cell   アクションリスナをセットするセル
      * @param status ツイートのステータス
      */
-    private void setCommonActionListener(TweetCell cell, Status status) {
-        cell.setFavoriteAction(e -> favorite(cell, status.getId()));
-        cell.setRetweetAction(e -> retweet(cell, status.getId()));
+    private void setCommonActionListener(final TweetCell cell, final Status status) {
+        Map<TweetCellAction, EventListener> eventListenerMap = new EnumMap<>(TweetCellAction.class);
+        eventListenerMap.put(TweetCellAction.FAVORITE, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                favorite(cell, status.getId());
+            }
+        });
+        eventListenerMap.put(TweetCellAction.RETWEET, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                retweet(cell, status.getId());
+            }
+        });
+
+        cell.configureActions(eventListenerMap);
     }
 
     /**
@@ -182,10 +199,10 @@ public class TweetCellFactory {
      */
     private void favorite(TweetCell cell, long statusId) {
         if (cell.isFavorited()) {
-            cell.unFavorite();
+            cell.setFavoriteState(false);
             twitter.removeFavoriteTweet(statusId);
         } else {
-            cell.favorite();
+            cell.setFavoriteState(true);
             twitter.favoriteTweet(statusId);
         }
     }
@@ -198,10 +215,10 @@ public class TweetCellFactory {
      */
     private void retweet(TweetCell cell, long statusId) {
         if (cell.isRetweeted()) {
-            cell.unRetweet();
+            cell.setRetweetState(false);
             twitter.deleteTweet(statusId);
         } else {
-            cell.retweet();
+            cell.setRetweetState(true);
             twitter.retweetTweet(statusId);
         }
     }

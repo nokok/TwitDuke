@@ -1,8 +1,13 @@
 package net.nokok.twitduke.controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.Map;
+import javax.swing.SwingUtilities;
+import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
@@ -21,8 +26,8 @@ public class MainViewController {
     private MainView              mainView;
     private SettingViewController settingViewController;
 
-    private final HashMap<Status, TweetCell> cellHashMap  = new HashMap<>();
-    private       long                       selectedUser = 0;
+    private final HashMap<Long, CellStatus> cellHashMap  = new HashMap<>();
+    private       long                      selectedUser = 0;
 
     /**
      * MainViewControllerの初期化に必要な処理を開始します
@@ -119,30 +124,40 @@ public class MainViewController {
      *
      * @param status TweetCellを生成するステータス
      */
-    public void insertTweetCell(Status status) {
-        TweetCell cell = tweetCellFactory.createTweetCell(status);
+    public void insertTweetCell(final Status status) {
+        final TweetCell cell = tweetCellFactory.createTweetCell(status);
         if (status.getUser().getId() == selectedUser) {
-            cell.selectCell();
+            cell.setSelectState(true);
         }
-        if (!mainView.isScrollbarTop()) {
-            mainView.shiftScrollBar((int) cell.getPreferredSize().getHeight());
-        }
-        mainView.insertTweetCell(cell);
-        if (cell.isMention()) {
-            String tweetText = status.getText();
-            if ((tweetText.contains("QT") || tweetText.contains("RT")) && Config.IS_MUTE_UNOFFICIAL_RT) {
-                return;
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                mainView.insertTweetCell(cell);
+                if (cell.isMention()) {
+                    String tweetText = status.getText();
+                    if ((tweetText.contains("QT") || tweetText.contains("RT")) && Config.IS_MUTE_UNOFFICIAL_RT) {
+                        return;
+                    }
+                    mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));
+                }
+                if (!mainView.isScrollbarTop()) {
+                    mainView.shiftScrollBar(cell.getHeight() + 1);
+                }
             }
-            mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));
-        }
-        cellHashMap.put(status, cell);
+        });
+        cellHashMap.put(status.getId(), new CellStatus(cell, status));
     }
 
     /**
      * MainViewのツールバーにあるボタンにアクションリスナーを設定します
      */
     private void bindActionListener() {
-        mainView.setSendButtonAction(e -> sendTweet());
+        mainView.setSendButtonAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sendTweet();
+            }
+        });
         mainView.setSendButtonMouseAdapter(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -151,9 +166,24 @@ public class MainViewController {
                 }
             }
         });
-        mainView.setMentionButtonAction(e -> mainView.swapTweetList());
-        mainView.setTextFieldAction(e -> sendTweet());
-        mainView.setSettingButtonAction(e -> settingViewController.show());
+        mainView.setMentionButtonAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainView.swapTweetList();
+            }
+        });
+        mainView.setTextFieldAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sendTweet();
+            }
+        });
+        mainView.setSettingButtonAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                settingViewController.show();
+            }
+        });
     }
 
     /**
@@ -173,20 +203,46 @@ public class MainViewController {
     }
 
     /**
-     *
+     * 指定されたユーザーIDのセルをハイライトします
      */
-    public void highlightUserCell(long userId) {
+    private void highlightUserCell(long userId) {
         selectedUser = userId;
-        cellHashMap.forEach((status, cell) -> {
-            if (status.getUser().getId() == userId) {
-                cell.selectCell();
+        for (Map.Entry<Long, CellStatus> cellEntry : cellHashMap.entrySet()) {
+            long cellUserId = cellEntry.getValue().status.getUser().getId();
+            TweetCell cell = cellEntry.getValue().tweetCell;
+            if (cellUserId == userId) {
+                cell.setSelectState(true);
             } else {
-                if (cell.isMention()) {
-                    cell.unSelectMentionCell();
-                } else {
-                    cell.unSelectCell();
-                }
+                cell.setSelectState(false);
             }
-        });
+        }
+    }
+
+    /**
+     * 渡されたTweetCellStatusBaseによってセルの状態を変更します
+     *
+     * @param update
+     */
+    public void updateTweetCellStatus(TweetCellUpdater update) {
+        long id = update.id;
+        switch (update.category) {
+            case FAVORITED:
+                cellHashMap.get(id).tweetCell.setFavoriteState(true);
+                break;
+            case UNFAVORITED:
+                cellHashMap.get(id).tweetCell.setFavoriteState(false);
+                break;
+            case RETWEETED:
+                cellHashMap.get(id).tweetCell.setRetweetState(true);
+                break;
+            case DELETED:
+                cellHashMap.get(id).tweetCell.setDeleted();
+                break;
+            case SELECTED:
+                highlightUserCell(id);
+                break;
+            default:
+                break;
+        }
     }
 }

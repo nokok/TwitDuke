@@ -20,17 +20,17 @@ public class TitleAnimationInvoker extends Thread implements Runnable {
         String oldTitle = mainView.getTitle();
         for (int i = 0; i < ((oldTitle.length() / 2) + 1); i++) {
             mainView.setTitle(oldTitle.substring(i, oldTitle.length() - i));
-            ThreadUtil.sleep(this, Config.AnimationWait.TITLE_ANIMATION_WAIT);
+            ThreadUtil.sleep(this, Config.AnimationWait.TITLE_SPEED);
         }
         String welcome = "Welcome to TwitDuke";
         for (int i = 0; i < welcome.length(); i++) {
             mainView.setTitle(welcome.substring(0, i + 1));
-            ThreadUtil.sleep(this, Config.AnimationWait.TITLE_ANIMATION_WAIT);
+            ThreadUtil.sleep(this, Config.AnimationWait.TITLE_SPEED);
         }
         ThreadUtil.sleep(this, 100);
         for (int i = 0; i < 12; i++) {
             mainView.setTitle(welcome.substring(i, welcome.length()));
-            ThreadUtil.sleep(this, Config.AnimationWait.TITLE_ANIMATION_WAIT);
+            ThreadUtil.sleep(this, Config.AnimationWait.TITLE_SPEED);
         }
     }
 }

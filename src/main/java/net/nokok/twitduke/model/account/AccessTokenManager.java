@@ -25,7 +25,7 @@ public class AccessTokenManager {
 
     private static final AccessTokenManager INSTANCE = new AccessTokenManager();
 
-    private final File                   tokenListFile   = new File(Config.Path.TOKEN_LIST_FILE_PATH);
+    private final File                   tokenListFile   = new File(Config.Path.TOKEN_LIST_FILE);
     private final ArrayList<SimpleToken> simpleTokenList = new ArrayList<>(3);
 
     /**
@@ -57,7 +57,7 @@ public class AccessTokenManager {
      * カレントディレクトリにauthディレクトリを作成します
      */
     private void createTokenDirectory() {
-        File authDirectory = new File(Config.Path.AUTH_DIRECTORY_PATH);
+        File authDirectory = new File(Config.Path.AUTH_DIRECTORY);
         if (!authDirectory.exists()) {
             authDirectory.mkdir();
         }
@@ -145,7 +145,7 @@ public class AccessTokenManager {
      * @return 読み込まれたAccessToken
      */
     AccessToken readAccessToken(long id) {
-        try (FileInputStream fileInputStream = new FileInputStream(String.format("%s%d", Config.Path.TOKENFILE_PATH_WITH_PREFIX, id));
+        try (FileInputStream fileInputStream = new FileInputStream(String.format("%s%d", Config.Path.TOKENFILE_PREFIX, id));
              ObjectInputStream stream = new ObjectInputStream(fileInputStream)) {
 
             return (AccessToken) stream.readObject();
@@ -163,7 +163,7 @@ public class AccessTokenManager {
      * @throws java.io.IOError ファイルが見つからなかったり、ファイルがオープンできなかったりするなどの理由で処理が失敗した時にスローされます
      */
     public void writeAccessToken(AccessToken accessToken) {
-        try (FileOutputStream fileOutputStream = new FileOutputStream(String.format("%s%d", Config.Path.TOKENFILE_PATH_WITH_PREFIX, accessToken.getUserId()));
+        try (FileOutputStream fileOutputStream = new FileOutputStream(String.format("%s%d", Config.Path.TOKENFILE_PREFIX, accessToken.getUserId()));
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
              FileWriter writer = new FileWriter(tokenListFile, true) /*true指定で追記出来る*/) {
 
@@ -175,6 +175,6 @@ public class AccessTokenManager {
     }
 
     public void removeAccessToken(long id) {
-        new File(String.format("%s%d", Config.Path.TOKENFILE_PATH_WITH_PREFIX, id)).delete();
+        new File(String.format("%s%d", Config.Path.TOKENFILE_PREFIX, id)).delete();
     }
 }

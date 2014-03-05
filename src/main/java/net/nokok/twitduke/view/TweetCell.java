@@ -8,6 +8,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.util.EventListener;
+import java.util.Map;
 import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.JLabel;
@@ -15,6 +17,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.thread.IAsyncImageLoader;
+import net.nokok.twitduke.view.action.TweetCellAction;
 import net.nokok.twitduke.view.ui.TWButton;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.view.ui.TWPanel;
@@ -40,7 +43,6 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
     private final TWPanel thumbnailPanel = new TWPanel(new FlowLayout(FlowLayout.CENTER));
 
     public TweetCell(boolean isMention,
-                     long statusId,
                      Icon userIcon,
                      String userName,
                      String screenName,
@@ -61,12 +63,11 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
     }
 
     public TweetCell(boolean isMention,
-                     long statusId,
                      Icon userIcon,
                      Icon retweetIcon,
                      String userName,
                      String tweetText) {
-        this(isMention, statusId, userIcon, userName, "", tweetText);
+        this(isMention, userIcon, userName, "", tweetText);
         this.retweetIcon.setIcon(retweetIcon);
     }
 
@@ -75,13 +76,13 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
 
         icon.setBorder(new EmptyBorder(2, 0, 2, 5));
 
-        retweetIcon.setPreferredSize(Config.ComponentSize.RETWEET_USER_ICON_SIZE);
-        userName.setFont(Config.FontConfig.USER_NAME_FONT);
-        screenName.setFont(Config.FontConfig.SCREEN_NAME_FONT);
+        retweetIcon.setPreferredSize(Config.ComponentSize.RETWEET_USER_ICON);
+        userName.setFont(Config.FontConfig.USER_NAME);
+        screenName.setFont(Config.FontConfig.SCREEN_NAME);
         screenName.setForeground(DefaultColor.TweetCell.DEFAULT_FOREGROUND.darker());
-        favoriteButton.setPreferredSize(Config.ComponentSize.FUNCTION_BUTTON_SIZE);
+        favoriteButton.setPreferredSize(Config.ComponentSize.FUNCTION_BUTTON);
         favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITE_BUTTON);
-        retweetButton.setPreferredSize(Config.ComponentSize.FUNCTION_BUTTON_SIZE);
+        retweetButton.setPreferredSize(Config.ComponentSize.FUNCTION_BUTTON);
         retweetButton.setBackground(DefaultColor.TweetCell.RETWEET_BUTTON);
         tweetText.setForeground(DefaultColor.TweetCell.DEFAULT_FOREGROUND);
         tweetText.setEditable(false);
@@ -113,26 +114,31 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
     public void enableThumbnail(TWLabel imageLabel) {
         thumbnailPanel.add(imageLabel);
         add(thumbnailPanel, BorderLayout.SOUTH);
-        getParent().validate();
     }
 
     public boolean isMention() {
         return isMention;
     }
 
-    public void selectCell() {
-        isSelected = true;
-        changeColor(DefaultColor.TweetCell.SELECTED_BACKGROUND);
+    public void setSelectState(boolean state) {
+        if (state) {
+            changeColor(DefaultColor.TweetCell.SELECTED_BACKGROUND);
+        } else {
+            if (isMention) {
+                changeColor(DefaultColor.TweetCell.MENTION_BACKGROUND);
+            } else {
+                changeColor(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
+            }
+        }
+        isSelected = state;
     }
 
-    public void unSelectCell() {
-        isSelected = false;
-        changeColor(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
-    }
-
-    public void unSelectMentionCell() {
-        isSelected = false;
-        changeColor(DefaultColor.TweetCell.MENTION_BACKGROUND);
+    public void setDeleted() {
+        favoriteButton.setEnabled(false);
+        retweetButton.setEnabled(false);
+        userName.setText("");
+        screenName.setText("");
+        tweetText.setText("DELETED");
     }
 
     public boolean isSelected() {
@@ -147,15 +153,12 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
         thumbnailPanel.setBackground(color);
     }
 
-    public void setFavoriteAction(ActionListener listener) {
-        favoriteButton.addActionListener(listener);
+    public void configureActions(Map<TweetCellAction, EventListener> actions) {
+        favoriteButton.addActionListener((ActionListener) actions.get(TweetCellAction.FAVORITE));
+        retweetButton.addActionListener((ActionListener) actions.get(TweetCellAction.RETWEET));
     }
 
-    public void setRetweetAction(ActionListener listener) {
-        retweetButton.addActionListener(listener);
-    }
-
-    public void setMouseAction(MouseListener listener) {
+    public void setMouseListener(MouseListener listener) {
         addMouseListener(listener);
         tweetText.addMouseListener(listener);
     }
@@ -164,28 +167,26 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
         return isFavorited;
     }
 
-    public void favorite() {
-        isFavorited = true;
-        favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITED_BACKGROUND);
-    }
-
-    public void unFavorite() {
-        isFavorited = false;
-        favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITE_BUTTON);
+    public void setFavoriteState(boolean state) {
+        if (state) {
+            favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITED_BACKGROUND);
+        } else {
+            favoriteButton.setBackground(DefaultColor.TweetCell.FAVORITE_BUTTON);
+        }
+        isFavorited = state;
     }
 
     public boolean isRetweeted() {
         return isRetweeted;
     }
 
-    public void retweet() {
-        isRetweeted = true;
-        retweetButton.setBackground(DefaultColor.TweetCell.RETWEETED_BACKGROUND);
-    }
-
-    public void unRetweet() {
-        isRetweeted = false;
-        retweetButton.setBackground(DefaultColor.TweetCell.RETWEET_BUTTON);
+    public void setRetweetState(boolean state) {
+        if (state) {
+            retweetButton.setBackground(DefaultColor.TweetCell.RETWEETED_BACKGROUND);
+        } else {
+            retweetButton.setBackground(DefaultColor.TweetCell.RETWEET_BUTTON);
+        }
+        isRetweeted = state;
     }
 
     public String getSelectedText() {
@@ -198,7 +199,7 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
 
     @Override
     public int getHeight() {
-        return (int) getPreferredSize().getHeight();
+        return (int) Math.round(getPreferredSize().getHeight());
     }
 
     @Override
@@ -227,11 +228,13 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
         loadingLabel.setFont(new Font("", Font.BOLD, 10));
         thumbnailPanel.add(loadingLabel);
         add(thumbnailPanel, BorderLayout.SOUTH);
+        validate();
     }
 
     @Override
     public void imageLoaded(TWLabel label) {
         thumbnailPanel.removeAll();
         enableThumbnail(label);
+        validate();
     }
 }

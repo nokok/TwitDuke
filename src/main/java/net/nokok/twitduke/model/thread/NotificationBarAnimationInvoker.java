@@ -32,9 +32,17 @@ public class NotificationBarAnimationInvoker extends Thread {
      */
     @Override
     public synchronized void run() {
+        int waitingThread = animationThreadSyncronizer.getThreadCount();
         animationThreadSyncronizer.lock();
         mainViewController.notificationLabelMoveToDefault();
         statusLabel.setText(notificationText);
+        int wait;
+        if (waitingThread < Config.ANIMATION_THREAD_CAPACITY) {
+            wait = Config.AnimationWait.NOTIFICATION;
+        } else {
+            wait = Config.AnimationWait.FAST_NOTIFICATION;
+        }
+        ThreadUtil.sleep(this, wait);
         if (mainViewController.isLargerThanNotificationLabel()) {
             moveToLeft();
         } else {
@@ -50,12 +58,11 @@ public class NotificationBarAnimationInvoker extends Thread {
      */
     private synchronized void moveToLeft() {
         Point moved = statusLabel.getLocation();
-        ThreadUtil.sleep(this, Config.AnimationWait.WAIT_SHOW_DISPLAY_NOTIFICATION);
         int statusLabelWidth = (int) statusLabel.getPreferredSize().getWidth();
         for (int i = statusLabelWidth; i > 0; i--) {
             moved.x--;
             statusLabel.setLocation(moved);
-            ThreadUtil.sleep(this, Config.AnimationWait.NOTIFICATION_ANIMATION_WAIT);
+            ThreadUtil.sleep(this, Config.AnimationWait.NOTIFICATION_SPEED);
         }
     }
 
@@ -64,11 +71,10 @@ public class NotificationBarAnimationInvoker extends Thread {
      */
     private synchronized void dropDown() {
         Point moved = statusLabel.getLocation();
-        ThreadUtil.sleep(this, Config.AnimationWait.WAIT_SHOW_DISPLAY_NOTIFICATION);
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < statusLabel.getPreferredSize().getHeight(); i++) {
             moved.y += i;
             statusLabel.setLocation(moved);
-            ThreadUtil.sleep(this, Config.AnimationWait.NOTIFICATION_ANIMATION_WAIT);
+            ThreadUtil.sleep(this, Config.AnimationWait.NOTIFICATION_SPEED);
         }
     }
 }
