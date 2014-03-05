@@ -44,33 +44,11 @@ public class MainViewController {
     }
 
     /**
-     * UserStreamに接続された時に呼び出されます
-     *
-     * @see net.nokok.twitduke.main.Main#boot()
-     * @see net.nokok.twitduke.main.Main#twitterAPIWrapperInitialize()
-     */
-    public void userStreamConnected() {
-        setNotification("UserStreamに接続しました");
-        launchTitleAnimation();
-    }
-
-    /**
-     * UserStreamとの接続が切れた時、切断された時に呼び出されます
-     *
-     * @see net.nokok.twitduke.main.Main#boot()
-     * @see net.nokok.twitduke.main.Main#twitterAPIWrapperInitialize()
-     */
-    public void userStreamDisconnected() {
-        setNotification("UserStreamとの接続が切れています");
-    }
-
-
-    /**
      * UserStream接続成功時のタイトルバーのアニメーション処理を実行します
      *
      * @see net.nokok.twitduke.model.thread.TitleAnimationInvoker
      */
-    private void launchTitleAnimation() {
+    public void launchTitleAnimation() {
         new TitleAnimationInvoker(mainView).start();
     }
 

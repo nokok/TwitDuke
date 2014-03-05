@@ -87,12 +87,13 @@ public class Main implements IFileWatcher {
         twitterStream.addConnectionLifeCycleListener(new ConnectionLifeCycleListener() {
             @Override
             public void onConnect() {
-                mainViewController.userStreamConnected();
+                mainViewController.setNotification("UserStreamに接続しました");
+                mainViewController.launchTitleAnimation();
             }
 
             @Override
             public void onDisconnect() {
-                mainViewController.userStreamDisconnected();
+                mainViewController.setNotification("UserStreamの接続が切れました");
             }
 
             @Override
