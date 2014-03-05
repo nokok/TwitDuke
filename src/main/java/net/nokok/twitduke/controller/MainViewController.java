@@ -22,7 +22,6 @@ public class MainViewController {
     private Twitter4jAsyncWrapper wrapper;
     private TweetCellFactory      tweetCellFactory;
     private MainView              mainView;
-    private SettingViewController settingViewController;
 
     private final HashMap<Long, CellStatus> cellHashMap  = new HashMap<>();
     private       long                      selectedUser = 0;
@@ -33,10 +32,9 @@ public class MainViewController {
      * @param wrapper Twitter4jのラッパクラス
      * @see net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper
      */
-    public void start(Twitter4jAsyncWrapper wrapper, SettingViewController settingViewController) {
+    public void start(Twitter4jAsyncWrapper wrapper) {
         mainView = new MainView();
         this.wrapper = wrapper;
-        this.settingViewController = settingViewController;
         tweetCellFactory = new TweetCellFactory(wrapper, this);
         mainView.setVisible(true);
         bindActionListener();
@@ -44,33 +42,11 @@ public class MainViewController {
     }
 
     /**
-     * UserStreamに接続された時に呼び出されます
-     *
-     * @see net.nokok.twitduke.main.Main#boot()
-     * @see net.nokok.twitduke.main.Main#twitterAPIWrapperInitialize()
-     */
-    public void userStreamConnected() {
-        setNotification("UserStreamに接続しました");
-        launchTitleAnimation();
-    }
-
-    /**
-     * UserStreamとの接続が切れた時、切断された時に呼び出されます
-     *
-     * @see net.nokok.twitduke.main.Main#boot()
-     * @see net.nokok.twitduke.main.Main#twitterAPIWrapperInitialize()
-     */
-    public void userStreamDisconnected() {
-        setNotification("UserStreamとの接続が切れています");
-    }
-
-
-    /**
      * UserStream接続成功時のタイトルバーのアニメーション処理を実行します
      *
      * @see net.nokok.twitduke.model.thread.TitleAnimationInvoker
      */
-    private void launchTitleAnimation() {
+    public void launchTitleAnimation() {
         new TitleAnimationInvoker(mainView).start();
     }
 
@@ -131,11 +107,7 @@ public class MainViewController {
             @Override
             public void run() {
                 mainView.insertTweetCell(cell);
-                if (cell.isMention()) {
-                    String tweetText = status.getText();
-                    if ((tweetText.contains("QT") || tweetText.contains("RT")) && Config.Flags.isMuteUnOfficialRT) {
-                        return;
-                    }
+                if (cell.isMention() && !isUnofficialRT(status.getText())) {
                     mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));
                 }
                 if (!mainView.isScrollbarTop()) {
@@ -144,6 +116,10 @@ public class MainViewController {
             }
         });
         cellHashMap.put(status.getId(), new CellStatus(cell, status));
+    }
+
+    private boolean isUnofficialRT(String tweetText) {
+        return (tweetText.contains("QT") || tweetText.contains("RT")) && Config.Flags.isMuteUnOfficialRT;
     }
 
     /**

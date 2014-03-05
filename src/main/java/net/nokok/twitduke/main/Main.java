@@ -1,12 +1,10 @@
 package net.nokok.twitduke.main;
 
 import net.nokok.twitduke.controller.MainViewController;
-import net.nokok.twitduke.controller.SettingViewController;
 import net.nokok.twitduke.model.UserStreamListenerImpl;
 import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.model.thread.FileCreateWatcher;
 import net.nokok.twitduke.model.thread.IFileWatcher;
-import net.nokok.twitduke.view.SettingView;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.ConnectionLifeCycleListener;
 import twitter4j.RateLimitStatusEvent;
@@ -18,7 +16,6 @@ public class Main implements IFileWatcher {
 
     private Twitter4jAsyncWrapper wrapper;
     private MainViewController    mainViewController;
-    private SettingViewController settingViewController;
     private TwitterStream         twitterStream;
 
     /**
@@ -38,7 +35,6 @@ public class Main implements IFileWatcher {
     private void boot() {
         readConfigFiles();
         mainViewInitialize();
-        settingViewInitialize();
         twitterAPIWrapperInitialize();
         String accessTokenFilePath = AccessTokenManager.getInstance().getTokenFileListPath();
         new FileCreateWatcher(accessTokenFilePath, this).start();
@@ -57,20 +53,12 @@ public class Main implements IFileWatcher {
     }
 
     /**
-     * SettingViewControllerの初期化を行います
-     */
-    private void settingViewInitialize() {
-        settingViewController = new SettingViewController(new SettingView());
-    }
-
-    /**
      * TwitterAPIWrapperの初期化を行います
      */
     private void twitterAPIWrapperInitialize() {
         twitterStream = TwitterStreamFactory.getSingleton();
         connectionLifeCycleListenerInitialize(twitterStream);
         rateLimitListenerInitialize(twitterStream);
-
         wrapper = Twitter4jAsyncWrapper.getInstance();
         wrapper.setController(mainViewController);
         wrapper.enableTwitterListener();
@@ -87,16 +75,18 @@ public class Main implements IFileWatcher {
         twitterStream.addConnectionLifeCycleListener(new ConnectionLifeCycleListener() {
             @Override
             public void onConnect() {
-                mainViewController.userStreamConnected();
+                mainViewController.setNotification("UserStreamに接続しました");
+                mainViewController.launchTitleAnimation();
             }
 
             @Override
             public void onDisconnect() {
-                mainViewController.userStreamDisconnected();
+                mainViewController.setNotification("UserStreamの接続が切れました");
             }
 
             @Override
             public void onCleanUp() {
+                mainViewController.setNotification("UserStream:onCleanUp");
             }
         });
     }
@@ -135,7 +125,7 @@ public class Main implements IFileWatcher {
      * UserStreamの受信を開始します。
      */
     private void startUserStream() {
-        mainViewController.start(wrapper, settingViewController);
+        mainViewController.start(wrapper);
         twitterStream.setOAuthAccessToken(AccessTokenManager.getInstance().readPrimaryAccount());
         twitterStream.user();
         mainViewController.setNotification("TwitDuke " + Config.VERSION);
