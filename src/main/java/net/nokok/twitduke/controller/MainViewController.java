@@ -109,11 +109,7 @@ public class MainViewController {
             @Override
             public void run() {
                 mainView.insertTweetCell(cell);
-                if (cell.isMention()) {
-                    String tweetText = status.getText();
-                    if ((tweetText.contains("QT") || tweetText.contains("RT")) && Config.Flags.isMuteUnOfficialRT) {
-                        return;
-                    }
+                if (cell.isMention() && !isUnofficialRT(status.getText())) {
                     mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));
                 }
                 if (!mainView.isScrollbarTop()) {
@@ -122,6 +118,10 @@ public class MainViewController {
             }
         });
         cellHashMap.put(status.getId(), new CellStatus(cell, status));
+    }
+
+    private boolean isUnofficialRT(String tweetText) {
+        return (tweetText.contains("QT") || tweetText.contains("RT")) && Config.Flags.isMuteUnOfficialRT;
     }
 
     /**
