@@ -22,7 +22,6 @@ public class MainViewController {
     private Twitter4jAsyncWrapper wrapper;
     private TweetCellFactory      tweetCellFactory;
     private MainView              mainView;
-    private SettingViewController settingViewController;
 
     private final HashMap<Long, CellStatus> cellHashMap  = new HashMap<>();
     private       long                      selectedUser = 0;
@@ -33,10 +32,9 @@ public class MainViewController {
      * @param wrapper Twitter4jのラッパクラス
      * @see net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper
      */
-    public void start(Twitter4jAsyncWrapper wrapper, SettingViewController settingViewController) {
+    public void start(Twitter4jAsyncWrapper wrapper) {
         mainView = new MainView();
         this.wrapper = wrapper;
-        this.settingViewController = settingViewController;
         tweetCellFactory = new TweetCellFactory(wrapper, this);
         mainView.setVisible(true);
         bindActionListener();
