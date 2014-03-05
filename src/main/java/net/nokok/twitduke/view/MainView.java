@@ -5,24 +5,19 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Point;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseListener;
+import java.awt.event.KeyListener;
 import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 import net.nokok.twitduke.main.Config;
-import net.nokok.twitduke.view.ui.TWButton;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.view.ui.TWPanel;
 import net.nokok.twitduke.view.ui.TWScrollPane;
@@ -33,21 +28,16 @@ public class MainView extends JFrame {
 
     private boolean isMentionVisible;
 
-    private final TWButton settingButton = new TWButton("設定");
-    private final TWButton mentionButton = new TWButton("＠");
-    private final TWButton userSwitcher  = new TWButton("ユーザー...");
-    private final TWButton sendButton    = new TWButton("ツイート");
-
-    private final JTextField tweetTextField = new JTextField();
+    private final JTextArea tweetTextArea = new JTextArea();
 
     private final LayoutManager tweetListLayout = new TimelineLayout();
     private final LayoutManager replyListLayout = new TimelineLayout();
 
     private final CardLayout layout = new CardLayout();
 
-    private final TWPanel rootScrollPanel = new TWPanel(layout);
-    private final TWPanel tweetListPanel  = new TWPanel();
-    private final TWPanel replyListPanel  = new TWPanel();
+    private final TWPanel centerScrollPanel = new TWPanel(layout);
+    private final TWPanel tweetListPanel    = new TWPanel();
+    private final TWPanel replyListPanel    = new TWPanel();
     private JScrollBar verticalScrollbar;
 
     private final TWLabel notificationLabel = new TWLabel();
@@ -67,15 +57,15 @@ public class MainView extends JFrame {
         setLocationRelativeTo(null);
 
         TWPanel topPanel = new TWPanel(new BorderLayout());
-        tweetTextField.setPreferredSize(Config.ComponentSize.TEXTFIELD);
-        tweetTextField.setOpaque(true);
-        tweetTextField.setBorder(null);
-        tweetTextField.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
-        tweetTextField.setForeground(DefaultColor.TWButton.DEFAULT_FOREGROUND);
-        tweetTextField.setCaretColor(Color.WHITE);
-        topPanel.add(tweetTextField, BorderLayout.CENTER);
+        JScrollPane topScrollPanel = new TWScrollPane(topPanel);
+        topScrollPanel.setPreferredSize(new Dimension(-1, Config.ComponentSize.INPUT_FIELD_HEIGHT));
+        tweetTextArea.setOpaque(true);
+        tweetTextArea.setBorder(null);
+        tweetTextArea.setBackground(DefaultColor.TweetCell.DEFAULT_BACKGROUND);
+        tweetTextArea.setForeground(DefaultColor.TWButton.DEFAULT_FOREGROUND);
+        tweetTextArea.setCaretColor(Color.WHITE);
 
-        topPanel.add(buildToolBar(), BorderLayout.SOUTH);
+        topPanel.add(tweetTextArea, BorderLayout.CENTER);
 
         JScrollPane scrollPane = new TWScrollPane(tweetListPanel);
         final JScrollPane replyScrollPane = new TWScrollPane(replyListPanel);
@@ -83,7 +73,7 @@ public class MainView extends JFrame {
         replyListPanel.setLayout(replyListLayout);
         verticalScrollbar = scrollPane.getVerticalScrollBar();
 
-        rootScrollPanel.addComponentListener(new ComponentAdapter() {
+        centerScrollPanel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 tweetListPanel.setPreferredSize(tweetListLayout.minimumLayoutSize(tweetListPanel));
@@ -91,27 +81,17 @@ public class MainView extends JFrame {
             }
         });
 
-        rootScrollPanel.add(scrollPane, "DEFAULT");
-        rootScrollPanel.add(replyScrollPane, "REPLY");
+        centerScrollPanel.add(scrollPane, "DEFAULT");
+        centerScrollPanel.add(replyScrollPane, "REPLY");
 
         TWPanel notificationBar = new TWPanel(new FlowLayout(FlowLayout.LEFT));
         notificationBar.setPreferredSize(Config.ComponentSize.STATUS_BAR);
         notificationLabel.setFont(Config.FontConfig.NOTIFICATION);
         notificationBar.add(notificationLabel);
 
-        add(topPanel, BorderLayout.NORTH);
-        add(rootScrollPanel, BorderLayout.CENTER);
+        add(topScrollPanel, BorderLayout.NORTH);
+        add(centerScrollPanel, BorderLayout.CENTER);
         add(notificationBar, BorderLayout.SOUTH);
-    }
-
-    private JPanel buildToolBar() {
-        TWPanel toolBar = new TWPanel(new GridLayout());
-        toolBar.setBackground(DefaultColor.TWButton.DEFAULT_BACKGROUND);
-        toolBar.add(settingButton);
-        toolBar.add(mentionButton);
-        toolBar.add(userSwitcher);
-        toolBar.add(sendButton);
-        return toolBar;
     }
 
     /**
@@ -150,60 +130,17 @@ public class MainView extends JFrame {
      *
      * @param text セットする文字列
      */
-    public void setTweetTextField(String text) {
-        tweetTextField.setText(text);
+    public void setTweetText(String text) {
+        tweetTextArea.setText(text);
     }
 
     /**
-     * テキストフィールドにアクションリスナをセットします
+     * テキストエリアにキーリスナをセットします
      *
-     * @param listener セットするアクションリスナ
+     * @param listener セットするキーリスナ
      */
-    public void setTextFieldAction(ActionListener listener) {
-        tweetTextField.addActionListener(listener);
-    }
-
-    /**
-     * 設定ボタンにアクションリスナをセットします
-     *
-     * @param listener セットするアクションリスナ
-     */
-    public void setSettingButtonAction(ActionListener listener) {
-        settingButton.addActionListener(listener);
-    }
-
-    /**
-     * メンションボタンにアクションリスナをセットします
-     *
-     * @param listener セットするアクションリスナ
-     */
-    public void setMentionButtonAction(ActionListener listener) {
-        mentionButton.addActionListener(listener);
-    }
-
-    /**
-     * ユーザースイッチャーにマウスアダプターをセットします
-     *
-     * @param adapter セットするマウスアダプター
-     */
-    public void setUserSwitcherAction(MouseAdapter adapter) {
-        userSwitcher.addMouseListener(adapter);
-    }
-
-    /**
-     * ツイート送信ボタンにアクションリスナをセットします
-     *
-     * @param listener セットするアクションリスナー
-     */
-    public void setSendButtonAction(ActionListener listener) {
-        sendButton.addActionListener(listener);
-    }
-
-    /**
-     * ツイート送信ボタンにマウスリスナをセットします
-     */
-    public void setSendButtonMouseAdapter(MouseListener listener) {
-        sendButton.addMouseListener(listener);
+    public void setTextAreaAction(KeyListener listener) {
+        tweetTextArea.addKeyListener(listener);
     }
 
     /**
@@ -227,14 +164,14 @@ public class MainView extends JFrame {
      * @return このメソッドが呼ばれた時点でテキストフィールドに入力されていたテキスト
      */
     public String getTweetText() {
-        return tweetTextField.getText();
+        return tweetTextArea.getText();
     }
 
     /**
      * テキストフィールドに入力されたテキストをすべて消去します
      */
     public void clearTextField() {
-        tweetTextField.setText("");
+        tweetTextArea.setText("");
     }
 
     /**
@@ -243,12 +180,10 @@ public class MainView extends JFrame {
     public void swapTweetList() {
         isMentionVisible = !isMentionVisible;
         if (isMentionVisible) {
-            layout.first(rootScrollPanel);
-            mentionButton.setText("＠");
+            layout.first(centerScrollPanel);
             return;
         }
-        layout.last(rootScrollPanel);
-        mentionButton.setText("戻る");
+        layout.last(centerScrollPanel);
         replyListPanel.validate();
     }
 

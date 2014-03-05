@@ -1,9 +1,7 @@
 package net.nokok.twitduke.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.SwingUtilities;
@@ -12,7 +10,7 @@ import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
-import net.nokok.twitduke.util.MouseUtil;
+import net.nokok.twitduke.util.KeyUtil;
 import net.nokok.twitduke.view.MainView;
 import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.ui.TWLabel;
@@ -111,7 +109,7 @@ public class MainViewController {
      * @param screenName リプライを送信するユーザーのスクリーンネーム
      */
     public void setReply(String screenName) {
-        mainView.setTweetTextField('@' + screenName + ' ');
+        mainView.setTweetText('@' + screenName + ' ');
     }
 
     /**
@@ -135,7 +133,7 @@ public class MainViewController {
                 mainView.insertTweetCell(cell);
                 if (cell.isMention()) {
                     String tweetText = status.getText();
-                    if ((tweetText.contains("QT") || tweetText.contains("RT")) && Config.IS_MUTE_UNOFFICIAL_RT) {
+                    if ((tweetText.contains("QT") || tweetText.contains("RT")) && Config.Flags.isMuteUnOfficialRT) {
                         return;
                     }
                     mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));
@@ -152,38 +150,25 @@ public class MainViewController {
      * MainViewのツールバーにあるボタンにアクションリスナーを設定します
      */
     private void bindActionListener() {
-        mainView.setSendButtonAction(new ActionListener() {
+        mainView.setTextAreaAction(new KeyListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                sendTweet();
+            public void keyTyped(KeyEvent e) {
+
             }
-        });
-        mainView.setSendButtonMouseAdapter(new MouseAdapter() {
+
             @Override
-            public void mouseClicked(MouseEvent e) {
-                if (MouseUtil.isRightButtonClicked(e)) {
-                    wrapper.sendJavaJava();
+            public void keyPressed(KeyEvent e) {
+                if (KeyUtil.isEnterAndShiftKey(e)) {
+                    sendTweet();
                 }
             }
-        });
-        mainView.setMentionButtonAction(new ActionListener() {
+
             @Override
-            public void actionPerformed(ActionEvent e) {
-                mainView.swapTweetList();
+            public void keyReleased(KeyEvent e) {
+                KeyUtil.reset();
             }
         });
-        mainView.setTextFieldAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sendTweet();
-            }
-        });
-        mainView.setSettingButtonAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                settingViewController.show();
-            }
-        });
+
     }
 
     /**

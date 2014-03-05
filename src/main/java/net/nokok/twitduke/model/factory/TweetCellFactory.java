@@ -146,7 +146,7 @@ public class TweetCellFactory {
         return new TweetCell(isMention,
                              userIcon,
                              retweetUserIcon,
-                             "Retweet: " + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName(),
+                             "Retweeted " + status.getRetweetedStatus().getUser().getScreenName() + " by " + status.getUser().getScreenName(),
                              URLUtil.extendURL(status.getRetweetedStatus()));
     }
 
