@@ -186,6 +186,9 @@ public class MainViewController {
      */
     public void updateTweetCellStatus(TweetCellUpdater update) {
         long id = update.id;
+        if (!cellHashMap.containsKey(id)) {
+            return;
+        }
         switch (update.category) {
             case FAVORITED:
                 cellHashMap.get(id).tweetCell.setFavoriteState(true);
