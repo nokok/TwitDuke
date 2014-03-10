@@ -1,4 +1,4 @@
-package net.nokok.twitduke.view;
+package net.nokok.twitduke.view.tweetcell;
 
 import com.google.common.base.Objects;
 import java.awt.BorderLayout;
