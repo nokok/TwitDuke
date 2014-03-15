@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.SwingUtilities;
 import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
+import net.nokok.twitduke.controller.tweetcellstatus.type.CellStatus;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
