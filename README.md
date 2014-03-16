@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/nokok/TwitDuke.png?branch=refactoring-updateTweetCellStatus)](https://travis-ci.org/nokok/TwitDuke)
+
 #TwitDuke
 
 **JavaJavaJava〜〜〜ｗｗｗ**
