@@ -13,7 +13,7 @@ import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
 import net.nokok.twitduke.util.KeyUtil;
 import net.nokok.twitduke.view.MainView;
-import net.nokok.twitduke.view.TweetCell;
+import net.nokok.twitduke.view.tweetcell.TweetCell;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.Status;
