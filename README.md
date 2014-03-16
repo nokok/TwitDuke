@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/nokok/TwitDuke.png?branch=refactoring-updateTweetCellStatus)](https://travis-ci.org/nokok/TwitDuke)
+master:[![Build Status](https://travis-ci.org/nokok/TwitDuke.png?branch=master)](https://travis-ci.org/nokok/TwitDuke)
 
 #TwitDuke
 
