@@ -3,6 +3,7 @@
 #TwitDuke
 
 **JavaJavaJava〜〜〜ｗｗｗ**
+#Scalaで書き直します
 
 #TwitDukeとは?
 TwitDukeはJavaで書かれたTwitterクライアントです。  
