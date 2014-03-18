@@ -25,10 +25,10 @@ import net.nokok.twitduke.view.ui.color.DefaultColor;
 
 public class TweetCell extends TWPanel implements IAsyncImageLoader {
 
-    private final boolean isMention;
-    private       boolean isFavorited;
-    private       boolean isRetweeted;
-    private       boolean isSelected;
+    private boolean isMention;
+    private boolean isFavorited;
+    private boolean isRetweeted;
+    private boolean isSelected;
 
     private final JLabel    icon        = new JLabel();
     private final JLabel    retweetIcon = new JLabel();
@@ -41,6 +41,10 @@ public class TweetCell extends TWPanel implements IAsyncImageLoader {
     private final TWButton retweetButton      = new TWButton();
 
     private final TWPanel thumbnailPanel = new TWPanel(new FlowLayout(FlowLayout.CENTER));
+
+    public TweetCell() {
+
+    }
 
     public TweetCell(boolean isMention,
                      Icon userIcon,

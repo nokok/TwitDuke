@@ -37,6 +37,7 @@ public class MainViewController {
         mainView.setVisible(true);
         bindActionListener();
         setNotification("UserStreamに接続中です");
+        cellHashMap.put(0L, new CellStatus(new TweetCell(), null)); //デフォルトセル
     }
 
     /**
@@ -152,11 +153,7 @@ public class MainViewController {
         for (Map.Entry<Long, CellStatus> cellEntry : cellHashMap.entrySet()) {
             long cellUserId = cellEntry.getValue().status.getUser().getId();
             TweetCell cell = cellEntry.getValue().tweetCell;
-            if (cellUserId == userId) {
-                cell.setSelectState(true);
-            } else {
-                cell.setSelectState(false);
-            }
+            cell.setSelectState(cellUserId == userId);
         }
     }
 
@@ -167,21 +164,18 @@ public class MainViewController {
      */
     public void updateTweetCellStatus(TweetCellUpdater update) {
         long id = update.id;
-        if (!cellHashMap.containsKey(id)) {
-            return;
-        }
         switch (update.category) {
             case FAVORITED:
-                cellHashMap.get(id).tweetCell.setFavoriteState(true);
+                searchTweetCell(id).setFavoriteState(true);
                 break;
             case UNFAVORITED:
-                cellHashMap.get(id).tweetCell.setFavoriteState(false);
+                searchTweetCell(id).setFavoriteState(false);
                 break;
             case RETWEETED:
-                cellHashMap.get(id).tweetCell.setRetweetState(true);
+                searchTweetCell(id).setRetweetState(true);
                 break;
             case DELETED:
-                cellHashMap.get(id).tweetCell.setDeleted();
+                searchTweetCell(id).setDeleted();
                 break;
             case SELECTED:
                 highlightUserCell(id);
@@ -189,5 +183,13 @@ public class MainViewController {
             default:
                 break;
         }
+    }
+
+    private TweetCell searchTweetCell(long id) {
+        TweetCell cell = cellHashMap.get(id).tweetCell;
+        if (cell == null) {
+            return cellHashMap.get(0L).tweetCell;
+        }
+        return cell;
     }
 }
