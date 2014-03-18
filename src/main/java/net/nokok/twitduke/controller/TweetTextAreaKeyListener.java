@@ -1,10 +1,10 @@
 package net.nokok.twitduke.controller;
 
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import net.nokok.twitduke.util.KeyUtil;
 
-class TweetTextAreaKeyListener implements KeyListener {
+class TweetTextAreaKeyListener extends KeyAdapter {
     private final MainViewController mainViewController;
 
     public TweetTextAreaKeyListener(MainViewController mainViewController) {
