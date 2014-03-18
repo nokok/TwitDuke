@@ -1,7 +1,5 @@
 package net.nokok.twitduke.controller;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.SwingUtilities;
@@ -11,7 +9,6 @@ import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
-import net.nokok.twitduke.util.KeyUtil;
 import net.nokok.twitduke.view.MainView;
 import net.nokok.twitduke.view.tweetcell.TweetCell;
 import net.nokok.twitduke.view.ui.TWLabel;
@@ -127,24 +124,7 @@ public class MainViewController {
      * MainViewのツールバーにあるボタンにアクションリスナーを設定します
      */
     private void bindActionListener() {
-        mainView.setTextAreaAction(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (KeyUtil.isEnterAndShiftKey(e)) {
-                    sendTweet();
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                KeyUtil.reset();
-            }
-        });
+        mainView.setTextAreaAction(new TweetTextAreaKeyListener(this));
 
     }
 
@@ -152,7 +132,7 @@ public class MainViewController {
      * ツイート送信時のView側の処理を行います
      * ラッパクラスに入力されたツイートを渡した後、テキストフィールドのテキストをクリアします
      */
-    private void sendTweet() {
+    public void sendTweet() {
         wrapper.sendTweet(mainView.getTweetText());
         mainView.clearTextField();
     }
