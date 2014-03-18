@@ -3,9 +3,9 @@ package net.nokok.twitduke.model.factory;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import net.nokok.twitduke.util.MouseUtil;
-import net.nokok.twitduke.view.TweetCell;
 import net.nokok.twitduke.view.TweetPopupMenu;
 import net.nokok.twitduke.view.UserView;
+import net.nokok.twitduke.view.tweetcell.TweetCell;
 import twitter4j.Status;
 
 class TweetCellMouseAdapter extends MouseAdapter {

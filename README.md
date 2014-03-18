@@ -1,6 +1,9 @@
+master:[![Build Status](https://travis-ci.org/nokok/TwitDuke.png?branch=master)](https://travis-ci.org/nokok/TwitDuke)
+
 #TwitDuke
 
 **JavaJavaJava〜〜〜ｗｗｗ**
+#Scalaで書き直します
 
 #TwitDukeとは?
 TwitDukeはJavaで書かれたTwitterクライアントです。  

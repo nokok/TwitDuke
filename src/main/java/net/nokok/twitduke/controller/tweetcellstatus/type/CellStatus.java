@@ -1,6 +1,6 @@
-package net.nokok.twitduke.controller;
+package net.nokok.twitduke.controller.tweetcellstatus.type;
 
-import net.nokok.twitduke.view.TweetCell;
+import net.nokok.twitduke.view.tweetcell.TweetCell;
 import twitter4j.Status;
 
 public class CellStatus {

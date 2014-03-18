@@ -1,18 +1,16 @@
 package net.nokok.twitduke.controller;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.SwingUtilities;
 import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
+import net.nokok.twitduke.controller.tweetcellstatus.type.CellStatus;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
-import net.nokok.twitduke.util.KeyUtil;
 import net.nokok.twitduke.view.MainView;
-import net.nokok.twitduke.view.TweetCell;
+import net.nokok.twitduke.view.tweetcell.TweetCell;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.Status;
@@ -39,6 +37,7 @@ public class MainViewController {
         mainView.setVisible(true);
         bindActionListener();
         setNotification("UserStreamに接続中です");
+        cellHashMap.put(0L, new CellStatus(new TweetCell(), null)); //デフォルトセル
     }
 
     /**
@@ -126,24 +125,7 @@ public class MainViewController {
      * MainViewのツールバーにあるボタンにアクションリスナーを設定します
      */
     private void bindActionListener() {
-        mainView.setTextAreaAction(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (KeyUtil.isEnterAndShiftKey(e)) {
-                    sendTweet();
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                KeyUtil.reset();
-            }
-        });
+        mainView.setTextAreaAction(new TweetTextAreaKeyListener(this));
 
     }
 
@@ -151,7 +133,7 @@ public class MainViewController {
      * ツイート送信時のView側の処理を行います
      * ラッパクラスに入力されたツイートを渡した後、テキストフィールドのテキストをクリアします
      */
-    private void sendTweet() {
+    public void sendTweet() {
         wrapper.sendTweet(mainView.getTweetText());
         mainView.clearTextField();
     }
@@ -169,13 +151,12 @@ public class MainViewController {
     private void highlightUserCell(long userId) {
         selectedUser = userId;
         for (Map.Entry<Long, CellStatus> cellEntry : cellHashMap.entrySet()) {
+            if (cellEntry.getValue().status == null) {
+                continue;
+            }
             long cellUserId = cellEntry.getValue().status.getUser().getId();
             TweetCell cell = cellEntry.getValue().tweetCell;
-            if (cellUserId == userId) {
-                cell.setSelectState(true);
-            } else {
-                cell.setSelectState(false);
-            }
+            cell.setSelectState(cellUserId == userId);
         }
     }
 
@@ -188,16 +169,16 @@ public class MainViewController {
         long id = update.id;
         switch (update.category) {
             case FAVORITED:
-                cellHashMap.get(id).tweetCell.setFavoriteState(true);
+                searchTweetCell(id).setFavoriteState(true);
                 break;
             case UNFAVORITED:
-                cellHashMap.get(id).tweetCell.setFavoriteState(false);
+                searchTweetCell(id).setFavoriteState(false);
                 break;
             case RETWEETED:
-                cellHashMap.get(id).tweetCell.setRetweetState(true);
+                searchTweetCell(id).setRetweetState(true);
                 break;
             case DELETED:
-                cellHashMap.get(id).tweetCell.setDeleted();
+                searchTweetCell(id).setDeleted();
                 break;
             case SELECTED:
                 highlightUserCell(id);
@@ -205,5 +186,13 @@ public class MainViewController {
             default:
                 break;
         }
+    }
+
+    private TweetCell searchTweetCell(long id) {
+        TweetCell cell = cellHashMap.get(id).tweetCell;
+        if (cell == null) {
+            return cellHashMap.get(0L).tweetCell;
+        }
+        return cell;
     }
 }
