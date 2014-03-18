@@ -1,15 +1,17 @@
 package net.nokok.twitduke.model;
 
-import twitter4j.AsyncTwitter;
+import net.nokok.twitduke.controller.MainViewController;
 
-public class CommandParser {
+public class CommandParser implements IParser {
 
-    private final AsyncTwitter twitter;
+    private final MainViewController mainViewController;
 
-    public CommandParser(AsyncTwitter twitter) {
-        this.twitter = twitter;
+    public CommandParser(MainViewController mainViewController) {
+
+        this.mainViewController = mainViewController;
     }
 
+    @Override
     public void parse(String text) {
 
     }

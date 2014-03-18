@@ -6,6 +6,7 @@ import javax.swing.SwingUtilities;
 import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
 import net.nokok.twitduke.controller.tweetcellstatus.type.CellStatus;
 import net.nokok.twitduke.main.Config;
+import net.nokok.twitduke.model.ParserListener;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
@@ -15,7 +16,7 @@ import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.Status;
 
-public class MainViewController {
+public class MainViewController implements ParserListener {
 
     private Twitter4jAsyncWrapper wrapper;
     private TweetCellFactory      tweetCellFactory;
@@ -194,5 +195,15 @@ public class MainViewController {
             return cellHashMap.get(0L).tweetCell;
         }
         return cell;
+    }
+
+    @Override
+    public void success() {
+
+    }
+
+    @Override
+    public void error() {
+
     }
 }
