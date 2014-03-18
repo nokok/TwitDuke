@@ -151,6 +151,9 @@ public class MainViewController {
     private void highlightUserCell(long userId) {
         selectedUser = userId;
         for (Map.Entry<Long, CellStatus> cellEntry : cellHashMap.entrySet()) {
+            if (cellEntry.getValue().status == null) {
+                continue;
+            }
             long cellUserId = cellEntry.getValue().status.getUser().getId();
             TweetCell cell = cellEntry.getValue().tweetCell;
             cell.setSelectState(cellUserId == userId);
