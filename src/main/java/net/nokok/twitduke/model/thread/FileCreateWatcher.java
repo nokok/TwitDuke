@@ -7,7 +7,7 @@ import net.nokok.twitduke.util.ThreadUtil;
 /**
  * 指定したファイルが作成されるのを3秒間隔で監視し、作成されたらfilesCreatedが呼ばれます
  */
-public class FileCreateWatcher extends Thread implements Runnable {
+public class FileCreateWatcher extends Thread {
 
     private final File         watchingFile;
     private final IFileWatcher watcher;

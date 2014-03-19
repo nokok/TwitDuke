@@ -7,7 +7,7 @@ import net.nokok.twitduke.view.MainView;
 /**
  * タイトルのアニメーション処理をします
  */
-public class TitleAnimationInvoker extends Thread implements Runnable {
+public class TitleAnimationInvoker extends Thread {
 
     private final MainView mainView;
 

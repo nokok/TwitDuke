@@ -32,8 +32,8 @@ public class MainViewController implements
     private TweetCellFactory      tweetCellFactory;
     private MainView              mainView;
 
-    private final HashMap<Long, CellStatus> cellHashMap  = new HashMap<>();
-    private       long                      selectedUser = 0;
+    private final HashMap<Long, CellStatus> cellHashMap = new HashMap<>();
+    private long selectedUser;
 
     /**
      * MainViewControllerの初期化に必要な処理を開始します
@@ -167,8 +167,6 @@ public class MainViewController implements
                 break;
             case SELECTED:
                 highlightUserCell(id);
-                break;
-            default:
                 break;
         }
     }
