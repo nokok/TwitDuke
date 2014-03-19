@@ -15,7 +15,7 @@ import net.nokok.twitduke.view.ui.TWSlimButton;
 import net.nokok.twitduke.view.ui.TWSmallButton;
 import net.nokok.twitduke.view.ui.color.DefaultColor;
 
-public class SettingView extends TWDialog {
+class SettingView extends TWDialog {
 
     private CardLayout cardLayout;
     private TWPanel    rootCenterPanel;

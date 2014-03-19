@@ -2,7 +2,6 @@ package net.nokok.twitduke.model.factory;
 
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -10,9 +9,9 @@ import java.util.EnumMap;
 import java.util.EventListener;
 import java.util.Map;
 import javax.swing.ImageIcon;
-import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.account.AccessTokenManager;
+import net.nokok.twitduke.model.listener.TweetCellUpdateListener;
 import net.nokok.twitduke.model.thread.AsyncImageLoader;
 import net.nokok.twitduke.util.CacheUtil;
 import net.nokok.twitduke.util.DateUtil;
@@ -30,9 +29,10 @@ public class TweetCellFactory {
     private final PopupMenuFactory      popupMenuFactory;
     private final CacheUtil cacheUtil = CacheUtil.getInstance();
 
-    public TweetCellFactory(Twitter4jAsyncWrapper twitter, MainViewController mainViewController) {
+    public TweetCellFactory(Twitter4jAsyncWrapper twitter, TweetCellUpdateListener tweetCellUpdateListener) {
         this.twitter = twitter;
-        popupMenuFactory = new PopupMenuFactory(twitter, mainViewController);
+        popupMenuFactory = new PopupMenuFactory(twitter);
+        popupMenuFactory.setTweetCellUpdateListener(tweetCellUpdateListener);
     }
 
     /**
@@ -173,20 +173,10 @@ public class TweetCellFactory {
      * @param cell   アクションリスナをセットするセル
      * @param status ツイートのステータス
      */
-    private void setCommonActionListener(final TweetCell cell, final Status status) {
+    private void setCommonActionListener(TweetCell cell, Status status) {
         Map<TweetCellAction, EventListener> eventListenerMap = new EnumMap<>(TweetCellAction.class);
-        eventListenerMap.put(TweetCellAction.FAVORITE, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                favorite(cell, status.getId());
-            }
-        });
-        eventListenerMap.put(TweetCellAction.RETWEET, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                retweet(cell, status.getId());
-            }
-        });
+        eventListenerMap.put(TweetCellAction.FAVORITE, (ActionListener) e -> favorite(cell, status.getId()));
+        eventListenerMap.put(TweetCellAction.RETWEET, (ActionListener) e -> retweet(cell, status.getId()));
 
         cell.configureActions(eventListenerMap);
     }

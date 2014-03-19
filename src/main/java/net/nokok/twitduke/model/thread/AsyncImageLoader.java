@@ -12,7 +12,7 @@ import net.nokok.twitduke.view.ui.TWLabel;
 
 public class AsyncImageLoader extends Thread {
 
-    private       String            imageURLString;
+    private final String            imageURLString;
     private final IAsyncImageLoader loader;
     private final CacheUtil cacheUtil = CacheUtil.getInstance();
 

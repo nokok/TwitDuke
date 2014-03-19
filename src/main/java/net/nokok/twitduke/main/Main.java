@@ -1,16 +1,16 @@
 package net.nokok.twitduke.main;
 
 import net.nokok.twitduke.controller.MainViewController;
+import net.nokok.twitduke.model.RateLimitStatusListenerImpl;
 import net.nokok.twitduke.model.UserStreamListenerImpl;
 import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.model.thread.FileCreateWatcher;
 import net.nokok.twitduke.model.thread.IFileWatcher;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.ConnectionLifeCycleListener;
-import twitter4j.RateLimitStatusEvent;
-import twitter4j.RateLimitStatusListener;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
+import twitter4j.UserStreamListener;
 
 public class Main implements IFileWatcher {
 
@@ -58,12 +58,15 @@ public class Main implements IFileWatcher {
     private void twitterAPIWrapperInitialize() {
         twitterStream = TwitterStreamFactory.getSingleton();
         connectionLifeCycleListenerInitialize(twitterStream);
-        rateLimitListenerInitialize(twitterStream);
+        twitterStream.addRateLimitStatusListener(new RateLimitStatusListenerImpl(mainViewController));
         wrapper = Twitter4jAsyncWrapper.getInstance();
-        wrapper.setController(mainViewController);
+        wrapper.setNotificationListener(mainViewController);
+        wrapper.setCellInsertionListener(mainViewController);
+        wrapper.setReplyListener(mainViewController);
         wrapper.enableTwitterListener();
         twitterStream.setOAuthConsumer(Config.TWITTER_CONSUMER_KEY, Config.TWITTER_CONSUMER_SECRET);
-        twitterStream.addListener(new UserStreamListenerImpl(mainViewController));
+        UserStreamListener userStreamListener = userStreamListenerInitialize();
+        twitterStream.addListener(userStreamListener);
     }
 
     /**
@@ -92,22 +95,14 @@ public class Main implements IFileWatcher {
     }
 
     /**
-     * TwitterStreamに残りAPI状態を監視するリスナをセットします
-     *
-     * @param twitterStream リスナをセットするTwitterStream
+     * UserStreamListenerの初期化を行います
      */
-    private void rateLimitListenerInitialize(TwitterStream twitterStream) {
-        twitterStream.addRateLimitStatusListener(new RateLimitStatusListener() {
-            @Override
-            public void onRateLimitStatus(RateLimitStatusEvent event) {
-                mainViewController.setNotification("onRateLimitStatus:" + event.getRateLimitStatus());
-            }
-
-            @Override
-            public void onRateLimitReached(RateLimitStatusEvent event) {
-                mainViewController.setNotification("onRateLimitReached:" + event.getRateLimitStatus());
-            }
-        });
+    private UserStreamListener userStreamListenerInitialize() {
+        UserStreamListenerImpl userStreamListener = new UserStreamListenerImpl();
+        userStreamListener.setCellInsertionListener(mainViewController);
+        userStreamListener.setNotificationListener(mainViewController);
+        userStreamListener.setTweetCellUpdateListener(mainViewController);
+        return userStreamListener;
     }
 
     /**

@@ -7,7 +7,7 @@ import java.awt.LayoutManager;
 
 public class TimelineLayout implements LayoutManager {
 
-    public static final int SCROLLBAR_WIDTH = 15;
+    private static final int SCROLLBAR_WIDTH = 15;
 
     @Override
     public void addLayoutComponent(String name, Component comp) {

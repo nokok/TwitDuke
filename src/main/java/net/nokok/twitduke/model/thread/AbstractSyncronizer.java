@@ -1,20 +1,20 @@
 package net.nokok.twitduke.model.thread;
 
-public abstract class AbstractSyncronizer {
-    protected boolean isAvailable = true;
+abstract class AbstractSyncronizer {
+    private boolean isAvailable = true;
 
-    public synchronized void lock() {
+    synchronized void lock() {
         while (!isAvailable) {
             try {
                 wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (InterruptedException ignored) {
+
             }
         }
         isAvailable = false;
     }
 
-    public synchronized void unlock() {
+    synchronized void unlock() {
         isAvailable = true;
         notify();
     }

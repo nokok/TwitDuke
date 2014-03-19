@@ -4,7 +4,7 @@ import net.nokok.twitduke.view.ui.TWLabel;
 
 public interface IAsyncImageLoader {
 
-    public void imageLoading();
+    void imageLoading();
 
-    public void imageLoaded(TWLabel label);
+    void imageLoaded(TWLabel label);
 }

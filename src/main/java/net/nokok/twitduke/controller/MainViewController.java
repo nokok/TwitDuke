@@ -8,6 +8,11 @@ import net.nokok.twitduke.controller.tweetcellstatus.type.CellStatus;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.ParsingResultListener;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
+import net.nokok.twitduke.model.listener.CellInsertionListener;
+import net.nokok.twitduke.model.listener.NotificationListener;
+import net.nokok.twitduke.model.listener.ReplyListener;
+import net.nokok.twitduke.model.listener.SendTweetListener;
+import net.nokok.twitduke.model.listener.TweetCellUpdateListener;
 import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
 import net.nokok.twitduke.view.MainView;
@@ -16,14 +21,20 @@ import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.Status;
 
-public class MainViewController implements ParsingResultListener {
+public class MainViewController implements
+    NotificationListener,
+    ReplyListener,
+    CellInsertionListener,
+    TweetCellUpdateListener,
+    SendTweetListener,
+    ParsingResultListener {
 
     private Twitter4jAsyncWrapper wrapper;
     private TweetCellFactory      tweetCellFactory;
     private MainView              mainView;
 
-    private final HashMap<Long, CellStatus> cellHashMap  = new HashMap<>();
-    private       long                      selectedUser = 0;
+    private final HashMap<Long, CellStatus> cellHashMap = new HashMap<>();
+    private long selectedUser;
 
     /**
      * MainViewControllerの初期化に必要な処理を開始します
@@ -55,11 +66,12 @@ public class MainViewController implements ParsingResultListener {
      * 通知は設定した秒数後(規定値:3秒)に消えるようアニメーション処理が実行されます
      * また、通知が消える前に新たな通知が発生した場合、今表示中の通知の処理が終わり次第、次の通知が表示される。
      *
-     * @param text 表示する通知のテキスト
+     * @param notificationText 表示する通知のテキスト
      * @see net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker
      */
-    public void setNotification(String text) {
-        new NotificationBarAnimationInvoker(this, text).start();
+    @Override
+    public void setNotification(String notificationText) {
+        new NotificationBarAnimationInvoker(this, notificationText).start();
     }
 
     /**
@@ -84,38 +96,9 @@ public class MainViewController implements ParsingResultListener {
      *
      * @param screenName リプライを送信するユーザーのスクリーンネーム
      */
+    @Override
     public void setReply(String screenName) {
         mainView.setTweetText('@' + screenName + ' ');
-    }
-
-    /**
-     * ツイートセルをビューに挿入します
-     * もしスクロールバーが一番上に無ければセルの高さ分スクロールバーを移動し、
-     * セル挿入によって発生するずれを防止します。セルがもし自分へのリプライのツイートだった場合、
-     * 同じセルをメンションリストに挿入するとメインリストのセルがメンションリストに移動してしまうため
-     * セルを再生成してメンションリストへ挿入します。
-     * ただし、ツイートにRTやQTが含まれる非公式RTの場合はこのメンションリストへの挿入処理はスキップされます。
-     *
-     * @param status TweetCellを生成するステータス
-     */
-    public void insertTweetCell(final Status status) {
-        final TweetCell cell = tweetCellFactory.createTweetCell(status);
-        if (status.getUser().getId() == selectedUser) {
-            cell.setSelectState(true);
-        }
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                mainView.insertTweetCell(cell);
-                if (cell.isMention() && !isUnofficialRT(status.getText())) {
-                    mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));
-                }
-                if (!mainView.isScrollbarTop()) {
-                    mainView.shiftScrollBar(cell.getHeight() + 1);
-                }
-            }
-        });
-        cellHashMap.put(status.getId(), new CellStatus(cell, status));
     }
 
     private boolean isUnofficialRT(String tweetText) {
@@ -134,6 +117,7 @@ public class MainViewController implements ParsingResultListener {
      * ツイート送信時のView側の処理を行います
      * ラッパクラスに入力されたツイートを渡した後、テキストフィールドのテキストをクリアします
      */
+    @Override
     public void sendTweet() {
         wrapper.sendTweet(mainView.getTweetText());
         mainView.clearTextField();
@@ -164,8 +148,9 @@ public class MainViewController implements ParsingResultListener {
     /**
      * 渡されたTweetCellStatusBaseによってセルの状態を変更します
      *
-     * @param update
+     * @param update セルとIDを保持したアップデータクラス
      */
+    @Override
     public void updateTweetCellStatus(TweetCellUpdater update) {
         long id = update.id;
         switch (update.category) {
@@ -183,8 +168,6 @@ public class MainViewController implements ParsingResultListener {
                 break;
             case SELECTED:
                 highlightUserCell(id);
-                break;
-            default:
                 break;
         }
     }
@@ -205,5 +188,33 @@ public class MainViewController implements ParsingResultListener {
     @Override
     public void error() {
 
+    }
+
+    /**
+     * ツイートセルをビューに挿入します
+     * もしスクロールバーが一番上に無ければセルの高さ分スクロールバーを移動し、
+     * セル挿入によって発生するずれを防止します。セルがもし自分へのリプライのツイートだった場合、
+     * 同じセルをメンションリストに挿入するとメインリストのセルがメンションリストに移動してしまうため
+     * セルを再生成してメンションリストへ挿入します。
+     * ただし、ツイートにRTやQTが含まれる非公式RTの場合はこのメンションリストへの挿入処理はスキップされます。
+     *
+     * @param status TweetCellを生成するステータス
+     */
+    @Override
+    public void insertCell(Status status) {
+        TweetCell cell = tweetCellFactory.createTweetCell(status);
+        if (status.getUser().getId() == selectedUser) {
+            cell.setSelectState(true);
+        }
+        SwingUtilities.invokeLater(() -> {
+            mainView.insertTweetCell(cell);
+            if (cell.isMention() && !isUnofficialRT(status.getText())) {
+                mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));
+            }
+            if (!mainView.isScrollbarTop()) {
+                mainView.shiftScrollBar(cell.getHeight() + 1);
+            }
+        });
+        cellHashMap.put(status.getId(), new CellStatus(cell, status));
     }
 }

@@ -1,10 +1,12 @@
 package net.nokok.twitduke.model;
 
-import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
 import net.nokok.twitduke.controller.tweetcellstatus.UpdateCategory;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.account.AccessTokenManager;
+import net.nokok.twitduke.model.listener.CellInsertionListener;
+import net.nokok.twitduke.model.listener.NotificationListener;
+import net.nokok.twitduke.model.listener.TweetCellUpdateListener;
 import net.nokok.twitduke.util.URLUtil;
 import twitter4j.DirectMessage;
 import twitter4j.StallWarning;
@@ -16,23 +18,33 @@ import twitter4j.UserStreamListener;
 
 public class UserStreamListenerImpl implements UserStreamListener {
 
-    private final MainViewController mainViewController;
+    private NotificationListener    notificationListener;
+    private CellInsertionListener   cellInsertionListener;
+    private TweetCellUpdateListener tweetCellUpdateListener;
 
-    public UserStreamListenerImpl(MainViewController mainViewController) {
-        this.mainViewController = mainViewController;
+    public void setNotificationListener(NotificationListener notificationListener) {
+        this.notificationListener = notificationListener;
+    }
+
+    public void setCellInsertionListener(CellInsertionListener cellInsertionListener) {
+        this.cellInsertionListener = cellInsertionListener;
+    }
+
+    public void setTweetCellUpdateListener(TweetCellUpdateListener tweetCellUpdateListener) {
+        this.tweetCellUpdateListener = tweetCellUpdateListener;
     }
 
     @Override
     public void onStatus(Status status) {
         if (status.isRetweet() && isMe(status.getRetweetedStatus().getUser()) && Config.Flags.isShowRetweetNotification) {
-            mainViewController.setNotification("「" + status.getRetweetedStatus().getText() + "」が @" + status.getUser().getScreenName() + " にリツイートされました");
+            notificationListener.setNotification('「' + status.getRetweetedStatus().getText() + "」が @" + status.getUser().getScreenName() + " にリツイートされました");
         }
-        mainViewController.insertTweetCell(status);
+        cellInsertionListener.insertCell(status);
     }
 
     @Override
     public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
-        mainViewController.updateTweetCellStatus(new TweetCellUpdater(statusDeletionNotice.getStatusId(), UpdateCategory.DELETED));
+        tweetCellUpdateListener.updateTweetCellStatus(new TweetCellUpdater(statusDeletionNotice.getStatusId(), UpdateCategory.DELETED));
     }
 
     @Override
@@ -64,25 +76,25 @@ public class UserStreamListenerImpl implements UserStreamListener {
     @Override
     public void onFavorite(User source, User target, Status favoritedStatus) {
         if (isMe(source)) {
-            mainViewController.updateTweetCellStatus(new TweetCellUpdater(favoritedStatus.getId(), UpdateCategory.FAVORITED));
+            tweetCellUpdateListener.updateTweetCellStatus(new TweetCellUpdater(favoritedStatus.getId(), UpdateCategory.FAVORITED));
             return;
         }
         if (!Config.Flags.isShowFavoriteNotification) {
             return;
         }
-        mainViewController.setNotification("★" + URLUtil.extendURL(favoritedStatus) + " が @" + source.getScreenName() + " をお気に入り登録しました");
+        notificationListener.setNotification('★' + URLUtil.extendURL(favoritedStatus) + " が @" + source.getScreenName() + " をお気に入り登録しました");
     }
 
     @Override
     public void onUnfavorite(User source, User target, Status unfavoritedStatus) {
         if (isMe(source)) {
-            mainViewController.updateTweetCellStatus(new TweetCellUpdater(unfavoritedStatus.getId(), UpdateCategory.UNFAVORITED));
+            tweetCellUpdateListener.updateTweetCellStatus(new TweetCellUpdater(unfavoritedStatus.getId(), UpdateCategory.UNFAVORITED));
             return;
         }
         if (!Config.Flags.isShowFavoriteNotification) {
             return;
         }
-        mainViewController.setNotification("☆" + source.getScreenName() + "が" + URLUtil.extendURL(unfavoritedStatus) + "のお気に入り登録を解除しました");
+        notificationListener.setNotification('☆' + source.getScreenName() + 'が' + URLUtil.extendURL(unfavoritedStatus) + "のお気に入り登録を解除しました");
     }
 
     @Override
@@ -93,7 +105,7 @@ public class UserStreamListenerImpl implements UserStreamListener {
         if (!Config.Flags.isShowFollowNotification) {
             return;
         }
-        mainViewController.setNotification(source.getScreenName() + "が" + followedUser.getScreenName() + "をフォローしました");
+        notificationListener.setNotification(source.getScreenName() + 'が' + followedUser.getScreenName() + "をフォローしました");
     }
 
     @Override
@@ -153,7 +165,7 @@ public class UserStreamListenerImpl implements UserStreamListener {
 
     @Override
     public void onException(Exception ex) {
-        mainViewController.setNotification("エラーが発生しました" + ex);
+        notificationListener.setNotification("エラーが発生しました" + ex);
     }
 
     private boolean isMe(User user) {
