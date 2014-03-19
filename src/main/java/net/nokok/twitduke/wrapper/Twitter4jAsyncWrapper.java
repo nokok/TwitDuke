@@ -60,7 +60,7 @@ public class Twitter4jAsyncWrapper {
         asyncTwitter.addListener(twitterListenerImpl);
     }
 
-    public void replyTweet(StatusUpdate status) {
+    void replyTweet(StatusUpdate status) {
         asyncTwitter.updateStatus(status.inReplyToStatusId(replyId));
         replyId = 0;
     }
@@ -103,7 +103,7 @@ public class Twitter4jAsyncWrapper {
         asyncTwitter.updateStatus(text);
     }
 
-    public void sendDM(String screenName, String text) {
+    void sendDM(String screenName, String text) {
         asyncTwitter.sendDirectMessage(screenName, text);
     }
 
