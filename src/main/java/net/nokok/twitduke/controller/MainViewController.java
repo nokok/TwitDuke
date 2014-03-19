@@ -126,8 +126,8 @@ public class MainViewController implements ParserListener {
      * MainViewのツールバーにあるボタンにアクションリスナーを設定します
      */
     private void bindActionListener() {
-        mainView.setTextAreaAction(new TweetTextAreaKeyListener(this));
-
+        mainView.addTextAreaAction(new CommandKeyListenerImpl(this));
+        mainView.addTextAreaAction(new SendTweetKeyListenerImpl(this));
     }
 
     /**

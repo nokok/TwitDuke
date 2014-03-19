@@ -140,7 +140,7 @@ public class MainView extends JFrame {
      *
      * @param listener セットするキーリスナ
      */
-    public void setTextAreaAction(KeyListener listener) {
+    public void addTextAreaAction(KeyListener listener) {
         tweetTextArea.addKeyListener(listener);
     }
 

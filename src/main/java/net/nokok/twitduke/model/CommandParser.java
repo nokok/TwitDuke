@@ -1,14 +1,12 @@
 package net.nokok.twitduke.model;
 
-import net.nokok.twitduke.controller.MainViewController;
-
 public class CommandParser implements IParser {
 
-    private final MainViewController mainViewController;
+    private final ParserListener listener;
 
-    public CommandParser(MainViewController mainViewController) {
+    public CommandParser(ParserListener listener) {
 
-        this.mainViewController = mainViewController;
+        this.listener = listener;
     }
 
     @Override
