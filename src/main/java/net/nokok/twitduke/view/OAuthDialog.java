@@ -16,7 +16,6 @@ import twitter4j.auth.RequestToken;
 public class OAuthDialog extends JDialog {
 
     private final JTextField textField = new JTextField("");
-    private final JButton    okButton  = new JButton("表示されたPINを入力後クリック");
     private final AsyncTwitter       asyncTwitter;
     private final AccessTokenManager tokenManager;
 
@@ -27,6 +26,7 @@ public class OAuthDialog extends JDialog {
         setTitle("認証してください");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         add(textField, BorderLayout.NORTH);
+        JButton okButton = new JButton("表示されたPINを入力後クリック");
         add(okButton, BorderLayout.SOUTH);
 
         final RequestToken requestToken;
