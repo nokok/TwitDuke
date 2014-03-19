@@ -37,7 +37,7 @@ public class UserStreamListenerImpl implements UserStreamListener {
     @Override
     public void onStatus(Status status) {
         if (status.isRetweet() && isMe(status.getRetweetedStatus().getUser()) && Config.Flags.isShowRetweetNotification) {
-            notificationListener.setNotification("「" + status.getRetweetedStatus().getText() + "」が @" + status.getUser().getScreenName() + " にリツイートされました");
+            notificationListener.setNotification('「' + status.getRetweetedStatus().getText() + "」が @" + status.getUser().getScreenName() + " にリツイートされました");
         }
         cellInsertionListener.insertCell(status);
     }
@@ -82,7 +82,7 @@ public class UserStreamListenerImpl implements UserStreamListener {
         if (!Config.Flags.isShowFavoriteNotification) {
             return;
         }
-        notificationListener.setNotification("★" + URLUtil.extendURL(favoritedStatus) + " が @" + source.getScreenName() + " をお気に入り登録しました");
+        notificationListener.setNotification('★' + URLUtil.extendURL(favoritedStatus) + " が @" + source.getScreenName() + " をお気に入り登録しました");
     }
 
     @Override
@@ -94,7 +94,7 @@ public class UserStreamListenerImpl implements UserStreamListener {
         if (!Config.Flags.isShowFavoriteNotification) {
             return;
         }
-        notificationListener.setNotification("☆" + source.getScreenName() + "が" + URLUtil.extendURL(unfavoritedStatus) + "のお気に入り登録を解除しました");
+        notificationListener.setNotification('☆' + source.getScreenName() + 'が' + URLUtil.extendURL(unfavoritedStatus) + "のお気に入り登録を解除しました");
     }
 
     @Override
@@ -105,7 +105,7 @@ public class UserStreamListenerImpl implements UserStreamListener {
         if (!Config.Flags.isShowFollowNotification) {
             return;
         }
-        notificationListener.setNotification(source.getScreenName() + "が" + followedUser.getScreenName() + "をフォローしました");
+        notificationListener.setNotification(source.getScreenName() + 'が' + followedUser.getScreenName() + "をフォローしました");
     }
 
     @Override
