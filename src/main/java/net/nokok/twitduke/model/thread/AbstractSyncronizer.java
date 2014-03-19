@@ -7,8 +7,8 @@ abstract class AbstractSyncronizer {
         while (!isAvailable) {
             try {
                 wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (InterruptedException ignored) {
+
             }
         }
         isAvailable = false;
