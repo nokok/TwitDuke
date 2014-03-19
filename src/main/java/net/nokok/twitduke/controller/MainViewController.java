@@ -116,6 +116,7 @@ public class MainViewController implements
      * ツイート送信時のView側の処理を行います
      * ラッパクラスに入力されたツイートを渡した後、テキストフィールドのテキストをクリアします
      */
+    @Override
     public void sendTweet() {
         wrapper.sendTweet(mainView.getTweetText());
         mainView.clearTextField();
@@ -148,6 +149,7 @@ public class MainViewController implements
      *
      * @param update
      */
+    @Override
     public void updateTweetCellStatus(TweetCellUpdater update) {
         long id = update.id;
         switch (update.category) {
