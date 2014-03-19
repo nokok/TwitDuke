@@ -162,7 +162,7 @@ public class AccessTokenManager {
      * @param accessToken 書き込むアクセストークン
      * @throws java.io.IOError ファイルが見つからなかったり、ファイルがオープンできなかったりするなどの理由で処理が失敗した時にスローされます
      */
-    public void writeAccessToken(AccessToken accessToken) {
+    void writeAccessToken(AccessToken accessToken) {
         try (FileOutputStream fileOutputStream = new FileOutputStream(String.format("%s%d", Config.Path.TOKENFILE_PREFIX, accessToken.getUserId()));
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
              FileWriter writer = new FileWriter(tokenListFile, true) /*true指定で追記出来る*/) {

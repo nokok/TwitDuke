@@ -20,7 +20,7 @@ public class DateUtil {
      *
      * @return 24時間表記の時
      */
-    public static int nowHour() {
+    private static int nowHour() {
         long current = System.currentTimeMillis();
         if ((lastUpdated - current) > Config.UPDATE_INTERVAL) {
             calendar = new GregorianCalendar(Locale.JAPANESE);

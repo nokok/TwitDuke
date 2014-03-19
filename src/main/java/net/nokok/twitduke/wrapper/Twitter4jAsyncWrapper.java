@@ -1,10 +1,12 @@
 package net.nokok.twitduke.wrapper;
 
 import java.util.Random;
-import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.TwitterListenerImpl;
 import net.nokok.twitduke.model.account.AccessTokenManager;
+import net.nokok.twitduke.model.listener.CellInsertionListener;
+import net.nokok.twitduke.model.listener.NotificationListener;
+import net.nokok.twitduke.model.listener.ReplyListener;
 import net.nokok.twitduke.view.OAuthDialog;
 import twitter4j.AsyncTwitter;
 import twitter4j.AsyncTwitterFactory;
@@ -15,14 +17,16 @@ public class Twitter4jAsyncWrapper {
 
     private long replyId;
 
-    private static final AsyncTwitter       asyncTwitter = AsyncTwitterFactory.getSingleton();
-    private final        AccessTokenManager tokenManager = AccessTokenManager.getInstance();
-    private MainViewController mainViewController;
+    private static final AsyncTwitter          asyncTwitter = AsyncTwitterFactory.getSingleton();
+    private static final Twitter4jAsyncWrapper wrapper      = new Twitter4jAsyncWrapper();
 
-    private static final Twitter4jAsyncWrapper wrapper = new Twitter4jAsyncWrapper();
+    private NotificationListener  notificationListener;
+    private ReplyListener         replyListener;
+    private CellInsertionListener cellInsertionListener;
 
     private Twitter4jAsyncWrapper() {
         asyncTwitter.setOAuthConsumer(Config.TWITTER_CONSUMER_KEY, Config.TWITTER_CONSUMER_SECRET);
+        AccessTokenManager tokenManager = AccessTokenManager.getInstance();
         if (tokenManager.isTokenListExists()) {
             asyncTwitter.setOAuthAccessToken(tokenManager.readPrimaryAccount());
         } else {
@@ -36,22 +40,34 @@ public class Twitter4jAsyncWrapper {
         return wrapper;
     }
 
-    public void setController(MainViewController mainViewController) {
-        this.mainViewController = mainViewController;
+    public void setCellInsertionListener(CellInsertionListener cellInsertionListener) {
+
+        this.cellInsertionListener = cellInsertionListener;
+    }
+
+    public void setNotificationListener(NotificationListener notificationListener) {
+        this.notificationListener = notificationListener;
+    }
+
+    public void setReplyListener(ReplyListener replyListener) {
+        this.replyListener = replyListener;
     }
 
     public void enableTwitterListener() {
-        asyncTwitter.addListener(new TwitterListenerImpl(mainViewController));
+        TwitterListenerImpl twitterListenerImpl = new TwitterListenerImpl();
+        twitterListenerImpl.setCellInsertionListener(cellInsertionListener);
+        twitterListenerImpl.setNotificationListener(notificationListener);
+        asyncTwitter.addListener(twitterListenerImpl);
     }
 
-    public void replyTweet(StatusUpdate status) {
+    void replyTweet(StatusUpdate status) {
         asyncTwitter.updateStatus(status.inReplyToStatusId(replyId));
         replyId = 0;
     }
 
     public void replyPreprocess(Status status) {
         replyId = status.getId();
-        mainViewController.setReply(status.getUser().getScreenName());
+        replyListener.setReply(status.getUser().getScreenName());
     }
 
     public void favoriteTweet(long statusId) {
@@ -81,13 +97,13 @@ public class Twitter4jAsyncWrapper {
             return;
         }
         if (text.isEmpty()) {
-            mainViewController.setNotification("ツイートが空です。JavaJavaするにはツイートボタンを右クリックをして下さい。");
+            notificationListener.setNotification("ツイートが空です。JavaJavaするにはツイートボタンを右クリックをして下さい。");
             return;
         }
         asyncTwitter.updateStatus(text);
     }
 
-    public void sendDM(String screenName, String text) {
+    void sendDM(String screenName, String text) {
         asyncTwitter.sendDirectMessage(screenName, text);
     }
 

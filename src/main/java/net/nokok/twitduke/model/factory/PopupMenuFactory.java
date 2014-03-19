@@ -1,9 +1,9 @@
 package net.nokok.twitduke.model.factory;
 
 import com.google.common.base.Strings;
-import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
 import net.nokok.twitduke.controller.tweetcellstatus.UpdateCategory;
+import net.nokok.twitduke.model.listener.TweetCellUpdateListener;
 import net.nokok.twitduke.util.URLUtil;
 import net.nokok.twitduke.view.TweetPopupMenu;
 import net.nokok.twitduke.view.tweetcell.TweetCell;
@@ -16,17 +16,20 @@ import twitter4j.UserMentionEntity;
 
 class PopupMenuFactory {
 
-    private final Twitter4jAsyncWrapper wrapper;
-    private final MainViewController    mainViewController;
+    private final Twitter4jAsyncWrapper   wrapper;
+    private       TweetCellUpdateListener tweetCellUpdateListener;
 
     /**
      * PopupMenuFactoryに必要なラッパーをセットします
      *
      * @param wrapper セットするラッパ
      */
-    public PopupMenuFactory(Twitter4jAsyncWrapper wrapper, MainViewController mainViewController) {
+    public PopupMenuFactory(Twitter4jAsyncWrapper wrapper) {
         this.wrapper = wrapper;
-        this.mainViewController = mainViewController;
+    }
+
+    public void setTweetCellUpdateListener(TweetCellUpdateListener tweetCellUpdateListener) {
+        this.tweetCellUpdateListener = tweetCellUpdateListener;
     }
 
     /**
@@ -60,9 +63,9 @@ class PopupMenuFactory {
 
         popupMenu.setHighlightAction(e -> {
             if (cell.isSelected()) {
-                mainViewController.updateTweetCellStatus(new TweetCellUpdater(0, UpdateCategory.SELECTED));
+                tweetCellUpdateListener.updateTweetCellStatus(new TweetCellUpdater(0, UpdateCategory.SELECTED));
             } else {
-                mainViewController.updateTweetCellStatus(new TweetCellUpdater(status.getUser().getId(), UpdateCategory.SELECTED));
+                tweetCellUpdateListener.updateTweetCellStatus(new TweetCellUpdater(status.getUser().getId(), UpdateCategory.SELECTED));
             }
         });
 

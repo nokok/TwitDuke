@@ -1,8 +1,6 @@
 package net.nokok.twitduke.view;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
@@ -16,7 +14,6 @@ import twitter4j.auth.RequestToken;
 public class OAuthDialog extends JDialog {
 
     private final JTextField textField = new JTextField("");
-    private final JButton    okButton  = new JButton("表示されたPINを入力後クリック");
     private final AsyncTwitter       asyncTwitter;
     private final AccessTokenManager tokenManager;
 
@@ -27,20 +24,16 @@ public class OAuthDialog extends JDialog {
         setTitle("認証してください");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         add(textField, BorderLayout.NORTH);
+        JButton okButton = new JButton("表示されたPINを入力後クリック");
         add(okButton, BorderLayout.SOUTH);
 
-        final RequestToken requestToken;
+        RequestToken requestToken;
         try {
             requestToken = asyncTwitter.getOAuthRequestToken();
         } catch (TwitterException e) {
             throw new InternalError("認証中にTwitter側のエラーが発生しました" + e.getErrorMessage());
         }
-        okButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                okButtonClicked(requestToken);
-            }
-        });
+        okButton.addActionListener(e -> okButtonClicked(requestToken));
         URLUtil.openInBrowser(requestToken.getAuthenticationURL());
         pack();
     }

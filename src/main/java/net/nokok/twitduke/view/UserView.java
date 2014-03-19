@@ -16,14 +16,14 @@ import net.nokok.twitduke.view.ui.color.DefaultColor;
 
 public class UserView extends JFrame {
 
-    public static final int      USERNAME_FONT_SIZE = 15;
-    private final       TWPanel  tweetPanel         = new TWPanel();
-    private final       TWButton follow             = new TWButton("フォロー");
-    private final       TWButton sendReply          = new TWButton("リプライ");
-    private final       TWButton sendDM             = new TWButton("DM");
-    private final       TWButton block              = new TWButton("ブロック");
-    private final       TWButton reportSpam         = new TWButton("スパム報告");
-    private final       TWButton openWeb            = new TWButton("TwitterWeb");
+    private static final int      USERNAME_FONT_SIZE = 15;
+    private final        TWPanel  tweetPanel         = new TWPanel();
+    private final        TWButton follow             = new TWButton("フォロー");
+    private final        TWButton sendReply          = new TWButton("リプライ");
+    private final        TWButton sendDM             = new TWButton("DM");
+    private final        TWButton block              = new TWButton("ブロック");
+    private final        TWButton reportSpam         = new TWButton("スパム報告");
+    private final        TWButton openWeb            = new TWButton("TwitterWeb");
 
     private final TWLabel   nameLabel       = new TWLabel();
     private final TWLabel   screenNameLabel = new TWLabel();
