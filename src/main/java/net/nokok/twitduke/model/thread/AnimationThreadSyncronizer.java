@@ -2,7 +2,7 @@ package net.nokok.twitduke.model.thread;
 
 public class AnimationThreadSyncronizer extends AbstractSyncronizer {
 
-    private static AnimationThreadSyncronizer instance = new AnimationThreadSyncronizer();
+    private static final AnimationThreadSyncronizer instance = new AnimationThreadSyncronizer();
     private int threadCount;
 
     private AnimationThreadSyncronizer() {

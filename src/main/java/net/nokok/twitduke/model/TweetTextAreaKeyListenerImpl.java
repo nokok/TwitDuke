@@ -6,12 +6,11 @@ import net.nokok.twitduke.model.listener.SendTweetListener;
 import net.nokok.twitduke.util.KeyUtil;
 
 public class TweetTextAreaKeyListenerImpl extends KeyAdapter {
-    private SendTweetListener sendTweetListener;
+    private final SendTweetListener sendTweetListener;
 
     public TweetTextAreaKeyListenerImpl(SendTweetListener sendTweetListener) {
         this.sendTweetListener = sendTweetListener;
     }
-
 
     @Override
     public void keyTyped(KeyEvent e) {
