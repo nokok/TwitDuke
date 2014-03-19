@@ -12,7 +12,7 @@ import net.nokok.twitduke.view.ui.TWLabel;
  */
 public class NotificationBarAnimationInvoker extends Thread {
 
-    private AnimationThreadSyncronizer animationThreadSyncronizer;
+    private final AnimationThreadSyncronizer animationThreadSyncronizer;
 
     private final TWLabel            statusLabel;
     private final String             notificationText;
