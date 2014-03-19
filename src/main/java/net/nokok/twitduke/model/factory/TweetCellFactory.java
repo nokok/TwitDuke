@@ -2,7 +2,6 @@ package net.nokok.twitduke.model.factory;
 
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -174,20 +173,10 @@ public class TweetCellFactory {
      * @param cell   アクションリスナをセットするセル
      * @param status ツイートのステータス
      */
-    private void setCommonActionListener(final TweetCell cell, final Status status) {
+    private void setCommonActionListener(TweetCell cell, Status status) {
         Map<TweetCellAction, EventListener> eventListenerMap = new EnumMap<>(TweetCellAction.class);
-        eventListenerMap.put(TweetCellAction.FAVORITE, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                favorite(cell, status.getId());
-            }
-        });
-        eventListenerMap.put(TweetCellAction.RETWEET, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                retweet(cell, status.getId());
-            }
-        });
+        eventListenerMap.put(TweetCellAction.FAVORITE, (ActionListener) e -> favorite(cell, status.getId()));
+        eventListenerMap.put(TweetCellAction.RETWEET, (ActionListener) e -> retweet(cell, status.getId()));
 
         cell.configureActions(eventListenerMap);
     }
