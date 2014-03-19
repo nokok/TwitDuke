@@ -147,7 +147,7 @@ public class MainViewController implements
     /**
      * 渡されたTweetCellStatusBaseによってセルの状態を変更します
      *
-     * @param update
+     * @param update セルとIDを保持したアップデータクラス
      */
     @Override
     public void updateTweetCellStatus(TweetCellUpdater update) {
