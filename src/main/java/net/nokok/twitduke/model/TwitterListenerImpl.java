@@ -2,7 +2,6 @@ package net.nokok.twitduke.model;
 
 import java.util.Collections;
 import java.util.Map;
-import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.model.factory.UserViewFactory;
 import twitter4j.AccountSettings;
 import twitter4j.Category;
@@ -33,17 +32,22 @@ import twitter4j.auth.RequestToken;
 
 public class TwitterListenerImpl implements TwitterListener {
 
-    private final MainViewController mainViewController;
+    private NotificationListener  notificationListener;
+    private CellInsertionListener cellInsertionListener;
 
-    public TwitterListenerImpl(MainViewController mainViewController) {
-        this.mainViewController = mainViewController;
+    public void setNotificationListener(NotificationListener notificationListener) {
+        this.notificationListener = notificationListener;
+    }
+
+    public void setCellInsertionListener(CellInsertionListener cellInsertionListener) {
+        this.cellInsertionListener = cellInsertionListener;
     }
 
     @Override
     public void gotMentions(ResponseList<Status> statuses) {
         Collections.reverse(statuses);
         for (Status status : statuses) {
-            mainViewController.insertTweetCell(status);
+            cellInsertionListener.insertCell(status);
         }
     }
 
@@ -51,14 +55,14 @@ public class TwitterListenerImpl implements TwitterListener {
     public void gotHomeTimeline(ResponseList<Status> statuses) {
         Collections.reverse(statuses);
         for (Status status : statuses) {
-            mainViewController.insertTweetCell(status);
+            cellInsertionListener.insertCell(status);
         }
     }
 
     @Override
     public void gotUserTimeline(ResponseList<Status> statuses) {
         for (Status status : statuses) {
-            mainViewController.insertTweetCell(status);
+            cellInsertionListener.insertCell(status);
         }
     }
 
@@ -493,7 +497,7 @@ public class TwitterListenerImpl implements TwitterListener {
     public void onException(TwitterException te, TwitterMethod method) {
         String errorMessage = te.getErrorMessage();
         String exceptionString = te.toString();
-        mainViewController
+        notificationListener
             .setNotification("エラーが発生しました: " +
                                  errorMessage +
                                  ((exceptionString.length() > 100) ? (exceptionString.substring(0, 100) + "...長すぎるので省略されました") : exceptionString) +

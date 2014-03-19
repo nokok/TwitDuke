@@ -60,10 +60,16 @@ public class Main implements IFileWatcher {
         connectionLifeCycleListenerInitialize(twitterStream);
         rateLimitListenerInitialize(twitterStream);
         wrapper = Twitter4jAsyncWrapper.getInstance();
-        wrapper.setController(mainViewController);
+        wrapper.setNotificationListener(mainViewController);
+        wrapper.setCellInsertionListener(mainViewController);
+        wrapper.setReplyListener(mainViewController);
         wrapper.enableTwitterListener();
         twitterStream.setOAuthConsumer(Config.TWITTER_CONSUMER_KEY, Config.TWITTER_CONSUMER_SECRET);
-        twitterStream.addListener(new UserStreamListenerImpl(mainViewController));
+        UserStreamListenerImpl userStreamListener = new UserStreamListenerImpl();
+        userStreamListener.setCellInsertionListener(mainViewController);
+        userStreamListener.setNotificationListener(mainViewController);
+        userStreamListener.setTweetCellUpdateListener(mainViewController);
+        twitterStream.addListener(userStreamListener);
     }
 
     /**

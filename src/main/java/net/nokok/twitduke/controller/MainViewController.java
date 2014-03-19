@@ -6,6 +6,10 @@ import javax.swing.SwingUtilities;
 import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
 import net.nokok.twitduke.controller.tweetcellstatus.type.CellStatus;
 import net.nokok.twitduke.main.Config;
+import net.nokok.twitduke.model.CellInsertionListener;
+import net.nokok.twitduke.model.NotificationListener;
+import net.nokok.twitduke.model.ReplyListener;
+import net.nokok.twitduke.model.TweetCellUpdateListener;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
@@ -15,7 +19,7 @@ import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.Status;
 
-public class MainViewController {
+public class MainViewController implements NotificationListener, ReplyListener, CellInsertionListener, TweetCellUpdateListener {
 
     private Twitter4jAsyncWrapper wrapper;
     private TweetCellFactory      tweetCellFactory;
@@ -54,11 +58,12 @@ public class MainViewController {
      * 通知は設定した秒数後(規定値:3秒)に消えるようアニメーション処理が実行されます
      * また、通知が消える前に新たな通知が発生した場合、今表示中の通知の処理が終わり次第、次の通知が表示される。
      *
-     * @param text 表示する通知のテキスト
+     * @param notificationText 表示する通知のテキスト
      * @see net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker
      */
-    public void setNotification(String text) {
-        new NotificationBarAnimationInvoker(this, text).start();
+    @Override
+    public void setNotification(String notificationText) {
+        new NotificationBarAnimationInvoker(this, notificationText).start();
     }
 
     /**
@@ -83,35 +88,9 @@ public class MainViewController {
      *
      * @param screenName リプライを送信するユーザーのスクリーンネーム
      */
+    @Override
     public void setReply(String screenName) {
         mainView.setTweetText('@' + screenName + ' ');
-    }
-
-    /**
-     * ツイートセルをビューに挿入します
-     * もしスクロールバーが一番上に無ければセルの高さ分スクロールバーを移動し、
-     * セル挿入によって発生するずれを防止します。セルがもし自分へのリプライのツイートだった場合、
-     * 同じセルをメンションリストに挿入するとメインリストのセルがメンションリストに移動してしまうため
-     * セルを再生成してメンションリストへ挿入します。
-     * ただし、ツイートにRTやQTが含まれる非公式RTの場合はこのメンションリストへの挿入処理はスキップされます。
-     *
-     * @param status TweetCellを生成するステータス
-     */
-    public void insertTweetCell(Status status) {
-        final TweetCell cell = tweetCellFactory.createTweetCell(status);
-        if (status.getUser().getId() == selectedUser) {
-            cell.setSelectState(true);
-        }
-        SwingUtilities.invokeLater(() -> {
-            mainView.insertTweetCell(cell);
-            if (cell.isMention() && !isUnofficialRT(status.getText())) {
-                mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));
-            }
-            if (!mainView.isScrollbarTop()) {
-                mainView.shiftScrollBar(cell.getHeight() + 1);
-            }
-        });
-        cellHashMap.put(status.getId(), new CellStatus(cell, status));
     }
 
     private boolean isUnofficialRT(String tweetText) {
@@ -191,5 +170,33 @@ public class MainViewController {
             return cellHashMap.get(0L).tweetCell;
         }
         return cell;
+    }
+
+    /**
+     * ツイートセルをビューに挿入します
+     * もしスクロールバーが一番上に無ければセルの高さ分スクロールバーを移動し、
+     * セル挿入によって発生するずれを防止します。セルがもし自分へのリプライのツイートだった場合、
+     * 同じセルをメンションリストに挿入するとメインリストのセルがメンションリストに移動してしまうため
+     * セルを再生成してメンションリストへ挿入します。
+     * ただし、ツイートにRTやQTが含まれる非公式RTの場合はこのメンションリストへの挿入処理はスキップされます。
+     *
+     * @param status TweetCellを生成するステータス
+     */
+    @Override
+    public void insertCell(Status status) {
+        TweetCell cell = tweetCellFactory.createTweetCell(status);
+        if (status.getUser().getId() == selectedUser) {
+            cell.setSelectState(true);
+        }
+        SwingUtilities.invokeLater(() -> {
+            mainView.insertTweetCell(cell);
+            if (cell.isMention() && !isUnofficialRT(status.getText())) {
+                mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));
+            }
+            if (!mainView.isScrollbarTop()) {
+                mainView.shiftScrollBar(cell.getHeight() + 1);
+            }
+        });
+        cellHashMap.put(status.getId(), new CellStatus(cell, status));
     }
 }
