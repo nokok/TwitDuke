@@ -97,21 +97,18 @@ public class MainViewController {
      *
      * @param status TweetCellを生成するステータス
      */
-    public void insertTweetCell(final Status status) {
+    public void insertTweetCell(Status status) {
         final TweetCell cell = tweetCellFactory.createTweetCell(status);
         if (status.getUser().getId() == selectedUser) {
             cell.setSelectState(true);
         }
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                mainView.insertTweetCell(cell);
-                if (cell.isMention() && !isUnofficialRT(status.getText())) {
-                    mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));
-                }
-                if (!mainView.isScrollbarTop()) {
-                    mainView.shiftScrollBar(cell.getHeight() + 1);
-                }
+        SwingUtilities.invokeLater(() -> {
+            mainView.insertTweetCell(cell);
+            if (cell.isMention() && !isUnofficialRT(status.getText())) {
+                mainView.insertMentionTweetCell(tweetCellFactory.createTweetCell(status));
+            }
+            if (!mainView.isScrollbarTop()) {
+                mainView.shiftScrollBar(cell.getHeight() + 1);
             }
         });
         cellHashMap.put(status.getId(), new CellStatus(cell, status));
