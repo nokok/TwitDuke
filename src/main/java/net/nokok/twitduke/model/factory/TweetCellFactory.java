@@ -10,8 +10,8 @@ import java.util.EnumMap;
 import java.util.EventListener;
 import java.util.Map;
 import javax.swing.ImageIcon;
-import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.main.Config;
+import net.nokok.twitduke.model.listener.TweetCellUpdateListener;
 import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.model.thread.AsyncImageLoader;
 import net.nokok.twitduke.util.CacheUtil;
@@ -30,9 +30,10 @@ public class TweetCellFactory {
     private final PopupMenuFactory      popupMenuFactory;
     private final CacheUtil cacheUtil = CacheUtil.getInstance();
 
-    public TweetCellFactory(Twitter4jAsyncWrapper twitter, MainViewController mainViewController) {
+    public TweetCellFactory(Twitter4jAsyncWrapper twitter, TweetCellUpdateListener tweetCellUpdateListener) {
         this.twitter = twitter;
-        popupMenuFactory = new PopupMenuFactory(twitter, mainViewController);
+        popupMenuFactory = new PopupMenuFactory(twitter);
+        popupMenuFactory.setTweetCellUpdateListener(tweetCellUpdateListener);
     }
 
     /**

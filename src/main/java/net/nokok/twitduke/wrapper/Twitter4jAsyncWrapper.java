@@ -2,9 +2,9 @@ package net.nokok.twitduke.wrapper;
 
 import java.util.Random;
 import net.nokok.twitduke.main.Config;
-import net.nokok.twitduke.model.CellInsertionListener;
-import net.nokok.twitduke.model.NotificationListener;
-import net.nokok.twitduke.model.ReplyListener;
+import net.nokok.twitduke.model.listener.CellInsertionListener;
+import net.nokok.twitduke.model.listener.NotificationListener;
+import net.nokok.twitduke.model.listener.ReplyListener;
 import net.nokok.twitduke.model.TwitterListenerImpl;
 import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.view.OAuthDialog;

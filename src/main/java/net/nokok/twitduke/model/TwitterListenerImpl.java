@@ -3,6 +3,8 @@ package net.nokok.twitduke.model;
 import java.util.Collections;
 import java.util.Map;
 import net.nokok.twitduke.model.factory.UserViewFactory;
+import net.nokok.twitduke.model.listener.CellInsertionListener;
+import net.nokok.twitduke.model.listener.NotificationListener;
 import twitter4j.AccountSettings;
 import twitter4j.Category;
 import twitter4j.DirectMessage;

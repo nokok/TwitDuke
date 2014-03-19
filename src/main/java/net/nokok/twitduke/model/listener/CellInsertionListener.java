@@ -1,4 +1,4 @@
-package net.nokok.twitduke.model;
+package net.nokok.twitduke.model.listener;
 
 import twitter4j.Status;
 

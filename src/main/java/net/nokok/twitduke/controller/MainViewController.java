@@ -6,10 +6,12 @@ import javax.swing.SwingUtilities;
 import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
 import net.nokok.twitduke.controller.tweetcellstatus.type.CellStatus;
 import net.nokok.twitduke.main.Config;
-import net.nokok.twitduke.model.CellInsertionListener;
-import net.nokok.twitduke.model.NotificationListener;
-import net.nokok.twitduke.model.ReplyListener;
-import net.nokok.twitduke.model.TweetCellUpdateListener;
+import net.nokok.twitduke.model.TweetTextAreaKeyListenerImpl;
+import net.nokok.twitduke.model.listener.CellInsertionListener;
+import net.nokok.twitduke.model.listener.NotificationListener;
+import net.nokok.twitduke.model.listener.ReplyListener;
+import net.nokok.twitduke.model.listener.SendTweetListener;
+import net.nokok.twitduke.model.listener.TweetCellUpdateListener;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
@@ -19,7 +21,12 @@ import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.Status;
 
-public class MainViewController implements NotificationListener, ReplyListener, CellInsertionListener, TweetCellUpdateListener {
+public class MainViewController implements
+    NotificationListener,
+    ReplyListener,
+    CellInsertionListener,
+    TweetCellUpdateListener,
+    SendTweetListener {
 
     private Twitter4jAsyncWrapper wrapper;
     private TweetCellFactory      tweetCellFactory;
@@ -101,7 +108,7 @@ public class MainViewController implements NotificationListener, ReplyListener, 
      * MainViewのツールバーにあるボタンにアクションリスナーを設定します
      */
     private void bindActionListener() {
-        mainView.setTextAreaAction(new TweetTextAreaKeyListener(this));
+        mainView.setTextAreaAction(new TweetTextAreaKeyListenerImpl(this));
 
     }
 

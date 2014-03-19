@@ -1,15 +1,17 @@
-package net.nokok.twitduke.controller;
+package net.nokok.twitduke.model;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import net.nokok.twitduke.model.listener.SendTweetListener;
 import net.nokok.twitduke.util.KeyUtil;
 
-class TweetTextAreaKeyListener extends KeyAdapter {
-    private final MainViewController mainViewController;
+public class TweetTextAreaKeyListenerImpl extends KeyAdapter {
+    private SendTweetListener sendTweetListener;
 
-    public TweetTextAreaKeyListener(MainViewController mainViewController) {
-        this.mainViewController = mainViewController;
+    public TweetTextAreaKeyListenerImpl(SendTweetListener sendTweetListener) {
+        this.sendTweetListener = sendTweetListener;
     }
+
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -19,7 +21,7 @@ class TweetTextAreaKeyListener extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent e) {
         if (KeyUtil.isEnterAndShiftKey(e)) {
-            mainViewController.sendTweet();
+            sendTweetListener.sendTweet();
         }
     }
 
