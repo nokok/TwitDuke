@@ -8,6 +8,8 @@ import net.nokok.twitduke.controller.tweetcellstatus.type.CellStatus;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.ParsingResultListener;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
+import net.nokok.twitduke.model.impl.CommandKeyListenerImpl;
+import net.nokok.twitduke.model.impl.SendTweetKeyListenerImpl;
 import net.nokok.twitduke.model.listener.CellInsertionListener;
 import net.nokok.twitduke.model.listener.NotificationListener;
 import net.nokok.twitduke.model.listener.ReplyListener;

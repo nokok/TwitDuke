@@ -1,4 +1,4 @@
-package net.nokok.twitduke.model;
+package net.nokok.twitduke.model.impl;
 
 import net.nokok.twitduke.model.listener.NotificationListener;
 import twitter4j.RateLimitStatusEvent;

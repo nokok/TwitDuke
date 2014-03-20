@@ -1,8 +1,8 @@
 package net.nokok.twitduke.main;
 
 import net.nokok.twitduke.controller.MainViewController;
-import net.nokok.twitduke.model.RateLimitStatusListenerImpl;
-import net.nokok.twitduke.model.UserStreamListenerImpl;
+import net.nokok.twitduke.model.impl.RateLimitStatusListenerImpl;
+import net.nokok.twitduke.model.impl.UserStreamListenerImpl;
 import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.model.thread.FileCreateWatcher;
 import net.nokok.twitduke.model.thread.IFileWatcher;
