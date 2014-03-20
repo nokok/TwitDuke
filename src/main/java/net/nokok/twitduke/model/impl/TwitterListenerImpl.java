@@ -30,6 +30,7 @@ import twitter4j.User;
 import twitter4j.UserList;
 import twitter4j.api.HelpResources;
 import twitter4j.auth.AccessToken;
+import twitter4j.auth.OAuth2Token;
 import twitter4j.auth.RequestToken;
 
 public class TwitterListenerImpl implements TwitterListener {
@@ -467,6 +468,11 @@ public class TwitterListenerImpl implements TwitterListener {
 
     @Override
     public void gotOAuthAccessToken(AccessToken token) {
+
+    }
+
+    @Override
+    public void gotOAuth2Token(OAuth2Token oAuth2Token) {
 
     }
 
