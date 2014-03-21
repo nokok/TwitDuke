@@ -1,9 +1,13 @@
 package net.nokok.twitduke.main;
 
 import net.nokok.twitduke.controller.MainViewController;
-import net.nokok.twitduke.model.RateLimitStatusListenerImpl;
-import net.nokok.twitduke.model.UserStreamListenerImpl;
+import net.nokok.twitduke.model.TweetCellManager;
 import net.nokok.twitduke.model.account.AccessTokenManager;
+import net.nokok.twitduke.model.impl.NotificationListenerImpl;
+import net.nokok.twitduke.model.impl.RateLimitStatusListenerImpl;
+import net.nokok.twitduke.model.impl.UserStreamListenerImpl;
+import net.nokok.twitduke.model.listener.NotificationListener;
+import net.nokok.twitduke.model.listener.TweetCellUpdateListener;
 import net.nokok.twitduke.model.thread.FileCreateWatcher;
 import net.nokok.twitduke.model.thread.IFileWatcher;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
@@ -14,9 +18,11 @@ import twitter4j.UserStreamListener;
 
 public class Main implements IFileWatcher {
 
-    private Twitter4jAsyncWrapper wrapper;
-    private MainViewController    mainViewController;
-    private TwitterStream         twitterStream;
+    private Twitter4jAsyncWrapper   wrapper;
+    private MainViewController      mainViewController;
+    private NotificationListener    notificationListener;
+    private TwitterStream           twitterStream;
+    private TweetCellUpdateListener tweetCellUpdateListener;
 
     /**
      * TwitDukeのエントリーポイントです
@@ -35,6 +41,8 @@ public class Main implements IFileWatcher {
     private void boot() {
         readConfigFiles();
         mainViewInitialize();
+        notificationListener = new NotificationListenerImpl(mainViewController);
+        tweetCellUpdateListener = new TweetCellManager();
         twitterAPIWrapperInitialize();
         String accessTokenFilePath = AccessTokenManager.getInstance().getTokenFileListPath();
         new FileCreateWatcher(accessTokenFilePath, this).start();
@@ -58,9 +66,9 @@ public class Main implements IFileWatcher {
     private void twitterAPIWrapperInitialize() {
         twitterStream = TwitterStreamFactory.getSingleton();
         connectionLifeCycleListenerInitialize(twitterStream);
-        twitterStream.addRateLimitStatusListener(new RateLimitStatusListenerImpl(mainViewController));
+        twitterStream.addRateLimitStatusListener(new RateLimitStatusListenerImpl(notificationListener));
         wrapper = Twitter4jAsyncWrapper.getInstance();
-        wrapper.setNotificationListener(mainViewController);
+        wrapper.setNotificationListener(notificationListener);
         wrapper.setCellInsertionListener(mainViewController);
         wrapper.setReplyListener(mainViewController);
         wrapper.enableTwitterListener();
@@ -78,18 +86,18 @@ public class Main implements IFileWatcher {
         twitterStream.addConnectionLifeCycleListener(new ConnectionLifeCycleListener() {
             @Override
             public void onConnect() {
-                mainViewController.setNotification("UserStreamに接続しました");
+                notificationListener.setNotification("UserStreamに接続しました");
                 mainViewController.launchTitleAnimation();
             }
 
             @Override
             public void onDisconnect() {
-                mainViewController.setNotification("UserStreamの接続が切れました");
+                notificationListener.setNotification("UserStreamの接続が切れました");
             }
 
             @Override
             public void onCleanUp() {
-                mainViewController.setNotification("UserStream:onCleanUp");
+                notificationListener.setNotification("UserStream:onCleanUp");
             }
         });
     }
@@ -100,8 +108,8 @@ public class Main implements IFileWatcher {
     private UserStreamListener userStreamListenerInitialize() {
         UserStreamListenerImpl userStreamListener = new UserStreamListenerImpl();
         userStreamListener.setCellInsertionListener(mainViewController);
-        userStreamListener.setNotificationListener(mainViewController);
-        userStreamListener.setTweetCellUpdateListener(mainViewController);
+        userStreamListener.setNotificationListener(notificationListener);
+        userStreamListener.setTweetCellUpdateListener(tweetCellUpdateListener);
         return userStreamListener;
     }
 
@@ -120,10 +128,10 @@ public class Main implements IFileWatcher {
      * UserStreamの受信を開始します。
      */
     private void startUserStream() {
-        mainViewController.start(wrapper);
+        mainViewController.start(wrapper, notificationListener, tweetCellUpdateListener);
         twitterStream.setOAuthAccessToken(AccessTokenManager.getInstance().readPrimaryAccount());
         twitterStream.user();
-        mainViewController.setNotification("TwitDuke " + Config.VERSION);
+        notificationListener.setNotification("TwitDuke " + Config.VERSION);
     }
 
     /**
