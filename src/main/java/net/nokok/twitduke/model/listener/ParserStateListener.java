@@ -8,4 +8,8 @@ public interface ParserStateListener {
     void enabled();
 
     void disabled();
+
+    void ready();
+
+    void error();
 }

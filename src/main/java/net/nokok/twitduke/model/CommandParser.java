@@ -47,8 +47,9 @@ public class CommandParser implements IParser {
         try {
             engine.eval(script);
             resultListener.success();
+            parserStateListener.ready();
         } catch (ScriptException e) {
-            resultListener.error(e.getMessage());
+            parserStateListener.error();
         }
     }
 }

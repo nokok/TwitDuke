@@ -18,7 +18,7 @@ public class ParserStateListenerImpl implements ParserStateListener {
 
     @Override
     public void enabled() {
-        mainView.setTitle("TD >_");
+        mainView.setTitle("TD >_ [Ready]");
         mainView.clearTextField();
     }
 
@@ -26,5 +26,15 @@ public class ParserStateListenerImpl implements ParserStateListener {
     public void disabled() {
         mainView.setTitle("TwitDuke");
         mainView.clearTextField();
+    }
+
+    @Override
+    public void ready() {
+        mainView.setTitle("TD >_ [Ready]");
+    }
+
+    @Override
+    public void error() {
+        mainView.setTitle("TD >_ [Error]");
     }
 }
