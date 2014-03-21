@@ -8,6 +8,7 @@ import net.nokok.twitduke.model.ParsingResultListener;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.impl.CommandKeyListenerImpl;
 import net.nokok.twitduke.model.impl.ParserStateListenerImpl;
+import net.nokok.twitduke.model.impl.ParsingResultListenerImpl;
 import net.nokok.twitduke.model.impl.SendTweetKeyListenerImpl;
 import net.nokok.twitduke.model.listener.CellInsertionListener;
 import net.nokok.twitduke.model.listener.NotificationListener;
@@ -24,14 +25,14 @@ import twitter4j.Status;
 public class MainViewController implements
     ReplyListener,
     CellInsertionListener,
-    SendTweetListener,
-    ParsingResultListener {
+    SendTweetListener {
 
     private Twitter4jAsyncWrapper   wrapper;
     private TweetCellFactory        tweetCellFactory;
     private MainView                mainView;
     private IParser                 parser;
     private TweetCellUpdateListener updateListener;
+    private ParsingResultListener   parsingResultListener;
 
     /**
      * MainViewControllerの初期化に必要な処理を開始します
@@ -42,7 +43,8 @@ public class MainViewController implements
     public void start(Twitter4jAsyncWrapper wrapper, NotificationListener notificationListener, TweetCellUpdateListener updateListener) {
         mainView = new MainView();
         this.wrapper = wrapper;
-        parser = new CommandParser(this, new ParserStateListenerImpl(mainView));
+        parsingResultListener = new ParsingResultListenerImpl();
+        parser = new CommandParser(parsingResultListener, new ParserStateListenerImpl(mainView));
         this.updateListener = updateListener;
         tweetCellFactory = new TweetCellFactory(wrapper, updateListener);
         mainView.setVisible(true);
@@ -94,7 +96,7 @@ public class MainViewController implements
      * MainViewのツールバーにあるボタンにアクションリスナーを設定します
      */
     private void bindActionListener() {
-        mainView.addTextAreaAction(new CommandKeyListenerImpl(this, mainView.getTweetTextArea(), parser));
+        mainView.addTextAreaAction(new CommandKeyListenerImpl(parsingResultListener, mainView.getTweetTextArea(), parser));
         mainView.addTextAreaAction(new SendTweetKeyListenerImpl(this));
     }
 
@@ -113,16 +115,6 @@ public class MainViewController implements
      */
     public TWLabel getNotificationLabel() {
         return mainView.getNotificationLabel();
-    }
-
-    @Override
-    public void success() {
-
-    }
-
-    @Override
-    public void error(String errorMessage) {
-
     }
 
     /**
