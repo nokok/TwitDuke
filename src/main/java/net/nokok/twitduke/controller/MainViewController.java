@@ -184,12 +184,12 @@ public class MainViewController implements
 
     @Override
     public void success() {
-
+        setNotification("実行成功");
     }
 
     @Override
-    public void error() {
-
+    public void error(String errorMessage) {
+        setNotification(errorMessage);
     }
 
     /**

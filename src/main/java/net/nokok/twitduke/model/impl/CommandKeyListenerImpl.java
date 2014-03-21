@@ -24,6 +24,5 @@ public class CommandKeyListenerImpl extends KeyAdapter {
     @Override
     public void keyTyped(KeyEvent e) {
         IParser parser = new CommandParser(listener);
-        parser.parse("");
     }
 }

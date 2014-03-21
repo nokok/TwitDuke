@@ -7,5 +7,5 @@ package net.nokok.twitduke.model;
 public interface ParsingResultListener {
     void success();
 
-    void error();
+    void error(String errorMessage);
 }
