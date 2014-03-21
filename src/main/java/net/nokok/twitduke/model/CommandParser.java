@@ -18,7 +18,21 @@ public class CommandParser implements IParser {
 
     @Override
     public void parse(String text) {
-        run(text);
+        if (text.startsWith("TD Enable")) {
+            isAvailable = true;
+            resultListener.success();
+            return;
+        }
+        if (text.startsWith("TD Disable")) {
+            isAvailable = false;
+            resultListener.success();
+            return;
+        }
+        if (isAvailable) {
+            run(text);
+        } else {
+            resultListener.error("スクリプトが有効になっていません");
+        }
     }
 
     @Override
