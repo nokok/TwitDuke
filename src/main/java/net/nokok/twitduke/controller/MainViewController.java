@@ -111,7 +111,7 @@ public class MainViewController implements
      * MainViewのツールバーにあるボタンにアクションリスナーを設定します
      */
     private void bindActionListener() {
-        mainView.addTextAreaAction(new CommandKeyListenerImpl(this));
+        mainView.addTextAreaAction(new CommandKeyListenerImpl(this, mainView.getTweetTextArea()));
         mainView.addTextAreaAction(new SendTweetKeyListenerImpl(this));
     }
 
@@ -184,12 +184,12 @@ public class MainViewController implements
 
     @Override
     public void success() {
-        setNotification("実行成功");
+        
     }
 
     @Override
     public void error(String errorMessage) {
-        setNotification(errorMessage);
+
     }
 
     /**

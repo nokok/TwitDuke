@@ -202,4 +202,8 @@ public class MainView extends JFrame {
     public void shiftScrollBar(int value) {
         verticalScrollbar.setValue(verticalScrollbar.getValue() + value);
     }
+
+    public JTextArea getTweetTextArea() {
+        return tweetTextArea;
+    }
 }
