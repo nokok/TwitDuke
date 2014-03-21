@@ -6,4 +6,6 @@ package net.nokok.twitduke.model;
  */
 public interface IParser {
     void parse(String text);
+
+    boolean isAvailable();
 }

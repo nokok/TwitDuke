@@ -10,6 +10,8 @@ public class CommandParser implements IParser {
 
     private final ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
 
+    private boolean isAvailable;
+
     public CommandParser(ParsingResultListener resultListener) {
         this.resultListener = resultListener;
     }
@@ -17,6 +19,11 @@ public class CommandParser implements IParser {
     @Override
     public void parse(String text) {
         run(text);
+    }
+
+    @Override
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
     private void run(String script) {
