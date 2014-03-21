@@ -1,4 +1,4 @@
-package net.nokok.twitduke.model;
+package net.nokok.twitduke.model.impl;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
