@@ -18,7 +18,6 @@ import net.nokok.twitduke.model.listener.NotificationListener;
 import net.nokok.twitduke.model.listener.ReplyListener;
 import net.nokok.twitduke.model.listener.SendTweetListener;
 import net.nokok.twitduke.model.listener.TweetCellUpdateListener;
-import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
 import net.nokok.twitduke.view.MainView;
 import net.nokok.twitduke.view.tweetcell.TweetCell;
@@ -27,7 +26,6 @@ import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
 import twitter4j.Status;
 
 public class MainViewController implements
-    NotificationListener,
     ReplyListener,
     CellInsertionListener,
     TweetCellUpdateListener,
@@ -48,14 +46,14 @@ public class MainViewController implements
      * @param wrapper Twitter4jのラッパクラス
      * @see net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper
      */
-    public void start(Twitter4jAsyncWrapper wrapper) {
+    public void start(Twitter4jAsyncWrapper wrapper, NotificationListener notificationListener) {
         mainView = new MainView();
         this.wrapper = wrapper;
         parser = new CommandParser(this, new ParserStateListenerImpl(mainView));
         tweetCellFactory = new TweetCellFactory(wrapper, this);
         mainView.setVisible(true);
         bindActionListener();
-        setNotification("UserStreamに接続中です");
+        notificationListener.setNotification("UserStreamに接続中です");
         cellHashMap.put(0L, new CellStatus(new TweetCell(), null)); //デフォルトセル
     }
 
@@ -66,19 +64,6 @@ public class MainViewController implements
      */
     public void launchTitleAnimation() {
         new TitleAnimationInvoker(mainView).start();
-    }
-
-    /**
-     * MainViewのステータスバーに通知を表示します
-     * 通知は設定した秒数後(規定値:3秒)に消えるようアニメーション処理が実行されます
-     * また、通知が消える前に新たな通知が発生した場合、今表示中の通知の処理が終わり次第、次の通知が表示される。
-     *
-     * @param notificationText 表示する通知のテキスト
-     * @see net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker
-     */
-    @Override
-    public void setNotification(String notificationText) {
-        new NotificationBarAnimationInvoker(this, notificationText).start();
     }
 
     /**
