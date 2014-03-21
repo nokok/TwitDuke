@@ -170,6 +170,9 @@ public class UserStreamListenerImpl implements UserStreamListener {
 
     @Override
     public void onException(Exception ex) {
+        if (ex.getClass().equals(NullPointerException.class)) {
+            return;
+        }
         notificationListener.setNotification("エラーが発生しました" + ex);
     }
 

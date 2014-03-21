@@ -29,10 +29,10 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" exported="" name="Maven: org.twitter4j:twitter4j-core:3.0.5" level="project" />
     <orderEntry type="library" exported="" name="Maven: com.google.guava:guava:15.0" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.twitter4j:twitter4j-async:3.0.5" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.twitter4j:twitter4j-stream:3.0.5" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.twitter4j:twitter4j-async:4.0.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.twitter4j:twitter4j-core:4.0.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.twitter4j:twitter4j-stream:4.0.1" level="project" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

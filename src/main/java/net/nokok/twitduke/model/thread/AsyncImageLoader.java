@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import net.nokok.twitduke.util.CacheUtil;
-import net.nokok.twitduke.util.ImageSizeChanger;
+import net.nokok.twitduke.util.ImageUtil;
 import net.nokok.twitduke.util.URLUtil;
 import net.nokok.twitduke.view.ImageView;
 import net.nokok.twitduke.view.ui.TWLabel;
@@ -27,7 +27,7 @@ public class AsyncImageLoader extends Thread {
         TWLabel label = (TWLabel) cacheUtil.get(imageURLString);
         if (label == null) {
             final URL imageURL = URLUtil.createURL(imageURLString);
-            label = new TWLabel(ImageSizeChanger.createThumbnail(new ImageIcon(imageURL)));
+            label = new TWLabel(ImageUtil.createThumbnail(new ImageIcon(imageURL)));
             label.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
