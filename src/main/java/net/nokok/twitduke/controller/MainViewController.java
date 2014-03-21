@@ -40,7 +40,9 @@ public class MainViewController implements
      * @param wrapper Twitter4jのラッパクラス
      * @see net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper
      */
-    public void start(Twitter4jAsyncWrapper wrapper, NotificationListener notificationListener, TweetCellUpdateListener updateListener) {
+    public void start(Twitter4jAsyncWrapper wrapper,
+                      NotificationListener notificationListener,
+                      TweetCellUpdateListener updateListener) {
         mainView = new MainView();
         this.wrapper = wrapper;
         parsingResultListener = new ParsingResultListenerImpl();
