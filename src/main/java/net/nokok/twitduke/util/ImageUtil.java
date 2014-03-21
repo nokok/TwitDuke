@@ -7,7 +7,7 @@ import net.nokok.twitduke.main.Config;
 /**
  * このクラスは画像サイズを変更する機能を提供します
  */
-public class ImageSizeChanger {
+public class ImageUtil {
 
     /**
      * サムネイルに適したサイズ(横256px)の画像を生成します。
