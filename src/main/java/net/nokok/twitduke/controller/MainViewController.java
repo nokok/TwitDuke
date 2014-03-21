@@ -6,9 +6,12 @@ import javax.swing.SwingUtilities;
 import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
 import net.nokok.twitduke.controller.tweetcellstatus.type.CellStatus;
 import net.nokok.twitduke.main.Config;
+import net.nokok.twitduke.model.CommandParser;
+import net.nokok.twitduke.model.IParser;
 import net.nokok.twitduke.model.ParsingResultListener;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.impl.CommandKeyListenerImpl;
+import net.nokok.twitduke.model.impl.ParserStateListenerImpl;
 import net.nokok.twitduke.model.impl.SendTweetKeyListenerImpl;
 import net.nokok.twitduke.model.listener.CellInsertionListener;
 import net.nokok.twitduke.model.listener.NotificationListener;
@@ -34,6 +37,7 @@ public class MainViewController implements
     private Twitter4jAsyncWrapper wrapper;
     private TweetCellFactory      tweetCellFactory;
     private MainView              mainView;
+    private IParser               parser;
 
     private final HashMap<Long, CellStatus> cellHashMap = new HashMap<>();
     private long selectedUser;
@@ -47,6 +51,7 @@ public class MainViewController implements
     public void start(Twitter4jAsyncWrapper wrapper) {
         mainView = new MainView();
         this.wrapper = wrapper;
+        parser = new CommandParser(this, new ParserStateListenerImpl(mainView));
         tweetCellFactory = new TweetCellFactory(wrapper, this);
         mainView.setVisible(true);
         bindActionListener();
@@ -111,7 +116,7 @@ public class MainViewController implements
      * MainViewのツールバーにあるボタンにアクションリスナーを設定します
      */
     private void bindActionListener() {
-        mainView.addTextAreaAction(new CommandKeyListenerImpl(this, mainView.getTweetTextArea()));
+        mainView.addTextAreaAction(new CommandKeyListenerImpl(this, mainView.getTweetTextArea(), parser));
         mainView.addTextAreaAction(new SendTweetKeyListenerImpl(this));
     }
 
@@ -184,7 +189,7 @@ public class MainViewController implements
 
     @Override
     public void success() {
-        
+
     }
 
     @Override
