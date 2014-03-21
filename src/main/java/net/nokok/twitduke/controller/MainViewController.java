@@ -1,10 +1,6 @@
 package net.nokok.twitduke.controller;
 
-import java.util.HashMap;
-import java.util.Map;
 import javax.swing.SwingUtilities;
-import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
-import net.nokok.twitduke.controller.tweetcellstatus.type.CellStatus;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.CommandParser;
 import net.nokok.twitduke.model.IParser;
@@ -28,17 +24,14 @@ import twitter4j.Status;
 public class MainViewController implements
     ReplyListener,
     CellInsertionListener,
-    TweetCellUpdateListener,
     SendTweetListener,
     ParsingResultListener {
 
-    private Twitter4jAsyncWrapper wrapper;
-    private TweetCellFactory      tweetCellFactory;
-    private MainView              mainView;
-    private IParser               parser;
-
-    private final HashMap<Long, CellStatus> cellHashMap = new HashMap<>();
-    private long selectedUser;
+    private Twitter4jAsyncWrapper   wrapper;
+    private TweetCellFactory        tweetCellFactory;
+    private MainView                mainView;
+    private IParser                 parser;
+    private TweetCellUpdateListener updateListener;
 
     /**
      * MainViewControllerの初期化に必要な処理を開始します
@@ -46,15 +39,15 @@ public class MainViewController implements
      * @param wrapper Twitter4jのラッパクラス
      * @see net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper
      */
-    public void start(Twitter4jAsyncWrapper wrapper, NotificationListener notificationListener) {
+    public void start(Twitter4jAsyncWrapper wrapper, NotificationListener notificationListener, TweetCellUpdateListener updateListener) {
         mainView = new MainView();
         this.wrapper = wrapper;
         parser = new CommandParser(this, new ParserStateListenerImpl(mainView));
-        tweetCellFactory = new TweetCellFactory(wrapper, this);
+        this.updateListener = updateListener;
+        tweetCellFactory = new TweetCellFactory(wrapper, updateListener);
         mainView.setVisible(true);
         bindActionListener();
         notificationListener.setNotification("UserStreamに接続中です");
-        cellHashMap.put(0L, new CellStatus(new TweetCell(), null)); //デフォルトセル
     }
 
     /**
@@ -122,56 +115,6 @@ public class MainViewController implements
         return mainView.getNotificationLabel();
     }
 
-    /**
-     * 指定されたユーザーIDのセルをハイライトします
-     */
-    private void highlightUserCell(long userId) {
-        selectedUser = userId;
-        for (Map.Entry<Long, CellStatus> cellEntry : cellHashMap.entrySet()) {
-            if (cellEntry.getValue().status == null) {
-                continue;
-            }
-            long cellUserId = cellEntry.getValue().status.getUser().getId();
-            TweetCell cell = cellEntry.getValue().tweetCell;
-            cell.setSelectState(cellUserId == userId);
-        }
-    }
-
-    /**
-     * 渡されたTweetCellStatusBaseによってセルの状態を変更します
-     *
-     * @param update セルとIDを保持したアップデータクラス
-     */
-    @Override
-    public void updateTweetCellStatus(TweetCellUpdater update) {
-        long id = update.id;
-        switch (update.category) {
-            case FAVORITED:
-                searchTweetCell(id).setFavoriteState(true);
-                break;
-            case UNFAVORITED:
-                searchTweetCell(id).setFavoriteState(false);
-                break;
-            case RETWEETED:
-                searchTweetCell(id).setRetweetState(true);
-                break;
-            case DELETED:
-                searchTweetCell(id).setDeleted();
-                break;
-            case SELECTED:
-                highlightUserCell(id);
-                break;
-        }
-    }
-
-    private TweetCell searchTweetCell(long id) {
-        TweetCell cell = cellHashMap.get(id).tweetCell;
-        if (cell == null) {
-            return cellHashMap.get(0L).tweetCell;
-        }
-        return cell;
-    }
-
     @Override
     public void success() {
 
@@ -195,9 +138,6 @@ public class MainViewController implements
     @Override
     public void insertCell(Status status) {
         TweetCell cell = tweetCellFactory.createTweetCell(status);
-        if (status.getUser().getId() == selectedUser) {
-            cell.setSelectState(true);
-        }
         SwingUtilities.invokeLater(() -> {
             mainView.insertTweetCell(cell);
             if (cell.isMention() && !isUnofficialRT(status.getText())) {
@@ -207,6 +147,6 @@ public class MainViewController implements
                 mainView.shiftScrollBar(cell.getHeight() + 1);
             }
         });
-        cellHashMap.put(status.getId(), new CellStatus(cell, status));
+        updateListener.set(cell, status);
     }
 }

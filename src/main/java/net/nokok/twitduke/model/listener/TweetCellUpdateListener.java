@@ -1,6 +1,8 @@
 package net.nokok.twitduke.model.listener;
 
 import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
+import net.nokok.twitduke.view.tweetcell.TweetCell;
+import twitter4j.Status;
 
 /**
  * MIT License. http://opensource.org/licenses/mit-license.php
@@ -8,4 +10,6 @@ import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
  */
 public interface TweetCellUpdateListener {
     void updateTweetCellStatus(TweetCellUpdater updater);
+
+    void set(TweetCell cell, Status status);
 }
