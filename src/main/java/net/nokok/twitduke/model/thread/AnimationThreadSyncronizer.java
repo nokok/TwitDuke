@@ -20,7 +20,7 @@ public class AnimationThreadSyncronizer extends AbstractSyncronizer {
 
     @Override
     public void lock() {
-        logger.info("ロックを開始します");
+        logger.debug("ロックを開始します");
 
         threadCount++;
         super.lock();
@@ -28,7 +28,7 @@ public class AnimationThreadSyncronizer extends AbstractSyncronizer {
 
     @Override
     public void unlock() {
-        logger.info("ロック解除されます");
+        logger.debug("ロック解除されます");
 
         threadCount--;
         super.unlock();

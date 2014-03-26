@@ -37,14 +37,14 @@ public class ParserStateListenerImpl implements ParserStateListener {
 
     @Override
     public void ready() {
-        logger.info("スクリプトは実行可能です");
+        logger.debug("スクリプトは実行可能です");
 
         mainView.setTitle("TD >_ [Ready]");
     }
 
     @Override
     public void error() {
-        logger.error("スクリプトにエラーが発生しています");
+        logger.debug("スクリプトにエラーが発生しています");
 
         mainView.setTitle("TD >_ [Error]");
     }

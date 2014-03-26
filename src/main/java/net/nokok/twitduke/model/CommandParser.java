@@ -43,7 +43,7 @@ public class CommandParser implements IParser {
             run(text);
         } else {
             String message = "スクリプトが有効になっていません";
-            logger.error(message);
+            logger.debug(message);
 
             resultListener.error(message);
         }
@@ -60,7 +60,7 @@ public class CommandParser implements IParser {
             resultListener.success();
             parserStateListener.ready();
         } catch (ScriptException e) {
-            logger.error("スクリプトにエラーが発生しています", e);
+            logger.debug("スクリプトにエラーが発生しています", e);
 
             parserStateListener.error();
         }
