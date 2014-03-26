@@ -20,7 +20,7 @@ import twitter4j.UserStreamListener;
 
 public class Main implements IFileWatcher {
 
-    public static final Log logger = LogFactory.getLog("net.nokok.twitduke");
+    public static final Log logger = LogFactory.getLog(Config.LOG_NAME);
 
     private Twitter4jAsyncWrapper   wrapper;
     private MainViewController      mainViewController;
