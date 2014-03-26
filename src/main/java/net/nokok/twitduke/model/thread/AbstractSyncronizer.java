@@ -1,5 +1,7 @@
 package net.nokok.twitduke.model.thread;
 
+import org.apache.commons.logging.LogFactory;
+
 abstract class AbstractSyncronizer {
     private boolean isAvailable = true;
 
@@ -8,7 +10,7 @@ abstract class AbstractSyncronizer {
             try {
                 wait();
             } catch (InterruptedException ignored) {
-
+                LogFactory.getLog(AbstractSyncronizer.class).debug("割り込みが発生しました", ignored);
             }
         }
         isAvailable = false;

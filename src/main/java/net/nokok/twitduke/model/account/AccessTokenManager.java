@@ -16,12 +16,16 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import net.nokok.twitduke.main.Config;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import twitter4j.auth.AccessToken;
 
 public class AccessTokenManager {
 
     private boolean     isLoaded;
     private SimpleToken primaryUser;
+
+    private final Log logger = LogFactory.getLog(AccessTokenManager.class);
 
     private static final AccessTokenManager INSTANCE = new AccessTokenManager();
 
@@ -36,8 +40,12 @@ public class AccessTokenManager {
      */
     private AccessTokenManager() {
         if (!isTokenListExists()) {
+            logger.info("アクセストークンリストが存在しません");
+
             return;
         }
+        logger.debug("アクセストークンリストが存在します");
+
         readTokenList();
     }
 
@@ -49,6 +57,8 @@ public class AccessTokenManager {
      * @param accessToken 保存するアクセストークン
      */
     public void createPrimaryAccount(AccessToken accessToken) {
+        logger.debug("プライマリアカウントを作成します");
+
         createTokenDirectory();
         writeAccessToken(accessToken);
     }
@@ -57,9 +67,18 @@ public class AccessTokenManager {
      * カレントディレクトリにauthディレクトリを作成します
      */
     private void createTokenDirectory() {
+        logger.debug("authディレクトリを作成します");
+
         File authDirectory = new File(Config.Path.AUTH_DIRECTORY);
         if (!authDirectory.exists()) {
-            authDirectory.mkdir();
+            boolean result = authDirectory.mkdir();
+
+            if (result) {
+                logger.debug("authディレクトリの作成に成功しました");
+            } else {
+                logger.warn("authディレクトリの作成に失敗しました");
+            }
+
         }
     }
 
@@ -73,18 +92,26 @@ public class AccessTokenManager {
     }
 
     /**
-     * トークンリストを読み込んでtokenListに追加します
-     * トークンリストが無い場合にこのメソッドが呼び出されるとIOErrorが投げられます
+     * アクセストークンリストを読み込んでtokenListに追加します
+     * アクセストークンリストが無い場合にこのメソッドが呼び出されるとIOErrorが投げられます
      *
      * @throws java.io.IOError
      */
     void readTokenList() {
+        logger.info("アクセストークンリストを読み込みます");
+
         if (!isTokenListExists()) {
-            throw new IOError(new FileNotFoundException("トークンリストファイルが見つかりません"));
+            String message = "アクセストークンリストファイルが見つかりません";
+
+            logger.error(message);
+
+            throw new IOError(new FileNotFoundException(message));
         }
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(tokenListFile))) {
             String readLine;
             while ((readLine = bufferedReader.readLine()) != null) {
+                logger.trace(readLine);
+
                 Iterator<String> iteratableTokenList = Splitter.on(',').trimResults().omitEmptyStrings().split(readLine).iterator();
                 String userName = iteratableTokenList.next();
                 long userId = Longs.tryParse(iteratableTokenList.next());
@@ -93,12 +120,15 @@ public class AccessTokenManager {
             primaryUser = simpleTokenList.get(0);
             isLoaded = primaryUser != null;
         } catch (IOException e) {
-            throw new InternalError("トークんリストの読み込み中にエラーが発生しました");
+            String message = "アクセストークンリストの読み込み中にエラーが発生しました";
+            logger.fatal(message, e);
+
+            throw new InternalError(message);
         }
     }
 
     /**
-     * TwitDukeのカレントディレクトリのauthディレクトリ内にトークンリストが存在するかどうか返します
+     * TwitDukeのカレントディレクトリのauthディレクトリ内にアクセストークンリストが存在するかどうか返します
      *
      * @return 存在する場合true
      */
@@ -107,7 +137,7 @@ public class AccessTokenManager {
     }
 
     /**
-     * @return トークンリストファイルの絶対パス
+     * @return アクセストークンリストファイルの絶対パス
      */
     public String getTokenFileListPath() {
         return tokenListFile.getPath();
@@ -120,10 +150,35 @@ public class AccessTokenManager {
      * @return 読み込まれたAccessToken
      */
     public AccessToken readPrimaryAccount() {
-        if (!isLoaded) {
-            readTokenList();
-        } else if (primaryUser == null) {
-            throw new IllegalStateException("認証が完了していません");
+        logger.info("プライマリアカウントのアクセストークンを取得します");
+
+        if (isLoaded) {
+            int index = 0;
+            SimpleToken user = simpleTokenList.get(index);
+            AccessToken accessToken = user.getAccessToken();
+            if (accessToken == null) {
+                logger.debug("アクセストークンを1度もディスクから読み込んでいないようです");
+
+                AccessToken token = readAccessToken(user.getUserId());
+                simpleTokenList.set(index, new SimpleToken(token));
+                return token;
+            } else {
+                logger.debug("キャッシュから読み込みました");
+
+                return accessToken;
+            }
+        }
+
+        logger.info("プライマリアカウントのアクセストークンがまだ読み込まれていません");
+
+        readTokenList();
+
+        if (primaryUser == null) {
+            String message = "認証が完了していません";
+            Throwable e = new IllegalArgumentException(message);
+            logger.error(message, e);
+
+            throw new IllegalArgumentException(e.getCause());
         }
         return readAccessToken(primaryUser.getUserId());
     }
@@ -133,7 +188,10 @@ public class AccessTokenManager {
      */
     public String getUserName() {
         if (primaryUser == null) {
-            throw new IllegalStateException("認証が完了していません");
+            String message = "認証が完了していません";
+            logger.error(message);
+
+            throw new IllegalStateException(message);
         }
         return primaryUser.getScreenName();
     }
@@ -145,24 +203,30 @@ public class AccessTokenManager {
      * @return 読み込まれたAccessToken
      */
     AccessToken readAccessToken(long id) {
+        logger.info(id + "のトークンファイルを読み込みます");
+
         try (FileInputStream fileInputStream = new FileInputStream(String.format("%s%d", Config.Path.TOKENFILE_PREFIX, id));
              ObjectInputStream stream = new ObjectInputStream(fileInputStream)) {
 
             return (AccessToken) stream.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            throw new IOError(e.getCause());
+            String message = "アクセストークンの読み込み中にエラーが発生しました";
+            logger.error(message, e);
+
+            throw new IOError(new IOException(message, e));
         }
     }
 
     /**
      * 渡されたアクセストークンをディスクに書き込みます
-     * アクセストークンのスクリーンネームとIDがトークンリストにコンマ区切りで追記され、
+     * アクセストークンのスクリーンネームとIDがアクセストークンリストにコンマ区切りで追記され、
      * 渡されたアクセストークンのオブジェクトを「token_ユーザーID」というファイル名でauthディレクトリ以下に書き込みます
      *
      * @param accessToken 書き込むアクセストークン
      * @throws java.io.IOError ファイルが見つからなかったり、ファイルがオープンできなかったりするなどの理由で処理が失敗した時にスローされます
      */
     void writeAccessToken(AccessToken accessToken) {
+        logger.info(accessToken.getUserId() + "のトークンファイルを書き込みます");
         try (FileOutputStream fileOutputStream = new FileOutputStream(String.format("%s%d", Config.Path.TOKENFILE_PREFIX, accessToken.getUserId()));
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
              FileWriter writer = new FileWriter(tokenListFile, true) /*true指定で追記出来る*/) {
@@ -170,11 +234,22 @@ public class AccessTokenManager {
             writer.write(accessToken.getScreenName() + ',' + accessToken.getUserId() + '\n');
             objectOutputStream.writeObject(accessToken);
         } catch (IOException e) {
-            throw new IOError(e.getCause());
+            String message = "アクセストークンの書き込み中にエラーが発生しました";
+            logger.error(message, e);
+
+            throw new IOError(new IOException(message, e));
         }
     }
 
     public void removeAccessToken(long id) {
-        new File(String.format("%s%d", Config.Path.TOKENFILE_PREFIX, id)).delete();
+        logger.info(id + "のアクセストークンファイルを削除します");
+
+        boolean result = new File(String.format("%s%d", Config.Path.TOKENFILE_PREFIX, id)).delete();
+
+        if (result) {
+            logger.info("アクセストークンファイルの削除に成功しました");
+        } else {
+            logger.error("アクセストークンファイルの削除に失敗しました");
+        }
     }
 }

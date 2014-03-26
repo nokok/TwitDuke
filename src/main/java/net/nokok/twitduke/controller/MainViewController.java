@@ -4,7 +4,7 @@ import javax.swing.SwingUtilities;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.CommandParser;
 import net.nokok.twitduke.model.IParser;
-import net.nokok.twitduke.model.ParsingResultListener;
+import net.nokok.twitduke.model.listener.ParsingResultListener;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.impl.CommandKeyListenerImpl;
 import net.nokok.twitduke.model.impl.ParserStateListenerImpl;
@@ -20,12 +20,16 @@ import net.nokok.twitduke.view.MainView;
 import net.nokok.twitduke.view.tweetcell.TweetCell;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import twitter4j.Status;
 
 public class MainViewController implements
     ReplyListener,
     CellInsertionListener,
     SendTweetListener {
+
+    private final Log logger = LogFactory.getLog(MainViewController.class);
 
     private Twitter4jAsyncWrapper   wrapper;
     private TweetCellFactory        tweetCellFactory;
@@ -43,6 +47,8 @@ public class MainViewController implements
     public void start(Twitter4jAsyncWrapper wrapper,
                       NotificationListener notificationListener,
                       TweetCellUpdateListener updateListener) {
+        logger.info("MainViewControllerの初期化を開始します");
+
         mainView = new MainView();
         this.wrapper = wrapper;
         parsingResultListener = new ParsingResultListenerImpl();
@@ -60,6 +66,8 @@ public class MainViewController implements
      * @see net.nokok.twitduke.model.thread.TitleAnimationInvoker
      */
     public void launchTitleAnimation() {
+        logger.trace("タイトルバーのアニメーションスレッドを開始します");
+
         new TitleAnimationInvoker(mainView).start();
     }
 
@@ -87,6 +95,8 @@ public class MainViewController implements
      */
     @Override
     public void setReply(String screenName) {
+        logger.debug(screenName + "がセットされました");
+
         mainView.setTweetText('@' + screenName + ' ');
     }
 
@@ -98,6 +108,8 @@ public class MainViewController implements
      * MainViewのツールバーにあるボタンにアクションリスナーを設定します
      */
     private void bindActionListener() {
+        logger.trace("アクションリスナーをセットします");
+
         mainView.addTextAreaAction(new CommandKeyListenerImpl(parsingResultListener, mainView.getTweetTextArea(), parser));
         mainView.addTextAreaAction(new SendTweetKeyListenerImpl(this));
     }
@@ -108,6 +120,8 @@ public class MainViewController implements
      */
     @Override
     public void sendTweet() {
+        logger.info("ツイートを送信します");
+
         wrapper.sendTweet(mainView.getTweetText());
         mainView.clearTextField();
     }
@@ -131,6 +145,11 @@ public class MainViewController implements
      */
     @Override
     public void insertCell(Status status) {
+
+        if (logger.isTraceEnabled()) {
+            logger.trace("セルを挿入します");
+        }
+
         TweetCell cell = tweetCellFactory.createTweetCell(status);
         SwingUtilities.invokeLater(() -> {
             mainView.insertTweetCell(cell);
@@ -140,7 +159,14 @@ public class MainViewController implements
             if (!mainView.isScrollbarTop()) {
                 mainView.shiftScrollBar(cell.getHeight() + 1);
             }
+
+            if (logger.isTraceEnabled()) {
+                logger.trace("セルが挿入されました");
+            }
+
         });
         updateListener.set(cell, status);
+
+        logger.trace("セルがリスナーにセットされました");
     }
 }

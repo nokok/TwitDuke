@@ -4,7 +4,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JTextArea;
 import net.nokok.twitduke.model.IParser;
-import net.nokok.twitduke.model.ParsingResultListener;
+import net.nokok.twitduke.model.listener.ParsingResultListener;
 
 public class CommandKeyListenerImpl extends KeyAdapter {
     private       ParsingResultListener listener;

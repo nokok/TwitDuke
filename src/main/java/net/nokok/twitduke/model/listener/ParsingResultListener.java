@@ -1,4 +1,4 @@
-package net.nokok.twitduke.model;
+package net.nokok.twitduke.model.listener;
 
 /**
  * MIT License. http://opensource.org/licenses/mit-license.php

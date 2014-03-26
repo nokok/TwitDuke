@@ -2,11 +2,13 @@ package net.nokok.twitduke.model;
 
 import java.util.HashMap;
 import java.util.Map;
-import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
-import net.nokok.twitduke.controller.tweetcellstatus.UpdateCategory;
-import net.nokok.twitduke.controller.tweetcellstatus.type.CellStatus;
+import net.nokok.twitduke.model.type.TweetCellUpdater;
+import net.nokok.twitduke.model.type.UpdateCategory;
+import net.nokok.twitduke.model.type.CellStatus;
 import net.nokok.twitduke.model.listener.TweetCellUpdateListener;
 import net.nokok.twitduke.view.tweetcell.TweetCell;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import twitter4j.Status;
 
 /**
@@ -15,6 +17,7 @@ import twitter4j.Status;
  */
 public class TweetCellManager implements TweetCellUpdateListener {
 
+    private final Log                       logger      = LogFactory.getLog(TweetCellManager.class);
     private final HashMap<Long, CellStatus> cellHashMap = new HashMap<>();
     private long selectedUser;
 
@@ -33,6 +36,7 @@ public class TweetCellManager implements TweetCellUpdateListener {
 
     @Override
     public void updateTweetCellStatus(TweetCellUpdater update) {
+        logger.debug("ツイートセルの状態を変更します:" + update);
         long id = update.id;
         switch (update.category) {
             case FAVORITED:
@@ -56,6 +60,8 @@ public class TweetCellManager implements TweetCellUpdateListener {
     private TweetCell searchTweetCell(long id) {
         TweetCell cell = cellHashMap.get(id).tweetCell;
         if (cell == null) {
+            logger.error("TwitDukeで管理していないステータスIDを持ったセルが検索されました");
+
             return cellHashMap.get(0L).tweetCell;
         }
         return cell;

@@ -1,8 +1,8 @@
 package net.nokok.twitduke.model.factory;
 
 import com.google.common.base.Strings;
-import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
-import net.nokok.twitduke.controller.tweetcellstatus.UpdateCategory;
+import net.nokok.twitduke.model.type.TweetCellUpdater;
+import net.nokok.twitduke.model.type.UpdateCategory;
 import net.nokok.twitduke.model.listener.TweetCellUpdateListener;
 import net.nokok.twitduke.util.URLUtil;
 import net.nokok.twitduke.view.TweetPopupMenu;
