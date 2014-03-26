@@ -4,9 +4,12 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import net.nokok.twitduke.model.listener.ParserStateListener;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class CommandParser implements IParser {
 
+    private final Log logger = LogFactory.getLog(CommandParser.class);
     private final ParsingResultListener resultListener;
     private final ParserStateListener   parserStateListener;
 
@@ -22,11 +25,15 @@ public class CommandParser implements IParser {
     @Override
     public void parse(String text) {
         if (text.startsWith("TD Enable")) {
+            logger.info("スクリプトを有効化します");
+
             isAvailable = true;
             parserStateListener.enabled();
             return;
         }
         if (text.startsWith("TD Disable")) {
+            logger.info("スクリプトを無効化します");
+
             isAvailable = false;
             parserStateListener.disabled();
             return;
@@ -34,7 +41,10 @@ public class CommandParser implements IParser {
         if (isAvailable) {
             run(text);
         } else {
-            resultListener.error("スクリプトが有効になっていません");
+            String message = "スクリプトが有効になっていません";
+            logger.error(message);
+
+            resultListener.error(message);
         }
     }
 
@@ -49,6 +59,8 @@ public class CommandParser implements IParser {
             resultListener.success();
             parserStateListener.ready();
         } catch (ScriptException e) {
+            logger.error("スクリプトにエラーが発生しています", e);
+
             parserStateListener.error();
         }
     }

@@ -5,6 +5,8 @@ import net.nokok.twitduke.controller.MainViewController;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.util.ThreadUtil;
 import net.nokok.twitduke.view.ui.TWLabel;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -12,6 +14,7 @@ import net.nokok.twitduke.view.ui.TWLabel;
  */
 public class NotificationBarAnimationInvoker extends Thread {
 
+    private final Log logger = LogFactory.getLog(NotificationBarAnimationInvoker.class);
     private final AnimationThreadSyncronizer animationThreadSyncronizer;
 
     private final TWLabel            statusLabel;
@@ -40,6 +43,8 @@ public class NotificationBarAnimationInvoker extends Thread {
         if (waitingThread < Config.ANIMATION_THREAD_CAPACITY) {
             wait = Config.AnimationWait.NOTIFICATION;
         } else {
+            logger.debug("待機中の通知表示スレッド数が規定値を超えています");
+
             wait = Config.AnimationWait.FAST_NOTIFICATION;
         }
         ThreadUtil.sleep(this, wait);
