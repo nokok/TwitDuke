@@ -1,4 +1,4 @@
-package net.nokok.twitduke.model;
+package net.nokok.twitduke.model.impl;
 
 import java.util.Collections;
 import java.util.Map;

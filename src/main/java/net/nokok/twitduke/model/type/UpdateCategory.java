@@ -1,4 +1,4 @@
-package net.nokok.twitduke.controller.tweetcellstatus;
+package net.nokok.twitduke.model.type;
 
 public enum UpdateCategory {
     FAVORITED,

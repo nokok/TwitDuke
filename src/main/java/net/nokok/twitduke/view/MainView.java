@@ -140,7 +140,7 @@ public class MainView extends JFrame {
      *
      * @param listener セットするキーリスナ
      */
-    public void setTextAreaAction(KeyListener listener) {
+    public void addTextAreaAction(KeyListener listener) {
         tweetTextArea.addKeyListener(listener);
     }
 
@@ -201,5 +201,9 @@ public class MainView extends JFrame {
 
     public void shiftScrollBar(int value) {
         verticalScrollbar.setValue(verticalScrollbar.getValue() + value);
+    }
+
+    public JTextArea getTweetTextArea() {
+        return tweetTextArea;
     }
 }

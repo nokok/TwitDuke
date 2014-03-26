@@ -1,39 +1,42 @@
 package net.nokok.twitduke.controller;
 
-import java.util.HashMap;
-import java.util.Map;
 import javax.swing.SwingUtilities;
-import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
-import net.nokok.twitduke.controller.tweetcellstatus.type.CellStatus;
 import net.nokok.twitduke.main.Config;
-import net.nokok.twitduke.model.TweetTextAreaKeyListenerImpl;
+import net.nokok.twitduke.model.CommandParser;
+import net.nokok.twitduke.model.IParser;
+import net.nokok.twitduke.model.listener.ParsingResultListener;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
+import net.nokok.twitduke.model.impl.CommandKeyListenerImpl;
+import net.nokok.twitduke.model.impl.ParserStateListenerImpl;
+import net.nokok.twitduke.model.impl.ParsingResultListenerImpl;
+import net.nokok.twitduke.model.impl.SendTweetKeyListenerImpl;
 import net.nokok.twitduke.model.listener.CellInsertionListener;
 import net.nokok.twitduke.model.listener.NotificationListener;
 import net.nokok.twitduke.model.listener.ReplyListener;
 import net.nokok.twitduke.model.listener.SendTweetListener;
 import net.nokok.twitduke.model.listener.TweetCellUpdateListener;
-import net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker;
 import net.nokok.twitduke.model.thread.TitleAnimationInvoker;
 import net.nokok.twitduke.view.MainView;
 import net.nokok.twitduke.view.tweetcell.TweetCell;
 import net.nokok.twitduke.view.ui.TWLabel;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import twitter4j.Status;
 
 public class MainViewController implements
-    NotificationListener,
     ReplyListener,
     CellInsertionListener,
-    TweetCellUpdateListener,
     SendTweetListener {
 
-    private Twitter4jAsyncWrapper wrapper;
-    private TweetCellFactory      tweetCellFactory;
-    private MainView              mainView;
+    private final Log logger = LogFactory.getLog(MainViewController.class);
 
-    private final HashMap<Long, CellStatus> cellHashMap = new HashMap<>();
-    private long selectedUser;
+    private Twitter4jAsyncWrapper   wrapper;
+    private TweetCellFactory        tweetCellFactory;
+    private MainView                mainView;
+    private IParser                 parser;
+    private TweetCellUpdateListener updateListener;
+    private ParsingResultListener   parsingResultListener;
 
     /**
      * MainViewControllerの初期化に必要な処理を開始します
@@ -41,14 +44,20 @@ public class MainViewController implements
      * @param wrapper Twitter4jのラッパクラス
      * @see net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper
      */
-    public void start(Twitter4jAsyncWrapper wrapper) {
+    public void start(Twitter4jAsyncWrapper wrapper,
+                      NotificationListener notificationListener,
+                      TweetCellUpdateListener updateListener) {
+        logger.info("MainViewControllerの初期化を開始します");
+
         mainView = new MainView();
         this.wrapper = wrapper;
-        tweetCellFactory = new TweetCellFactory(wrapper, this);
+        parsingResultListener = new ParsingResultListenerImpl();
+        parser = new CommandParser(parsingResultListener, new ParserStateListenerImpl(mainView));
+        this.updateListener = updateListener;
+        tweetCellFactory = new TweetCellFactory(wrapper, updateListener);
         mainView.setVisible(true);
         bindActionListener();
-        setNotification("UserStreamに接続中です");
-        cellHashMap.put(0L, new CellStatus(new TweetCell(), null)); //デフォルトセル
+        notificationListener.setNotification("UserStreamに接続中です");
     }
 
     /**
@@ -57,20 +66,9 @@ public class MainViewController implements
      * @see net.nokok.twitduke.model.thread.TitleAnimationInvoker
      */
     public void launchTitleAnimation() {
-        new TitleAnimationInvoker(mainView).start();
-    }
+        logger.trace("タイトルバーのアニメーションスレッドを開始します");
 
-    /**
-     * MainViewのステータスバーに通知を表示します
-     * 通知は設定した秒数後(規定値:3秒)に消えるようアニメーション処理が実行されます
-     * また、通知が消える前に新たな通知が発生した場合、今表示中の通知の処理が終わり次第、次の通知が表示される。
-     *
-     * @param notificationText 表示する通知のテキスト
-     * @see net.nokok.twitduke.model.thread.NotificationBarAnimationInvoker
-     */
-    @Override
-    public void setNotification(String notificationText) {
-        new NotificationBarAnimationInvoker(this, notificationText).start();
+        new TitleAnimationInvoker(mainView).start();
     }
 
     /**
@@ -97,6 +95,8 @@ public class MainViewController implements
      */
     @Override
     public void setReply(String screenName) {
+        logger.debug(screenName + "がセットされました");
+
         mainView.setTweetText('@' + screenName + ' ');
     }
 
@@ -108,8 +108,10 @@ public class MainViewController implements
      * MainViewのツールバーにあるボタンにアクションリスナーを設定します
      */
     private void bindActionListener() {
-        mainView.setTextAreaAction(new TweetTextAreaKeyListenerImpl(this));
+        logger.trace("アクションリスナーをセットします");
 
+        mainView.addTextAreaAction(new CommandKeyListenerImpl(parsingResultListener, mainView.getTweetTextArea(), parser));
+        mainView.addTextAreaAction(new SendTweetKeyListenerImpl(this));
     }
 
     /**
@@ -118,6 +120,8 @@ public class MainViewController implements
      */
     @Override
     public void sendTweet() {
+        logger.info("ツイートを送信します");
+
         wrapper.sendTweet(mainView.getTweetText());
         mainView.clearTextField();
     }
@@ -127,56 +131,6 @@ public class MainViewController implements
      */
     public TWLabel getNotificationLabel() {
         return mainView.getNotificationLabel();
-    }
-
-    /**
-     * 指定されたユーザーIDのセルをハイライトします
-     */
-    private void highlightUserCell(long userId) {
-        selectedUser = userId;
-        for (Map.Entry<Long, CellStatus> cellEntry : cellHashMap.entrySet()) {
-            if (cellEntry.getValue().status == null) {
-                continue;
-            }
-            long cellUserId = cellEntry.getValue().status.getUser().getId();
-            TweetCell cell = cellEntry.getValue().tweetCell;
-            cell.setSelectState(cellUserId == userId);
-        }
-    }
-
-    /**
-     * 渡されたTweetCellStatusBaseによってセルの状態を変更します
-     *
-     * @param update セルとIDを保持したアップデータクラス
-     */
-    @Override
-    public void updateTweetCellStatus(TweetCellUpdater update) {
-        long id = update.id;
-        switch (update.category) {
-            case FAVORITED:
-                searchTweetCell(id).setFavoriteState(true);
-                break;
-            case UNFAVORITED:
-                searchTweetCell(id).setFavoriteState(false);
-                break;
-            case RETWEETED:
-                searchTweetCell(id).setRetweetState(true);
-                break;
-            case DELETED:
-                searchTweetCell(id).setDeleted();
-                break;
-            case SELECTED:
-                highlightUserCell(id);
-                break;
-        }
-    }
-
-    private TweetCell searchTweetCell(long id) {
-        TweetCell cell = cellHashMap.get(id).tweetCell;
-        if (cell == null) {
-            return cellHashMap.get(0L).tweetCell;
-        }
-        return cell;
     }
 
     /**
@@ -191,10 +145,12 @@ public class MainViewController implements
      */
     @Override
     public void insertCell(Status status) {
-        TweetCell cell = tweetCellFactory.createTweetCell(status);
-        if (status.getUser().getId() == selectedUser) {
-            cell.setSelectState(true);
+
+        if (logger.isTraceEnabled()) {
+            logger.trace("セルを挿入します");
         }
+
+        TweetCell cell = tweetCellFactory.createTweetCell(status);
         SwingUtilities.invokeLater(() -> {
             mainView.insertTweetCell(cell);
             if (cell.isMention() && !isUnofficialRT(status.getText())) {
@@ -203,7 +159,14 @@ public class MainViewController implements
             if (!mainView.isScrollbarTop()) {
                 mainView.shiftScrollBar(cell.getHeight() + 1);
             }
+
+            if (logger.isTraceEnabled()) {
+                logger.trace("セルが挿入されました");
+            }
+
         });
-        cellHashMap.put(status.getId(), new CellStatus(cell, status));
+        updateListener.set(cell, status);
+
+        logger.trace("セルがリスナーにセットされました");
     }
 }

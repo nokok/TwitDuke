@@ -2,12 +2,14 @@ package net.nokok.twitduke.wrapper;
 
 import java.util.Random;
 import net.nokok.twitduke.main.Config;
-import net.nokok.twitduke.model.TwitterListenerImpl;
 import net.nokok.twitduke.model.account.AccessTokenManager;
+import net.nokok.twitduke.model.impl.TwitterListenerImpl;
 import net.nokok.twitduke.model.listener.CellInsertionListener;
 import net.nokok.twitduke.model.listener.NotificationListener;
 import net.nokok.twitduke.model.listener.ReplyListener;
 import net.nokok.twitduke.view.OAuthDialog;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import twitter4j.AsyncTwitter;
 import twitter4j.AsyncTwitterFactory;
 import twitter4j.Status;
@@ -16,6 +18,8 @@ import twitter4j.StatusUpdate;
 public class Twitter4jAsyncWrapper {
 
     private long replyId;
+
+    private final Log logger = LogFactory.getLog(Twitter4jAsyncWrapper.class);
 
     private static final AsyncTwitter          asyncTwitter = AsyncTwitterFactory.getSingleton();
     private static final Twitter4jAsyncWrapper wrapper      = new Twitter4jAsyncWrapper();
@@ -30,6 +34,7 @@ public class Twitter4jAsyncWrapper {
         if (tokenManager.isTokenListExists()) {
             asyncTwitter.setOAuthAccessToken(tokenManager.readPrimaryAccount());
         } else {
+            logger.info("認証ダイアログを表示します");
             OAuthDialog dialog = new OAuthDialog(asyncTwitter, tokenManager);
             dialog.setVisible(true);
             dialog.setAlwaysOnTop(true);
