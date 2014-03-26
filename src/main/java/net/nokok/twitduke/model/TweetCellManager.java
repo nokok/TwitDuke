@@ -2,9 +2,9 @@ package net.nokok.twitduke.model;
 
 import java.util.HashMap;
 import java.util.Map;
-import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
-import net.nokok.twitduke.controller.tweetcellstatus.UpdateCategory;
-import net.nokok.twitduke.controller.tweetcellstatus.type.CellStatus;
+import net.nokok.twitduke.model.type.TweetCellUpdater;
+import net.nokok.twitduke.model.type.UpdateCategory;
+import net.nokok.twitduke.model.type.CellStatus;
 import net.nokok.twitduke.model.listener.TweetCellUpdateListener;
 import net.nokok.twitduke.view.tweetcell.TweetCell;
 import twitter4j.Status;

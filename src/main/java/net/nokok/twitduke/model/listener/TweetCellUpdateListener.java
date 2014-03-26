@@ -1,6 +1,6 @@
 package net.nokok.twitduke.model.listener;
 
-import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
+import net.nokok.twitduke.model.type.TweetCellUpdater;
 import net.nokok.twitduke.view.tweetcell.TweetCell;
 import twitter4j.Status;
 

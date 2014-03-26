@@ -1,7 +1,7 @@
 package net.nokok.twitduke.model.impl;
 
-import net.nokok.twitduke.controller.tweetcellstatus.TweetCellUpdater;
-import net.nokok.twitduke.controller.tweetcellstatus.UpdateCategory;
+import net.nokok.twitduke.model.type.TweetCellUpdater;
+import net.nokok.twitduke.model.type.UpdateCategory;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.account.AccessTokenManager;
 import net.nokok.twitduke.model.listener.CellInsertionListener;
