@@ -1,6 +1,6 @@
 package net.nokok.twitduke.model.impl;
 
-import net.nokok.twitduke.model.ParsingResultListener;
+import net.nokok.twitduke.model.listener.ParsingResultListener;
 
 /**
  * MIT License. http://opensource.org/licenses/mit-license.php

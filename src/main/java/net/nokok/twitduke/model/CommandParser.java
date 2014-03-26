@@ -4,6 +4,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import net.nokok.twitduke.model.listener.ParserStateListener;
+import net.nokok.twitduke.model.listener.ParsingResultListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

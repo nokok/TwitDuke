@@ -4,7 +4,7 @@ import javax.swing.SwingUtilities;
 import net.nokok.twitduke.main.Config;
 import net.nokok.twitduke.model.CommandParser;
 import net.nokok.twitduke.model.IParser;
-import net.nokok.twitduke.model.ParsingResultListener;
+import net.nokok.twitduke.model.listener.ParsingResultListener;
 import net.nokok.twitduke.model.factory.TweetCellFactory;
 import net.nokok.twitduke.model.impl.CommandKeyListenerImpl;
 import net.nokok.twitduke.model.impl.ParserStateListenerImpl;
