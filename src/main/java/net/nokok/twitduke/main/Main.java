@@ -10,9 +10,9 @@ import net.nokok.twitduke.model.listener.NotificationListener;
 import net.nokok.twitduke.model.listener.TweetCellUpdateListener;
 import net.nokok.twitduke.model.thread.FileCreateWatcher;
 import net.nokok.twitduke.model.thread.IFileWatcher;
-import net.nokok.twitduke.util.ILog;
-import net.nokok.twitduke.util.LogUtil;
 import net.nokok.twitduke.wrapper.Twitter4jAsyncWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import twitter4j.ConnectionLifeCycleListener;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
@@ -20,7 +20,7 @@ import twitter4j.UserStreamListener;
 
 public class Main implements IFileWatcher {
 
-    private final ILog logger = LogUtil.INSTANCE;
+    public static final Log logger = LogFactory.getLog("net.nokok.twitduke");
 
     private Twitter4jAsyncWrapper   wrapper;
     private MainViewController      mainViewController;
@@ -102,7 +102,7 @@ public class Main implements IFileWatcher {
             @Override
             public void onDisconnect() {
                 String message = "UserStreamとの接続が切れました";
-                logger.warning(message);
+                logger.warn(message);
                 notificationListener.setNotification(message);
             }
 
