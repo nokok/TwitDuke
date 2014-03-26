@@ -44,6 +44,7 @@ public class Main implements IFileWatcher {
      */
     private void boot() {
         logger.info("起動処理を開始します");
+
         readConfigFiles();
         mainViewInitialize();
         notificationListener = new NotificationListenerImpl(mainViewController);

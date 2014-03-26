@@ -25,7 +25,9 @@
         <module name="TwitDuke" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="TwitDuke" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
 

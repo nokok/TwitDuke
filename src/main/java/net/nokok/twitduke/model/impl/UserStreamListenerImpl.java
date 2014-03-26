@@ -110,7 +110,7 @@ public class UserStreamListenerImpl implements UserStreamListener {
 
     @Override
     public void onUnfollow(User user, User user2) {
-        
+
     }
 
     @Override
