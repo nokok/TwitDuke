@@ -51,6 +51,7 @@ public class Main implements IFileWatcher {
         twitterAPIWrapperInitialize();
         String accessTokenFilePath = AccessTokenManager.getInstance().getTokenFileListPath();
         new FileCreateWatcher(accessTokenFilePath, this).start();
+
         logger.info("起動処理が完了しました");
     }
 
@@ -73,7 +74,9 @@ public class Main implements IFileWatcher {
         twitterStream = TwitterStreamFactory.getSingleton();
         connectionLifeCycleListenerInitialize(twitterStream);
         twitterStream.addRateLimitStatusListener(new RateLimitStatusListenerImpl(notificationListener));
+
         logger.info("TwitterAPIラッパーの初期化を開始します");
+
         wrapper = Twitter4jAsyncWrapper.getInstance();
         wrapper.setNotificationListener(notificationListener);
         wrapper.setCellInsertionListener(mainViewController);
@@ -94,23 +97,26 @@ public class Main implements IFileWatcher {
             @Override
             public void onConnect() {
                 String message = "UserStreamに接続しました";
-                logger.info(message);
                 notificationListener.setNotification(message);
                 mainViewController.launchTitleAnimation();
+
+                logger.info(message);
             }
 
             @Override
             public void onDisconnect() {
                 String message = "UserStreamとの接続が切れました";
-                logger.warn(message);
                 notificationListener.setNotification(message);
+
+                logger.warn(message);
             }
 
             @Override
             public void onCleanUp() {
                 String message = "UserStream一時停止";
-                logger.info(message);
                 notificationListener.setNotification(message);
+
+                logger.info(message);
             }
         });
     }
@@ -120,6 +126,7 @@ public class Main implements IFileWatcher {
      */
     private UserStreamListener userStreamListenerInitialize() {
         logger.info("UserStreamListenerの初期化をします");
+
         UserStreamListenerImpl userStreamListener = new UserStreamListenerImpl();
         userStreamListener.setCellInsertionListener(mainViewController);
         userStreamListener.setNotificationListener(notificationListener);
@@ -135,6 +142,7 @@ public class Main implements IFileWatcher {
     @Override
     public void filesCreated() {
         logger.info("認証ファイルを見つけました");
+
         startUserStream();
         fetchTimelines();
     }
@@ -144,6 +152,7 @@ public class Main implements IFileWatcher {
      */
     private void startUserStream() {
         logger.info("UserStreamの受信を開始します");
+
         mainViewController.start(wrapper, notificationListener, tweetCellUpdateListener);
         twitterStream.setOAuthAccessToken(AccessTokenManager.getInstance().readPrimaryAccount());
         twitterStream.user();
@@ -155,6 +164,7 @@ public class Main implements IFileWatcher {
      */
     private void fetchTimelines() {
         logger.info("タイムラインを取得します");
+
         wrapper.getMentions();
         wrapper.getHomeTimeLine();
     }
