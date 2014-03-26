@@ -40,11 +40,11 @@ public class AccessTokenManager {
      */
     private AccessTokenManager() {
         if (!isTokenListExists()) {
-            logger.info("トークンリストが存在しません");
+            logger.info("アクセストークンリストが存在しません");
 
             return;
         }
-        logger.debug("トークンリストが存在します");
+        logger.debug("アクセストークンリストが存在します");
 
         readTokenList();
     }
@@ -92,16 +92,16 @@ public class AccessTokenManager {
     }
 
     /**
-     * トークンリストを読み込んでtokenListに追加します
-     * トークンリストが無い場合にこのメソッドが呼び出されるとIOErrorが投げられます
+     * アクセストークンリストを読み込んでtokenListに追加します
+     * アクセストークンリストが無い場合にこのメソッドが呼び出されるとIOErrorが投げられます
      *
      * @throws java.io.IOError
      */
     void readTokenList() {
-        logger.info("トークンリストを読み込みます");
+        logger.info("アクセストークンリストを読み込みます");
 
         if (!isTokenListExists()) {
-            String message = "トークンリストファイルが見つかりません";
+            String message = "アクセストークンリストファイルが見つかりません";
 
             logger.error(message);
 
@@ -120,7 +120,7 @@ public class AccessTokenManager {
             primaryUser = simpleTokenList.get(0);
             isLoaded = primaryUser != null;
         } catch (IOException e) {
-            String message = "トークンリストの読み込み中にエラーが発生しました";
+            String message = "アクセストークンリストの読み込み中にエラーが発生しました";
             logger.fatal(message, e);
 
             throw new InternalError(message);
@@ -128,7 +128,7 @@ public class AccessTokenManager {
     }
 
     /**
-     * TwitDukeのカレントディレクトリのauthディレクトリ内にトークンリストが存在するかどうか返します
+     * TwitDukeのカレントディレクトリのauthディレクトリ内にアクセストークンリストが存在するかどうか返します
      *
      * @return 存在する場合true
      */
@@ -137,7 +137,7 @@ public class AccessTokenManager {
     }
 
     /**
-     * @return トークンリストファイルの絶対パス
+     * @return アクセストークンリストファイルの絶対パス
      */
     public String getTokenFileListPath() {
         return tokenListFile.getPath();
@@ -150,7 +150,7 @@ public class AccessTokenManager {
      * @return 読み込まれたAccessToken
      */
     public AccessToken readPrimaryAccount() {
-        logger.info("プライマリアカウントを読み込みます");
+        logger.info("プライマリアカウントのアクセストークンを取得します");
 
         if (isLoaded) {
             int index = 0;
@@ -169,15 +169,16 @@ public class AccessTokenManager {
             }
         }
 
-        logger.info("プライマリアカウントがまだ読み込まれていません");
+        logger.info("プライマリアカウントのアクセストークンがまだ読み込まれていません");
 
         readTokenList();
 
         if (primaryUser == null) {
             String message = "認証が完了していません";
-            logger.error(message);
+            Throwable e = new IllegalArgumentException(message);
+            logger.error(message, e);
 
-            throw new IllegalStateException(message);
+            throw new IllegalArgumentException(e.getCause());
         }
         return readAccessToken(primaryUser.getUserId());
     }
@@ -218,7 +219,7 @@ public class AccessTokenManager {
 
     /**
      * 渡されたアクセストークンをディスクに書き込みます
-     * アクセストークンのスクリーンネームとIDがトークンリストにコンマ区切りで追記され、
+     * アクセストークンのスクリーンネームとIDがアクセストークンリストにコンマ区切りで追記され、
      * 渡されたアクセストークンのオブジェクトを「token_ユーザーID」というファイル名でauthディレクトリ以下に書き込みます
      *
      * @param accessToken 書き込むアクセストークン
@@ -241,14 +242,14 @@ public class AccessTokenManager {
     }
 
     public void removeAccessToken(long id) {
-        logger.info(id + "のトークンファイルを削除します");
+        logger.info(id + "のアクセストークンファイルを削除します");
 
         boolean result = new File(String.format("%s%d", Config.Path.TOKENFILE_PREFIX, id)).delete();
 
         if (result) {
-            logger.info("トークンファイルの削除に成功しました");
+            logger.info("アクセストークンファイルの削除に成功しました");
         } else {
-            logger.error("トークンファイルの削除に失敗しました");
+            logger.error("アクセストークンファイルの削除に失敗しました");
         }
     }
 }
