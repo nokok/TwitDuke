@@ -152,11 +152,28 @@ public class AccessTokenManager {
     public AccessToken readPrimaryAccount() {
         logger.info("プライマリアカウントを読み込みます");
 
-        if (!isLoaded) {
-            logger.info("プライマリアカウントがまだ読み込まれていません");
+        if (isLoaded) {
+            int index = 0;
+            SimpleToken user = simpleTokenList.get(index);
+            AccessToken accessToken = user.getAccessToken();
+            if (accessToken == null) {
+                logger.debug("アクセストークンを1度もディスクから読み込んでいないようです");
 
-            readTokenList();
-        } else if (primaryUser == null) {
+                AccessToken token = readAccessToken(user.getUserId());
+                simpleTokenList.set(index, new SimpleToken(token));
+                return token;
+            } else {
+                logger.debug("キャッシュから読み込みました");
+
+                return accessToken;
+            }
+        }
+
+        logger.info("プライマリアカウントがまだ読み込まれていません");
+
+        readTokenList();
+
+        if (primaryUser == null) {
             String message = "認証が完了していません";
             logger.error(message);
 
