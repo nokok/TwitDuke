@@ -30,6 +30,11 @@
             <artifactId>twitter4j-stream</artifactId>
             <version>4.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.1.1</version>
+        </dependency>
     </dependencies>
 
     <name>TwitDuke - Java Twitter Client</name>
