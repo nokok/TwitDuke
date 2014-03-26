@@ -16,12 +16,16 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import net.nokok.twitduke.main.Config;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import twitter4j.auth.AccessToken;
 
 public class AccessTokenManager {
 
     private boolean     isLoaded;
     private SimpleToken primaryUser;
+
+    private final Log logger = LogFactory.getLog(AccessTokenManager.class);
 
     private static final AccessTokenManager INSTANCE = new AccessTokenManager();
 
@@ -36,8 +40,12 @@ public class AccessTokenManager {
      */
     private AccessTokenManager() {
         if (!isTokenListExists()) {
+            logger.info("トークンリストが存在しません");
+
             return;
         }
+        logger.debug("トークンリストが存在します");
+
         readTokenList();
     }
 
@@ -49,6 +57,8 @@ public class AccessTokenManager {
      * @param accessToken 保存するアクセストークン
      */
     public void createPrimaryAccount(AccessToken accessToken) {
+        logger.debug("プライマリアカウントを作成します");
+
         createTokenDirectory();
         writeAccessToken(accessToken);
     }
@@ -57,9 +67,18 @@ public class AccessTokenManager {
      * カレントディレクトリにauthディレクトリを作成します
      */
     private void createTokenDirectory() {
+        logger.debug("authディレクトリを作成します");
+
         File authDirectory = new File(Config.Path.AUTH_DIRECTORY);
         if (!authDirectory.exists()) {
-            authDirectory.mkdir();
+            boolean result = authDirectory.mkdir();
+
+            if (result) {
+                logger.debug("authディレクトリの作成に成功しました");
+            } else {
+                logger.warn("authディレクトリの作成に失敗しました");
+            }
+
         }
     }
 
@@ -79,12 +98,20 @@ public class AccessTokenManager {
      * @throws java.io.IOError
      */
     void readTokenList() {
+        logger.info("トークンリストを読み込みます");
+
         if (!isTokenListExists()) {
-            throw new IOError(new FileNotFoundException("トークンリストファイルが見つかりません"));
+            String message = "トークンリストファイルが見つかりません";
+
+            logger.error(message);
+
+            throw new IOError(new FileNotFoundException(message));
         }
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(tokenListFile))) {
             String readLine;
             while ((readLine = bufferedReader.readLine()) != null) {
+                logger.trace(readLine);
+
                 Iterator<String> iteratableTokenList = Splitter.on(',').trimResults().omitEmptyStrings().split(readLine).iterator();
                 String userName = iteratableTokenList.next();
                 long userId = Longs.tryParse(iteratableTokenList.next());
@@ -93,7 +120,10 @@ public class AccessTokenManager {
             primaryUser = simpleTokenList.get(0);
             isLoaded = primaryUser != null;
         } catch (IOException e) {
-            throw new InternalError("トークんリストの読み込み中にエラーが発生しました");
+            String message = "トークンリストの読み込み中にエラーが発生しました";
+            logger.fatal(message, e);
+
+            throw new InternalError(message);
         }
     }
 
@@ -120,10 +150,17 @@ public class AccessTokenManager {
      * @return 読み込まれたAccessToken
      */
     public AccessToken readPrimaryAccount() {
+        logger.info("プライマリアカウントを読み込みます");
+
         if (!isLoaded) {
+            logger.info("プライマリアカウントがまだ読み込まれていません");
+
             readTokenList();
         } else if (primaryUser == null) {
-            throw new IllegalStateException("認証が完了していません");
+            String message = "認証が完了していません";
+            logger.error(message);
+
+            throw new IllegalStateException(message);
         }
         return readAccessToken(primaryUser.getUserId());
     }
@@ -133,7 +170,10 @@ public class AccessTokenManager {
      */
     public String getUserName() {
         if (primaryUser == null) {
-            throw new IllegalStateException("認証が完了していません");
+            String message = "認証が完了していません";
+            logger.error(message);
+
+            throw new IllegalStateException(message);
         }
         return primaryUser.getScreenName();
     }
@@ -145,12 +185,17 @@ public class AccessTokenManager {
      * @return 読み込まれたAccessToken
      */
     AccessToken readAccessToken(long id) {
+        logger.info(id + "のトークンファイルを読み込みます");
+
         try (FileInputStream fileInputStream = new FileInputStream(String.format("%s%d", Config.Path.TOKENFILE_PREFIX, id));
              ObjectInputStream stream = new ObjectInputStream(fileInputStream)) {
 
             return (AccessToken) stream.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            throw new IOError(e.getCause());
+            String message = "アクセストークンの読み込み中にエラーが発生しました";
+            logger.error(message, e);
+
+            throw new IOError(new IOException(message, e));
         }
     }
 
@@ -163,6 +208,7 @@ public class AccessTokenManager {
      * @throws java.io.IOError ファイルが見つからなかったり、ファイルがオープンできなかったりするなどの理由で処理が失敗した時にスローされます
      */
     void writeAccessToken(AccessToken accessToken) {
+        logger.info(accessToken.getUserId() + "のトークンファイルを書き込みます");
         try (FileOutputStream fileOutputStream = new FileOutputStream(String.format("%s%d", Config.Path.TOKENFILE_PREFIX, accessToken.getUserId()));
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
              FileWriter writer = new FileWriter(tokenListFile, true) /*true指定で追記出来る*/) {
@@ -170,11 +216,22 @@ public class AccessTokenManager {
             writer.write(accessToken.getScreenName() + ',' + accessToken.getUserId() + '\n');
             objectOutputStream.writeObject(accessToken);
         } catch (IOException e) {
-            throw new IOError(e.getCause());
+            String message = "アクセストークンの書き込み中にエラーが発生しました";
+            logger.error(message, e);
+
+            throw new IOError(new IOException(message, e));
         }
     }
 
     public void removeAccessToken(long id) {
-        new File(String.format("%s%d", Config.Path.TOKENFILE_PREFIX, id)).delete();
+        logger.info(id + "のトークンファイルを削除します");
+
+        boolean result = new File(String.format("%s%d", Config.Path.TOKENFILE_PREFIX, id)).delete();
+
+        if (result) {
+            logger.info("トークンファイルの削除に成功しました");
+        } else {
+            logger.error("トークンファイルの削除に失敗しました");
+        }
     }
 }
