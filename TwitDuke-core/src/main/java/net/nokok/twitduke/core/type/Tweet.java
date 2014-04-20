@@ -16,6 +16,8 @@ import java.util.logging.Logger;
  */
 public class Tweet implements Cloneable, Serializable, Retrievable<String> {
 
+    private static final long serialVersionUID = -669020520967130965L;
+
     private final String text;
 
     public Tweet(String text) {
