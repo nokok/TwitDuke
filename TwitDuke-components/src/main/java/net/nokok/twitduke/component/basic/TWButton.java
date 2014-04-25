@@ -27,10 +27,13 @@ import java.awt.Color;
 import javax.swing.JButton;
 
 /**
- *
+ * TwitDuke用のカスタマイズ済みJButtonを定義します
+ * <p>
  * @author noko <nokok.kz at gmail.com>
  */
 public class TWButton extends JButton {
+
+    private static final long serialVersionUID = -6950374784491086356L;
 
     public static final Color BACKGROUND_COLOR = new Color(189, 195, 199);
     public static final Color FOREGROUND_COLOR = new Color(40, 40, 40);

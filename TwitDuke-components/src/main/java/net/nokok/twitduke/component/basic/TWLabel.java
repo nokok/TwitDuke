@@ -27,7 +27,8 @@ import java.awt.Color;
 import javax.swing.JLabel;
 
 /**
- *
+ * TwitDuke用のカスタマイズ済みJLabelを定義します
+ * <p>
  * @author noko <nokok.kz at gmail.com>
  */
 public class TWLabel extends JLabel {

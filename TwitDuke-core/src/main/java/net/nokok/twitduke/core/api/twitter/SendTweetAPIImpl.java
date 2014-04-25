@@ -27,6 +27,11 @@ import java.util.Objects;
 import net.nokok.twitduke.core.type.Tweet;
 import twitter4j.api.TweetsResourcesAsync;
 
+/**
+ * ツイート送信APIのデフォルトの実装です。
+ * <p>
+ * @author noko <nokok.kz at gmail.com>
+ */
 public class SendTweetAPIImpl implements SendTweetAPI {
 
     private final TweetsResourcesAsync twitter;

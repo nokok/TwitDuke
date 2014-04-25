@@ -27,7 +27,8 @@ import java.awt.Color;
 import javax.swing.JTextArea;
 
 /**
- *
+ * TwitDuke用のカスタマイズ済みJTextAreaです
+ * <p>
  * @author noko <nokok.kz at gmail.com>
  */
 public class TWTextArea extends JTextArea {

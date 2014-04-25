@@ -35,7 +35,10 @@ import net.nokok.twitduke.core.api.view.Dialog;
 import net.nokok.twitduke.core.api.view.DialogResultListener;
 
 /**
- *
+ * OAuthダイアログはOAuth認証時に表示されるPINの入力画面を担当するクラスです。
+ * このクラスはあくまでViewのみで実際の処理はDialogResultListener<Integer>実装クラスで
+ * 行われます。
+ * <p>
  * @author noko <nokok.kz at gmail.com>
  */
 public class OAuthDialog implements Dialog<Integer> {

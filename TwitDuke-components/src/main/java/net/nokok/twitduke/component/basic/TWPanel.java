@@ -28,7 +28,7 @@ import java.awt.LayoutManager;
 import javax.swing.JPanel;
 
 /**
- * カスタマイズした独自のJPanelです。
+ * TwitDuke用のカスタマイズ済みJPanelです
  * <p>
  * @author noko <nokok.kz at gmail.com>
  */
