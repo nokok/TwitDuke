@@ -23,20 +23,18 @@
  */
 package net.nokok.twitduke.core.api.twitter;
 
-import java.util.Objects;
 import net.nokok.twitduke.core.type.Tweet;
-import twitter4j.api.TweetsResourcesAsync;
 
-public class TweetAPIImpl implements TweetAPI {
+/**
+ *
+ * @author noko <nokok.kz at gmail.com>
+ */
+public interface SendTweetAPI {
 
-    private final TweetsResourcesAsync twitter;
-
-    public TweetAPIImpl(TweetsResourcesAsync twitter) {
-        this.twitter = Objects.requireNonNull(twitter);
-    }
-
-    @Override
-    public void sendTweet(Tweet tweet) {
-        twitter.updateStatus(tweet.toString());
-    }
+    /**
+     * ツイートを送信します。
+     * <p>
+     * @param tweet
+     */
+    void sendTweet(Tweet tweet);
 }

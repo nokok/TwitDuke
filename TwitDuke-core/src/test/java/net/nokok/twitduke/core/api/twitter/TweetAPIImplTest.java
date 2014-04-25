@@ -15,6 +15,6 @@ public class TweetAPIImplTest {
 
     @Test(expected = NullPointerException.class)
     public void nullConstracterParameter() {
-        new TweetAPIImpl(null);
+        new SendTweetAPIImpl(null);
     }
 }
