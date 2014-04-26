@@ -24,6 +24,7 @@
 package net.nokok.twitduke.view;
 
 import java.awt.BorderLayout;
+import java.util.Optional;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -48,6 +49,9 @@ public class OAuthDialog implements Dialog<Integer> {
     private final OKCancelButtonPanel okCancelPanel = new OKCancelButtonPanel();
     private DialogResultListener<Integer> dialogResultListener;
 
+    /**
+     * OAuth認証のPINを入力するダイアログを生成します。
+     */
     public OAuthDialog() {
         frame = new TWFrame("認証して下さい");
         JTextField textField = new TWTextField();
@@ -60,15 +64,13 @@ public class OAuthDialog implements Dialog<Integer> {
         frame.setLocationRelativeTo(null);
 
         okCancelPanel.addOKButtonAction(e -> {
-            int pin = 0;
-            try {
-                pin = Integer.parseInt(textField.getText());
-            } catch (NumberFormatException ex) {
-                frame.setTitle("エラー:正しく数字を入力して下さい");
+            Optional<Integer> pin = parseInt(textField.getText());
+            if ( pin.isPresent() ) {
+                dialogResultListener.okButtonPushed(pin.get());
+            } else {
+                frame.setTitle("エラーが発生しました");
             }
-            dialogResultListener.okButtonPushed(pin);
         });
-
         okCancelPanel.addCancelButtonAction(e
                 -> dialogResultListener.cancelButtonPushed());
     }
@@ -77,6 +79,22 @@ public class OAuthDialog implements Dialog<Integer> {
         JPanel panel = new TWPanel();
         panel.add(new TWLabel("ログイン後、表示された数字を半角数字で入力して下さい"));
         return panel;
+    }
+
+    /**
+     * テキストエリアに入力された文字列をIntegerにパースした結果をOptionalでくるんで返します。
+     * <p>
+     * @param text テキストエリアに入力された文字列
+     * <p>
+     * @return 正常にIntegerへパース出来たらそのパース結果をOptionalでくるんだオブジェクト
+     *         Integerに出来ない文字列が含まれている場合はOptional.empty()
+     */
+    private Optional<Integer> parseInt(String text) {
+        try {
+            return Optional.of(Integer.parseInt(text));
+        } catch (NumberFormatException ignored) {
+            return Optional.empty();
+        }
     }
 
     @Override
