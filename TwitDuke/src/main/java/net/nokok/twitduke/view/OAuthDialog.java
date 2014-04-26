@@ -24,13 +24,14 @@
 package net.nokok.twitduke.view;
 
 import java.awt.BorderLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import net.nokok.twitduke.component.basic.TWButton;
+import net.nokok.twitduke.component.OKCancelButtonPanel;
+import net.nokok.twitduke.component.basic.TWFrame;
 import net.nokok.twitduke.component.basic.TWLabel;
 import net.nokok.twitduke.component.basic.TWPanel;
+import net.nokok.twitduke.component.basic.TWTextField;
 import net.nokok.twitduke.core.api.view.Dialog;
 import net.nokok.twitduke.core.api.view.DialogResultListener;
 
@@ -44,37 +45,29 @@ import net.nokok.twitduke.core.api.view.DialogResultListener;
 public class OAuthDialog implements Dialog<Integer> {
 
     private final JFrame frame;
-    private final JTextField textField = new JTextField();
-    private final JButton okButton = new TWButton("OK");
-    private final JButton cancelButton = new TWButton("Cancel");
-
+    private final OKCancelButtonPanel okCancelPanel = new OKCancelButtonPanel();
     private DialogResultListener<Integer> dialogResultListener;
 
     public OAuthDialog() {
-        frame = new JFrame();
+        frame = new TWFrame("認証して下さい");
+        JTextField textField = new TWTextField();
         frame.setLayout(new BorderLayout());
         frame.add(createNorthPanel(), BorderLayout.NORTH);
         frame.add(textField, BorderLayout.CENTER);
-        frame.add(createSouthPanel(), BorderLayout.SOUTH);
+        frame.add(okCancelPanel, BorderLayout.SOUTH);
+        frame.pack();
 
-        okButton.addActionListener(e -> {
+        okCancelPanel.addOKButtonAction(e -> {
             int pin = Integer.parseInt(textField.getText());
             dialogResultListener.okButtonPushed(pin);
         });
 
-        cancelButton.addActionListener(e -> dialogResultListener.cancelButtonPushed());
+        okCancelPanel.addCancelButtonAction(e -> dialogResultListener.cancelButtonPushed());
     }
 
     private JPanel createNorthPanel() {
         JPanel panel = new TWPanel();
         panel.add(new TWLabel("表示された数字を入力して下さい"));
-        return panel;
-    }
-
-    private JPanel createSouthPanel() {
-        JPanel panel = new TWPanel();
-        panel.add(okButton);
-        panel.add(cancelButton);
         return panel;
     }
 
@@ -92,5 +85,4 @@ public class OAuthDialog implements Dialog<Integer> {
     public void show() {
         frame.setVisible(true);
     }
-
 }
