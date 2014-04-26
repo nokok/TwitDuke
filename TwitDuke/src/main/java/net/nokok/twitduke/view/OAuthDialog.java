@@ -51,23 +51,31 @@ public class OAuthDialog implements Dialog<Integer> {
     public OAuthDialog() {
         frame = new TWFrame("認証して下さい");
         JTextField textField = new TWTextField();
+        textField.setHorizontalAlignment(JTextField.CENTER);
         frame.setLayout(new BorderLayout());
         frame.add(createNorthPanel(), BorderLayout.NORTH);
         frame.add(textField, BorderLayout.CENTER);
         frame.add(okCancelPanel, BorderLayout.SOUTH);
         frame.pack();
+        frame.setLocationRelativeTo(null);
 
         okCancelPanel.addOKButtonAction(e -> {
-            int pin = Integer.parseInt(textField.getText());
+            int pin = 0;
+            try {
+                pin = Integer.parseInt(textField.getText());
+            } catch (NumberFormatException ex) {
+                frame.setTitle("エラー:正しく数字を入力して下さい");
+            }
             dialogResultListener.okButtonPushed(pin);
         });
 
-        okCancelPanel.addCancelButtonAction(e -> dialogResultListener.cancelButtonPushed());
+        okCancelPanel.addCancelButtonAction(e
+                -> dialogResultListener.cancelButtonPushed());
     }
 
     private JPanel createNorthPanel() {
         JPanel panel = new TWPanel();
-        panel.add(new TWLabel("表示された数字を入力して下さい"));
+        panel.add(new TWLabel("ログイン後、表示された数字を半角数字で入力して下さい"));
         return panel;
     }
 
