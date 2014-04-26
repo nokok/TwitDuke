@@ -24,6 +24,8 @@
 package net.nokok.twitduke.component.basic;
 
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 
 /**
@@ -49,6 +51,18 @@ public class TWButton extends JButton {
         setForeground(FOREGROUND_COLOR);
         setOpaque(true);
         setBorderPainted(false);
+        addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                setBackground(getBackground().darker());
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                setBackground(getBackground().brighter());
+            }
+        });
     }
 
     public TWButton(String text) {
