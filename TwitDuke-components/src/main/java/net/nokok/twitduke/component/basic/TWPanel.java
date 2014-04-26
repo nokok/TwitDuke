@@ -36,7 +36,13 @@ public class TWPanel extends JPanel {
 
     private static final long serialVersionUID = -2656367163678204098L;
 
+    /**
+     * パネルの背景色です。
+     */
     public static final Color BACKGROUND_COLOR = new Color(40, 40, 40);
+    /**
+     * パネルの前景色(フォント色)です。
+     */
     public static final Color FOREGROUND_COLOR = new Color(200, 200, 200);
 
     public TWPanel() {

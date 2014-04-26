@@ -35,7 +35,13 @@ public class TWTextArea extends JTextArea {
 
     private static final long serialVersionUID = 3723800077851443280L;
 
+    /**
+     * テキストエリアの背景色です。
+     */
     public static final Color BACKGROUND_COLOR = new Color(40, 40, 40);
+    /**
+     * テキストエリアの前景色(フォント色)です。
+     */
     public static final Color FOREGROUND_COLOR = new Color(200, 200, 200);
 
     public TWTextArea() {

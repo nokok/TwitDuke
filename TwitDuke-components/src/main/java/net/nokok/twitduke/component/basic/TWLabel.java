@@ -35,7 +35,13 @@ public class TWLabel extends JLabel {
 
     private static final long serialVersionUID = -4138268682327167202L;
 
+    /**
+     * ラベルの背景色です。
+     */
     public static final Color BACKGROUND_COLOR = new Color(40, 40, 40);
+    /**
+     * ラベルの前景色(フォント色)です。
+     */
     public static final Color FOREGROUND_COLOR = new Color(200, 200, 200);
 
     public TWLabel() {

@@ -35,7 +35,13 @@ public class TWButton extends JButton {
 
     private static final long serialVersionUID = -6950374784491086356L;
 
+    /**
+     * ボタンの背景色です。
+     */
     public static final Color BACKGROUND_COLOR = new Color(189, 195, 199);
+    /**
+     * ボタンの前景色(フォント色)です。
+     */
     public static final Color FOREGROUND_COLOR = new Color(40, 40, 40);
 
     public TWButton() {
