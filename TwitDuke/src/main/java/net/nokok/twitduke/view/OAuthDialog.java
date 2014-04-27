@@ -24,7 +24,6 @@
 package net.nokok.twitduke.view;
 
 import java.awt.BorderLayout;
-import java.util.Optional;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -43,11 +42,11 @@ import net.nokok.twitduke.core.api.view.DialogResultListener;
  * <p>
  * @author noko <nokok.kz at gmail.com>
  */
-public class OAuthDialog implements Dialog<Integer> {
+public class OAuthDialog implements Dialog<String> {
 
     private final JFrame frame;
     private final OKCancelButtonPanel okCancelPanel = new OKCancelButtonPanel();
-    private DialogResultListener<Integer> dialogResultListener;
+    private DialogResultListener<String> dialogResultListener;
 
     /**
      * OAuth認証のPINを入力するダイアログを生成します。
@@ -64,12 +63,7 @@ public class OAuthDialog implements Dialog<Integer> {
         frame.setLocationRelativeTo(null);
 
         okCancelPanel.addOKButtonAction(e -> {
-            Optional<Integer> pin = parseInt(textField.getText());
-            if ( pin.isPresent() ) {
-                dialogResultListener.okButtonPushed(pin.get());
-            } else {
-                frame.setTitle("エラーが発生しました");
-            }
+            dialogResultListener.okButtonPushed(textField.getText());
         });
         okCancelPanel.addCancelButtonAction(e
                 -> dialogResultListener.cancelButtonPushed());
@@ -81,29 +75,13 @@ public class OAuthDialog implements Dialog<Integer> {
         return panel;
     }
 
-    /**
-     * テキストエリアに入力された文字列をIntegerにパースした結果をOptionalでくるんで返します。
-     * <p>
-     * @param text テキストエリアに入力された文字列
-     * <p>
-     * @return 正常にIntegerへパース出来たらそのパース結果をOptionalでくるんだオブジェクト
-     *         Integerに出来ない文字列が含まれている場合はOptional.empty()
-     */
-    private Optional<Integer> parseInt(String text) {
-        try {
-            return Optional.of(Integer.parseInt(text));
-        } catch (NumberFormatException ignored) {
-            return Optional.empty();
-        }
-    }
-
     @Override
     public void dispose() {
         frame.dispose();
     }
 
     @Override
-    public void setDialogResultListener(DialogResultListener<Integer> dialogResultListener) {
+    public void setDialogResultListener(DialogResultListener<String> dialogResultListener) {
         this.dialogResultListener = dialogResultListener;
     }
 
