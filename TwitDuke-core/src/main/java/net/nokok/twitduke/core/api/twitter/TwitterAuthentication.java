@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.api.account;
+package net.nokok.twitduke.core.api.twitter;
 
 /**
  * このインターフェースを実装したクラスは何らかの形でTwitterAPIの認証ができることを示します。

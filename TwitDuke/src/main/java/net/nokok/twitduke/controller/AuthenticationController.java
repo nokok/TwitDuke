@@ -29,7 +29,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import net.nokok.twitduke.core.impl.account.AccessTokenSerializer;
 import net.nokok.twitduke.core.api.account.AccessTokenWriter;
-import net.nokok.twitduke.core.api.account.TwitterAuthentication;
+import net.nokok.twitduke.core.api.twitter.TwitterAuthentication;
 import net.nokok.twitduke.core.impl.twitter.AsyncTwitterInstanceGeneratorImpl;
 import net.nokok.twitduke.core.api.view.Dialog;
 import net.nokok.twitduke.core.api.view.DialogResultListener;
