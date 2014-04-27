@@ -75,12 +75,7 @@ public class AuthenticationController implements TwitterAuthentication, DialogRe
         @Override
         public void gotOAuthRequestToken(RequestToken token) {
             requestToken = token;
-            try {
-                Desktop.getDesktop().browse(new URI(token.getAuthorizationURL()));
-                dialog.show();
-            } catch (IOException | URISyntaxException ex) {
-                throw new InternalError(ex);
-            }
+            openInBrowser(requestToken.getAuthorizationURL());
         }
 
         @Override
@@ -93,6 +88,22 @@ public class AuthenticationController implements TwitterAuthentication, DialogRe
         @Override
         public void onException(TwitterException te, TwitterMethod method) {
 
+        }
+
+        /**
+         * 渡されたURLをデフォルトに指定されているブラウザで開きます。
+         * <p>
+         * @param url ブラウザで開くURL
+         * <p>
+         * @throws InternalError URLの文法がおかしい場合もしくはブラウザにアクセス出来なかった場合スローされます
+         */
+        private void openInBrowser(String url) {
+            try {
+                Desktop.getDesktop().browse(new URI(url));
+                dialog.show();
+            } catch (IOException | URISyntaxException ex) {
+                throw new InternalError(ex);
+            }
         }
     }
 }
