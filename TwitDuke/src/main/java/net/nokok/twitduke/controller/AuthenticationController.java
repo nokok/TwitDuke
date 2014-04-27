@@ -52,6 +52,10 @@ public class AuthenticationController implements TwitterAuthentication, DialogRe
     private RequestToken requestToken;
     private AsyncTwitter twitter;
 
+    /**
+     * 認証処理を開始します。
+     * 新たにAsyncTwitterオブジェクトを生成し、RequestTokenを非同期で取得します
+     */
     @Override
     public void start() {
         twitter = new AsyncTwitterInstanceGeneratorImpl().generate();
@@ -60,11 +64,21 @@ public class AuthenticationController implements TwitterAuthentication, DialogRe
         twitter.getOAuthRequestTokenAsync();
     }
 
+    /**
+     * ダイアログのCancelボタンが押されると呼ばれます。
+     * 認証処理を中止し、ダイアログを破棄します。
+     */
     @Override
     public void cancelButtonPushed() {
         dialog.dispose();
     }
 
+    /**
+     * ダイアログのOKボタンが押されると呼ばれます。
+     * 入力されたPINとRequestTokenを用いてAccessTokenを非同期で取得します
+     * <p>
+     * @param o
+     */
     @Override
     public void okButtonPushed(String o) {
         twitter.getOAuthAccessTokenAsync(requestToken, o);
@@ -72,12 +86,26 @@ public class AuthenticationController implements TwitterAuthentication, DialogRe
 
     private class OAuthTwitterListener extends TwitterAdapter {
 
+        /**
+         * getOAuthRequestTokenAsync()によってRequestTokenが取得されたら呼ばれます。
+         * 認証処理を続行するためにRequestTokenに格納されている認証用のURLをデフォルトの
+         * ブラウザで開きます。
+         * <p>
+         * @param token 取得したRequestTokenオブジェクト
+         */
         @Override
         public void gotOAuthRequestToken(RequestToken token) {
             requestToken = token;
             openInBrowser(requestToken.getAuthorizationURL());
         }
 
+        /**
+         * getOAuthAccessTokenAsync(RequestToken, String)によってAccessTokenが
+         * 取得されたら呼ばれます。認証処理を完了するためにAccessTokenをシリアライズして
+         * ディスクに保存します。
+         * <p>
+         * @param token 取得したAccessTokenオブジェクト
+         */
         @Override
         public void gotOAuthAccessToken(AccessToken token) {
             AccessTokenWriter writer = new AccessTokenSerializer();
@@ -85,9 +113,15 @@ public class AuthenticationController implements TwitterAuthentication, DialogRe
             dialog.dispose();
         }
 
+        /**
+         * TwitterAPIリクエスト送信中にエラーが発生するとこのメソッドが呼ばれます。
+         * <p>
+         * @param te
+         * @param method
+         */
         @Override
         public void onException(TwitterException te, TwitterMethod method) {
-
+            throw new InternalError(te);
         }
 
         /**
