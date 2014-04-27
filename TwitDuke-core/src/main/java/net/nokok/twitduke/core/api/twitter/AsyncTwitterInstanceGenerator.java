@@ -24,6 +24,7 @@
 package net.nokok.twitduke.core.api.twitter;
 
 import twitter4j.AsyncTwitter;
+import twitter4j.auth.AccessToken;
 
 /**
  * ConsumerKeyなどが既にセットされたAsyncTwitterオブジェクトを返します。
@@ -48,4 +49,13 @@ public interface AsyncTwitterInstanceGenerator {
      * @return 独自のキーを使用して生成されたAsyncTwitterオブジェクト
      */
     AsyncTwitter generate(String consumer, String consumerSecret);
+
+    /**
+     * 渡されたアクセストークンを使用してAsyncTwitterオブジェクトを生成します
+     * <p>
+     * @param accessToken AsyncTwitterオブジェクトを生成するAccessToken
+     * <p>
+     * @return 渡されたアクセストークンを使用して生成されたAsyncTwitterオブジェクト
+     */
+    AsyncTwitter generate(AccessToken accessToken);
 }

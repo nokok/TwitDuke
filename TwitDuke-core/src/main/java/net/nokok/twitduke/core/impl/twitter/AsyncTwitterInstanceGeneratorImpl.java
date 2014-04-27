@@ -26,6 +26,8 @@ package net.nokok.twitduke.core.impl.twitter;
 import net.nokok.twitduke.core.api.twitter.AsyncTwitterInstanceGenerator;
 import twitter4j.AsyncTwitter;
 import twitter4j.AsyncTwitterFactory;
+import twitter4j.auth.AccessToken;
+import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
@@ -35,12 +37,14 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class AsyncTwitterInstanceGeneratorImpl implements AsyncTwitterInstanceGenerator {
 
+    private final Configuration configuration = new ConfigurationBuilder()
+            .setOAuthConsumerKey("VOIW6nzPVPEGyILu0kgMRQ")
+            .setOAuthConsumerSecret("x42tjv2Xrzsi3p5hfiGSYSiNLfa7VZv8Ozd0VHEaQ")
+            .build();
+
     @Override
     public AsyncTwitter generate() {
-        return new AsyncTwitterFactory(new ConfigurationBuilder()
-                .setOAuthConsumerKey("VOIW6nzPVPEGyILu0kgMRQ")
-                .setOAuthConsumerSecret("x42tjv2Xrzsi3p5hfiGSYSiNLfa7VZv8Ozd0VHEaQ")
-                .build()).getInstance();
+        return new AsyncTwitterFactory(configuration).getInstance();
     }
 
     @Override
@@ -49,5 +53,10 @@ public class AsyncTwitterInstanceGeneratorImpl implements AsyncTwitterInstanceGe
                 .setOAuthConsumerKey(consumer)
                 .setOAuthConsumerSecret(consumerSecret)
                 .build()).getInstance();
+    }
+
+    @Override
+    public AsyncTwitter generate(AccessToken accessToken) {
+        return new AsyncTwitterFactory(configuration).getInstance(accessToken);
     }
 }
