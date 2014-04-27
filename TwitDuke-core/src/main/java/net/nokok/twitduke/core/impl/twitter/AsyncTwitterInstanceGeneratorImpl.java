@@ -21,31 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.api.account;
+package net.nokok.twitduke.core.impl.twitter;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import twitter4j.auth.AccessToken;
+import net.nokok.twitduke.core.api.twitter.AsyncTwitterInstanceGenerator;
+import twitter4j.AsyncTwitter;
+import twitter4j.AsyncTwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
 
 /**
- * アクセストークンをシリアライズしてファイルとして書き込みます。
+ * このクラスは実際にAsyncTwitterオブジェクトを生成して返すメソッドを提供します。
  * <p>
  * @author noko <nokok.kz at gmail.com>
  */
-public class AccessTokenSerializer implements AccessTokenWriter {
+public class AsyncTwitterInstanceGeneratorImpl implements AsyncTwitterInstanceGenerator {
 
-    /**
-     * アクセストークンを格納されているスクリーンネームの名前でディスクに書き込みます
-     * <p>
-     * @param accessToken
-     */
     @Override
-    public void writeAccessToken(AccessToken accessToken) {
-        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(accessToken.getScreenName()))) {
-            objectOutputStream.writeObject(accessToken);
-        } catch (IOException e) {
-            throw new InternalError(e);
-        }
+    public AsyncTwitter generate() {
+        return new AsyncTwitterFactory(new ConfigurationBuilder()
+                .setOAuthConsumerKey("VOIW6nzPVPEGyILu0kgMRQ")
+                .setOAuthConsumerSecret("x42tjv2Xrzsi3p5hfiGSYSiNLfa7VZv8Ozd0VHEaQ")
+                .build()).getInstance();
+    }
+
+    @Override
+    public AsyncTwitter generate(String consumer, String consumerSecret) {
+        return new AsyncTwitterFactory(new ConfigurationBuilder()
+                .setOAuthConsumerKey(consumer)
+                .setOAuthConsumerSecret(consumerSecret)
+                .build()).getInstance();
     }
 }

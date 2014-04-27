@@ -5,6 +5,7 @@
  */
 package net.nokok.twitduke.core.api;
 
+import net.nokok.twitduke.core.impl.SystemInfoImpl;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

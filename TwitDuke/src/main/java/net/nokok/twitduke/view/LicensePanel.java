@@ -28,7 +28,7 @@ import javax.swing.JTextArea;
 import net.nokok.twitduke.component.basic.TWPanel;
 import net.nokok.twitduke.component.basic.TWTextArea;
 import net.nokok.twitduke.core.api.SystemInfo;
-import net.nokok.twitduke.core.api.SystemInfoImpl;
+import net.nokok.twitduke.core.impl.SystemInfoImpl;
 
 /**
  *

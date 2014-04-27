@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.api.account;
+package net.nokok.twitduke.core.impl.account;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import net.nokok.twitduke.core.api.account.AccessTokenReader;
 import twitter4j.auth.AccessToken;
 
 /**

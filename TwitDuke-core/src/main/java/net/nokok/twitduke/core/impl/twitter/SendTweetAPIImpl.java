@@ -21,9 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.api.twitter;
+package net.nokok.twitduke.core.impl.twitter;
 
 import java.util.Objects;
+import net.nokok.twitduke.core.api.twitter.SendTweetAPI;
 import net.nokok.twitduke.core.type.Tweet;
 import twitter4j.api.TweetsResourcesAsync;
 

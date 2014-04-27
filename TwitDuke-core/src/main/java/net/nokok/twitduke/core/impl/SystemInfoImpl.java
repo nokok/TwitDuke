@@ -21,7 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.api;
+package net.nokok.twitduke.core.impl;
+
+import net.nokok.twitduke.core.api.SystemInfo;
 
 public class SystemInfoImpl implements SystemInfo {
 

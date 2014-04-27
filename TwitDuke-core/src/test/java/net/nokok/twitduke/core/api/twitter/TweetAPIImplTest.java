@@ -5,6 +5,7 @@
  */
 package net.nokok.twitduke.core.api.twitter;
 
+import net.nokok.twitduke.core.impl.twitter.SendTweetAPIImpl;
 import org.junit.Test;
 
 /**
