@@ -37,6 +37,8 @@ import net.nokok.twitduke.component.basic.TWPanel;
  */
 public class OKCancelButtonPanel extends TWPanel {
 
+    private static final long serialVersionUID = -6417410274474706405L;
+
     private final JButton okButton = new TWButton("OK");
     private final JButton cancelButton = new TWButton("Cancel");
 
