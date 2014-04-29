@@ -35,11 +35,18 @@ import twitter4j.auth.AccessToken;
 public interface AccessTokenReader {
 
     /**
-     * 利用可能なAccessTokenのリストを返します
+     * 利用可能なアクセストークンのリストを返します。
+     * OptionalなアクセストークンなのでisPresentメソッドを用いて存在のチェックをして下さい
      * <p>
-     * @return
+     * @return アクセストークンのリスト
      */
     ArrayList<Optional<AccessToken>> getAccessTokenList();
 
+    /**
+     * アクセストークンを一つだけ返します。
+     * 複数のアクセストークンが利用可能な場合は、どのアクセストークンが返るかは不定です。
+     * <p>
+     * @return 読み込んだアクセストークン
+     */
     Optional<AccessToken> readFirstAccessToken();
 }

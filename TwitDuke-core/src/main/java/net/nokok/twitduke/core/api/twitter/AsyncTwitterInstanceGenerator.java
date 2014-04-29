@@ -27,7 +27,7 @@ import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
 
 /**
- * ConsumerKeyなどが既にセットされたAsyncTwitterオブジェクトを返します。
+ * AsyncTwitterインスタンスを生成するメソッドを定義するインターフェースです
  * <p>
  * @author noko <nokok.kz at gmail.com>
  */

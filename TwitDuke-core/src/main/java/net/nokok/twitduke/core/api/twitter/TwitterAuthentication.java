@@ -25,7 +25,8 @@ package net.nokok.twitduke.core.api.twitter;
 
 /**
  * このインターフェースを実装したクラスは何らかの形でTwitterAPIの認証ができることを示します。
- * start()を実行する事で認証処理が開始されます
+ * start()を実行する事で認証処理が開始されます。setListenerメソッドでセットしたリスナーに
+ * 認証結果を返します
  * <p>
  * @author noko <nokok.kz at gmail.com>
  */
