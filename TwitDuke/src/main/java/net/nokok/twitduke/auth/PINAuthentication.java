@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.controller;
+package net.nokok.twitduke.auth;
 
 import java.awt.Desktop;
 import java.io.IOException;
@@ -45,7 +45,7 @@ import twitter4j.auth.RequestToken;
  * <p>
  * @author noko <nokok.kz at gmail.com>
  */
-public class AuthenticationController implements TwitterAuthentication, DialogResultListener<String> {
+public class PINAuthentication implements TwitterAuthentication, DialogResultListener<String> {
 
     private final Dialog<String> dialog = new OAuthDialog();
     private RequestToken requestToken;
