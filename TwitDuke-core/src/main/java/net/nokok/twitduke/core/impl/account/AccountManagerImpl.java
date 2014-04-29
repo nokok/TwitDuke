@@ -24,18 +24,29 @@
 package net.nokok.twitduke.core.impl.account;
 
 import net.nokok.twitduke.core.api.account.AccessTokenReader;
-import net.nokok.twitduke.core.api.account.AccountsInfo;
+import net.nokok.twitduke.core.api.account.AccountManager;
+import twitter4j.auth.AccessToken;
 
 /**
  * TwitDukeのアカウントに関する操作をするクラスです。
  * <p>
  * @author noko <nokok.kz at gmail.com>
  */
-public class AccountManager implements AccountsInfo {
+public class AccountManagerImpl implements AccountManager {
+
+    @Override
+    public void addAccount(AccessToken accessToken) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     @Override
     public boolean hasValidAccount() {
         AccessTokenReader reader = new AccessTokenDeserializer();
         return reader.getAccessTokenList().isEmpty();
+    }
+
+    @Override
+    public void removeAccount() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
