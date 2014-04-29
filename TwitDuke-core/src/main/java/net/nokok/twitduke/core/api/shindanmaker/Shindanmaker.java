@@ -36,7 +36,7 @@ public interface Shindanmaker {
      * @param id   診断メーカーの診断をするID
      * @param name 診断メーカーを実行するID
      */
-    void sendRequest(int id, String name);
+    void sendRequest(String shindanmakerURL, String name);
 
     /**
      * 結果を取得するリスナーをセットします

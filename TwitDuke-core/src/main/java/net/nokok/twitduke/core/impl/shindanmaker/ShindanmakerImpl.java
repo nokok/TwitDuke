@@ -47,11 +47,11 @@ public class ShindanmakerImpl implements Shindanmaker {
     }
 
     @Override
-    public void sendRequest(int id, String name) {
+    public void sendRequest(String shindanmakerURL, String name) {
         try {
-            Map<String, String> parameter = new HashMap<>();
+            Map<String, String> parameter = new HashMap<>(1);
             parameter.put("u", name);
-            Document doc = Jsoup.connect("http://shindanmaker.com/" + id).data(parameter).post();
+            Document doc = Jsoup.connect(shindanmakerURL).data(parameter).post();
             Elements textArea = doc.select("textarea");
             listener.success(textArea.val());
         } catch (IOException ex) {
