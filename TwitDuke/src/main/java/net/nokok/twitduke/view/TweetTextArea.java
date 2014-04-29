@@ -57,7 +57,7 @@ public class TweetTextArea extends TWTextArea {
             throw new IllegalArgumentException("SendTweetAPIインターフェースがnullです");
         }
         this.tweetAPI = tweetAPI;
-        addKeyListener(new TweetTextAreaKeyListener());
+        addKeyListener(new DefaultSendTweetKeyListener());
     }
 
     /**
@@ -75,7 +75,7 @@ public class TweetTextArea extends TWTextArea {
         addKeyListener(keyListener);
     }
 
-    private class TweetTextAreaKeyListener extends KeyAdapter {
+    private class DefaultSendTweetKeyListener extends KeyAdapter {
 
         private boolean isShiftKeyPressed;
         private boolean isEnterKeyPressed;
