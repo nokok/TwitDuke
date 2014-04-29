@@ -57,11 +57,9 @@ public class AutoAuthentication implements TwitterAuthentication {
             server.createContext("/", he -> {
                 he.getRequestMethod();
                 he.sendResponseHeaders(HttpResponseCode.OK, 0);
-                OutputStreamWriter responseWriter = new OutputStreamWriter(he.getResponseBody());
-                responseWriter.append(
-                        "認証が完了しました。このタブ(またはウィンドウ)を閉じて下さい"
-                );
-                responseWriter.close();
+                try (OutputStreamWriter responseWriter = new OutputStreamWriter(he.getResponseBody())) {
+                    responseWriter.append("認証が完了しました。このタブ(またはウィンドウ)を閉じて下さい");
+                }
                 server.stop(0);
                 String q = he.getRequestURI().getQuery();
                 try {
