@@ -30,9 +30,8 @@ import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
-import net.nokok.twitduke.core.api.account.AccessTokenWriter;
 import net.nokok.twitduke.core.api.twitter.TwitterAuthentication;
-import net.nokok.twitduke.core.impl.account.AccessTokenSerializer;
+import net.nokok.twitduke.core.api.twitter.TwitterAuthenticationListener;
 import net.nokok.twitduke.core.impl.twitter.AsyncTwitterInstanceGeneratorImpl;
 import twitter4j.AsyncTwitter;
 import twitter4j.HttpResponseCode;
@@ -46,6 +45,13 @@ import twitter4j.auth.RequestToken;
  * @author noko <nokok.kz at gmail.com>
  */
 public class AutoAuthentication implements TwitterAuthentication {
+
+    private TwitterAuthenticationListener authenticationListener;
+
+    @Override
+    public void setListener(TwitterAuthenticationListener authenticationListener) {
+        this.authenticationListener = authenticationListener;
+    }
 
     @Override
     public void start() {
@@ -65,15 +71,14 @@ public class AutoAuthentication implements TwitterAuthentication {
                 try {
                     String verifier = q.split("=")[2];
                     AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, verifier);
-                    AccessTokenWriter writer = new AccessTokenSerializer();
-                    writer.writeAccessToken(accessToken);
+                    authenticationListener.success(accessToken);
                 } catch (TwitterException ex) {
-                    throw new InternalError(ex);
+                    authenticationListener.error(ex.getErrorMessage());
                 }
             });
             server.start();
         } catch (IOException | TwitterException e) {
-            throw new InternalError(e);
+            authenticationListener.error(e.getMessage());
         }
     }
 
@@ -81,7 +86,7 @@ public class AutoAuthentication implements TwitterAuthentication {
         try {
             Desktop.getDesktop().browse(new URI(url));
         } catch (IOException | URISyntaxException ex) {
-            throw new InternalError(ex);
+            authenticationListener.error(ex.getMessage());
         }
     }
 }

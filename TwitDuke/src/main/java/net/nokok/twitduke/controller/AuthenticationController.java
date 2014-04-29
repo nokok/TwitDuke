@@ -27,11 +27,10 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import net.nokok.twitduke.core.api.account.AccessTokenWriter;
 import net.nokok.twitduke.core.api.twitter.TwitterAuthentication;
+import net.nokok.twitduke.core.api.twitter.TwitterAuthenticationListener;
 import net.nokok.twitduke.core.api.view.Dialog;
 import net.nokok.twitduke.core.api.view.DialogResultListener;
-import net.nokok.twitduke.core.impl.account.AccessTokenSerializer;
 import net.nokok.twitduke.core.impl.twitter.AsyncTwitterInstanceGeneratorImpl;
 import net.nokok.twitduke.view.OAuthDialog;
 import twitter4j.AsyncTwitter;
@@ -51,6 +50,12 @@ public class AuthenticationController implements TwitterAuthentication, DialogRe
     private final Dialog<String> dialog = new OAuthDialog();
     private RequestToken requestToken;
     private AsyncTwitter twitter;
+    private TwitterAuthenticationListener authenticationListener;
+
+    @Override
+    public void setListener(TwitterAuthenticationListener authenticationListener) {
+        this.authenticationListener = authenticationListener;
+    }
 
     /**
      * 認証処理を開始します。
@@ -71,6 +76,7 @@ public class AuthenticationController implements TwitterAuthentication, DialogRe
     @Override
     public void cancelButtonPushed() {
         dialog.dispose();
+        authenticationListener.error("キャンセルされました");
     }
 
     /**
@@ -101,16 +107,14 @@ public class AuthenticationController implements TwitterAuthentication, DialogRe
 
         /**
          * getOAuthAccessTokenAsync(RequestToken, String)によってAccessTokenが
-         * 取得されたら呼ばれます。認証処理を完了するためにAccessTokenをシリアライズして
-         * ディスクに保存します。
+         * 取得されたら呼ばれます。
          * <p>
          * @param token 取得したAccessTokenオブジェクト
          */
         @Override
         public void gotOAuthAccessToken(AccessToken token) {
-            AccessTokenWriter writer = new AccessTokenSerializer();
-            writer.writeAccessToken(token);
             dialog.dispose();
+            authenticationListener.success(token);
         }
 
         /**
@@ -121,7 +125,7 @@ public class AuthenticationController implements TwitterAuthentication, DialogRe
          */
         @Override
         public void onException(TwitterException te, TwitterMethod method) {
-            throw new InternalError(te);
+            authenticationListener.error(te.getErrorMessage());
         }
 
         /**
@@ -136,7 +140,7 @@ public class AuthenticationController implements TwitterAuthentication, DialogRe
                 Desktop.getDesktop().browse(new URI(url));
                 dialog.show();
             } catch (IOException | URISyntaxException ex) {
-                throw new InternalError(ex);
+                authenticationListener.error(ex.getMessage());
             }
         }
     }

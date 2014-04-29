@@ -36,4 +36,11 @@ public interface TwitterAuthentication {
      */
     void start();
 
+    /**
+     * 認証処理結果を受け取るリスナーをセットします
+     * <p>
+     * @param authenticationListener 認証結果を受け取るリスナー
+     */
+    void setListener(TwitterAuthenticationListener authenticationListener);
+
 }
