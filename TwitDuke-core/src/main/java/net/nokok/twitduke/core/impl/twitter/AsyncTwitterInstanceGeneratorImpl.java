@@ -37,10 +37,7 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class AsyncTwitterInstanceGeneratorImpl implements AsyncTwitterInstanceGenerator {
 
-    private final Configuration configuration = new ConfigurationBuilder()
-            .setOAuthConsumerKey("VOIW6nzPVPEGyILu0kgMRQ")
-            .setOAuthConsumerSecret("x42tjv2Xrzsi3p5hfiGSYSiNLfa7VZv8Ozd0VHEaQ")
-            .build();
+    private final Configuration configuration = new ConfigurationProvider().get();
 
     @Override
     public AsyncTwitter generate() {
