@@ -27,12 +27,12 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import net.nokok.twitduke.core.impl.account.AccessTokenSerializer;
 import net.nokok.twitduke.core.api.account.AccessTokenWriter;
 import net.nokok.twitduke.core.api.twitter.TwitterAuthentication;
-import net.nokok.twitduke.core.impl.twitter.AsyncTwitterInstanceGeneratorImpl;
 import net.nokok.twitduke.core.api.view.Dialog;
 import net.nokok.twitduke.core.api.view.DialogResultListener;
+import net.nokok.twitduke.core.impl.account.AccessTokenSerializer;
+import net.nokok.twitduke.core.impl.twitter.AsyncTwitterInstanceGeneratorImpl;
 import net.nokok.twitduke.view.OAuthDialog;
 import twitter4j.AsyncTwitter;
 import twitter4j.TwitterAdapter;
@@ -42,7 +42,7 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 /**
- * 認証処理を制御するコントローラです。
+ * PIN入力による認証処理をします。
  * <p>
  * @author noko <nokok.kz at gmail.com>
  */
