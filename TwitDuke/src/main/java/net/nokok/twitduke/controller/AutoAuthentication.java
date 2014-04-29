@@ -23,8 +23,6 @@
  */
 package net.nokok.twitduke.controller;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import java.awt.Desktop;
 import java.io.IOException;
@@ -56,27 +54,23 @@ public class AutoAuthentication implements TwitterAuthentication {
             RequestToken requestToken = twitter.getOAuthRequestToken("http://localhost:8000");
             openInBrowser(requestToken.getAuthorizationURL());
             HttpServer server = HttpServer.create(new InetSocketAddress(8000), -1);
-            server.createContext("/", new HttpHandler() {
-
-                @Override
-                public void handle(HttpExchange he) throws IOException {
-                    he.getRequestMethod();
-                    he.sendResponseHeaders(HttpResponseCode.OK, 0);
-                    OutputStreamWriter responseWriter = new OutputStreamWriter(he.getResponseBody());
-                    responseWriter.append(
-                            "認証が完了しました。このタブ(またはウィンドウ)を閉じて下さい"
-                    );
-                    responseWriter.close();
-                    server.stop(0);
-                    String q = he.getRequestURI().getQuery();
-                    try {
-                        String verifier = q.split("=")[2];
-                        AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, verifier);
-                        AccessTokenWriter writer = new AccessTokenSerializer();
-                        writer.writeAccessToken(accessToken);
-                    } catch (TwitterException ex) {
-                        throw new InternalError(ex);
-                    }
+            server.createContext("/", he -> {
+                he.getRequestMethod();
+                he.sendResponseHeaders(HttpResponseCode.OK, 0);
+                OutputStreamWriter responseWriter = new OutputStreamWriter(he.getResponseBody());
+                responseWriter.append(
+                        "認証が完了しました。このタブ(またはウィンドウ)を閉じて下さい"
+                );
+                responseWriter.close();
+                server.stop(0);
+                String q = he.getRequestURI().getQuery();
+                try {
+                    String verifier = q.split("=")[2];
+                    AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, verifier);
+                    AccessTokenWriter writer = new AccessTokenSerializer();
+                    writer.writeAccessToken(accessToken);
+                } catch (TwitterException ex) {
+                    throw new InternalError(ex);
                 }
             });
             server.start();
