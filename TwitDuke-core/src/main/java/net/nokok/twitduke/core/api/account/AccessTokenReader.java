@@ -40,4 +40,6 @@ public interface AccessTokenReader {
      * @return
      */
     ArrayList<Optional<AccessToken>> getAccessTokenList();
+
+    Optional<AccessToken> readFirstAccessToken();
 }

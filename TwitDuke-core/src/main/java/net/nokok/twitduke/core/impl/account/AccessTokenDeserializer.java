@@ -75,4 +75,16 @@ public class AccessTokenDeserializer implements AccessTokenReader {
             return Optional.empty();
         }
     }
+
+    @Override
+    public Optional<AccessToken> readFirstAccessToken() {
+        ArrayList<Optional<AccessToken>> accessTokenList = getAccessTokenList();
+        Optional<Optional<AccessToken>> mayBeAccessTokenOptional
+                                        = accessTokenList.stream().findFirst();
+        if ( mayBeAccessTokenOptional.isPresent() ) {
+            return mayBeAccessTokenOptional.get();
+        } else {
+            return Optional.empty();
+        }
+    }
 }
