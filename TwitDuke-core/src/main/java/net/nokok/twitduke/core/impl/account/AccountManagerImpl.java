@@ -23,7 +23,10 @@
  */
 package net.nokok.twitduke.core.impl.account;
 
+import java.util.ArrayList;
+import java.util.Optional;
 import net.nokok.twitduke.core.api.account.AccessTokenReader;
+import net.nokok.twitduke.core.api.account.AccessTokenWriter;
 import net.nokok.twitduke.core.api.account.AccountManager;
 import twitter4j.auth.AccessToken;
 
@@ -35,18 +38,26 @@ import twitter4j.auth.AccessToken;
 public class AccountManagerImpl implements AccountManager {
 
     @Override
-    public void addAccount(AccessToken accessToken) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<Optional<AccessToken>> getAccessTokenList() {
+        AccessTokenReader accessTokenReader = new AccessTokenDeserializer();
+        return accessTokenReader.getAccessTokenList();
     }
 
     @Override
     public boolean hasValidAccount() {
         AccessTokenReader reader = new AccessTokenDeserializer();
-        return reader.getAccessTokenList().isEmpty();
+        return reader.readFirstAccessToken().isPresent();
     }
 
     @Override
-    public void removeAccount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Optional<AccessToken> readFirstAccessToken() {
+        AccessTokenReader accessTokenReader = new AccessTokenDeserializer();
+        return accessTokenReader.readFirstAccessToken();
+    }
+
+    @Override
+    public void writeAccessToken(AccessToken accessToken) {
+        AccessTokenWriter accessTokenWriter = new AccessTokenSerializer();
+        accessTokenWriter.writeAccessToken(accessToken);
     }
 }

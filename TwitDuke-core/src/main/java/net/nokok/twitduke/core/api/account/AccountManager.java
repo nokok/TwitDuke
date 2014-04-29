@@ -23,16 +23,12 @@
  */
 package net.nokok.twitduke.core.api.account;
 
-import twitter4j.auth.AccessToken;
-
 /**
  *
  * @author noko <nokok.kz at gmail.com>
  */
-public interface AccountManager extends AccountsInfo {
-
-    void addAccount(AccessToken accessToken);
-
-    void removeAccount();
+public interface AccountManager extends AccountsInfo,
+                                        AccessTokenReader,
+                                        AccessTokenWriter {
 
 }
