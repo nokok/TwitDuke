@@ -21,20 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.api.twitter;
+package net.nokok.twitduke.core.api.auth;
 
 /**
- * OAuth認証が失敗した時のリスナーとして利用するインターフェースです
+ * OAuth認証を実行できます。TwitterAuthenticationインターフェースと同じ役割ですが、
+ * このインターフェースを用いるとラムダ式による記述が可能になります。
  * <p>
  * @author noko <nokok.kz at gmail.com>
+ * @see TwitterAuthentication
  */
-@FunctionalInterface
-public interface OAuthOnError {
+public interface OAuthRunnable {
+
+    /**
+     * 認証処理を開始します
+     */
+    void startOAuth();
+
+    /**
+     * 認証が成功した時に呼ばれます
+     * <p>
+     * @param onSuccess 認証が成功した時に実行されるリスナー
+     */
+    void onSuccess(OAuthOnSuccess onSuccess);
 
     /**
      * 認証が失敗した時に呼ばれます
      * <p>
-     * @param errorMessage 失敗した原因を説明するメッセージ
+     * @param onError 認証が失敗した時に実行されるリスナー
      */
-    void onError(String errorMessage);
+    void onError(OAuthOnError onError);
 }

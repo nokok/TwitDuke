@@ -21,27 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.api.twitter;
+package net.nokok.twitduke.core.api.auth;
 
 /**
- * このインターフェースを実装したクラスは何らかの形でTwitterAPIの認証ができることを示します。
- * start()を実行する事で認証処理が開始されます。setListenerメソッドでセットしたリスナーに
- * 認証結果を返します
+ * OAuth認証が失敗した時のリスナーとして利用するインターフェースです
  * <p>
  * @author noko <nokok.kz at gmail.com>
  */
-public interface TwitterAuthentication {
+@FunctionalInterface
+public interface OAuthOnError {
 
     /**
-     * 認証処理を開始します
-     */
-    void start();
-
-    /**
-     * 認証処理結果を受け取るリスナーをセットします
+     * 認証が失敗した時に呼ばれます
      * <p>
-     * @param authenticationListener 認証結果を受け取るリスナー
+     * @param errorMessage 失敗した原因を説明するメッセージ
      */
-    void setListener(TwitterAuthenticationListener authenticationListener);
-
+    void onError(String errorMessage);
 }

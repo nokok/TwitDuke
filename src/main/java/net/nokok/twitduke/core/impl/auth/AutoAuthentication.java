@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl.twitter;
+package net.nokok.twitduke.core.impl.auth;
 
 import com.sun.net.httpserver.HttpServer;
 import java.awt.Desktop;
@@ -30,8 +30,9 @@ import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
-import net.nokok.twitduke.core.api.twitter.TwitterAuthentication;
-import net.nokok.twitduke.core.api.twitter.TwitterAuthenticationListener;
+import net.nokok.twitduke.core.api.auth.TwitterAuthentication;
+import net.nokok.twitduke.core.api.auth.TwitterAuthenticationListener;
+import net.nokok.twitduke.core.impl.twitter.AsyncTwitterInstanceGeneratorImpl;
 import twitter4j.AsyncTwitter;
 import twitter4j.HttpResponseCode;
 import twitter4j.TwitterException;

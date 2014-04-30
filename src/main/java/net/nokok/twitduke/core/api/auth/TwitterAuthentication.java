@@ -21,28 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.api.twitter;
-
-import twitter4j.auth.AccessToken;
+package net.nokok.twitduke.core.api.auth;
 
 /**
- * Twitter認証の結果を受け取るメソッドを定義するインターフェースです。
+ * このインターフェースを実装したクラスは何らかの形でTwitterAPIの認証ができることを示します。
+ * start()を実行する事で認証処理が開始されます。setListenerメソッドでセットしたリスナーに
+ * 認証結果を返します
  * <p>
  * @author noko <nokok.kz at gmail.com>
  */
-public interface TwitterAuthenticationListener {
+public interface TwitterAuthentication {
 
     /**
-     * Twitter認証が成功した時に呼びます。
-     * <p>
-     * @param accessToken 取得したアクセストークン
+     * 認証処理を開始します
      */
-    void success(AccessToken accessToken);
+    void start();
 
     /**
-     * Twitter認証が失敗した時に呼ばれます
+     * 認証処理結果を受け取るリスナーをセットします
      * <p>
-     * @param errorMessage 失敗した原因を説明するメッセージ
+     * @param authenticationListener 認証結果を受け取るリスナー
      */
-    void error(String errorMessage);
+    void setListener(TwitterAuthenticationListener authenticationListener);
+
 }

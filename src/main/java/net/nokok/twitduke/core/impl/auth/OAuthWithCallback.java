@@ -21,13 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl.twitter;
+package net.nokok.twitduke.core.impl.auth;
 
-import net.nokok.twitduke.core.api.twitter.OAuthOnError;
-import net.nokok.twitduke.core.api.twitter.OAuthOnSuccess;
-import net.nokok.twitduke.core.api.twitter.OAuthRunnable;
-import net.nokok.twitduke.core.api.twitter.TwitterAuthentication;
-import net.nokok.twitduke.core.api.twitter.TwitterAuthenticationListener;
+import net.nokok.twitduke.core.impl.auth.AutoAuthentication;
+import net.nokok.twitduke.core.api.auth.OAuthOnError;
+import net.nokok.twitduke.core.api.auth.OAuthOnSuccess;
+import net.nokok.twitduke.core.api.auth.OAuthRunnable;
+import net.nokok.twitduke.core.api.auth.TwitterAuthentication;
+import net.nokok.twitduke.core.api.auth.TwitterAuthenticationListener;
 import twitter4j.auth.AccessToken;
 
 /**
