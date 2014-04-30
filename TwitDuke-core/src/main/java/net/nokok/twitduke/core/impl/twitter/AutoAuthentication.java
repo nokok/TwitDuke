@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.auth;
+package net.nokok.twitduke.core.impl.twitter;
 
 import com.sun.net.httpserver.HttpServer;
 import java.awt.Desktop;
