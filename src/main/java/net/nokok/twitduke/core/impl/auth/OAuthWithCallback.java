@@ -23,7 +23,6 @@
  */
 package net.nokok.twitduke.core.impl.auth;
 
-import net.nokok.twitduke.core.impl.auth.AutoAuthentication;
 import net.nokok.twitduke.core.api.auth.OAuthOnError;
 import net.nokok.twitduke.core.api.auth.OAuthOnSuccess;
 import net.nokok.twitduke.core.api.auth.OAuthRunnable;
