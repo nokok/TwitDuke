@@ -38,6 +38,8 @@ import net.nokok.twitduke.components.basic.TWTextArea;
  */
 public class DefaultTweetCell extends TWPanel {
 
+    private static final long serialVersionUID = 8642406108943840213L;
+
     JLabel userIcon = new TWLabel();
     JLabel userName = new TWLabel();
     JLabel screenName = new TWLabel();
