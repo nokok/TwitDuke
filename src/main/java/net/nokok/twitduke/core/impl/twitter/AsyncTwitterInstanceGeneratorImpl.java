@@ -37,7 +37,7 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class AsyncTwitterInstanceGeneratorImpl implements AsyncTwitterInstanceGenerator {
 
-    private final Configuration configuration = new ConfigurationProvider().get();
+    private final Configuration configuration = ConfigurationProvider.getConfiguration();
 
     @Override
     public AsyncTwitter generate() {

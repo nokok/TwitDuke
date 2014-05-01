@@ -32,7 +32,10 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class ConfigurationProvider {
 
-    Configuration get() {
+    private ConfigurationProvider() {
+    }
+
+    static Configuration getConfiguration() {
         return new ConfigurationBuilder()
                 .setOAuthConsumerKey("VOIW6nzPVPEGyILu0kgMRQ")
                 .setOAuthConsumerSecret("x42tjv2Xrzsi3p5hfiGSYSiNLfa7VZv8Ozd0VHEaQ")

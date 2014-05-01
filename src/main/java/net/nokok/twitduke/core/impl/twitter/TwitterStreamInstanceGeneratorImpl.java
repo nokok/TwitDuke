@@ -31,7 +31,7 @@ import twitter4j.conf.Configuration;
 
 public class TwitterStreamInstanceGeneratorImpl implements TwitterStreamInstanceGenerator {
 
-    private final Configuration configuration = new ConfigurationProvider().get();
+    private final Configuration configuration = ConfigurationProvider.getConfiguration();
 
     @Override
     public TwitterStream generate() {
