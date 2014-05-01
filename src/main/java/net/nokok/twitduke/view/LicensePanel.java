@@ -44,7 +44,7 @@ public class LicensePanel extends TWPanel {
     public LicensePanel() {
         setLayout(new BorderLayout());
         SystemInfo info = new SystemInfoImpl();
-        JTextArea textArea = TWTextArea.newTextArea(info.license());
+        JTextArea textArea = TWTextArea.newNotEditableTextArea(info.license());
         add(textArea, BorderLayout.CENTER);
     }
 }
