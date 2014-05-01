@@ -32,6 +32,7 @@ import javax.swing.JButton;
  * TwitDuke用のカスタマイズ済みJButtonを定義します
  * <p>
  * @author noko <nokok.kz at gmail.com>
+ * @since 0.2
  */
 public class TWButton extends JButton {
 
@@ -46,6 +47,9 @@ public class TWButton extends JButton {
      */
     public static final Color FOREGROUND_COLOR = new Color(40, 40, 40);
 
+    /**
+     * 空のボタンを生成します
+     */
     public TWButton() {
         setBackground(BACKGROUND_COLOR);
         setForeground(FOREGROUND_COLOR);
@@ -65,6 +69,11 @@ public class TWButton extends JButton {
         });
     }
 
+    /**
+     * テキスト付きのボタンを生成します
+     *
+     * @param text ボタンにセットするテキスト
+     */
     public TWButton(String text) {
         this();
         setText(text);

@@ -27,14 +27,21 @@ import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
+ * 認証関連の処理で必要な設定を供給するクラスです
  *
  * @author noko <nokok.kz at gmail.com>
  */
-public class ConfigurationProvider {
+class ConfigurationProvider {
 
     private ConfigurationProvider() {
     }
 
+    /**
+     * TwitDukeのConsumer/ConsumerSecretキーがセットされたConfigurationオブジェクトを返します。
+     * このオブジェクトにはアクセストークンがセットされていないためこのままでは利用できません
+     *
+     * @return Consumer/ConsumerSecretキーがセットされたTwitDukeConfigurationオブジェクト
+     */
     static Configuration getConfiguration() {
         return new ConfigurationBuilder()
                 .setOAuthConsumerKey("VOIW6nzPVPEGyILu0kgMRQ")

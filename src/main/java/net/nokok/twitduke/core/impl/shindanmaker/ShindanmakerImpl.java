@@ -25,7 +25,8 @@ package net.nokok.twitduke.core.impl.shindanmaker;
 
 import java.io.IOException;
 import net.nokok.twitduke.core.api.shindanmaker.Shindanmaker;
-import net.nokok.twitduke.core.api.shindanmaker.ShindanmakerListener;
+import net.nokok.twitduke.core.type.AsyncTaskOnSuccess;
+import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -37,11 +38,17 @@ import org.jsoup.select.Elements;
  */
 public class ShindanmakerImpl implements Shindanmaker {
 
-    private ShindanmakerListener listener;
+    private ErrorMessageReceivable receivable;
+    private AsyncTaskOnSuccess<String> result;
 
     @Override
-    public void setListener(ShindanmakerListener listener) {
-        this.listener = listener;
+    public void onError(ErrorMessageReceivable receivable) {
+        this.receivable = receivable;
+    }
+
+    @Override
+    public void onSuccess(AsyncTaskOnSuccess<String> result) {
+        this.result = result;
     }
 
     @Override
@@ -49,9 +56,9 @@ public class ShindanmakerImpl implements Shindanmaker {
         try {
             Document doc = Jsoup.connect(shindanmakerURL).data("u", name).post();
             Elements textArea = doc.select("textarea");
-            listener.success(textArea.val());
+            result.onSuccess(textArea.val());
         } catch (IOException ex) {
-            listener.error();
+            receivable.onError(ex.getMessage());
         }
     }
 }

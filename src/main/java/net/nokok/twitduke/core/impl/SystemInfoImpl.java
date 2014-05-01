@@ -25,6 +25,12 @@ package net.nokok.twitduke.core.impl;
 
 import net.nokok.twitduke.core.api.SystemInfo;
 
+/**
+ * TwitDukeの基本的なシステム情報を取得します
+ *
+ * @author noko
+ * @since 0.2
+ */
 public class SystemInfoImpl implements SystemInfo {
 
     @Override

@@ -30,6 +30,7 @@ import javax.swing.JLabel;
  * TwitDuke用のカスタマイズ済みJLabelを定義します
  * <p>
  * @author noko <nokok.kz at gmail.com>
+ * @since 0.2
  */
 public class TWLabel extends JLabel {
 
@@ -44,11 +45,19 @@ public class TWLabel extends JLabel {
      */
     public static final Color FOREGROUND_COLOR = new Color(200, 200, 200);
 
+    /**
+     * 空のラベルを生成します
+     */
     public TWLabel() {
         setBackground(BACKGROUND_COLOR);
         setForeground(FOREGROUND_COLOR);
     }
 
+    /**
+     * 指定したテキストでラベルを生成します
+     *
+     * @param text ラベルにセットするテキスト
+     */
     public TWLabel(String text) {
         this();
         setText(text);

@@ -31,6 +31,7 @@ import javax.swing.JPanel;
  * TwitDuke用のカスタマイズ済みJPanelです
  * <p>
  * @author noko <nokok.kz at gmail.com>
+ * @since 0.2
  */
 public class TWPanel extends JPanel {
 
@@ -45,12 +46,20 @@ public class TWPanel extends JPanel {
      */
     public static final Color FOREGROUND_COLOR = new Color(200, 200, 200);
 
+    /**
+     * 空のパネルを生成します
+     */
     public TWPanel() {
         super();
         setBackground(BACKGROUND_COLOR);
         setForeground(FOREGROUND_COLOR);
     }
 
+    /**
+     * 指定したレイアウトマネージャーで空のパネルを生成します
+     *
+     * @param layoutManager パネルに指定するレイアウトマネージャー
+     */
     public TWPanel(LayoutManager layoutManager) {
         this();
         setLayout(layoutManager);

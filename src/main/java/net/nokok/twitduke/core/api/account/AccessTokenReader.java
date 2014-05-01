@@ -36,7 +36,7 @@ public interface AccessTokenReader {
 
     /**
      * 利用可能なアクセストークンのリストを返します。
-     * OptionalなアクセストークンなのでisPresentメソッドを用いて存在のチェックをして下さい
+     *
      * <p>
      * @return アクセストークンのリスト
      */
@@ -44,7 +44,6 @@ public interface AccessTokenReader {
 
     /**
      * アクセストークンを一つだけ返します。
-     * 複数のアクセストークンが利用可能な場合は、どのアクセストークンが返るかは不定です。
      * <p>
      * @return 読み込んだアクセストークン
      */

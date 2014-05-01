@@ -26,8 +26,8 @@ package net.nokok.twitduke.core.api.account;
 import twitter4j.auth.AccessToken;
 
 /**
- * アクセストークンを書き込むメソッドを定義したインターフェースです。
- * <p>
+ * アクセストークンを書き込むメソッドを提供するインターフェースです
+ *
  * @author noko <nokok.kz at gmail.com>
  */
 public interface AccessTokenWriter {

@@ -23,6 +23,9 @@
  */
 package net.nokok.twitduke.core.api.shindanmaker;
 
+import net.nokok.twitduke.core.type.AsyncTaskOnSuccess;
+import net.nokok.twitduke.core.type.ErrorMessageReceivable;
+
 /**
  * 診断メーカーの自動診断に必要なメソッドを定義するインターフェースです
  * <p>
@@ -33,15 +36,22 @@ public interface Shindanmaker {
     /**
      * 診断メーカーにリクエストを送信します
      * <p>
-     * @param id   診断メーカーの診断をするID
-     * @param name 診断メーカーを実行するID
+     * @param shindanmakerURL 診断メーカーのURL
+     * @param name            診断メーカーを実行するID
      */
     void sendRequest(String shindanmakerURL, String name);
 
     /**
-     * 結果を取得するリスナーをセットします
-     * <p>
-     * @param listener
+     * エラーが発生した時に呼ばれます
+     *
+     * @param receivable エラーメッセージが受信可能なオブジェクト
      */
-    void setListener(ShindanmakerListener listener);
+    void onError(ErrorMessageReceivable receivable);
+
+    /**
+     * 成功した時に呼ばれます
+     *
+     * @param result String型を受け取れるオブジェクト
+     */
+    void onSuccess(AsyncTaskOnSuccess<String> result);
 }

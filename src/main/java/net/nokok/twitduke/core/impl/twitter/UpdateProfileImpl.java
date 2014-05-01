@@ -29,6 +29,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
 /**
+ * ユーザー情報の変更をします
  *
  * @author noko
  * @since 0.2

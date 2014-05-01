@@ -38,6 +38,11 @@ public class Tweet implements Cloneable, Serializable, Retrievable<String> {
 
     private final String text;
 
+    /**
+     * 渡された文字列からツイートオブジェクトを生成します
+     *
+     * @param text ツイートを生成する文字列
+     */
     public Tweet(String text) {
         if ( text == null ) {
             throw new NullPointerException("渡された文字列がnullです");

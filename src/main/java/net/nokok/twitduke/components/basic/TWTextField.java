@@ -36,10 +36,22 @@ public class TWTextField extends JTextField {
 
     private static final long serialVersionUID = 1886443858870774301L;
 
+    /**
+     * テキストフィールドの背景色です
+     */
     public static final Color BACKGROUND_COLOR = new Color(40, 40, 40);
+    /**
+     * テキストフィールドの前景色です
+     */
     public static final Color FOREGROUND_COLOR = new Color(200, 200, 200);
+    /**
+     * テキストフィールドを囲む枠の線の色です
+     */
     public static final Color BORDER_COLOR = new Color(200, 200, 200);
 
+    /**
+     * 空のテキストフィールドを生成します。
+     */
     public TWTextField() {
         setBackground(BACKGROUND_COLOR);
         setForeground(FOREGROUND_COLOR);

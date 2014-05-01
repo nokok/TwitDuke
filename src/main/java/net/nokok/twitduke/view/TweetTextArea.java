@@ -50,11 +50,11 @@ public class TweetTextArea extends TWTextArea {
      * <p>
      * @param tweetAPI
      *                 <p>
-     * @throws IllegalArgmentException 渡されたオブジェクトがnullの場合
+     * @exception NullPointerException 渡されたSendTweetAPIオブジェクトがnullだった場合
      */
     public TweetTextArea(SendTweetAPI tweetAPI) {
         if ( tweetAPI == null ) {
-            throw new IllegalArgumentException("SendTweetAPIインターフェースがnullです");
+            throw new NullPointerException("SendTweetAPIインターフェースがnullです");
         }
         this.tweetAPI = tweetAPI;
         addKeyListener(new DefaultSendTweetKeyListener());
@@ -68,7 +68,7 @@ public class TweetTextArea extends TWTextArea {
      * @param tweetAPI
      * @param keyListener
      *                    <p>
-     * @throws IllegalArgmentException 渡されたSendTweetAPIオブジェクトがnullの場合
+     * @exception NullPointerException 渡されたSendTweetAPIオブジェクトがnullの場合
      */
     public TweetTextArea(SendTweetAPI tweetAPI, KeyListener keyListener) {
         this(tweetAPI);

@@ -42,16 +42,29 @@ public class OKCancelButtonPanel extends TWPanel {
     private final JButton okButton = new TWButton("OK");
     private final JButton cancelButton = new TWButton("Cancel");
 
+    /**
+     * OKボタンとキャンセルボタンが2つ横方向に並んだパネルを生成します。
+     */
     public OKCancelButtonPanel() {
         setLayout(new FlowLayout());
         add(okButton);
         add(cancelButton);
     }
 
+    /**
+     * OKボタンがクリックされた時のアクションリスナを追加します。
+     *
+     * @param actionListener OKボタンに追加するアクションリスナ
+     */
     public void addOKButtonAction(ActionListener actionListener) {
         okButton.addActionListener(actionListener);
     }
 
+    /**
+     * キャンセルボタンがクリックされた時のアクションリスナを追加します
+     *
+     * @param actionListener キャンセルボタンに追加するアクションリスナ
+     */
     public void addCancelButtonAction(ActionListener actionListener) {
         cancelButton.addActionListener(actionListener);
     }

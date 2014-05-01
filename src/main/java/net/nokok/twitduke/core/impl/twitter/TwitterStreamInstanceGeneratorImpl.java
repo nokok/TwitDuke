@@ -29,6 +29,11 @@ import twitter4j.TwitterStreamFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.conf.Configuration;
 
+/**
+ * TwitterStreamを生成するクラスです。
+ *
+ * @author noko < nokok.kz at gmail.com >
+ */
 public class TwitterStreamInstanceGeneratorImpl implements TwitterStreamInstanceGenerator {
 
     private final Configuration configuration = ConfigurationProvider.getConfiguration();

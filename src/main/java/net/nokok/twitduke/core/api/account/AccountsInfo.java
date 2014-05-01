@@ -34,7 +34,7 @@ public interface AccountsInfo {
      * 利用可能なアカウントがあるかどうかチェックします。
      * <p>
      * @return 利用可能なアカウントが1つ以上ある場合はtrue
-     *         そうでない場合はfalse
+     *         1つも利用できない場合false
      */
     boolean hasValidAccount();
 }

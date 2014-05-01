@@ -30,15 +30,24 @@ import javax.swing.WindowConstants;
  * TwitDuke用のカスタマイズ済みJFrameです
  * <p>
  * @author noko <nokok.kz at gmail.com>
+ * @since 0.2
  */
 public class TWFrame extends JFrame {
 
     private static final long serialVersionUID = 4575935111957376368L;
 
+    /**
+     * 空のフレームを生成します
+     */
     public TWFrame() {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
+    /**
+     * 指定したタイトルでフレームを生成します
+     *
+     * @param title フレームにセットするタイトル
+     */
     public TWFrame(String title) {
         this();
         setTitle(title);

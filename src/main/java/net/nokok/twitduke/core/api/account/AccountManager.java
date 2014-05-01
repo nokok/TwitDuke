@@ -24,6 +24,7 @@
 package net.nokok.twitduke.core.api.account;
 
 /**
+ * Twitterアカウントに関する操作を定義するインターフェースです
  *
  * @author noko <nokok.kz at gmail.com>
  */

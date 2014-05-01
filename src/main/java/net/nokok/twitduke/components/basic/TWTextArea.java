@@ -30,6 +30,7 @@ import javax.swing.JTextArea;
  * TwitDuke用のカスタマイズ済みJTextAreaです
  * <p>
  * @author noko <nokok.kz at gmail.com>
+ * @since 0.2
  */
 public class TWTextArea extends JTextArea {
 
@@ -44,17 +45,29 @@ public class TWTextArea extends JTextArea {
      */
     public static final Color FOREGROUND_COLOR = new Color(200, 200, 200);
 
+    /**
+     * 空のテキストエリアを生成します
+     */
     public TWTextArea() {
         setBackground(BACKGROUND_COLOR);
         setForeground(FOREGROUND_COLOR);
     }
 
-    public static JTextArea newEditableTextArea() {
-        JTextArea textArea = new TWTextArea();
-        return textArea;
-    }
-
-    public static JTextArea newTextArea(String text) {
+    /**
+     * setEditable(false)がセットされたテキストエリアを生成します。
+     * ただし、Swingの制約上イミュータブルなテキストエリアではありません。
+     *
+     * このメソッドを用いてテキストエリアを生成したとしてもsetEditable(true)を呼び出すと
+     * 編集可能になります。
+     *
+     * このメソッドは編集する必要のないテキストエリアを生成する必要がある時、
+     * setEditableメソッドの呼び出しを省略する為に使用します。
+     *
+     * @param text 生成するテキストエリアにセットするテキスト
+     *
+     * @return テキストがセットされた編集出来ないテキストエリア
+     */
+    public static JTextArea newNotEditableTextArea(String text) {
         JTextArea textArea = new TWTextArea();
         textArea.setText(text);
         textArea.setEditable(false);

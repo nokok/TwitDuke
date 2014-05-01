@@ -31,5 +31,10 @@ package net.nokok.twitduke.core.type;
  */
 public interface Retrievable<T> {
 
+    /**
+     * ラップされる前のオブジェクトを取得します
+     *
+     * @return ラップされる前のオブジェクト
+     */
     T get();
 }
