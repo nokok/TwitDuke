@@ -52,7 +52,7 @@ public class DefaultTweetCellBuilder {
         try {
             tweetCell.userIcon.setIcon(new ImageIcon(new URL(user.getProfileImageURLHttps())));
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            throw new InternalError(e);
         }
         return tweetCell;
     }
