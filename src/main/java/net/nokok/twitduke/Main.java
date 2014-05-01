@@ -26,18 +26,18 @@ package net.nokok.twitduke;
 import java.util.Objects;
 
 /**
- * TwitDukeのMainクラスです
+ * TwitDukeのMainクラスです。このクラスはエントリーポイントを持っています。mainメソッドへ渡す
+ * オプションは-debugのみ有効です。それ以外のオプションおよびnullを渡した場合は無視されます。
+ *
+ * このクラスがTwitDukeの起動処理を制御します。
  * <p>
- * @author noko <nokok.kz at gmail.com>
+ * @author noko < nokok.kz at gmail.com >
+ * @version 0.2
  */
 public class Main {
 
-    private boolean isDebugMode;
-
     /**
-     * TwitDukeのエントリポイントです。
-     * 引数は-debugのみ有効です。
-     * それ以外は全て無視されます。
+     * TwitDukeのエントリポイントです。 オプションは-debugのみ有効です。 それ以外は全て無視されます。
      * <p>
      * @param args 渡された引数の配列
      */
@@ -46,11 +46,12 @@ public class Main {
     }
 
     /**
-     * 渡された引数の中に-debugが含まれているかをチェックします
+     * 渡されたオプションの中に-debugが含まれているかをチェックします。nullが渡された場合はfalseを返します。
      * <p>
-     * @param args TwitDukeに渡された引数の配列
+     * @param args TwitDukeに渡されたオプションの配列
      * <p>
-     * @return -debugが含まれていた場合true それ以外はfalse
+     * @return -debugが含まれていた場合true
+     *         それ以外またはnullが渡された場合false
      */
     private static boolean hasDebugOption(String[] args) {
         if ( Objects.isNull(args) ) {
@@ -65,22 +66,11 @@ public class Main {
     }
 
     /**
-     * 実際に起動処理を開始します。
+     * 実際の起動処理を開始します。
      * <p>
-     * @param isDebugMode デバッグモードで起動するかどうかを指定します。
-     *                    trueでデバッグモードで起動します
+     * @param isDebugMode デバッグモードで起動したい場合はtrueを渡します。
      */
-    public void run(boolean isDebugMode) {
-        this.isDebugMode = isDebugMode;
+    private void run(boolean isDebugMode) {
 
-    }
-
-    /**
-     * デバッグモードかどうかを返します
-     * <p>
-     * @return デバッグモードならtrue
-     */
-    public boolean isDebugMode() {
-        return isDebugMode;
     }
 }
