@@ -58,7 +58,7 @@ public class PrintStatusListener implements StatusListener {
 
     @Override
     public void onStatus(Status status) {
-        System.out.println("onStatus:" + status.getText());
+        System.out.println("onStatus: " + status.getText());
     }
 
     @Override
