@@ -10,6 +10,7 @@ import twitter4j.Status;
 import twitter4j.StatusAdapter;
 import twitter4j.StatusDeletionNotice;
 import twitter4j.TwitterStream;
+import twitter4j.User;
 
 /**
  *
@@ -68,6 +69,41 @@ public class LambdaTwitterStream {
         });
     }
 
+    public void onRetweetedStatus(EventWithSingleArg<Status> s) {
+        this.twitterStream.addListener(new StatusAdapter() {
+
+            @Override
+            public void onStatus(Status status) {
+                if ( status.isRetweet() ) {
+                    s.onEvent(status.getRetweetedStatus());
+                }
+            }
+
+        });
+    }
+
+    public void onStatusUser(EventWithSingleArg<User> u) {
+        this.twitterStream.addListener(new StatusAdapter() {
+
+            @Override
+            public void onStatus(Status status) {
+                u.onEvent(status.getUser());
+            }
+
+        });
+    }
+
+    public void onStatusScreenName(EventWithSingleArg<String> s) {
+        this.twitterStream.addListener(new StatusAdapter() {
+
+            @Override
+            public void onStatus(Status status) {
+                s.onEvent(status.getUser().getScreenName());
+            }
+
+        });
+    }
+
     public void onTrackLimitationNotice(EventWithSingleArg<Integer> i) {
         this.twitterStream.addListener(new StatusAdapter() {
             @Override
@@ -75,5 +111,9 @@ public class LambdaTwitterStream {
                 i.onEvent(numberOfLimitedStatuses);
             }
         });
+    }
+
+    public void startStream() {
+        this.twitterStream.user();
     }
 }
