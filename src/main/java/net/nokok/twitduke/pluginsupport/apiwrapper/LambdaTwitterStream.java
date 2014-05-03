@@ -236,4 +236,8 @@ public class LambdaTwitterStream {
     public void startStream() {
         this.twitterStream.user();
     }
+
+    public void debugStream() {
+        this.twitterStream.sample();
+    }
 }
