@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.nokok.twitduke.components.basic;
+package net.nokok.twitduke.components.async;
 
 import java.util.concurrent.ForkJoinPool;
 
