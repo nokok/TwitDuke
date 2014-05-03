@@ -3,6 +3,8 @@ TwitDuke is a twitter client
 TwitDuke is cool design  
 TwitDuke is cross-platform  
 
+[Acknowledgements](https://github.com/nokok/TwitDuke/blob/master/acknowledgements.md)
+
 #License
 The MIT License (MIT)
 
