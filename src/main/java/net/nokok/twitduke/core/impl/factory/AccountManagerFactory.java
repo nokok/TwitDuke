@@ -21,7 +21,7 @@ public class AccountManagerFactory {
      *
      * @return 新たに生成されたアカウントマネージャー
      */
-    public static AccountManager createNewInstance() {
+    public static AccountManager newInstance() {
         AccountManager accountManager = new AccountManagerImpl();
         return accountManager;
     }
