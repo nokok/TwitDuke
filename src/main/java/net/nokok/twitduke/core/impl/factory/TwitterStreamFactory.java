@@ -25,7 +25,13 @@ public class TwitterStreamFactory {
      * @return 生成されたストリーム
      */
     public static TwitterStream newInstance(AccessToken accessToken) {
-        TwitterStream twitterStream = new TwitterStreamInstanceGeneratorImpl().generate(accessToken);
+        final TwitterStream twitterStream = new TwitterStreamInstanceGeneratorImpl().generate(accessToken);
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                twitterStream.shutdown();
+            }
+        });
         return twitterStream;
     }
 }
