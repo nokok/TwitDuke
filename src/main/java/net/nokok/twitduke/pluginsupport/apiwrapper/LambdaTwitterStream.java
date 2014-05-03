@@ -5,12 +5,15 @@
  */
 package net.nokok.twitduke.pluginsupport.apiwrapper;
 
+import twitter4j.DirectMessage;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusAdapter;
 import twitter4j.StatusDeletionNotice;
 import twitter4j.TwitterStream;
 import twitter4j.User;
+import twitter4j.UserList;
+import twitter4j.UserStreamAdapter;
 
 /**
  *
@@ -109,6 +112,123 @@ public class LambdaTwitterStream {
             @Override
             public void onTrackLimitationNotice(int numberOfLimitedStatuses) {
                 i.onEvent(numberOfLimitedStatuses);
+            }
+        });
+    }
+
+    public void onBlock(EventWithDoubleArg<User, User> b) {
+        this.twitterStream.addListener(new UserStreamAdapter() {
+            @Override
+            public void onBlock(User source, User blockedUser) {
+                b.onEvent(source, blockedUser);
+            }
+        });
+    }
+
+    public void onUnBlock(EventWithDoubleArg<User, User> arg) {
+        this.twitterStream.addListener(new UserStreamAdapter() {
+            @Override
+            public void onUnblock(User source, User unblockedUser) {
+                arg.onEvent(source, unblockedUser);
+            }
+        });
+    }
+
+    public void onFavorite(EventWithTripleArg<User, User, Status> arg) {
+        this.twitterStream.addListener(new UserStreamAdapter() {
+            @Override
+            public void onFavorite(User source, User target, Status favoritedStatus) {
+                arg.onEvent(source, target, favoritedStatus);
+            }
+        });
+    }
+
+    public void onUnfavorite(EventWithTripleArg<User, User, Status> arg) {
+        this.twitterStream.addListener(new UserStreamAdapter() {
+            @Override
+            public void onUnfavorite(User source, User target, Status unfavoritedStatus) {
+                arg.onEvent(source, target, unfavoritedStatus);
+            }
+        });
+    }
+
+    public void onFollow(EventWithDoubleArg<User, User> arg) {
+        this.twitterStream.addListener(new UserStreamAdapter() {
+            @Override
+            public void onFollow(User source, User followedUser) {
+                arg.onEvent(source, followedUser);
+            }
+        });
+    }
+
+    public void onDirectMessage(EventWithSingleArg<DirectMessage> arg) {
+        this.twitterStream.addListener(new UserStreamAdapter() {
+            @Override
+            public void onDirectMessage(DirectMessage directMessage) {
+                arg.onEvent(directMessage);
+            }
+        });
+    }
+
+    public void onUserListMenberAddition(EventWithTripleArg<User, User, UserList> arg) {
+        this.twitterStream.addListener(new UserStreamAdapter() {
+            @Override
+            public void onUserListMemberAddition(User addedMember, User listOwner, UserList list) {
+                arg.onEvent(addedMember, listOwner, list);
+            }
+        });
+    }
+
+    public void onUserListMemberDeletion(EventWithTripleArg<User, User, UserList> arg) {
+        this.twitterStream.addListener(new UserStreamAdapter() {
+            @Override
+            public void onUserListMemberDeletion(User deletedMember, User listOwner, UserList list) {
+                arg.onEvent(deletedMember, listOwner, list);
+            }
+        });
+    }
+
+    public void onUserListSubscription(EventWithTripleArg<User, User, UserList> arg) {
+        this.twitterStream.addListener(new UserStreamAdapter() {
+            @Override
+            public void onUserListSubscription(User subscriber, User listOwner, UserList list) {
+                arg.onEvent(subscriber, listOwner, list);
+            }
+        });
+    }
+
+    public void onUserListUnsubscription(EventWithTripleArg<User, User, UserList> arg) {
+        this.twitterStream.addListener(new UserStreamAdapter() {
+            @Override
+            public void onUserListUnsubscription(User subscriber, User listOwner, UserList list) {
+                arg.onEvent(subscriber, listOwner, list);
+            }
+        });
+    }
+
+    public void onUserListCreation(EventWithDoubleArg<User, UserList> arg) {
+        this.twitterStream.addListener(new UserStreamAdapter() {
+            @Override
+            public void onUserListCreation(User listOwner, UserList list) {
+                arg.onEvent(listOwner, list);
+            }
+        });
+    }
+
+    public void onUserListUpdate(EventWithDoubleArg<User, UserList> arg) {
+        this.twitterStream.addListener(new UserStreamAdapter() {
+            @Override
+            public void onUserListUpdate(User listOwner, UserList list) {
+                arg.onEvent(listOwner, list);
+            }
+        });
+    }
+
+    public void onUserProfileUpdate(EventWithSingleArg<User> arg) {
+        this.twitterStream.addListener(new UserStreamAdapter() {
+            @Override
+            public void onUserProfileUpdate(User updatedUser) {
+                arg.onEvent(updatedUser);
             }
         });
     }
