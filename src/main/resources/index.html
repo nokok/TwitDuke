@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang=ja>
+  <head>
+    <title>TwitDuke Web Interface</title>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">TwitDuke Web Interface Prototype</a>
+          <p class="navbar-text"><span class="label label-primary">v0.2</span>  <span class="label label-warning">アップデートがあります</span></p>
+        </div>
+      </div>
+    </nav>
+    <div>
+      <ul id="root-navbar" class="nav nav-tabs">
+        <li><a href="#account" ><span class="glyphicon glyphicon-user">アカウント</span></a></li>
+        <li><a href="#notification" ><span class="glyphicon glyphicon-bell">通知</span></a></li>
+        <li><a href="#filter" ><span class="glyphicon glyphicon-filter">フィルター</span></a></li>
+        <li><a href="#ui" ><span class="glyphicon glyphicon-tint">UI</span></a></li>
+        <li><a href="#plugin" ><span class=" glyphicon glyphicon-link">プラグイン</span></a></li>
+        <li><a href="#other" ><span class="glyphicon glyphicon-wrench">高度な設定</span></a></li>
+        <li class="active"><a href="#dev" ><span class="glyphicon glyphicon-tower">開発者向け</span></a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade" id="account">
+          <div class="container">
+            <h3>アカウント一覧</h3>
+            <table class="table">
+              <thead>
+                <th><input type=checkbox /></th>
+                <th>#</th>
+                <th>アカウント名</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input type=checkbox /></td>
+                  <td>1</td>
+                  <td>@noko_k</td>
+                </tr>
+                <tr>
+                  <td><input type=checkbox /></td>
+                  <td>2</td>
+                  <td>@noko_dev</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default"><span class=" glyphicon glyphicon-plus"></span></button>
+              <button type="button" class="btn btn-danger"><span class=" glyphicon glyphicon-minus"></span></button>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="notification">
+          <div class="container">
+            <h3>通知条件</h3>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="filter">
+          <div class="container">
+            <h3>振り分け</h3>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="ui">
+          <div class="container">
+            <h3>デザイン</h3>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="plugin">
+          <div class="container">
+            <h3>インストール済みのプラグイン</h3>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="other">
+          <div class="container">
+            <h3>高度な設定</h3>
+          </div>
+        </div>
+        <div class="tab-pane fade in active" id="dev">
+          <div class="container">
+            <h3>APIドキュメント</h3>
+            
+            <table class="table">
+              <thead>
+                <th class="col-md-2">API名</th>
+                <th class="col-md-1">バージョン</th>
+                <th class="col-md-2">フラグ</th>
+                <th>概要</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>window</td>
+                  <td><span class="label label-default">v0.2</span></td>
+                  <td><span class="label label-warning">実験的</span></td>
+                  <td>ウィンドウの操作関連APIを定義しています</td>
+                </tr>
+                <tr>
+                  <td>menubar</td>
+                  <td><span class="label label-default">v0.2</span></td>
+                  <td><span class="label label-danger">非推奨</span></td>
+                  <td>メニューバー</td>
+                </tr>
+                <tr>
+                  <td>mouse</td>
+                  <td><span class="label label-default">v0.2</span></td>
+                  <td><span class="label label-primary">ロック済み</span></td>
+                  <td>マウスポインタの位置を取得します</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <script>
+        $('#root-navbar a').click(function (e) {
+          e.preventDefault()
+          $(this).tab('show')
+        })
+      </script>
+    </div>
+    <div>
+    </div>
+  </body>
+</html>
