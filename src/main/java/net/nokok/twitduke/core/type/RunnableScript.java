@@ -6,10 +6,14 @@
 package net.nokok.twitduke.core.type;
 
 /**
+ * スクリプト(プラグイン)が実行可能です
  *
  * @author noko < nokok.kz at gmail.com >
  */
 public interface RunnableScript {
 
+    /**
+     * スクリプト(プラグイン)を実行します
+     */
     void runScript();
 }
