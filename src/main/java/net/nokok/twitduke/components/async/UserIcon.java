@@ -32,11 +32,19 @@ import net.nokok.twitduke.core.type.AsyncTaskOnSuccess;
 import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 
 /**
+ * 非同期でユーザーアイコンを取得できるラベルコンポーネントです
  *
  * @author noko
  */
 public class UserIcon extends TWLabel {
 
+    private static final long serialVersionUID = -350591259780147393L;
+
+    /**
+     * 指定されたURLの画像でラベルを生成します。
+     *
+     * @param url 画像のURL
+     */
     public UserIcon(String url) {
         AsyncImageLoader task = new AsyncImageLoader(url);
         task.onSuccess(icon -> setIcon(icon));

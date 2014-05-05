@@ -26,6 +26,8 @@ package net.nokok.twitduke.components.async;
 import java.util.concurrent.ForkJoinPool;
 
 /**
+ * 非同期でコンポーネントの状態を更新するためのマネージャーです。
+ *
  *
  * @author noko
  */
@@ -35,6 +37,11 @@ enum UIAsyncTaskPool {
 
     private final ForkJoinPool pool = new ForkJoinPool();
 
+    /**
+     * タスクを並列で実行します。
+     *
+     * @param runnable 実行するタスク
+     */
     public void runTask(Runnable runnable) {
         pool.execute(runnable);
     }
