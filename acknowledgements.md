@@ -3,7 +3,8 @@
 TwitDuke uses these libraries.
 
 ##Twitter4J
-[http://twitter4j.org/ja/](http://twitter4j.org/ja/)
+[http://twitter4j.org/ja/](http://twitter4j.org/ja/)  
+[https://github.com/yusuke/twitter4j/blob/master/LICENSE.txt](https://github.com/yusuke/twitter4j/blob/master/LICENSE.txt)
 >Copyright 2007 Yusuke Yamamoto
 
 >Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +19,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-##JSoup 
+##jsoup 
 [http://jsoup.org/](http://jsoup.org/)  
 [http://jsoup.org/license](http://jsoup.org/license)
 
