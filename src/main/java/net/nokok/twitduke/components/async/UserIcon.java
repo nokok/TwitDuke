@@ -47,7 +47,7 @@ public class UserIcon extends TWLabel {
      */
     public UserIcon(String url) {
         AsyncImageLoader task = new AsyncImageLoader(url);
-        task.onSuccess(icon -> setIcon(icon));
+        task.onSuccess(this::setIcon);
         task.onError(System.out::println);
         UIAsyncTaskPool.INSTANCE.runTask(task);
     }
