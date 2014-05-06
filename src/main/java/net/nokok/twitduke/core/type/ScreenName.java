@@ -23,7 +23,7 @@
  */
 package net.nokok.twitduke.core.type;
 
-import java.util.Objects;
+import static java.util.Objects.requireNonNull;
 
 /**
  * スクリーンネームをラップするクラスです。
@@ -43,7 +43,7 @@ public class ScreenName implements Retrievable<String> {
      * @exception java.lang.IllegalArgumentException テキストが空の場合
      */
     public ScreenName(String screenName) {
-        String name = Objects.requireNonNull(screenName, "渡されたスクリーンネームがnullです");
+        String name = requireNonNull(screenName, "渡されたスクリーンネームがnullです");
         if ( name.isEmpty() ) {
             throw new IllegalArgumentException("空の文字列は渡せません");
         }

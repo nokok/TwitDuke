@@ -23,7 +23,7 @@
  */
 package net.nokok.twitduke.core.type;
 
-import java.util.Objects;
+import static java.util.Objects.requireNonNull;
 
 /**
  * ユーザー名をラップするクラスです。
@@ -42,7 +42,7 @@ public class UserName implements Retrievable<String> {
      * @exception java.lang.IllegalArgumentException テキストが空の場合
      */
     public UserName(String userName) {
-        String name = Objects.requireNonNull(userName, "渡されたユーザー名がnullです");
+        String name = requireNonNull(userName, "渡されたユーザー名がnullです");
         if ( name.isEmpty() ) {
             throw new IllegalArgumentException("空の文字列は渡せません");
         }
