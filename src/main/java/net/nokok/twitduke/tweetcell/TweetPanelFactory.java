@@ -23,15 +23,21 @@
  */
 package net.nokok.twitduke.tweetcell;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import net.nokok.twitduke.components.basic.TWButton;
 import net.nokok.twitduke.components.tweetcell.FavoriteButton;
 import net.nokok.twitduke.components.tweetcell.RetweetButton;
 import net.nokok.twitduke.components.tweetcell.ScreenNameLabel;
 import net.nokok.twitduke.components.tweetcell.UserNameLabel;
+import twitter4j.HashtagEntity;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.URLEntity;
 
 /**
  * 指定されたステータスから個別のパネルやラベルを生成します
@@ -132,5 +138,32 @@ public class TweetPanelFactory {
             }
         });
         return button;
+    }
+
+    /**
+     * ステータスに含まれるハッシュタグのボタンリストを生成します
+     *
+     * @return ハッシュタグのボタンのリスト
+     */
+    public List<JButton> createHashtagButtonList() {
+        HashtagEntity[] hashtagEntities = status.getHashtagEntities();
+        List<JButton> buttonList = new ArrayList<>(hashtagEntities.length);
+        Stream
+                .of(hashtagEntities)
+                .forEach(h -> buttonList.add(new TWButton(h.getText())));
+        return buttonList;
+    }
+
+    /**
+     * ステータスに含まれるURLのボタンリストを生成します
+     *
+     * @return URLのボタンのリスト
+     */
+    public List<JButton> createURLButtonList() {
+        URLEntity[] urlEntities = status.getURLEntities();
+        List<JButton> buttonList = new ArrayList<>(urlEntities.length);
+        Stream.of(urlEntities)
+                .forEach(u -> buttonList.add(new TWButton(u.getDisplayURL())));
+        return buttonList;
     }
 }
