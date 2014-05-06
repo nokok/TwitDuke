@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 noko <nokok.kz at gmail.com>.
+ * Copyright 2014 noko
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,6 @@ import java.util.concurrent.ForkJoinPool;
 
 /**
  * 非同期でコンポーネントの状態を更新するためのマネージャーです。
- *
  */
 enum UIAsyncTaskPool {
 
@@ -36,7 +35,7 @@ enum UIAsyncTaskPool {
     private final ForkJoinPool pool = new ForkJoinPool();
 
     /**
-     * タスクを並列で実行します。
+     * タスクをCPUで利用可能なスレッド数で並列に実行します。
      *
      * @param runnable 実行するタスク
      */
