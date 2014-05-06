@@ -36,15 +36,20 @@ public class RetweetButton extends TWButton {
     private static final long serialVersionUID = 2349270506630754751L;
 
     /**
-     * ボタンの背景色です
+     * リツイートしていないボタンの背景色です
      */
-    public static final Color RT_BACKGROUND_COLOR = new Color(39, 174, 96);
+    public static final Color DEFAULT_BACKGROUND_COLOR = new Color(39, 174, 96);
+
+    /**
+     * リツイート済みのボタンの背景色です
+     */
+    public static final Color RETWEETED_BACKGROUND_COLOR = new Color(39, 174, 96);
 
     /**
      * リツイートボタンを生成します
      */
     public RetweetButton() {
-        setBackground(RT_BACKGROUND_COLOR);
+        setBackground(DEFAULT_BACKGROUND_COLOR);
         setPreferredSize(new Dimension(60, 15));
     }
 }

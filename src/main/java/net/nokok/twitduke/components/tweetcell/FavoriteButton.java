@@ -36,15 +36,20 @@ public class FavoriteButton extends TWButton {
     private static final long serialVersionUID = 2609656566714323682L;
 
     /**
-     * ボタンの背景色です
+     * まだお気に入りにしていないボタンの背景色です
      */
-    public static final Color FAV_BACKGROUND_COLOR = new Color(241, 196, 15);
+    public static final Color DEFAULT_BACKGROUND_COLOR = new Color(241, 196, 15).darker();
+
+    /**
+     * お気に入り済みのボタンの背景色です
+     */
+    public static final Color FAVORITED_BACKGROUND_COLOR = new Color(241, 196, 15);
 
     /**
      * お気に入りボタンを生成します
      */
     public FavoriteButton() {
-        setBackground(FAV_BACKGROUND_COLOR);
+        setBackground(DEFAULT_BACKGROUND_COLOR);
         setPreferredSize(new Dimension(60, 15));
     }
 }
