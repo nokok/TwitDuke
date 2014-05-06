@@ -43,5 +43,5 @@ public interface ResultListener<E, S> {
      *
      * @param result 成功時に利用できるオブジェクト
      */
-    void Success(AsyncTaskOnSuccess<S> result);
+    void onSuccess(AsyncTaskOnSuccess<S> result);
 }
