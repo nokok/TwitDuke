@@ -17,41 +17,47 @@
     </nav>
     <div>
       <ul id="root-navbar" class="nav nav-tabs">
-        <li><a href="#account" ><span class="glyphicon glyphicon-user">アカウント</span></a></li>
+        <li class="active"><a href="#account" ><span class="glyphicon glyphicon-user">アカウント</span></a></li>
         <li><a href="#notification" ><span class="glyphicon glyphicon-bell">通知</span></a></li>
         <li><a href="#filter" ><span class="glyphicon glyphicon-filter">フィルター</span></a></li>
         <li><a href="#ui" ><span class="glyphicon glyphicon-tint">UI</span></a></li>
         <li><a href="#plugin" ><span class=" glyphicon glyphicon-link">プラグイン</span></a></li>
         <li><a href="#other" ><span class="glyphicon glyphicon-wrench">高度な設定</span></a></li>
-        <li class="active"><a href="#dev" ><span class="glyphicon glyphicon-tower">開発者向け</span></a></li>
+        <li><a href="#dev" ><span class="glyphicon glyphicon-tower">開発者向け</span></a></li>
       </ul>
       <div class="tab-content">
-        <div class="tab-pane fade" id="account">
+        <div class="tab-pane fade in active" id="account">
           <div class="container">
             <h3>アカウント一覧</h3>
             <table class="table">
               <thead>
-                <th><input type=checkbox /></th>
-                <th>#</th>
-                <th>アカウント名</th>
+                <th class="col-md-1">#</th>
+                <th class="col-md-3">アカウント名</th>
+                <th>操作</th>
               </thead>
               <tbody>
                 <tr>
-                  <td><input type=checkbox /></td>
                   <td>1</td>
                   <td>@noko_k</td>
+                  <td>
+                    <div class="btn-group">
+                      <button class="btn btn-default">再認証</button>
+                      <button class="btn btn-danger">削除</button>
+                    </div>
+                  </td>
                 </tr>
                 <tr>
-                  <td><input type=checkbox /></td>
                   <td>2</td>
-                  <td>@noko_dev</td>
+                  <td>@noko_dev_long_accountname</td>
+                  <td>
+                    <div class="btn-group">
+                      <button class="btn btn-default">再認証</button>
+                      <button class="btn btn-danger">削除</button>
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>
-            <div class="btn-group">
-              <button type="button" class="btn btn-default"><span class=" glyphicon glyphicon-plus"></span></button>
-              <button type="button" class="btn btn-danger"><span class=" glyphicon glyphicon-minus"></span></button>
-            </div>
           </div>
         </div>
         <div class="tab-pane fade" id="notification">
@@ -79,7 +85,7 @@
             <h3>高度な設定</h3>
           </div>
         </div>
-        <div class="tab-pane fade in active" id="dev">
+        <div class="tab-pane fade" id="dev">
           <div class="container">
             <h3>APIドキュメント</h3>
             
