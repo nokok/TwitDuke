@@ -26,7 +26,6 @@ package net.nokok.twitduke.core.type;
 /**
  * 成功したという情報だけ利用したい時に実装するインターフェースです
  *
- * @author noko <nokok.kz at gmail.com>
  */
 @FunctionalInterface
 public interface EmptyResultOnSuccess {

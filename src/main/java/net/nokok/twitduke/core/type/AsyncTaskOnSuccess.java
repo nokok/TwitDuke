@@ -26,7 +26,6 @@ package net.nokok.twitduke.core.type;
 /**
  * 非同期で実行されるタスクの成功時に生成されたオブジェクトを使用できます。
  *
- * @author noko <nokok.kz at gmail.com>
  * @param <T> 成功時に利用できるオブジェクトの型
  */
 @FunctionalInterface

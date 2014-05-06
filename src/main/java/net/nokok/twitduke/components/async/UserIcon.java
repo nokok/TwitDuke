@@ -34,7 +34,6 @@ import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 /**
  * 非同期でユーザーアイコンを取得できるラベルコンポーネントです
  *
- * @author noko
  */
 public class UserIcon extends TWLabel {
 

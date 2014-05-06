@@ -26,7 +26,6 @@ package net.nokok.twitduke.core.api.auth;
 /**
  * OAuth認証が失敗した時のリスナーとして利用するインターフェースです
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 @FunctionalInterface
 public interface OAuthOnError {

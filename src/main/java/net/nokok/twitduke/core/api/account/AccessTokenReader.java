@@ -30,7 +30,6 @@ import twitter4j.auth.AccessToken;
 /**
  * アクセストークンを読み込むメソッドを提供するインターフェースです。
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 public interface AccessTokenReader {
 

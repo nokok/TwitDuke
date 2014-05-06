@@ -44,7 +44,6 @@ import twitter4j.auth.RequestToken;
  *
  * クライアントアプリはPIN認証をするべきとの指摘からこのクラスは非推奨となりました。
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 @Deprecated
 public class AutoAuthentication implements TwitterAuthentication {

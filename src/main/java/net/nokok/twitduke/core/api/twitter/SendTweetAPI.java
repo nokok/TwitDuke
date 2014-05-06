@@ -28,7 +28,6 @@ import net.nokok.twitduke.core.type.Tweet;
 /**
  * ツイートを送信するメソッドを定義するインターフェースです
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 public interface SendTweetAPI {
 

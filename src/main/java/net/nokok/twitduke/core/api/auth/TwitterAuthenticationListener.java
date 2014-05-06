@@ -28,7 +28,6 @@ import twitter4j.auth.AccessToken;
 /**
  * Twitter認証の結果を受け取るメソッドを定義するインターフェースです。
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 public interface TwitterAuthenticationListener {
 

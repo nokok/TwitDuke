@@ -35,7 +35,6 @@ import twitter4j.auth.AccessToken;
  *
  * クライアントアプリはPIN認証をするべきとの指摘からこのクラスは非推奨となりました。
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 @Deprecated
 public class OAuthWithCallback implements OAuthRunnable {

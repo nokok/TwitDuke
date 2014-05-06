@@ -11,7 +11,6 @@ import net.nokok.twitduke.components.basic.TWLabel;
 /**
  * スクリーンネーム(@から始まる20文字以内のID)を表示するラベルです
  *
- * @author noko < nokok.kz at gmail.com >
  */
 public class ScreenNameLabel extends TWLabel {
 

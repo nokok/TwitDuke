@@ -30,7 +30,6 @@ import java.util.logging.Logger;
 /**
  * ツイート(String)のラッパクラスです
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 public class Tweet implements Cloneable, Serializable, Retrievable<String> {
 

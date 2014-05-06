@@ -23,10 +23,6 @@
  */
 package net.nokok.twitduke.pluginsupport.apiwrapper;
 
-/**
- *
- * @author noko < nokok.kz at gmail.com >
- */
 public interface EventWithSingleArg<T> {
 
     public void onEvent(T arg);

@@ -26,7 +26,6 @@ package net.nokok.twitduke.core.api.shindanmaker;
 /**
  * 診断メーカーの実行結果を取得するリスナーです
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 public interface ShindanmakerListener {
 

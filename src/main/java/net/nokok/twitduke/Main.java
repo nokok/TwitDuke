@@ -31,8 +31,6 @@ import java.util.Objects;
  *
  * このクラスがTwitDukeの起動処理を制御します。
  * <p>
- * @author noko < nokok.kz at gmail.com >
- * @version 0.2
  */
 public class Main {
 

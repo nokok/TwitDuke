@@ -29,7 +29,6 @@ import twitter4j.conf.ConfigurationBuilder;
 /**
  * 認証関連の処理で必要な設定を供給するクラスです
  *
- * @author noko <nokok.kz at gmail.com>
  */
 class ConfigurationProvider {
 

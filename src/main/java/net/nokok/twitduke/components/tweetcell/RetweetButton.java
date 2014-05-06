@@ -12,7 +12,6 @@ import net.nokok.twitduke.components.basic.TWButton;
 /**
  * リツイートボタンです
  *
- * @author noko < nokok.kz at gmail.com >
  */
 public class RetweetButton extends TWButton {
 

@@ -26,7 +26,6 @@ package net.nokok.twitduke.core.api.account;
 /**
  * TwitDukeで利用できるアカウントの情報を取得するメソッドを定義するインターフェースです
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 public interface AccountsInfo {
 

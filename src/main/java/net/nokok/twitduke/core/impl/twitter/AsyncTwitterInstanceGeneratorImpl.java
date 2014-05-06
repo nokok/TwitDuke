@@ -33,7 +33,6 @@ import twitter4j.conf.ConfigurationBuilder;
 /**
  * このクラスは実際にAsyncTwitterオブジェクトを生成して返すメソッドを提供します。
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 public class AsyncTwitterInstanceGeneratorImpl implements AsyncTwitterInstanceGenerator {
 

@@ -31,7 +31,6 @@ import twitter4j.auth.AccessToken;
  * ストリームを生成するstaticファクトリーメソッドが定義されています。
  * このクラスを使用するとストリームを実装の影響なしで生成することが出来ます。
  *
- * @author noko < nokok.kz at gmail.com >
  */
 public class TwitterStreamFactory {
 

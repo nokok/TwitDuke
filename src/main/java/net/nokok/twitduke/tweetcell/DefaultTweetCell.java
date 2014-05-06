@@ -34,7 +34,6 @@ import net.nokok.twitduke.components.basic.TWTextArea;
 
 /**
  *
- * @author noko <nokok.kz at gmail.com>
  */
 public class DefaultTweetCell extends TWPanel {
 

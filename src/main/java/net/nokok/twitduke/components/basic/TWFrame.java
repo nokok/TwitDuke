@@ -29,8 +29,6 @@ import javax.swing.WindowConstants;
 /**
  * TwitDuke用のカスタマイズ済みJFrameです
  * <p>
- * @author noko <nokok.kz at gmail.com>
- * @since 0.2
  */
 public class TWFrame extends JFrame {
 

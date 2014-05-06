@@ -27,7 +27,6 @@ package net.nokok.twitduke.core.api.auth;
  * OAuth認証を実行できます。TwitterAuthenticationインターフェースと同じ役割ですが、
  * このインターフェースを用いるとラムダ式による記述が可能になります。
  * <p>
- * @author noko <nokok.kz at gmail.com>
  * @see TwitterAuthentication
  */
 public interface OAuthRunnable {

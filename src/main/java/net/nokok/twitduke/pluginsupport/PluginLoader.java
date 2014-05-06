@@ -36,8 +36,6 @@ import net.nokok.twitduke.core.type.Plugin;
 
 /**
  * プラグインの読み込みを担当するクラスです。
- *
- * @author noko < nokok.kz at gmail.com >
  */
 public class PluginLoader {
 

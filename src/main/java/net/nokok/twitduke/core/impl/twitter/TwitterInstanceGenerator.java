@@ -31,7 +31,6 @@ import twitter4j.conf.Configuration;
 /**
  * 同期通信でAPIを操作するTwitterインスタンスを生成するメソッドを定義したクラスです。
  *
- * @author noko <nokok.kz at gmail.com>
  */
 public class TwitterInstanceGenerator {
 

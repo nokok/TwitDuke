@@ -37,10 +37,6 @@ import twitter4j.TwitterException;
 import twitter4j.URLEntity;
 import twitter4j.UserMentionEntity;
 
-/**
- *
- * @author noko < nokok.kz at gmail.com >
- */
 public class StatusParser {
 
     private final Twitter twitter;

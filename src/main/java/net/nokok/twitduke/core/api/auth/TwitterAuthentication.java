@@ -28,7 +28,6 @@ package net.nokok.twitduke.core.api.auth;
  * start()を実行する事で認証処理が開始されます。setListenerメソッドでセットしたリスナーに
  * 認証結果を返します
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 public interface TwitterAuthentication {
 

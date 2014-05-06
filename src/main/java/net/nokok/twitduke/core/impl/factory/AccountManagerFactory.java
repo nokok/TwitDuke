@@ -30,7 +30,6 @@ import net.nokok.twitduke.core.impl.account.AccountManagerImpl;
  * アカウントマネージャーを生成するstaticファクトリーメソッドが定義されています。
  * このクラスを使用するとアカウントマネージャーを実装の影響なしで生成することが出来ます。
  *
- * @author noko < nokok.kz at gmail.com >
  */
 public class AccountManagerFactory {
 

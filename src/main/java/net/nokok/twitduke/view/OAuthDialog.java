@@ -40,7 +40,6 @@ import net.nokok.twitduke.core.api.view.DialogResultListener;
  * このクラスはあくまでViewのみでPIN入力関連の実際の処理はDialogResultListener<Integer>実装クラスで
  * 行われます。
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 public class OAuthDialog implements Dialog<String> {
 

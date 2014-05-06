@@ -33,7 +33,6 @@ import net.nokok.twitduke.components.basic.TWPanel;
  * OKボタンとキャンセルボタンが2つ横方向に並んだパネルです。
  * OKが左側、キャンセルが右側にあります。
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 public class OKCancelButtonPanel extends TWPanel {
 

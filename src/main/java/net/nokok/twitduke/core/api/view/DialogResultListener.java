@@ -27,7 +27,7 @@ package net.nokok.twitduke.core.api.view;
  * ダイアログのどのボタンが押されたかを取得するためのリスナーインターフェースです。
  * ダイアログの処理はこのインターフェースを実装したクラスで行われるべきです
  * <p>
- * @author noko <nokok.kz at gmail.com>
+ * @param <T> OKボタンが押された時に必要なオブジェクトの型
  */
 public interface DialogResultListener<T> {
 

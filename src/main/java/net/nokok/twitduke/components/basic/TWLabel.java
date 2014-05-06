@@ -29,8 +29,6 @@ import javax.swing.JLabel;
 /**
  * TwitDuke用のカスタマイズ済みJLabelを定義します
  * <p>
- * @author noko <nokok.kz at gmail.com>
- * @since 0.2
  */
 public class TWLabel extends JLabel {
 

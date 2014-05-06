@@ -28,7 +28,6 @@ import twitter4j.auth.AccessToken;
 /**
  * アクセストークンを書き込むメソッドを提供するインターフェースです
  *
- * @author noko <nokok.kz at gmail.com>
  */
 public interface AccessTokenWriter {
 

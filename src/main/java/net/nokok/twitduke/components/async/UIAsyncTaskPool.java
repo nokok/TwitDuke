@@ -28,8 +28,6 @@ import java.util.concurrent.ForkJoinPool;
 /**
  * 非同期でコンポーネントの状態を更新するためのマネージャーです。
  *
- *
- * @author noko
  */
 enum UIAsyncTaskPool {
 

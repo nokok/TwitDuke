@@ -43,7 +43,6 @@ import twitter4j.auth.RequestToken;
 /**
  * PIN入力による認証処理をします。
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 public class PINAuthentication implements TwitterAuthentication, DialogResultListener<String> {
 

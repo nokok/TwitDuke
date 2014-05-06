@@ -25,8 +25,6 @@ package net.nokok.twitduke.core.type;
 
 /**
  * スクリプト(プラグイン)が実行可能です
- *
- * @author noko < nokok.kz at gmail.com >
  */
 @FunctionalInterface
 public interface RunnableScript {

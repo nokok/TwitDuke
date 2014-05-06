@@ -12,7 +12,6 @@ import net.nokok.twitduke.components.basic.TWButton;
 /**
  * お気に入りボタンです
  *
- * @author noko < nokok.kz at gmail.com >
  */
 public class FavoriteButton extends TWButton {
 

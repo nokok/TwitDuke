@@ -32,7 +32,6 @@ import twitter4j.auth.AccessToken;
 /**
  * アクセストークンをシリアライズしてファイルとして書き込みます。
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 public class AccessTokenSerializer implements AccessTokenWriter {
 

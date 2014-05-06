@@ -26,7 +26,6 @@ package net.nokok.twitduke.core.api;
 /**
  * TwitDukeの基本的なシステムの情報を取得します
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 public interface SystemInfo {
 

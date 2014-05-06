@@ -31,8 +31,6 @@ import javax.swing.JButton;
 /**
  * TwitDuke用のカスタマイズ済みJButtonを定義します
  * <p>
- * @author noko <nokok.kz at gmail.com>
- * @since 0.2
  */
 public class TWButton extends JButton {
 

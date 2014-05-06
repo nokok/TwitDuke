@@ -11,7 +11,6 @@ import net.nokok.twitduke.components.basic.TWLabel;
 /**
  * ユーザー名を表示するラベルです
  *
- * @author noko < nokok.kz at gmail.com >
  */
 public class UserNameLabel extends TWLabel {
 

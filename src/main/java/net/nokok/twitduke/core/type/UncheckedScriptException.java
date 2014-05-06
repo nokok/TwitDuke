@@ -26,8 +26,6 @@ package net.nokok.twitduke.core.type;
 /**
  * ScriptExceptionを実行時例外にラップしたクラスです
  * RuntimeExceptionの仕様及び制限に依存します
- *
- * @author noko < nokok.kz at gmail.com >
  */
 public class UncheckedScriptException extends RuntimeException {
 

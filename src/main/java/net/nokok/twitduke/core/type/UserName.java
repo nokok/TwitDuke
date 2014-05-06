@@ -28,8 +28,6 @@ import java.util.Objects;
 /**
  * ユーザー名をラップするクラスです。
  * ユーザー名はスクリーンネームとは区別されます
- *
- * @author noko < nokok.kz at gmail.com >
  */
 public class UserName implements Retrievable<String> {
 

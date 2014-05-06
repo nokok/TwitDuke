@@ -29,7 +29,6 @@ import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 /**
  * 診断メーカーの自動診断に必要なメソッドを定義するインターフェースです
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 public interface Shindanmaker {
 

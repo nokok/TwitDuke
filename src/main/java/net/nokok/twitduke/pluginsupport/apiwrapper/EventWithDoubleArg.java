@@ -23,10 +23,6 @@
  */
 package net.nokok.twitduke.pluginsupport.apiwrapper;
 
-/**
- *
- * @author noko < nokok.kz at gmail.com >
- */
 public interface EventWithDoubleArg<T1, T2> {
 
     public void onEvent(T1 arg1, T2 arg2);

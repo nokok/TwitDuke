@@ -33,10 +33,6 @@ import twitter4j.User;
 import twitter4j.UserList;
 import twitter4j.UserStreamAdapter;
 
-/**
- *
- * @author noko < nokok.kz at gmail.com >
- */
 public class LambdaTwitterStream {
 
     private final TwitterStream twitterStream;

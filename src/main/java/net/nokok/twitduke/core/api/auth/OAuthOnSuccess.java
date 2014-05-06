@@ -28,7 +28,6 @@ import twitter4j.auth.AccessToken;
 /**
  * OAuth認証が成功した時のリスナーとして利用するインターフェースです。
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 @FunctionalInterface
 public interface OAuthOnSuccess {

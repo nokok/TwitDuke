@@ -29,8 +29,6 @@ import javax.swing.JTextArea;
 /**
  * TwitDuke用のカスタマイズ済みJTextAreaです
  * <p>
- * @author noko <nokok.kz at gmail.com>
- * @since 0.2
  */
 public class TWTextArea extends JTextArea {
 

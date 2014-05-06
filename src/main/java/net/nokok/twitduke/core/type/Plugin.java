@@ -31,7 +31,6 @@ import javax.script.ScriptException;
  * このクラスはプラグインのコンパイル済みオブジェクトとプラグインの名前を持ちます。
  * また、このクラス内のスクリプトは外部から実行可能です。
  *
- * @author noko < nokok.kz at gmail.com >
  */
 public class Plugin implements RunnableScript {
 

@@ -27,7 +27,6 @@ package net.nokok.twitduke.core.api.view;
  * 表示可能なダイアログで必要なメソッドを定義するインターフェースです。
  * 実際の処理はDialogResultListenerインターフェース実装クラスに委譲します。
  * <p>
- * @author noko <nokok.kz at gmail.com>
  * @param <T> DialogResultListener#okButtonPushedメソッドの引数で使用される型
  * <p>
  * @see net.nokok.twitduke.core.api.view.DialogResultListener

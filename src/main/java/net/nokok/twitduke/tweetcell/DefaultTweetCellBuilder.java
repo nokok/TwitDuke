@@ -29,10 +29,6 @@ import javax.swing.ImageIcon;
 import twitter4j.Status;
 import twitter4j.User;
 
-/**
- *
- * @author noko <nokok.kz at gmail.com>
- */
 public class DefaultTweetCellBuilder {
 
     public DefaultTweetCell createDefaultTweetCell(Status status) {

@@ -34,7 +34,6 @@ import net.nokok.twitduke.core.type.Tweet;
 /**
  * ツイート入力用のテキストエリアです。
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 public class TweetTextArea extends TWTextArea {
 
@@ -65,9 +64,9 @@ public class TweetTextArea extends TWTextArea {
      * ツイート送信の処理は渡されたSendTweetAPI実装クラスに委譲されます。
      * このクラスで文字列周りのエラー処理はしません。
      * <p>
-     * @param tweetAPI
-     * @param keyListener
-     *                    <p>
+     * @param tweetAPI    ツイート送信可能なオブジェクト
+     * @param keyListener 独自のキーリスナー
+     * <p>
      * @exception NullPointerException 渡されたSendTweetAPIオブジェクトがnullの場合
      */
     public TweetTextArea(SendTweetAPI tweetAPI, KeyListener keyListener) {

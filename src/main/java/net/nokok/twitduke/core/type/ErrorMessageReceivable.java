@@ -26,7 +26,6 @@ package net.nokok.twitduke.core.type;
 /**
  * タスクの実行中のエラーメッセージを受信できます。
  *
- * @author noko <nokok.kz at gmail.com>
  */
 @FunctionalInterface
 public interface ErrorMessageReceivable {

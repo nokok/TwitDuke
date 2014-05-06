@@ -29,7 +29,6 @@ import java.util.Objects;
  * スクリーンネームをラップするクラスです。
  * スクリーンネームは@から始まるIDのことで、ユーザー名とは区別されます
  *
- * @author noko < nokok.kz at gmail.com >
  */
 public class ScreenName implements Retrievable<String> {
 

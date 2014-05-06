@@ -28,9 +28,6 @@ import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 /**
  * ユーザー情報の変更が出来ます。
  *
- * <p>
- * @author noko <nokok.kz at gmail.com>
- * @version 0.2
  */
 public interface UpdateProfile {
 

@@ -26,7 +26,6 @@ package net.nokok.twitduke.core.type;
 /**
  * 成功か失敗かを知る必要がある非同期タスクの結果を受け取るリスナーです
  *
- * @author noko <nokok.kz at gmail.com>
  * @param <E> エラー時に利用できるオブジェクトの型
  * @param <S> 成功時に利用できるオブジェクトの型
  */

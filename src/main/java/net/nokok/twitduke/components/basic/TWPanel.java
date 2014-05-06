@@ -30,8 +30,6 @@ import javax.swing.JPanel;
 /**
  * TwitDuke用のカスタマイズ済みJPanelです
  * <p>
- * @author noko <nokok.kz at gmail.com>
- * @since 0.2
  */
 public class TWPanel extends JPanel {
 

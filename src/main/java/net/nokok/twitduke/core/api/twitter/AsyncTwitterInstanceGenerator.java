@@ -29,7 +29,6 @@ import twitter4j.auth.AccessToken;
 /**
  * AsyncTwitterインスタンスを生成するメソッドを定義するインターフェースです
  * <p>
- * @author noko <nokok.kz at gmail.com>
  */
 public interface AsyncTwitterInstanceGenerator {
 

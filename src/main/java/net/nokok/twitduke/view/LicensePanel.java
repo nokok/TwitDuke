@@ -32,7 +32,6 @@ import net.nokok.twitduke.core.impl.SystemInfoImpl;
 
 /**
  *
- * @author noko <nokok.kz at gmail.com>
  */
 public class LicensePanel extends TWPanel {
 
