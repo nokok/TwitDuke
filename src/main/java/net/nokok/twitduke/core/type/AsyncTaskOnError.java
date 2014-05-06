@@ -29,6 +29,7 @@ package net.nokok.twitduke.core.type;
  * @author noko <nokok.kz at gmail.com>
  * @param <T> エラー発生時に利用できるオブジェクトの型
  */
+@FunctionalInterface
 public interface AsyncTaskOnError<T> {
 
     /**

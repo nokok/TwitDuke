@@ -29,6 +29,7 @@ package net.nokok.twitduke.core.type;
  * @author noko <nokok.kz at gmail.com>
  * @param <T> getメソッドで返される型
  */
+@FunctionalInterface
 public interface Retrievable<T> {
 
     /**
