@@ -24,8 +24,6 @@
 package net.nokok.twitduke.core.type;
 
 import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * ツイート(String)のラッパクラスです
@@ -81,7 +79,6 @@ public class Tweet implements Cloneable, Serializable, Retrievable<String> {
         try {
             return super.clone();
         } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(Tweet.class.getName()).log(Level.SEVERE, null, ex);
             throw new InternalError(ex);
         }
     }
