@@ -33,7 +33,7 @@ public interface AccessTokenWriter {
 
     /**
      * 渡されたアクセストークンを書き込みます。
-     * <p>
+     * 
      * @param accessToken 書き込むアクセストークン
      */
     void writeAccessToken(AccessToken accessToken);

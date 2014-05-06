@@ -29,7 +29,7 @@ import javax.swing.border.LineBorder;
 
 /**
  * TwitDuke用のカスタマイズ済みJTextFieldです
- * <p>
+ * 
  */
 public class TWTextField extends JTextField {
 

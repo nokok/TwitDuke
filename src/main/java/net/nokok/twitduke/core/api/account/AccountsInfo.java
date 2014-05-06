@@ -25,13 +25,13 @@ package net.nokok.twitduke.core.api.account;
 
 /**
  * TwitDukeで利用できるアカウントの情報を取得するメソッドを定義するインターフェースです
- * <p>
+ * 
  */
 public interface AccountsInfo {
 
     /**
      * 利用可能なアカウントがあるかどうかチェックします。
-     * <p>
+     * 
      * @return 利用可能なアカウントが1つ以上ある場合はtrue
      *         1つも利用できない場合false
      */

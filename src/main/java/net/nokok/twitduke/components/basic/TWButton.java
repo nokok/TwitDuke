@@ -30,7 +30,7 @@ import javax.swing.JButton;
 
 /**
  * TwitDuke用のカスタマイズ済みJButtonを定義します
- * <p>
+ * 
  */
 public class TWButton extends JButton {
 

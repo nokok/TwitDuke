@@ -25,7 +25,7 @@ package net.nokok.twitduke.core.type;
 
 /**
  * ラップされる前のオブジェクトが取得できるクラスです。
- * <p>
+ * 
  * @param <T> getメソッドで返される型
  */
 @FunctionalInterface

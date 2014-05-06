@@ -42,7 +42,7 @@ import twitter4j.auth.RequestToken;
 
 /**
  * PIN入力による認証処理をします。
- * <p>
+ * 
  */
 public class PINAuthentication implements TwitterAuthentication, DialogResultListener<String> {
 
@@ -81,7 +81,7 @@ public class PINAuthentication implements TwitterAuthentication, DialogResultLis
     /**
      * ダイアログのOKボタンが押されると呼ばれます。
      * 入力されたPINとRequestTokenを用いてAccessTokenを非同期で取得します
-     * <p>
+     * 
      * @param o
      */
     @Override
@@ -95,7 +95,7 @@ public class PINAuthentication implements TwitterAuthentication, DialogResultLis
          * getOAuthRequestTokenAsync()によってRequestTokenが取得されたら呼ばれます。
          * 認証処理を続行するためにRequestTokenに格納されている認証用のURLをデフォルトの
          * ブラウザで開きます。
-         * <p>
+         * 
          * @param token 取得したRequestTokenオブジェクト
          */
         @Override
@@ -107,7 +107,7 @@ public class PINAuthentication implements TwitterAuthentication, DialogResultLis
         /**
          * getOAuthAccessTokenAsync(RequestToken, String)によってAccessTokenが
          * 取得されたら呼ばれます。
-         * <p>
+         * 
          * @param token 取得したAccessTokenオブジェクト
          */
         @Override
@@ -118,7 +118,7 @@ public class PINAuthentication implements TwitterAuthentication, DialogResultLis
 
         /**
          * TwitterAPIリクエスト送信中にエラーが発生するとこのメソッドが呼ばれます。
-         * <p>
+         * 
          * @param te
          * @param method
          */
@@ -129,9 +129,9 @@ public class PINAuthentication implements TwitterAuthentication, DialogResultLis
 
         /**
          * 渡されたURLをデフォルトに指定されているブラウザで開きます。
-         * <p>
+         * 
          * @param url ブラウザで開くURL
-         * <p>
+         * 
          * @throws InternalError URLの文法がおかしい場合もしくはブラウザにアクセス出来なかった場合スローされます
          */
         private void openInBrowser(String url) {

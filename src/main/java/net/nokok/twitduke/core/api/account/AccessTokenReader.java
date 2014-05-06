@@ -29,21 +29,21 @@ import twitter4j.auth.AccessToken;
 
 /**
  * アクセストークンを読み込むメソッドを提供するインターフェースです。
- * <p>
+ * 
  */
 public interface AccessTokenReader {
 
     /**
      * 利用可能なアクセストークンのリストを返します。
      *
-     * <p>
+     * 
      * @return アクセストークンのリスト
      */
     ArrayList<Optional<AccessToken>> getAccessTokenList();
 
     /**
      * アクセストークンを一つだけ返します。
-     * <p>
+     * 
      * @return 読み込んだアクセストークン
      */
     Optional<AccessToken> readFirstAccessToken();

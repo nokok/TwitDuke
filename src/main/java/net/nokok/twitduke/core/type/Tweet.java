@@ -27,7 +27,7 @@ import java.io.Serializable;
 
 /**
  * ツイート(String)のラッパクラスです
- * <p>
+ * 
  */
 public class Tweet implements Cloneable, Serializable, Retrievable<String> {
 

@@ -31,7 +31,7 @@ import twitter4j.StatusListener;
 /**
  * StatusListenerで受信した内容を標準出力へ書き込みます。
  * 主にデバッグ用で使用します
- * <p>
+ * 
  */
 public class PrintStatusListener implements StatusListener {
 

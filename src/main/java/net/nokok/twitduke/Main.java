@@ -30,13 +30,13 @@ import java.util.Objects;
  * オプションは-debugのみ有効です。それ以外のオプションおよびnullを渡した場合は無視されます。
  *
  * このクラスがTwitDukeの起動処理を制御します。
- * <p>
+ * 
  */
 public class Main {
 
     /**
      * TwitDukeのエントリポイントです。 オプションは-debugのみ有効です。 それ以外は全て無視されます。
-     * <p>
+     * 
      * @param args 渡された引数の配列
      */
     public static void main(String[] args) {
@@ -45,9 +45,9 @@ public class Main {
 
     /**
      * 渡されたオプションの中に-debugが含まれているかをチェックします。nullが渡された場合はfalseを返します。
-     * <p>
+     * 
      * @param args TwitDukeに渡されたオプションの配列
-     * <p>
+     * 
      * @return -debugが含まれていた場合true
      *         それ以外またはnullが渡された場合false
      */
@@ -65,7 +65,7 @@ public class Main {
 
     /**
      * 実際の起動処理を開始します。
-     * <p>
+     * 
      * @param isDebugMode デバッグモードで起動したい場合はtrueを渡します。
      */
     private void run(boolean isDebugMode) {

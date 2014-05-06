@@ -28,13 +28,13 @@ import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 
 /**
  * 診断メーカーの自動診断に必要なメソッドを定義するインターフェースです
- * <p>
+ * 
  */
 public interface Shindanmaker {
 
     /**
      * 診断メーカーにリクエストを送信します
-     * <p>
+     * 
      * @param shindanmakerURL 診断メーカーのURL
      * @param name            診断メーカーを実行するID
      */

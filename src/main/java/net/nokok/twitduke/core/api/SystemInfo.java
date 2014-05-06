@@ -25,20 +25,20 @@ package net.nokok.twitduke.core.api;
 
 /**
  * TwitDukeの基本的なシステムの情報を取得します
- * <p>
+ * 
  */
 public interface SystemInfo {
 
     /**
      * 実行中のTwitDukeバージョンを取得します。
-     * <p>
+     * 
      * @return 実行中のTwitDukeのバージョン
      */
     String version();
 
     /**
      * 実行中のTwitDukeのライセンスを表示します
-     * <p>
+     * 
      * @return 実行中のTwitDukeのライセンス
      */
     String license();

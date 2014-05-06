@@ -32,7 +32,7 @@ import twitter4j.auth.AccessToken;
 
 /**
  * TwitDukeのアカウントに関する操作をするクラスです。
- * <p>
+ * 
  */
 public class AccountManagerImpl implements AccountManager {
 

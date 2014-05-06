@@ -33,6 +33,7 @@ import net.nokok.twitduke.components.basic.TWPanel;
 import net.nokok.twitduke.components.basic.TWTextArea;
 
 /**
+ * ツイートを表示する標準サイズのセルです
  *
  */
 public class DefaultTweetCell extends TWPanel {
@@ -46,6 +47,9 @@ public class DefaultTweetCell extends TWPanel {
     JLabel thumbnail = new TWLabel();
     JPanel toolBarPanel = new TWPanel();
 
+    /**
+     * 標準サイズのセルを生成します
+     */
     public DefaultTweetCell() {
         setLayout(new BorderLayout());
         JPanel tweetContentPanel = new TWPanel(new BorderLayout());

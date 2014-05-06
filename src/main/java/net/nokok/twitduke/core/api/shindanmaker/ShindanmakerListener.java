@@ -25,7 +25,7 @@ package net.nokok.twitduke.core.api.shindanmaker;
 
 /**
  * 診断メーカーの実行結果を取得するリスナーです
- * <p>
+ * 
  */
 public interface ShindanmakerListener {
 
@@ -36,7 +36,7 @@ public interface ShindanmakerListener {
 
     /**
      * 成功した時に呼ばれます
-     * <p>
+     * 
      * @param text 診断結果
      */
     void success(String text);
