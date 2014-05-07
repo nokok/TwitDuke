@@ -37,7 +37,7 @@ public class UserNameLabel extends TWLabel {
     /**
      * ユーザー名のフォントです
      */
-    public static final Font FONT = new Font("", Font.BOLD, 14);
+    public static final Font FONT = new Font("", Font.BOLD, 12);
 
     /**
      * ユーザー名を表示するラベルを生成します

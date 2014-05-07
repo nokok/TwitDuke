@@ -37,7 +37,7 @@ public class ScreenNameLabel extends TWLabel {
     /**
      * スクリーンネームのフォントです
      */
-    public static final Font FONT = new Font("", Font.PLAIN, 12);
+    public static final Font FONT = new Font("", Font.PLAIN, 10);
 
     /**
      * スクリーンネームを表示するラベルを生成します
