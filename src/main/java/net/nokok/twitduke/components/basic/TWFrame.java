@@ -28,7 +28,7 @@ import javax.swing.WindowConstants;
 
 /**
  * TwitDuke用のカスタマイズ済みJFrameです
- * 
+ *
  */
 public class TWFrame extends JFrame {
 
@@ -38,7 +38,7 @@ public class TWFrame extends JFrame {
      * 空のフレームを生成します
      */
     public TWFrame() {
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     /**
