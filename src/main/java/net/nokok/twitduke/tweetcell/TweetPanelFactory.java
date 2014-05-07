@@ -23,21 +23,27 @@
  */
 package net.nokok.twitduke.tweetcell;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import net.nokok.twitduke.components.async.UserIcon;
 import net.nokok.twitduke.components.basic.TWButton;
 import net.nokok.twitduke.components.tweetcell.FavoriteButton;
 import net.nokok.twitduke.components.tweetcell.RetweetButton;
 import net.nokok.twitduke.components.tweetcell.ScreenNameLabel;
+import net.nokok.twitduke.components.tweetcell.TimeLabel;
 import net.nokok.twitduke.components.tweetcell.UserNameLabel;
+import net.nokok.twitduke.core.impl.twitter.AsyncTwitterInstanceGeneratorImpl;
+import twitter4j.AsyncTwitter;
 import twitter4j.HashtagEntity;
 import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
 import twitter4j.URLEntity;
+import twitter4j.auth.AccessToken;
 
 /**
  * 指定されたステータスから個別のパネルやラベルを生成します
@@ -45,17 +51,18 @@ import twitter4j.URLEntity;
 public class TweetPanelFactory {
 
     private final Status status;
-    private final Twitter twitter;
+    private final AsyncTwitter twitter;
 
     /**
-     * 指定されたステータスとAPIでファクトリーを構築します
+     * 指定されたステータスとアクセストークンで新しいパネルファクトリーを生成します。
      *
-     * @param status  ツイートのステータス
-     * @param twitter API
+     * @param status      ツイートのステータス
+     * @param accessToken アクセストークン
+     *
      */
-    public TweetPanelFactory(Status status, Twitter twitter) {
+    public TweetPanelFactory(Status status, AccessToken accessToken) {
         this.status = status;
-        this.twitter = twitter;
+        twitter = new AsyncTwitterInstanceGeneratorImpl().generate(accessToken);
     }
 
     /**
@@ -93,18 +100,14 @@ public class TweetPanelFactory {
         }
         button.addActionListener(e -> {
             boolean isFavorited = status.isFavorited();
-            try {
-                if ( isFavorited ) {
-                    twitter.destroyFavorite(status.getId());
-                    button.setBackground(FavoriteButton.DEFAULT_BACKGROUND_COLOR);
-                    isFavorited = false;
-                } else {
-                    twitter.createFavorite(status.getId());
-                    button.setBackground(FavoriteButton.DEFAULT_BACKGROUND_COLOR);
-                    isFavorited = true;
-                }
-            } catch (TwitterException ignored) {
-
+            if ( isFavorited ) {
+                twitter.destroyFavorite(status.getId());
+                button.setBackground(FavoriteButton.DEFAULT_BACKGROUND_COLOR);
+                isFavorited = false;
+            } else {
+                twitter.createFavorite(status.getId());
+                button.setBackground(FavoriteButton.DEFAULT_BACKGROUND_COLOR);
+                isFavorited = true;
             }
         });
         return button;
@@ -123,18 +126,14 @@ public class TweetPanelFactory {
         }
         button.addActionListener(e -> {
             boolean isRetweeted = status.isRetweetedByMe();
-            try {
-                if ( isRetweeted ) {
-                    twitter.destroyStatus(status.getId());
-                    button.setBackground(RetweetButton.DEFAULT_BACKGROUND_COLOR);
-                    isRetweeted = false;
-                } else {
-                    twitter.retweetStatus(status.getId());
-                    button.setBackground(RetweetButton.RETWEETED_BACKGROUND_COLOR);
-                    isRetweeted = true;
-                }
-            } catch (TwitterException ignored) {
-
+            if ( isRetweeted ) {
+                twitter.destroyStatus(status.getId());
+                button.setBackground(RetweetButton.DEFAULT_BACKGROUND_COLOR);
+                isRetweeted = false;
+            } else {
+                twitter.retweetStatus(status.getId());
+                button.setBackground(RetweetButton.RETWEETED_BACKGROUND_COLOR);
+                isRetweeted = true;
             }
         });
         return button;
@@ -165,5 +164,26 @@ public class TweetPanelFactory {
         Stream.of(urlEntities)
                 .forEach(u -> buttonList.add(new TWButton(u.getDisplayURL())));
         return buttonList;
+    }
+
+    /**
+     * ステータスの時間と現在時刻との差を表示するラベルを生成します
+     *
+     * @return 時間差を表示するラベル
+     */
+    public JLabel createTimeLabel() {
+        Instant instant = Instant.ofEpochMilli(status.getCreatedAt().getTime());
+        LocalDateTime time = LocalDateTime.ofInstant(instant, ZoneOffset.ofHours(-9));
+        return new TimeLabel(time);
+    }
+
+    /**
+     * ユーザーアイコンを生成します
+     *
+     * @return ユーザーアイコン
+     */
+    public JLabel createUserIcon() {
+        JLabel label = new UserIcon(status.getUser().getProfileImageURLHttps());
+        return label;
     }
 }
