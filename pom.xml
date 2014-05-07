@@ -50,6 +50,11 @@
             <artifactId>jsoup</artifactId>
             <version>1.7.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-media-support</artifactId>
+            <version>4.0.1</version>
+        </dependency>
     </dependencies>
     <reporting>
         <plugins>
