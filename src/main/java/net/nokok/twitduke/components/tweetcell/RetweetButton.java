@@ -25,6 +25,7 @@ package net.nokok.twitduke.components.tweetcell;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Insets;
 import net.nokok.twitduke.components.basic.TWButton;
 
 /**
@@ -50,6 +51,7 @@ public class RetweetButton extends TWButton {
      */
     public RetweetButton() {
         setBackground(DEFAULT_BACKGROUND_COLOR);
-        setPreferredSize(new Dimension(60, 15));
+        setPreferredSize(new Dimension(60, 10));
+        setMargin(new Insets(0, 0, 0, 0));
     }
 }

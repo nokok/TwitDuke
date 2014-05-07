@@ -50,6 +50,7 @@ public class TWTextField extends JTextField {
         setBackground(BACKGROUND_COLOR);
         setForeground(FOREGROUND_COLOR);
         setCaretColor(Color.WHITE);
+        setBorder(null);
         setOpaque(true);
     }
 }

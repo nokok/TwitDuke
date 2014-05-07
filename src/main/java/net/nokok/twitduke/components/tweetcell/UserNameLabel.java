@@ -47,5 +47,6 @@ public class UserNameLabel extends TWLabel {
     public UserNameLabel(String userName) {
         setText(userName);
         setFont(FONT);
+        setBorder(null);
     }
 }

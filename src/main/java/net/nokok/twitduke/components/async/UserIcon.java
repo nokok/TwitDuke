@@ -23,6 +23,7 @@
  */
 package net.nokok.twitduke.components.async;
 
+import java.awt.Dimension;
 import net.nokok.twitduke.components.basic.TWLabel;
 
 /**
@@ -41,6 +42,7 @@ public class UserIcon extends TWLabel {
         AsyncImageLoader task = new AsyncImageLoader(url);
         task.onSuccess(this::setIcon);
         UIAsyncTaskPool.INSTANCE.runTask(task);
+        setPreferredSize(new Dimension(50, 50));
     }
 
 }

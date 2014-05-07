@@ -47,5 +47,6 @@ public class ScreenNameLabel extends TWLabel {
     public ScreenNameLabel(String screenName) {
         setText(screenName);
         setFont(FONT);
+        setBorder(null);
     }
 }
