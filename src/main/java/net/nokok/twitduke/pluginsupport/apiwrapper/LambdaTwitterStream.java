@@ -23,6 +23,7 @@
  */
 package net.nokok.twitduke.pluginsupport.apiwrapper;
 
+import net.nokok.twitduke.core.impl.factory.TwitterStreamFactory;
 import twitter4j.DirectMessage;
 import twitter4j.StallWarning;
 import twitter4j.Status;
@@ -32,13 +33,14 @@ import twitter4j.TwitterStream;
 import twitter4j.User;
 import twitter4j.UserList;
 import twitter4j.UserStreamAdapter;
+import twitter4j.auth.AccessToken;
 
 public class LambdaTwitterStream {
 
     private final TwitterStream twitterStream;
 
-    public LambdaTwitterStream(TwitterStream twitterStream) {
-        this.twitterStream = twitterStream;
+    public LambdaTwitterStream(AccessToken accessToken) {
+        this.twitterStream = TwitterStreamFactory.newInstance(accessToken);
     }
 
     public void onDeletionNotice(EventWithSingleArg<StatusDeletionNotice> s) {
