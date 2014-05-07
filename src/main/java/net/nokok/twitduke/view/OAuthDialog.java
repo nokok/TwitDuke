@@ -24,9 +24,11 @@
 package net.nokok.twitduke.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 import net.nokok.twitduke.components.OKCancelButtonPanel;
 import net.nokok.twitduke.components.basic.TWFrame;
 import net.nokok.twitduke.components.basic.TWLabel;
@@ -53,6 +55,7 @@ public class OAuthDialog implements Dialog<String> {
         frame = new TWFrame("認証して下さい");
         JTextField textField = new TWTextField();
         textField.setHorizontalAlignment(JTextField.CENTER);
+        textField.setBorder(new LineBorder(new Color(200, 200, 200)));
         frame.setLayout(new BorderLayout());
         frame.add(createNorthPanel(), BorderLayout.NORTH);
         frame.add(textField, BorderLayout.CENTER);
