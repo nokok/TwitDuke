@@ -25,14 +25,16 @@ package net.nokok.twitduke.tweetcell;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import net.nokok.twitduke.components.async.UserIcon;
 import net.nokok.twitduke.components.basic.TWButton;
+import net.nokok.twitduke.components.basic.TWTextArea;
 import net.nokok.twitduke.components.tweetcell.FavoriteButton;
 import net.nokok.twitduke.components.tweetcell.RetweetButton;
 import net.nokok.twitduke.components.tweetcell.ScreenNameLabel;
@@ -83,7 +85,7 @@ public class TweetPanelFactory {
      */
     public JLabel createScreenNameLabel() {
         String screenName = status.getUser().getScreenName();
-        JLabel label = new ScreenNameLabel(screenName);
+        JLabel label = new ScreenNameLabel("@" + screenName);
         return label;
     }
 
@@ -139,6 +141,12 @@ public class TweetPanelFactory {
         return button;
     }
 
+    public JTextArea createTweetTextArea() {
+        JTextArea textArea = TWTextArea.newNotEditableTextArea(status.getText());
+        textArea.setLineWrap(true);
+        return textArea;
+    }
+
     /**
      * ステータスに含まれるハッシュタグのボタンリストを生成します
      *
@@ -173,7 +181,7 @@ public class TweetPanelFactory {
      */
     public JLabel createTimeLabel() {
         Instant instant = Instant.ofEpochMilli(status.getCreatedAt().getTime());
-        LocalDateTime time = LocalDateTime.ofInstant(instant, ZoneOffset.ofHours(-9));
+        LocalDateTime time = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
         return new TimeLabel(time);
     }
 

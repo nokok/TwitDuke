@@ -1,0 +1,109 @@
+/*
+ * The MIT License
+ *
+ * Copyright 2014 noko
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+package net.nokok.twitduke.components;
+
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.LayoutManager;
+import java.awt.Rectangle;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import javax.swing.Scrollable;
+import net.nokok.twitduke.components.basic.TWPanel;
+
+public class TimelinePanel extends TWPanel implements Scrollable {
+
+    public TimelinePanel() {
+        setLayout(new TimelineLayout());
+    }
+
+    @Override
+    public Dimension getPreferredScrollableViewportSize() {
+        Component[] components = getComponents();
+        int width = this.getWidth();
+        int height = Stream.of(components).collect(Collectors.summingInt(p -> p.getSize().height));
+        return new Dimension(width, height);
+    }
+
+    @Override
+    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+        return 10;
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportHeight() {
+        return false;
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportWidth() {
+        return true;
+    }
+
+    @Override
+    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+        return visibleRect.height / 2;
+    }
+
+    private class TimelineLayout implements LayoutManager {
+
+        @Override
+        public void addLayoutComponent(String name, Component comp) {
+
+        }
+
+        @Override
+        public void layoutContainer(Container parent) {
+            Component[] components = parent.getComponents();
+            int currentY = 0;
+            for ( Component component : components ) {
+                component.setBounds(0, currentY, parent.getWidth(), component.getSize().height);
+                currentY += component.getPreferredSize().height + 1;
+            }
+        }
+
+        @Override
+        public Dimension minimumLayoutSize(Container parent) {
+            Component[] components = parent.getComponents();
+            int height = Stream.of(components).collect(Collectors.summingInt(c -> c.getMinimumSize().height));
+            int width = parent.getWidth();
+            return new Dimension(width, height);
+        }
+
+        @Override
+        public Dimension preferredLayoutSize(Container parent) {
+            Component[] components = parent.getComponents();
+            int height = Stream.of(components).collect(Collectors.summingInt(c -> c.getPreferredSize().height));
+            int width = parent.getWidth();
+            return new Dimension(width, height);
+        }
+
+        @Override
+        public void removeLayoutComponent(Component comp) {
+
+        }
+
+    }
+}
