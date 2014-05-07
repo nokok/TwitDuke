@@ -25,11 +25,10 @@ package net.nokok.twitduke.components.basic;
 
 import java.awt.Color;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
 
 /**
  * TwitDuke用のカスタマイズ済みJTextFieldです
- * 
+ *
  */
 public class TWTextField extends JTextField {
 
@@ -43,10 +42,6 @@ public class TWTextField extends JTextField {
      * テキストフィールドの前景色です
      */
     public static final Color FOREGROUND_COLOR = new Color(200, 200, 200);
-    /**
-     * テキストフィールドを囲む枠の線の色です
-     */
-    public static final Color BORDER_COLOR = new Color(200, 200, 200);
 
     /**
      * 空のテキストフィールドを生成します。
@@ -55,7 +50,6 @@ public class TWTextField extends JTextField {
         setBackground(BACKGROUND_COLOR);
         setForeground(FOREGROUND_COLOR);
         setCaretColor(Color.WHITE);
-        setBorder(new LineBorder(BORDER_COLOR));
         setOpaque(true);
     }
 }
