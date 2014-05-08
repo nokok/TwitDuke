@@ -34,17 +34,44 @@ import twitter4j.Status;
 import twitter4j.SymbolEntity;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 import twitter4j.URLEntity;
 import twitter4j.UserMentionEntity;
+import twitter4j.auth.AccessToken;
 
+/**
+ * ツイートのステータスを元に様々なオブジェクトを生成します。
+ *
+ */
 public class StatusParser {
 
     private final Twitter twitter;
 
+    /**
+     * 指定されたTwitterオブジェクトでStatusParserを生成します
+     *
+     * @param twitter Twitterオブジェクト
+     */
     public StatusParser(Twitter twitter) {
         this.twitter = twitter;
     }
 
+    /**
+     * 指定されたアクセストークンでStatusParserを生成します
+     *
+     * @param accessToken アクセストークン
+     */
+    public StatusParser(AccessToken accessToken) {
+        this.twitter = new TwitterFactory().getInstance(accessToken);
+    }
+
+    /**
+     * 渡されたステータスのリプライをたどってリストにします。
+     *
+     * @param status リプライをたどるステータス
+     *
+     * @return リプライをたどったリスト
+     */
     public LinkedList<Status> createReplyChain(Status status) {
         LinkedList<Status> linkedList = new LinkedList<>();
         Status currentStatus = status;
@@ -60,6 +87,13 @@ public class StatusParser {
         return linkedList;
     }
 
+    /**
+     * ステータスIDからIterableなステータスを生成します
+     *
+     * @param statusId ステータスID
+     *
+     * @return Iterableなステータス
+     */
     public Iterable<Status> createReplyChain(long statusId) {
         LinkedList<Status> linkedList = new LinkedList<>();
         try {
@@ -72,26 +106,61 @@ public class StatusParser {
         }
     }
 
+    /**
+     * ステータスに含まれるURLエンティティをリストにします。
+     *
+     * @param status ステータス
+     *
+     * @return URLエンティティのリスト
+     */
     public List<URLEntity> createURLEntityList(Status status) {
         return Stream.of(status.getURLEntities())
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * ステータスに含まれるメンションエンティティをリストにします
+     *
+     * @param status ステータス
+     *
+     * @return メンションエンティティのリスト
+     */
     public List<UserMentionEntity> createUserMentionEntityList(Status status) {
         return Stream.of(status.getUserMentionEntities())
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * ステータスに含まれるハッシュタグエンティティをリストにします
+     *
+     * @param status ステータス
+     *
+     * @return ハッシュタグエンティティのリスト
+     */
     public List<HashtagEntity> createHashtagEntityList(Status status) {
         return Stream.of(status.getHashtagEntities())
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * ステータスに含まれるメディアエンティティをリストにします
+     *
+     * @param status ステータス
+     *
+     * @return メディアエンティティのリスト
+     */
     public List<MediaEntity> createMediaEntityList(Status status) {
         return Stream.of(status.getMediaEntities())
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * ステータスに含まれるシンボルエンティティをリストにします
+     *
+     * @param status ステータス
+     *
+     * @return シンボルエンティティのリスト
+     */
     public List<SymbolEntity> createSymbolEntityList(Status status) {
         return Stream.of(status.getSymbolEntities())
                 .collect(Collectors.toCollection(ArrayList::new));
