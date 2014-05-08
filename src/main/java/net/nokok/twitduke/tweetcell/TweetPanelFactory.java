@@ -141,6 +141,11 @@ public class TweetPanelFactory {
         return button;
     }
 
+    /**
+     * ツイート本文を表示するテキストエリアを生成します
+     *
+     * @return ツイート本文を表示するテキストエリア
+     */
     public JTextArea createTweetTextArea() {
         JTextArea textArea = TWTextArea.newNotEditableTextArea(status.getText());
         textArea.setLineWrap(true);
