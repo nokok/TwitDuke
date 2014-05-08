@@ -43,9 +43,14 @@ import net.nokok.twitduke.core.type.ResultListener;
  */
 public class DroppableImagePanel extends TWPanel implements ResultListener<String, File> {
 
+    private static final long serialVersionUID = 2843592085054940054L;
+
     private AsyncTaskOnError<String> error;
     private AsyncTaskOnSuccess<File> result;
 
+    /**
+     * 新しくパネルを生成します
+     */
     public DroppableImagePanel() {
         setTransferHandler(new DropImageHandler());
         add(new TWLabel("この部分に画像をドラッグアンドドロップしてください"));
