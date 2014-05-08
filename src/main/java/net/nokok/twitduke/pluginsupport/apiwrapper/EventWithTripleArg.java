@@ -23,7 +23,21 @@
  */
 package net.nokok.twitduke.pluginsupport.apiwrapper;
 
+/**
+ * イベント発生時引数の数が3つ必要なイベントです。
+ *
+ * @param <T1>
+ * @param <T2>
+ * @param <T3>
+ */
 public interface EventWithTripleArg<T1, T2, T3> {
 
+    /**
+     * イベントが発生した時に呼ばれます
+     *
+     * @param arg1
+     * @param arg2
+     * @param arg3
+     */
     public void onEvent(T1 arg1, T2 arg2, T3 arg3);
 }

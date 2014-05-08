@@ -23,7 +23,17 @@
  */
 package net.nokok.twitduke.pluginsupport.apiwrapper;
 
+/**
+ * イベント発生時引数の数が1つ必要なイベントです。
+ *
+ * @param <T>
+ */
 public interface EventWithSingleArg<T> {
 
+    /**
+     * イベント発生時に呼ばれます
+     *
+     * @param arg
+     */
     public void onEvent(T arg);
 }
