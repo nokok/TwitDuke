@@ -29,10 +29,22 @@ import java.util.Timer;
 import java.util.TimerTask;
 import net.nokok.twitduke.components.basic.TWLabel;
 
+/**
+ * ツイートされた時刻から現在時刻までの相対時間をカウントアップするラベルです。
+ *
+ * @author noko
+ */
 public class TimeLabel extends TWLabel {
+
+    private static final long serialVersionUID = 4056849570457615755L;
 
     private final LocalDateTime statusTime;
 
+    /**
+     * 指定された時刻から相対時間を計算してカウントアップするラベルを生成します
+     *
+     * @param statusTime ツイートが投稿された時刻
+     */
     public TimeLabel(LocalDateTime statusTime) {
         this.statusTime = statusTime;
         setPreferredSize(new Dimension(50, 30));

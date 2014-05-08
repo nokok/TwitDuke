@@ -31,16 +31,30 @@ import net.nokok.twitduke.tweetcell.TweetPanelFactory;
 import twitter4j.Status;
 import twitter4j.auth.AccessToken;
 
+/**
+ * 標準サイズのツイートを生成するクラスです。
+ */
 public class DefaultTweetCellFactory {
 
-    private Status status;
-    private TweetPanelFactory panelFactory;
+    private final Status status;
+    private final TweetPanelFactory panelFactory;
 
+    /**
+     * 指定されたツイートのステータスとアクセストークンを使用してファクトリーを生成します。
+     *
+     * @param status      ツイートのステータス
+     * @param accessToken 有効なアクセストークン
+     */
     public DefaultTweetCellFactory(Status status, AccessToken accessToken) {
         this.status = status;
         panelFactory = new TweetPanelFactory(status, accessToken);
     }
 
+    /**
+     * 標準サイズのツイートセルを生成します
+     *
+     * @return 標準サイズのツイートセル
+     */
     public JPanel newPanel() {
         JPanel p = new TWPanel(new BorderLayout());
         p.add(panelFactory.createUserIcon(), BorderLayout.WEST);
