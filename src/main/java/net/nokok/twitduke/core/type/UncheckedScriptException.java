@@ -29,6 +29,8 @@ package net.nokok.twitduke.core.type;
  */
 public class UncheckedScriptException extends RuntimeException {
 
+    private static final long serialVersionUID = 8440599197184839543L;
+
     /**
      * 指定された原因を使用して新しいスクリプトの実行時例外を生成します。
      *
