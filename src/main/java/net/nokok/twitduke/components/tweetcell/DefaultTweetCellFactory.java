@@ -36,7 +36,6 @@ import twitter4j.auth.AccessToken;
  */
 public class DefaultTweetCellFactory {
 
-    private final Status status;
     private final TweetPanelFactory panelFactory;
 
     /**
@@ -46,7 +45,6 @@ public class DefaultTweetCellFactory {
      * @param accessToken 有効なアクセストークン
      */
     public DefaultTweetCellFactory(Status status, AccessToken accessToken) {
-        this.status = status;
         panelFactory = new TweetPanelFactory(status, accessToken);
     }
 
