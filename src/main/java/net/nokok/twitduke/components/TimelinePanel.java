@@ -33,8 +33,18 @@ import java.util.stream.Stream;
 import javax.swing.Scrollable;
 import net.nokok.twitduke.components.basic.TWPanel;
 
+/**
+ * タイムラインを表示するパネルです。このパネルは独自に実装されたレイアウトマネージャーを持ちます。
+ * レイアウトマネージャーを置き換える場合は通常のパネルと同様setLayoutメソッドで設定可能です。
+ *
+ */
 public class TimelinePanel extends TWPanel implements Scrollable {
 
+    private static final long serialVersionUID = 166135210622484665L;
+
+    /**
+     * 空のタイムラインパネルを生成します。
+     */
     public TimelinePanel() {
         setLayout(new TimelineLayout());
     }

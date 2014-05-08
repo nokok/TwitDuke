@@ -23,15 +23,33 @@
  */
 package net.nokok.twitduke.components.basic;
 
+import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JScrollPane;
 
+/**
+ * TwitDuke用のカスタマイズ済みスクロールパネルです
+ *
+ */
 public class TWScrollPane extends JScrollPane {
 
+    private static final long serialVersionUID = 810836152316094978L;
+
+    /**
+     * パネルの背景色です
+     */
+    public static final Color BACKGROUND_COLOR = new Color(40, 40, 40);
+
+    /**
+     * 指定されたパネルに空のカスタマイズ済みのスクロールパネルを生成します。
+     *
+     * @param view スクロールパネルを設定するパネル
+     */
     public TWScrollPane(Component view) {
         super(view);
         setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
         setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_AS_NEEDED);
+        setBackground(BACKGROUND_COLOR);
     }
 
 }
