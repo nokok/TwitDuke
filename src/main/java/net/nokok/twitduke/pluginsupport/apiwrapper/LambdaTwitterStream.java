@@ -35,10 +35,18 @@ import twitter4j.UserList;
 import twitter4j.UserStreamAdapter;
 import twitter4j.auth.AccessToken;
 
+/**
+ * ラムダ式で記述可能なTwitterStreamのラッパークラスです。
+ */
 public class LambdaTwitterStream {
 
     private final TwitterStream twitterStream;
 
+    /**
+     * 指定されたアクセストークンでTwitterStreamを生成します。
+     *
+     * @param accessToken アクセストークン
+     */
     public LambdaTwitterStream(AccessToken accessToken) {
         this.twitterStream = TwitterStreamFactory.newInstance(accessToken);
     }
