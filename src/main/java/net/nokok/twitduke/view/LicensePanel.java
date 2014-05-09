@@ -31,7 +31,7 @@ import net.nokok.twitduke.core.api.SystemInfo;
 import net.nokok.twitduke.core.impl.SystemInfoImpl;
 
 /**
- *
+ * ライセンスを表示するパネルです
  */
 public class LicensePanel extends TWPanel {
 
