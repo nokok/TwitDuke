@@ -73,7 +73,7 @@ public class Footer implements SendTweetAPI {
      */
     @Override
     public void sendTweet(Tweet tweet) {
-        Tweet tweetWithFooter = new Tweet(tweet.get() + footer);
+        Tweet tweetWithFooter = new Tweet(tweet.get() + footer.get());
         twitter.updateStatus(tweetWithFooter.get());
     }
 
