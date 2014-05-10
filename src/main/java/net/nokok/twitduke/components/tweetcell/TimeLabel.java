@@ -62,10 +62,10 @@ public class TimeLabel extends TWLabel {
         LocalDateTime now = LocalDateTime.now();
         int year = now.getYear() - statusTime.getYear();
         if ( year == 0 ) {
-            //現在日時と同じ年につぶやかれたツイート 1日ずれるので-1する
+            //現在日時と同じ年につぶやかれたツイート
             int dayOfYear = now.getDayOfYear() - statusTime.getDayOfYear();
             if ( dayOfYear == 0 ) {
-                //今日つぶやかれたツイート 6時間ずれるので +6する
+                //今日つぶやかれたツイート
                 int hour = now.getHour() - statusTime.getHour();
                 if ( hour == 0 ) {
                     //現在時刻と同じ時間につぶやかれたツイート
