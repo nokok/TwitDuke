@@ -61,8 +61,8 @@ public class ScreenName implements Retrievable<String> {
             return false;
         }
         if ( obj instanceof ScreenName ) {
-            ScreenName screenName = (ScreenName) obj;
-            return this.screenName.equals(screenName.screenName);
+            ScreenName sc = (ScreenName) obj;
+            return this.screenName.equals(sc.screenName);
         } else {
             return false;
         }
