@@ -24,6 +24,7 @@
 package net.nokok.twitduke.tweetcell;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,14 +32,18 @@ import javax.swing.JTextArea;
 import net.nokok.twitduke.components.basic.TWLabel;
 import net.nokok.twitduke.components.basic.TWPanel;
 import net.nokok.twitduke.components.basic.TWTextArea;
+import net.nokok.twitduke.core.api.view.Selectable;
 
 /**
  * ツイートを表示する標準サイズのセルです
  *
  */
-public class DefaultTweetCell extends TWPanel {
+public class DefaultTweetCell extends TWPanel implements Selectable {
 
     private static final long serialVersionUID = 8642406108943840213L;
+
+    public static final Color SELECTED_COLOR = new Color(41, 128, 185);
+    private boolean isSelected;
 
     JLabel userIcon = new TWLabel();
     JLabel userName = new TWLabel();
@@ -64,5 +69,28 @@ public class DefaultTweetCell extends TWPanel {
         tweetContentPanel.add(tweetTextPanel, BorderLayout.CENTER);
         add(tweetContentPanel, BorderLayout.CENTER);
         add(toolBarPanel, BorderLayout.SOUTH);
+    }
+
+    @Override
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    @Override
+    public void select() {
+        if ( isSelected ) {
+            return;
+        }
+        isSelected = true;
+        setBackground(SELECTED_COLOR);
+    }
+
+    @Override
+    public void unselect() {
+        if ( !isSelected ) {
+            return;
+        }
+        isSelected = false;
+        setBackground(BACKGROUND_COLOR);
     }
 }
