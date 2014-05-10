@@ -27,8 +27,7 @@ import java.awt.BorderLayout;
 import javax.swing.JTextArea;
 import net.nokok.twitduke.components.basic.TWPanel;
 import net.nokok.twitduke.components.basic.TWTextArea;
-import net.nokok.twitduke.core.api.SystemInfo;
-import net.nokok.twitduke.core.impl.SystemInfoImpl;
+import net.nokok.twitduke.core.impl.SystemInfo;
 
 /**
  * ライセンスを表示するパネルです
@@ -42,8 +41,7 @@ public class LicensePanel extends TWPanel {
      */
     public LicensePanel() {
         setLayout(new BorderLayout());
-        SystemInfo info = new SystemInfoImpl();
-        JTextArea textArea = TWTextArea.newNotEditableTextArea(info.license());
+        JTextArea textArea = TWTextArea.newNotEditableTextArea(SystemInfo.LICENSE);
         add(textArea, BorderLayout.CENTER);
     }
 }
