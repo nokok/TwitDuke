@@ -98,4 +98,22 @@ public class FooterTest {
         footer.resetFooter();
         assertTrue(footer.footerLength() == 0);
     }
+
+    /**
+     * フッターが正しく追加されるかのテスト
+     */
+    public void testFooter() {
+        footer = new Footer(new MockAsyncTwitter() {
+
+            @Override
+            public void updateStatus(String status) {
+                assertTrue(status.equals("hogefuga"));
+            }
+
+        });
+        footer.setFooterText("fuga");
+        footer.sendTweet(new Tweet("hoge"));
+
+    }
+
 }
