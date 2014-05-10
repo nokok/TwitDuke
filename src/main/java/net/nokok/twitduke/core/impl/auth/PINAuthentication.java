@@ -32,7 +32,7 @@ import net.nokok.twitduke.core.api.auth.TwitterAuthenticationListener;
 import net.nokok.twitduke.core.api.view.Dialog;
 import net.nokok.twitduke.core.api.view.DialogResultListener;
 import net.nokok.twitduke.core.impl.twitter.AsyncTwitterInstanceGeneratorImpl;
-import net.nokok.twitduke.view.OAuthDialog;
+import net.nokok.twitduke.components.OAuthDialog;
 import twitter4j.AsyncTwitter;
 import twitter4j.TwitterAdapter;
 import twitter4j.TwitterException;
