@@ -55,4 +55,26 @@ public class ScreenName implements Retrievable<String> {
         return screenName;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if ( obj == null ) {
+            return false;
+        }
+        if ( obj instanceof ScreenName ) {
+            ScreenName screenName = (ScreenName) obj;
+            return this.screenName.equals(screenName.screenName);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return screenName.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return screenName;
+    }
 }
