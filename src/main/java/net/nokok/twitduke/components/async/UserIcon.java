@@ -34,7 +34,7 @@ public class UserIcon extends TWLabel {
     private static final long serialVersionUID = -350591259780147393L;
 
     /**
-     * 指定されたURLの画像でラベルを生成します。
+     * 指定されたURLから取得できる画像でラベルを生成します。
      *
      * @param url 画像のURL
      */
