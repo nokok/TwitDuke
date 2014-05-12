@@ -23,40 +23,75 @@
  */
 package net.nokok.twitduke;
 
+import static com.google.common.io.ByteStreams.nullOutputStream;
+import java.io.PrintStream;
 import java.util.Objects;
 
 /**
  * TwitDukeのMainクラスです。このクラスはエントリーポイントを持っています。mainメソッドへ渡す
- * オプションは-debugのみ有効です。それ以外のオプションおよびnullを渡した場合は無視されます。
+ * オプションは-debugと-cliのみ有効です。それ以外のオプションおよびnullを渡した場合は無視されます。
+ * -debugを渡した場合はデバッグモードとして起動します。
+ * -cliを渡した場合はUIは表示されません。
+ * 両方同時に渡すことも出来ます。-debugと-cliを渡した場合は、デバッグモードかつUIなしで起動します。
  *
  * このクラスがTwitDukeの起動処理を制御します。
- * 
+ *
  */
 public class Main {
 
+    private static boolean isDebugMode;
+    private static boolean isCliMode;
+
     /**
-     * TwitDukeのエントリポイントです。 オプションは-debugのみ有効です。 それ以外は全て無視されます。
-     * 
+     * TwitDukeのエントリポイントです。 オプションは-debugと-cliのみ有効です。 それ以外は全て無視されます。
+     *
      * @param args 渡された引数の配列
      */
     public static void main(String[] args) {
-        new Main().run(hasDebugOption(args));
+        isDebugMode = hasDebugOption(args);
+        isCliMode = hasCliOption(args);
+        new Main().run();
     }
 
     /**
      * 渡されたオプションの中に-debugが含まれているかをチェックします。nullが渡された場合はfalseを返します。
-     * 
+     *
      * @param args TwitDukeに渡されたオプションの配列
-     * 
+     *
      * @return -debugが含まれていた場合true
      *         それ以外またはnullが渡された場合false
      */
     private static boolean hasDebugOption(String[] args) {
-        if ( Objects.isNull(args) ) {
+        return hasOption(args, "-debug");
+    }
+
+    /**
+     * 渡されたオプションの中に-cliが含まれているかをチェックします。nullが渡された場合はfalseを返します。
+     *
+     * @param args TwitDukeに渡されたオプションの配列
+     *
+     * @return -cliが含まれていた場合true
+     *         それ以外またはnullが渡された場合false
+     */
+    private static boolean hasCliOption(String[] args) {
+        return hasOption(args, "-cli");
+    }
+
+    /**
+     * オプションの配列に指定されたオプションが含まれているかをチェックします。検索をするオプションまたはオプションの配列
+     * がnullの場合はfalseを返します。
+     *
+     * @param args     TwitDukeに渡されたオプションの配列
+     * @param searchOp 検索するオプション
+     *
+     * @return
+     */
+    private static boolean hasOption(String[] args, String searchOp) {
+        if ( Objects.isNull(args) || Objects.isNull(searchOp) ) {
             return false;
         }
         for ( String arg : args ) {
-            if ( arg.equals("-debug") ) {
+            if ( arg.equals(searchOp) ) {
                 return true;
             }
         }
@@ -65,10 +100,38 @@ public class Main {
 
     /**
      * 実際の起動処理を開始します。
-     * 
+     *
      * @param isDebugMode デバッグモードで起動したい場合はtrueを渡します。
      */
-    private void run(boolean isDebugMode) {
+    private void run() {
 
+        PrintStream out = System.out;
+        PrintStream err = System.err;
+
+        try {
+            if ( isDebugMode ) {
+
+            } else {
+                System.setErr(new PrintStream(nullOutputStream()));
+                System.setOut(new PrintStream(nullOutputStream()));
+            }
+        } catch (Throwable e) {
+            System.setOut(out);
+            System.setErr(err);
+        }
+    }
+
+    /**
+     * @return デバッグモードで起動された場合trueを返します
+     */
+    public static boolean isDebugMode() {
+        return isDebugMode;
+    }
+
+    /**
+     * @return CLIモードで起動された場合trueを返します
+     */
+    public static boolean isCliMode() {
+        return isCliMode;
     }
 }
