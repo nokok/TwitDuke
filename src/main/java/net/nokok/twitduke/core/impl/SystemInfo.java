@@ -28,8 +28,18 @@ package net.nokok.twitduke.core.impl;
  */
 public class SystemInfo {
 
+    /**
+     * 実行中のTwitDukeのバージョンが格納されています。
+     *
+     * 書式は"v0.2"のようにv + バージョン番号で表現されます。
+     */
     public static final String VERSION = "v0.2";
 
+    /**
+     * 実行中のTwitDukeのライセンスが格納されています
+     *
+     * MITライセンスの条文を返します
+     */
     public static final String LICENSE = "The MIT License (MIT)\n"
                                          + "\n"
                                          + "Copyright (c) 2014 noko\n"
