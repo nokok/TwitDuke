@@ -28,7 +28,7 @@ import java.awt.Component;
 import javax.swing.JScrollPane;
 
 /**
- * TwitDuke用のカスタマイズ済みスクロールパネルです
+ * TwitDuke用のカスタマイズ済みJScrollPaneです
  *
  */
 public class TWScrollPane extends JScrollPane {
