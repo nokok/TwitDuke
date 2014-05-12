@@ -23,7 +23,9 @@
  */
 package net.nokok.twitduke.core.type;
 
+import javax.script.Bindings;
 import javax.script.CompiledScript;
+import javax.script.ScriptContext;
 import javax.script.ScriptException;
 
 /**
@@ -70,5 +72,22 @@ public class Plugin implements RunnableScript {
         } catch (ScriptException ex) {
             throw new UncheckedScriptException(ex);
         }
+    }
+
+    /**
+     * プラグインを指定されたBindingsを適用して実行します。このBindingsのスコープはENGINE_SCOPEです
+     *
+     * @param bindings 属性のバインディング
+     */
+    public void runWithBindings(Bindings bindings) {
+        try {
+            script.eval(bindings);
+        } catch (ScriptException ex) {
+            throw new UncheckedScriptException(ex);
+        }
+    }
+
+    public Bindings getBindings() {
+        return script.getEngine().getBindings(ScriptContext.ENGINE_SCOPE);
     }
 }
