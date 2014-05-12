@@ -27,14 +27,14 @@ import net.nokok.twitduke.core.type.Tweet;
 
 /**
  * ツイートを送信するメソッドを定義するインターフェースです
- * 
+ *
  */
 public interface SendTweetAPI {
 
     /**
      * ツイートを送信します。
-     * 
-     * @param tweet
+     *
+     * @param tweet 送信するツイート
      */
     void sendTweet(Tweet tweet);
 }

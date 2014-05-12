@@ -61,7 +61,7 @@ public class Plugin implements RunnableScript {
      * プラグインを実行します。実行するevalメソッドはScriptExceptionをスローする場合がありますが、
      * このメソッド内でキャッチされ新しい実行時例外UncheckedScriptExceptionとしてスローします。
      *
-     * @exception UncheckedScriptException
+     * @exception UncheckedScriptException スクリプト実行中に文法エラーなどの例外が発生した場合スローされます
      */
     @Override
     public void runScript() {

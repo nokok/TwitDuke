@@ -27,12 +27,12 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import net.nokok.twitduke.components.OAuthDialog;
 import net.nokok.twitduke.core.api.auth.TwitterAuthentication;
 import net.nokok.twitduke.core.api.auth.TwitterAuthenticationListener;
 import net.nokok.twitduke.core.api.view.Dialog;
 import net.nokok.twitduke.core.api.view.DialogResultListener;
 import net.nokok.twitduke.core.impl.twitter.AsyncTwitterInstanceGeneratorImpl;
-import net.nokok.twitduke.components.OAuthDialog;
 import twitter4j.AsyncTwitter;
 import twitter4j.TwitterAdapter;
 import twitter4j.TwitterException;
@@ -42,7 +42,7 @@ import twitter4j.auth.RequestToken;
 
 /**
  * PIN入力による認証処理をします。
- * 
+ *
  */
 public class PINAuthentication implements TwitterAuthentication, DialogResultListener<String> {
 
@@ -81,8 +81,8 @@ public class PINAuthentication implements TwitterAuthentication, DialogResultLis
     /**
      * ダイアログのOKボタンが押されると呼ばれます。
      * 入力されたPINとRequestTokenを用いてAccessTokenを非同期で取得します
-     * 
-     * @param o
+     *
+     * @param o OKボタンが押された時にダイアログのテキストエリアに入力されていたPIN
      */
     @Override
     public void okButtonPushed(String o) {
@@ -95,7 +95,7 @@ public class PINAuthentication implements TwitterAuthentication, DialogResultLis
          * getOAuthRequestTokenAsync()によってRequestTokenが取得されたら呼ばれます。
          * 認証処理を続行するためにRequestTokenに格納されている認証用のURLをデフォルトの
          * ブラウザで開きます。
-         * 
+         *
          * @param token 取得したRequestTokenオブジェクト
          */
         @Override
@@ -107,7 +107,7 @@ public class PINAuthentication implements TwitterAuthentication, DialogResultLis
         /**
          * getOAuthAccessTokenAsync(RequestToken, String)によってAccessTokenが
          * 取得されたら呼ばれます。
-         * 
+         *
          * @param token 取得したAccessTokenオブジェクト
          */
         @Override
@@ -118,7 +118,7 @@ public class PINAuthentication implements TwitterAuthentication, DialogResultLis
 
         /**
          * TwitterAPIリクエスト送信中にエラーが発生するとこのメソッドが呼ばれます。
-         * 
+         *
          * @param te
          * @param method
          */
@@ -129,9 +129,9 @@ public class PINAuthentication implements TwitterAuthentication, DialogResultLis
 
         /**
          * 渡されたURLをデフォルトに指定されているブラウザで開きます。
-         * 
+         *
          * @param url ブラウザで開くURL
-         * 
+         *
          * @throws InternalError URLの文法がおかしい場合もしくはブラウザにアクセス出来なかった場合スローされます
          */
         private void openInBrowser(String url) {

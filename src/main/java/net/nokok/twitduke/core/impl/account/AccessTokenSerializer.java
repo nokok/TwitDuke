@@ -31,14 +31,14 @@ import twitter4j.auth.AccessToken;
 
 /**
  * アクセストークンをシリアライズしてファイルとして書き込みます。
- * 
+ *
  */
 public class AccessTokenSerializer implements AccessTokenWriter {
 
     /**
      * アクセストークンを格納されているスクリーンネームの名前でディスクに書き込みます
-     * 
-     * @param accessToken
+     *
+     * @param accessToken アクセストークン
      */
     @Override
     public void writeAccessToken(AccessToken accessToken) {

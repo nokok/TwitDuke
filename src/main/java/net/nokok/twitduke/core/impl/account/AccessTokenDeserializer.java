@@ -36,14 +36,14 @@ import twitter4j.auth.AccessToken;
 
 /**
  * AccessTokenをデシリアライズする事によって読み込むクラスです
- * 
+ *
  */
 public class AccessTokenDeserializer implements AccessTokenReader {
 
     /**
      * 利用可能なAccessTokenをOptionalでラップされたオブジェクトのリストの形で返します。
-     * 
-     * @return
+     *
+     * @return Optionalなアクセストークン
      */
     @Override
     public ArrayList<Optional<AccessToken>> getAccessTokenList() {
@@ -60,9 +60,9 @@ public class AccessTokenDeserializer implements AccessTokenReader {
     /**
      * 指定したファイル名のファイルを読み込み、AccessTokenに変換して返します。
      * 失敗した場合Optional.empty()が返ります
-     * 
+     *
      * @param fileName 読み込むファイル
-     * 
+     *
      * @return 読み込みに成功した場合はAccessTokenオブジェクト
      *         失敗した場合はOptional.empty();
      */
