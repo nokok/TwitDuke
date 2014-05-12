@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.stream;
+package net.nokok.twitduke.core.impl.twitter;
 
 import twitter4j.StallWarning;
 import twitter4j.Status;
