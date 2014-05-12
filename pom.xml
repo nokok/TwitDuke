@@ -55,6 +55,11 @@
             <artifactId>twitter4j-media-support</artifactId>
             <version>4.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>17.0</version>
+        </dependency>
     </dependencies>
     <reporting>
         <plugins>
