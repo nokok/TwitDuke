@@ -25,7 +25,6 @@ package net.nokok.twitduke.components.tweetcell;
 
 import java.awt.Dimension;
 import java.time.LocalDateTime;
-import java.util.Timer;
 import java.util.TimerTask;
 import net.nokok.twitduke.components.basic.TWLabel;
 
@@ -48,14 +47,13 @@ public class TimeLabel extends TWLabel {
     public TimeLabel(LocalDateTime statusTime) {
         this.statusTime = statusTime;
         setPreferredSize(new Dimension(50, 30));
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        TweetCellTimer.INSTANCE.scheduleAtFixedRate(new TimerTask() {
 
             @Override
             public void run() {
                 setText(calcDifference());
             }
-        }, 0, 5000);
+        }, 5000);
     }
 
     private String calcDifference() {
