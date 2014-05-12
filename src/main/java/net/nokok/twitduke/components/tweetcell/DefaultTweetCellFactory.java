@@ -27,7 +27,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.JPanel;
 import net.nokok.twitduke.components.basic.TWPanel;
-import net.nokok.twitduke.tweetcell.TweetPanelFactory;
 import twitter4j.Status;
 import twitter4j.auth.AccessToken;
 

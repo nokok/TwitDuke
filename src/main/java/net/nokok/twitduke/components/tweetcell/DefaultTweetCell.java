@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.tweetcell;
+package net.nokok.twitduke.components.tweetcell;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
