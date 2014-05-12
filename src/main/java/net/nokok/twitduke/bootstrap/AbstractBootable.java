@@ -23,13 +23,32 @@
  */
 package net.nokok.twitduke.bootstrap;
 
+import java.util.ArrayList;
+import java.util.Optional;
+import net.nokok.twitduke.core.api.account.AccountManager;
+import net.nokok.twitduke.core.impl.factory.AccountManagerFactory;
+import twitter4j.auth.AccessToken;
+
 /**
  * 起動可能なオブジェクトです。
  */
-public interface Bootable {
+abstract public class AbstractBootable {
+
+    protected final ArrayList<AccessToken> accessTokenList;
+    protected final AccountManager accountManager;
+
+    public AbstractBootable() {
+        accountManager = AccountManagerFactory.newInstance();
+        ArrayList<Optional<AccessToken>> accessTokenListOptional = accountManager.getAccessTokenList();
+        accessTokenList = new ArrayList<>(accessTokenListOptional.size());
+        accessTokenListOptional
+                .stream()
+                .filter(token -> token.isPresent())
+                .forEach(token -> accessTokenList.add(token.get()));
+    }
 
     /**
      * 起動処理を開始します
      */
-    void startInitialize();
+    abstract public void startInitialize();
 }

@@ -23,8 +23,6 @@
  */
 package net.nokok.twitduke.bootstrap;
 
-import net.nokok.twitduke.Main;
-
 /**
  * 起動可能なオブジェクトを生成するクラスです。
  */
@@ -35,9 +33,9 @@ public class BootstrapFactory {
      *
      * @return 起動可能なオブジェクト
      */
-    public static Bootable createBootableObject() {
-        Bootable bootable;
-        if ( Main.isCliMode() ) {
+    public static AbstractBootable createBootableObject(boolean isCliMode, boolean isDebugMode) {
+        AbstractBootable bootable;
+        if ( isCliMode ) {
             bootable = new CliBootstrap();
         } else {
             bootable = new SwingBootstrap();

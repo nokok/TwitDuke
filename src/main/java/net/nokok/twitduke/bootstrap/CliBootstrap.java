@@ -26,7 +26,7 @@ package net.nokok.twitduke.bootstrap;
 /**
  * コマンドラインで操作可能なGUIなしのTwitDukeを起動します。
  */
-class CliBootstrap implements Bootable {
+class CliBootstrap extends AbstractBootable {
 
     @Override
     public void startInitialize() {
