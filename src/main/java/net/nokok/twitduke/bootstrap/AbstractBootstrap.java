@@ -32,12 +32,12 @@ import twitter4j.auth.AccessToken;
 /**
  * 起動可能なオブジェクトです。
  */
-abstract public class AbstractBootable {
+abstract public class AbstractBootstrap {
 
     protected final ArrayList<AccessToken> accessTokenList;
     protected final AccountManager accountManager;
 
-    public AbstractBootable() {
+    public AbstractBootstrap() {
         accountManager = AccountManagerFactory.newInstance();
         ArrayList<Optional<AccessToken>> accessTokenListOptional = accountManager.getAccessTokenList();
         accessTokenList = new ArrayList<>(accessTokenListOptional.size());

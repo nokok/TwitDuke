@@ -33,8 +33,8 @@ public class BootstrapFactory {
      *
      * @return 起動可能なオブジェクト
      */
-    public static AbstractBootable createBootableObject(boolean isCliMode, boolean isDebugMode) {
-        AbstractBootable bootable;
+    public static AbstractBootstrap createBootableObject(boolean isCliMode, boolean isDebugMode) {
+        AbstractBootstrap bootable;
         if ( isCliMode ) {
             bootable = new CliBootstrap();
         } else {

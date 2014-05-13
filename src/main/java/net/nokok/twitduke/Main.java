@@ -26,7 +26,7 @@ package net.nokok.twitduke;
 import static com.google.common.io.ByteStreams.nullOutputStream;
 import java.io.PrintStream;
 import java.util.Objects;
-import net.nokok.twitduke.bootstrap.AbstractBootable;
+import net.nokok.twitduke.bootstrap.AbstractBootstrap;
 import net.nokok.twitduke.bootstrap.BootstrapFactory;
 
 /**
@@ -113,7 +113,7 @@ public class Main {
                 System.setErr(new PrintStream(nullOutputStream()));
                 System.setOut(new PrintStream(nullOutputStream()));
             }
-            AbstractBootable b = BootstrapFactory.createBootableObject(isCliMode, isDebugMode);
+            AbstractBootstrap b = BootstrapFactory.createBootableObject(isCliMode, isDebugMode);
             b.startInitialize();
         } catch (Throwable e) {
             System.setOut(out);

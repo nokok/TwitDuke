@@ -27,7 +27,7 @@ package net.nokok.twitduke.bootstrap;
  * Swingを用いた通常の起動処理を開始します。
  *
  */
-class SwingBootstrap extends AbstractBootable {
+class SwingBootstrap extends AbstractBootstrap {
 
     @Override
     public void startInitialize() {
