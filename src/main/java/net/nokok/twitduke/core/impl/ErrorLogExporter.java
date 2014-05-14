@@ -31,11 +31,12 @@ import net.nokok.twitduke.core.api.ErrorLogger;
 
 public class ErrorLogExporter implements ErrorLogger {
 
+    public static final String LOG_PATH = String.join(File.separator, ".", "log", "out.log");
+
     @Override
     public void error(Throwable e) {
         StackTraceElement[] elements = e.getStackTrace();
-        String outputDir = String.join(File.separator, ".", "log");
-        File file = new File(outputDir + "out.log");
+        File file = new File(LOG_PATH);
         try (FileWriter writer = new FileWriter(file);) {
             Stream.of(elements).forEach(element -> {
                 try {
