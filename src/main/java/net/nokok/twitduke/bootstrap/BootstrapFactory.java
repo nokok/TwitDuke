@@ -31,11 +31,13 @@ public class BootstrapFactory {
     /**
      * 起動可能なオブジェクトを生成します。
      *
+     * @param options 起動時に指定されたオプション
+     *
      * @return 起動可能なオブジェクト
      */
-    public static AbstractBootstrap createBootableObject(boolean isCliMode, boolean isDebugMode) {
+    public static AbstractBootstrap createBootableObject(BootOptions options) {
         AbstractBootstrap bootable;
-        if ( isCliMode ) {
+        if ( options.IS_CLI_MODE ) {
             bootable = new CliBootstrap();
         } else {
             bootable = new SwingBootstrap();
