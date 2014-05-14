@@ -23,10 +23,7 @@
  */
 package net.nokok.twitduke;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -35,65 +32,13 @@ import org.junit.Test;
  */
 public class MainTest {
 
-    private Main main;
-
-    @Before
-    public void setUp() {
-        main = new Main();
-    }
-
     @Test
     public void testMain() {
         try {
             Main.main(null);
-            assertFalse(Main.isCliMode());
-            assertFalse(Main.isDebugMode());
         } catch (Throwable e) {
-            fail();
+            fail(e.getMessage());
         }
-    }
 
-    @Test
-    public void testIsDebugMode() {
-        try {
-            Main.main(new String[]{"-debug"});
-            assertTrue(Main.isDebugMode());
-            assertFalse(Main.isCliMode());
-        } catch (Throwable e) {
-            fail();
-        }
-    }
-
-    @Test
-    public void testIsCliMode() {
-        try {
-            Main.main(new String[]{"-cli"});
-            assertFalse(Main.isDebugMode());
-            assertTrue(Main.isCliMode());
-        } catch (Throwable e) {
-            fail();
-        }
-    }
-
-    @Test
-    public void testAllOptions() {
-        try {
-            Main.main(new String[]{"-cli", "-debug"});
-            assertTrue(Main.isCliMode());
-            assertTrue(Main.isDebugMode());
-        } catch (Throwable e) {
-            fail();
-        }
-    }
-
-    @Test
-    public void testInvalidOptions() {
-        try {
-            Main.main(new String[]{"cli", "debug", "-deb", "-", " "});
-            assertFalse(Main.isCliMode());
-            assertFalse(Main.isDebugMode());
-        } catch (Throwable e) {
-            fail();
-        }
     }
 }
