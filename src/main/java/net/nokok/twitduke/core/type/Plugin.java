@@ -79,7 +79,7 @@ public class Plugin implements RunnableScript {
      *
      * @param bindings 属性のバインディング
      */
-    public void runWithBindings(Bindings bindings) {
+    public void runScript(Bindings bindings) {
         try {
             script.eval(bindings);
         } catch (ScriptException ex) {
@@ -87,6 +87,11 @@ public class Plugin implements RunnableScript {
         }
     }
 
+    /**
+     * プラグインに適用されているBindingsを返します
+     *
+     * @return Bindings
+     */
     public Bindings getBindings() {
         return script.getEngine().getBindings(ScriptContext.ENGINE_SCOPE);
     }
