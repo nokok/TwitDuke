@@ -23,6 +23,7 @@
  */
 package net.nokok.twitduke.core.impl.twitter;
 
+import net.nokok.twitduke.core.type.StreamReceivable;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
@@ -33,7 +34,7 @@ import twitter4j.StatusListener;
  * 主にデバッグ用途で使用します
  *
  */
-public class PrintStatusListener implements StatusListener {
+public class PrintStatusListener implements StatusListener, StreamReceivable {
 
     @Override
     public void onDeletionNotice(StatusDeletionNotice sdn) {
