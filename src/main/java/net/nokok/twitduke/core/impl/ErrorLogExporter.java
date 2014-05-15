@@ -39,13 +39,9 @@ public class ErrorLogExporter implements ErrorLogger {
         StackTraceElement[] elements = e.getStackTrace();
         File file = new File(LOG_PATH);
         if ( !file.exists() ) {
-            try {
-                file.createNewFile();
-            } catch (IOException ex) {
-                throw new InternalError("ファイル作成のパーミッションがありません");
-            }
+            createNewLogFile(file);
         }
-        try (FileWriter writer = new FileWriter(file, true);) {
+        try (FileWriter writer = new FileWriter(file, true)) {
             writer.append(LocalDateTime.now().toString() + newLine());
             Stream.of(elements).forEach(element -> {
                 try {
@@ -62,5 +58,13 @@ public class ErrorLogExporter implements ErrorLogger {
 
     private String newLine() {
         return System.getProperty("line.separator");
+    }
+
+    private void createNewLogFile(File file) {
+        try {
+            file.createNewFile();
+        } catch (IOException ex) {
+            throw new InternalError("ファイル作成のパーミッションがありません");
+        }
     }
 }
