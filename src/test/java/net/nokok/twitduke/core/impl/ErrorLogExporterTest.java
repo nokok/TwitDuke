@@ -23,6 +23,7 @@
  */
 package net.nokok.twitduke.core.impl;
 
+import net.nokok.twitduke.core.impl.log.ErrorLogExporter;
 import org.junit.Test;
 
 /**
