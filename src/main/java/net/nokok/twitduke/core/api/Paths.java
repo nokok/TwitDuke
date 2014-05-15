@@ -23,6 +23,7 @@
  */
 package net.nokok.twitduke.core.api;
 
+import java.io.File;
 import net.nokok.twitduke.core.api.account.AccessTokenPath;
 import net.nokok.twitduke.core.api.log.LogPath;
 import net.nokok.twitduke.pluginsupport.PluginPath;
@@ -32,4 +33,5 @@ import net.nokok.twitduke.pluginsupport.PluginPath;
  */
 public class Paths implements AccessTokenPath, LogPath, PluginPath {
 
+    public static final String TWITDUKE_HOME = String.join(File.separator, new File("").getAbsolutePath(), ".td");
 }

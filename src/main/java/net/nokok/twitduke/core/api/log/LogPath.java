@@ -24,6 +24,7 @@
 package net.nokok.twitduke.core.api.log;
 
 import java.io.File;
+import net.nokok.twitduke.core.api.Paths;
 
 /**
  * ログファイルのパスを定義します
@@ -34,5 +35,8 @@ public interface LogPath {
     /**
      * ログファイルのパスです
      */
-    public static final String LOG_PATH = String.join(File.separator, ".", "log", "out.log");
+    public static final String LOG_PATH = String.join(File.separator, Paths.TWITDUKE_HOME, "log", "out.log");
+
+    public static final String LOG_DIR = String.join(File.separator, Paths.TWITDUKE_HOME, "log");
+
 }

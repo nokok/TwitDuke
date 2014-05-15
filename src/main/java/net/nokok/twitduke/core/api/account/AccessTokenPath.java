@@ -24,6 +24,7 @@
 package net.nokok.twitduke.core.api.account;
 
 import java.io.File;
+import net.nokok.twitduke.core.api.Paths;
 
 /**
  * アクセストークンを保存するパスを定義します
@@ -33,5 +34,5 @@ public interface AccessTokenPath {
     /**
      * アクセストークンを保存するパスです
      */
-    public static final String TOKEN_DIR = String.join(File.separator, ".", "tokens");
+    public static final String TOKEN_DIR = String.join(File.separator, Paths.TWITDUKE_HOME, "tokens");
 }
