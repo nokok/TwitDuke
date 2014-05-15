@@ -45,7 +45,7 @@ public class AccessTokenSerializer implements AccessTokenWriter {
     @Override
     public void writeAccessToken(AccessToken accessToken) {
         try (ObjectOutputStream objectOutputStream
-                                = new ObjectOutputStream(new FileOutputStream(AccessTokenPath.TOKEN_PATH + File.separator + accessToken.getScreenName()))) {
+                                = new ObjectOutputStream(new FileOutputStream(AccessTokenPath.TOKEN_DIR + File.separator + accessToken.getScreenName()))) {
             objectOutputStream.writeObject(accessToken);
         } catch (IOException e) {
             throw new InternalError(e);

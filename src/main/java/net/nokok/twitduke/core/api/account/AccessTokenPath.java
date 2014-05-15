@@ -33,5 +33,5 @@ public interface AccessTokenPath {
     /**
      * アクセストークンを保存するパスです
      */
-    public static final String TOKEN_PATH = String.join(File.separator, ".", "tokens");
+    public static final String TOKEN_DIR = String.join(File.separator, ".", "tokens");
 }
