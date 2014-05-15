@@ -25,11 +25,11 @@ package net.nokok.twitduke.core.api;
 
 import net.nokok.twitduke.core.api.account.AccessTokenPath;
 import net.nokok.twitduke.core.api.log.LogPath;
+import net.nokok.twitduke.pluginsupport.PluginPath;
 
 /**
  * パスクラスを集約します
- *
  */
-public class Paths implements AccessTokenPath, LogPath {
+public class Paths implements AccessTokenPath, LogPath, PluginPath {
 
 }
