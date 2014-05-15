@@ -63,7 +63,7 @@ public class ErrorLogExporter implements ErrorLogger {
         try {
             file.createNewFile();
         } catch (IOException ex) {
-            throw new InternalError("ファイル作成のパーミッションがありません");
+            throw new InternalError("ログファイルを作成出来ません", ex);
         }
     }
 }
