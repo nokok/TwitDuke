@@ -26,7 +26,7 @@ package net.nokok.twitduke.core.api.twitter;
 import net.nokok.twitduke.core.type.Tweet;
 
 /**
- * ツイートを送信するメソッドを定義するインターフェースです
+ * ツイートが送信可能なオブジェクトです
  *
  */
 public interface SendTweetAPI {
