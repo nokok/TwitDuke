@@ -23,6 +23,7 @@
  */
 package net.nokok.twitduke.core.impl.account;
 
+import net.nokok.twitduke.core.api.account.AccessTokenPath;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class AccessTokenDeserializer implements AccessTokenReader {
         ArrayList<Optional<AccessToken>> list;
         list = Stream.of(files)
                 .filter(p -> p.isFile())
-                .map(f -> getAccessToken(f.getAbsolutePath()))
+                .map(f -> getAccessToken(AccessTokenPath.TOKEN_PATH + File.separator + f.getAbsolutePath()))
                 .filter(e -> e.isPresent())
                 .collect(Collectors.toCollection(ArrayList::new));
         return list;
