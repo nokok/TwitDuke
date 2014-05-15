@@ -28,16 +28,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
-import net.nokok.twitduke.core.api.ErrorLogger;
+import net.nokok.twitduke.core.api.log.ErrorLogger;
+import net.nokok.twitduke.core.api.log.LogPath;
 
 public class ErrorLogExporter implements ErrorLogger {
-
-    public static final String LOG_PATH = String.join(File.separator, ".", "log", "out.log");
 
     @Override
     public void error(Throwable e) {
         StackTraceElement[] elements = e.getStackTrace();
-        File file = new File(LOG_PATH);
+        File file = new File(LogPath.LOG_PATH);
         if ( !file.exists() ) {
             createNewLogFile(file);
         }
