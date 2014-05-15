@@ -29,7 +29,7 @@ import java.io.File;
  * ログファイルのパスを定義します
  *
  */
-public class LogPath {
+public interface LogPath {
 
     /**
      * ログファイルのパスです

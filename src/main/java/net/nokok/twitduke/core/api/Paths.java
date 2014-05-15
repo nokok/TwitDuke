@@ -21,17 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.api.account;
+package net.nokok.twitduke.core.api;
 
-import java.io.File;
+import net.nokok.twitduke.core.api.account.AccessTokenPath;
+import net.nokok.twitduke.core.api.log.LogPath;
 
 /**
- * アクセストークンを保存するパスを定義します
+ * パスクラスを集約します
+ *
  */
-public interface AccessTokenPath {
+public class Paths implements AccessTokenPath, LogPath {
 
-    /**
-     * アクセストークンを保存するパスです
-     */
-    public static final String TOKEN_PATH = String.join(File.separator, ".", "tokens");
 }
