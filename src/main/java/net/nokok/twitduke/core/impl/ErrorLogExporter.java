@@ -26,6 +26,7 @@ package net.nokok.twitduke.core.impl;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.stream.Stream;
 import net.nokok.twitduke.core.api.ErrorLogger;
 
@@ -37,17 +38,29 @@ public class ErrorLogExporter implements ErrorLogger {
     public void error(Throwable e) {
         StackTraceElement[] elements = e.getStackTrace();
         File file = new File(LOG_PATH);
-        try (FileWriter writer = new FileWriter(file);) {
+        if ( !file.exists() ) {
+            try {
+                file.createNewFile();
+            } catch (IOException ex) {
+                throw new InternalError("ファイル作成のパーミッションがありません");
+            }
+        }
+        try (FileWriter writer = new FileWriter(file, true);) {
+            writer.append(LocalDateTime.now().toString() + newLine());
             Stream.of(elements).forEach(element -> {
                 try {
-                    writer.append(element.toString());
+                    writer.append(element.toString() + newLine());
                 } catch (IOException ignored) {
 
                 }
             });
+            writer.append(newLine());
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }
 
+    private String newLine() {
+        return System.getProperty("line.separator");
+    }
 }
