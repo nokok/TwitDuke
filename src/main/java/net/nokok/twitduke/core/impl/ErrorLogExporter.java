@@ -57,7 +57,7 @@ public class ErrorLogExporter implements ErrorLogger {
     }
 
     private String newLine() {
-        return System.getProperty("line.separator");
+        return System.lineSeparator();
     }
 
     private void createNewLogFile(File file) {
