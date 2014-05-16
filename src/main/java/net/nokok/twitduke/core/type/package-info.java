@@ -22,6 +22,6 @@
  * THE SOFTWARE.
  */
 /**
- * TwitDukeで利用する型を定義するクラスを提供します
+ * TwitDukeで利用する基本的な型やインターフェースを定義するクラスを提供します
  */
 package net.nokok.twitduke.core.type;
