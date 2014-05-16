@@ -30,28 +30,38 @@ import java.time.LocalDateTime;
 import java.util.stream.Stream;
 import net.nokok.twitduke.core.api.log.ErrorLogger;
 import net.nokok.twitduke.core.api.log.LogPath;
+import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 
-public class ErrorLogExporter implements ErrorLogger {
+public class ErrorLogExporter implements ErrorLogger, ErrorMessageReceivable {
+
+    private final File logFile = new File(LogPath.LOG_PATH);
+
+    public ErrorLogExporter() {
+        if ( !logFile.exists() ) {
+            createNewLogFile(logFile);
+        }
+    }
 
     @Override
     public void error(Throwable e) {
         StackTraceElement[] elements = e.getStackTrace();
-        File file = new File(LogPath.LOG_PATH);
-        if ( !file.exists() ) {
-            createNewLogFile(file);
-        }
-        try (FileWriter writer = new FileWriter(file, true)) {
-            writer.append(LocalDateTime.now().toString() + newLine());
-            Stream.of(elements).forEach(element -> {
-                try {
-                    writer.append(element.toString() + newLine());
-                } catch (IOException ignored) {
+        appendLine(LocalDateTime.now() + newLine());
+        Stream.of(elements)
+                .filter(p -> !p.isNativeMethod())
+                .forEach(elm -> appendLine(elm.toString() + newLine()));
+        appendLine(newLine());
+    }
 
-                }
-            });
-            writer.append(newLine());
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
+    @Override
+    public void onError(String errorMessage) {
+        appendLine(errorMessage + newLine());
+    }
+
+    private void appendLine(String line) {
+        try (FileWriter writer = new FileWriter(logFile, true)) {
+            writer.append(line);
+        } catch (IOException ignored) {
+
         }
     }
 
