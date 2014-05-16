@@ -25,10 +25,16 @@ package net.nokok.twitduke.pluginsupport;
 
 import net.nokok.twitduke.core.api.twitter.SendDMAPI;
 import net.nokok.twitduke.core.api.twitter.SendTweetAPI;
+import net.nokok.twitduke.core.api.twitter.TwitterExceptionReceivable;
+import net.nokok.twitduke.core.api.twitter.UpdateProfile;
 import net.nokok.twitduke.core.impl.twitter.AsyncTwitterInstanceGeneratorImpl;
+import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 import net.nokok.twitduke.core.type.ScreenName;
 import net.nokok.twitduke.core.type.Tweet;
 import twitter4j.AsyncTwitter;
+import twitter4j.TwitterAdapter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterMethod;
 import twitter4j.auth.AccessToken;
 
 /**
@@ -36,12 +42,26 @@ import twitter4j.auth.AccessToken;
  *
  * @author noko
  */
-public class TwitterAPI implements SendTweetAPI, SendDMAPI {
+public class TwitterAPI implements SendTweetAPI, SendDMAPI, UpdateProfile, TwitterExceptionReceivable {
 
     private final AsyncTwitter asyncTwitter;
+    private ErrorMessageReceivable receivable;
 
     public TwitterAPI(AccessToken accessToken) {
         asyncTwitter = new AsyncTwitterInstanceGeneratorImpl().generate(accessToken);
+    }
+
+    @Override
+    public void onError(ErrorMessageReceivable receivable) {
+        this.receivable = receivable;
+        asyncTwitter.addListener(new TwitterAdapter() {
+
+            @Override
+            public void onException(TwitterException te, TwitterMethod method) {
+                receivable.onError(te.getErrorMessage());
+            }
+
+        });
     }
 
     @Override
@@ -52,6 +72,26 @@ public class TwitterAPI implements SendTweetAPI, SendDMAPI {
     @Override
     public void sendTweet(Tweet tweet) {
         asyncTwitter.updateStatus(tweet.get());
+    }
+
+    @Override
+    public void updateBio(String bio) {
+        asyncTwitter.updateProfile(null, null, null, bio);
+    }
+
+    @Override
+    public void updateLocation(String location) {
+        asyncTwitter.updateProfile(null, null, location, null);
+    }
+
+    @Override
+    public void updateName(String name) {
+        asyncTwitter.updateProfile(name, null, null, null);
+    }
+
+    @Override
+    public void updateUrl(String url) {
+        asyncTwitter.updateProfile(null, url, null, null);
     }
 
 }
