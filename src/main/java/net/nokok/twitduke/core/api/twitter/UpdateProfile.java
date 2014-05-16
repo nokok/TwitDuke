@@ -29,7 +29,7 @@ import net.nokok.twitduke.core.type.ErrorMessageReceivable;
  * ユーザー情報の変更が出来ます。
  *
  */
-public interface UpdateProfile {
+public interface UpdateProfile extends TwitterExceptionReceivable {
 
     /**
      * ユーザー情報変更中にエラーが発生した場合に呼ばれるメソッドです。
@@ -38,6 +38,7 @@ public interface UpdateProfile {
      * @param receivable エラーメッセージを実際に受信するオブジェクト
      *
      */
+    @Override
     void onError(ErrorMessageReceivable receivable);
 
     /**
