@@ -39,6 +39,7 @@ import twitter4j.auth.AccessToken;
  * AccessTokenをデシリアライズする事によって読み込むクラスです
  *
  */
+@Deprecated
 public class AccessTokenDeserializer implements AccessTokenReader {
 
     /**

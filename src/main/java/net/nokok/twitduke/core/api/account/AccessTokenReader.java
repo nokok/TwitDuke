@@ -31,6 +31,7 @@ import twitter4j.auth.AccessToken;
  * アクセストークンを読み込むメソッドを提供するインターフェースです。
  * 
  */
+@Deprecated
 public interface AccessTokenReader {
 
     /**

@@ -35,6 +35,7 @@ import twitter4j.auth.AccessToken;
  * アクセストークンをシリアライズしてファイルとして書き込みます。
  *
  */
+@Deprecated
 public class AccessTokenSerializer implements AccessTokenWriter {
 
     /**
