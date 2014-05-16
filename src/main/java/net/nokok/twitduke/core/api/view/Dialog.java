@@ -31,16 +31,18 @@ package net.nokok.twitduke.core.api.view;
  *
  * @see net.nokok.twitduke.core.api.view.DialogResultListener
  */
-public interface Dialog<T> {
+public interface Dialog<T> extends Visible, Disposable {
 
     /**
      * ダイアログを表示します
      */
+    @Override
     void show();
 
     /**
      * ダイアログを破棄します。このメソッドを実行後はダイアログが利用できなくなります。
      */
+    @Override
     void dispose();
 
     /**
