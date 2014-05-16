@@ -32,28 +32,33 @@ import twitter4j.auth.AccessToken;
 
 /**
  * TwitDukeのアカウントに関する操作をするクラスです。
- * 
+ *
  */
+@Deprecated
 public class AccountManagerImpl implements AccountManager {
 
+    @Deprecated
     @Override
     public ArrayList<Optional<AccessToken>> getAccessTokenList() {
         AccessTokenReader accessTokenReader = new AccessTokenDeserializer();
         return accessTokenReader.getAccessTokenList();
     }
 
+    @Deprecated
     @Override
     public boolean hasValidAccount() {
         AccessTokenReader reader = new AccessTokenDeserializer();
         return reader.readFirstAccessToken().isPresent();
     }
 
+    @Deprecated
     @Override
     public Optional<AccessToken> readFirstAccessToken() {
         AccessTokenReader accessTokenReader = new AccessTokenDeserializer();
         return accessTokenReader.readFirstAccessToken();
     }
 
+    @Deprecated
     @Override
     public void writeAccessToken(AccessToken accessToken) {
         AccessTokenWriter accessTokenWriter = new AccessTokenSerializer();
