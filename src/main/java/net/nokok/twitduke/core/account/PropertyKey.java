@@ -29,4 +29,5 @@ class PropertyKey {
     static final String TOKEN_SECRET = "tokensecret";
     static final String USER_ID = "id";
     static final String SCREEN_NAME = "name";
+    static final String PRIMARY_ACCOUNT = "primary";
 }
