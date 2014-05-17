@@ -23,12 +23,41 @@
  */
 package net.nokok.twitduke.core.api.account;
 
+import java.util.List;
+import net.nokok.twitduke.core.type.ScreenName;
+import twitter4j.auth.AccessToken;
+
 /**
  * Twitterアカウントに関する操作を定義するインターフェースです
  *
  */
-public interface AccountManager extends AccountsInfo,
-                                        AccessTokenReader,
-                                        AccessTokenWriter {
+public interface AccountManager extends AccountsInfo {
 
+    /**
+     * 指定した認証済みのアクセストークンからアカウントを追加します
+     *
+     * @param accessToken 認証済みのアクセストークン
+     */
+    void addAccount(AccessToken accessToken);
+
+    /**
+     * 指定したアクセストークンのアカウントを削除します
+     *
+     * @param accessToken 削除するアカウントのアクセストークン
+     */
+    void removeAccount(AccessToken accessToken);
+
+    /**
+     * 指定したスクリーンネームのアカウントを削除します
+     *
+     * @param screenName 削除するアカウントのスクリーンネーム
+     */
+    void removeAccount(ScreenName screenName);
+
+    /**
+     * 利用できるアカウントのスクリーンネームのリストを返します
+     *
+     * @return 利用できるアカウントのスクリーンネームのリスト
+     */
+    List<ScreenName> readAccountList();
 }

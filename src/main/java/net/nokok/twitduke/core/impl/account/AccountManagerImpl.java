@@ -23,45 +23,69 @@
  */
 package net.nokok.twitduke.core.impl.account;
 
+import com.google.common.collect.Lists;
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Optional;
-import net.nokok.twitduke.core.api.account.AccessTokenReader;
-import net.nokok.twitduke.core.api.account.AccessTokenWriter;
+import java.util.List;
+import java.util.stream.Collectors;
 import net.nokok.twitduke.core.api.account.AccountManager;
+import net.nokok.twitduke.core.api.io.Serializer;
+import net.nokok.twitduke.core.type.ScreenName;
 import twitter4j.auth.AccessToken;
 
 /**
  * TwitDukeのアカウントに関する操作をするクラスです。
  *
  */
-@Deprecated
 public class AccountManagerImpl implements AccountManager {
 
-    @Deprecated
     @Override
-    public ArrayList<Optional<AccessToken>> getAccessTokenList() {
-        AccessTokenReader accessTokenReader = new AccessTokenDeserializer();
-        return accessTokenReader.getAccessTokenList();
+    public void addAccount(AccessToken accessToken) {
+        File accountDir = DirectoryHelper.createAccountDirectory(accessToken.getScreenName());
+        String tokenPath = String.join(File.separator, accountDir.getAbsolutePath(), "token");
+        Serializer<AccessToken> writer = new Serializer<AccessToken>() {
+        };
+        writer.write(tokenPath, accessToken);
     }
 
-    @Deprecated
+    @Override
+    public boolean hasAccount(ScreenName screenName) {
+        return DirectoryHelper.getAccountDirectory(screenName.get()).exists();
+    }
+
     @Override
     public boolean hasValidAccount() {
-        AccessTokenReader reader = new AccessTokenDeserializer();
-        return reader.readFirstAccessToken().isPresent();
+        return !readAccountDirFileList().isEmpty();
     }
 
-    @Deprecated
     @Override
-    public Optional<AccessToken> readFirstAccessToken() {
-        AccessTokenReader accessTokenReader = new AccessTokenDeserializer();
-        return accessTokenReader.readFirstAccessToken();
+    public List<ScreenName> readAccountList() {
+        List<File> accountFiles = readAccountDirFileList();
+        return accountFiles
+                .stream()
+                .map(f -> new ScreenName(f.getName()))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    @Deprecated
-    @Override
-    public void writeAccessToken(AccessToken accessToken) {
-        AccessTokenWriter accessTokenWriter = new AccessTokenSerializer();
-        accessTokenWriter.writeAccessToken(accessToken);
+    private List<File> readAccountDirFileList() {
+        File accountDir = new File(AccountPath.PATH);
+        File[] files = accountDir.listFiles();
+        if ( files == null ) {
+            return new ArrayList<>(0);
+        }
+        return Lists.newArrayList(files);
     }
+
+    @Override
+    public void removeAccount(AccessToken accessToken) {
+        File accountDir = DirectoryHelper.getAccountDirectory(accessToken.getScreenName());
+        accountDir.delete();
+    }
+
+    @Override
+    public void removeAccount(ScreenName screenName) {
+        File accountDir = DirectoryHelper.getAccountDirectory(screenName.get());
+        accountDir.delete();
+    }
+
 }

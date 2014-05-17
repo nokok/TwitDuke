@@ -23,17 +23,29 @@
  */
 package net.nokok.twitduke.core.api.account;
 
+import net.nokok.twitduke.core.type.ScreenName;
+
 /**
  * TwitDukeで利用できるアカウントの情報を取得するメソッドを定義するインターフェースです
- * 
+ *
  */
 public interface AccountsInfo {
 
     /**
      * 利用可能なアカウントがあるかどうかチェックします。
-     * 
+     *
      * @return 利用可能なアカウントが1つ以上ある場合はtrue
      *         1つも利用できない場合false
      */
     boolean hasValidAccount();
+
+    /**
+     * 指定されたスクリーンネームのユーザーが存在するかチェックします
+     *
+     * @param screenName 存在チェックするユーザー
+     *
+     * @return 存在する場合はtrue
+     *         存在しない場合はfalse
+     */
+    boolean hasAccount(ScreenName screenName);
 }
