@@ -21,18 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.api;
+package net.nokok.twitduke.core.impl.account;
 
-import java.io.File;
-import net.nokok.twitduke.core.api.account.AccessTokenPath;
-import net.nokok.twitduke.core.api.log.LogPath;
-import net.nokok.twitduke.core.impl.account.AccountPath;
-import net.nokok.twitduke.pluginsupport.PluginPath;
+import net.nokok.twitduke.core.api.Paths;
 
-/**
- * パスクラスを集約します
- */
-public class Paths implements AccessTokenPath, AccountPath, LogPath, PluginPath {
+public interface AccountPath {
 
-    public static final String TWITDUKE_HOME = String.join(File.separator, new File("").getAbsolutePath(), ".td");
+    public static final String PATH = String.join(Paths.TWITDUKE_HOME, "accounts");
 }
