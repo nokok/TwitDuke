@@ -61,6 +61,7 @@ public class AccessTokenPropertyReader implements AccessTokenReader2 {
             String token = properties.getProperty(PropertyKey.TOKEN);
             String secret = properties.getProperty(PropertyKey.TOKEN_SECRET);
             long id = Long.parseLong(properties.getProperty(PropertyKey.ID));
+            String screenName = properties.getProperty(PropertyKey.SCREEN_NAME);
             return new AccessToken(token, secret, id);
         } catch (IOException | NumberFormatException e) {
             return null;
