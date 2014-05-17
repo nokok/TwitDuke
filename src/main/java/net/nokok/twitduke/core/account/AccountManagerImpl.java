@@ -67,6 +67,9 @@ public class AccountManagerImpl implements AccountManager {
         return accountFiles
                 .stream()
                 .map(f -> new ScreenName(f.getName()))
+                .map(this::readAccessToken)
+                .filter(p -> p.isPresent())
+                .map(t -> new ScreenName(t.get().getScreenName()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 

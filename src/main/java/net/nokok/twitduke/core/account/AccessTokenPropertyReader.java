@@ -25,7 +25,6 @@ package net.nokok.twitduke.core.account;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Optional;
 import java.util.Properties;
 import net.nokok.twitduke.core.type.ScreenName;
@@ -60,7 +59,7 @@ public class AccessTokenPropertyReader implements AccessTokenReader2 {
             String secret = properties.getProperty(PropertyKey.TOKEN_SECRET);
             long id = Long.parseLong(properties.getProperty(PropertyKey.ID));
             return new AccessToken(token, secret, id);
-        } catch (IOException e) {
+        } catch (Throwable e) {
             return null;
         }
     }
