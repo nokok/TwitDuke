@@ -55,7 +55,9 @@ public class AccessTokenPropertyReader implements AccessTokenReader2 {
         File file = new File(path);
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(file));
+            try (FileInputStream inputStream = new FileInputStream(file)) {
+                properties.load(inputStream);
+            }
             String token = properties.getProperty(PropertyKey.TOKEN);
             String secret = properties.getProperty(PropertyKey.TOKEN_SECRET);
             long id = Long.parseLong(properties.getProperty(PropertyKey.ID));
