@@ -24,16 +24,13 @@
 package net.nokok.twitduke.core.type;
 
 /**
- * リストのインデックスを表現するクラスです
+ * リストのインデックスを表現するクラスです。プリミティブ型のintを使用します。
  */
-public class ListIndex implements Retrievable<Integer> {
+public class ListIndex implements PrimitiveIntegerRetrievable {
 
-    private final Integer index;
+    private final int index;
 
-    public ListIndex(Integer index) {
-        if ( index == null ) {
-            throw new NullPointerException();
-        }
+    public ListIndex(int index) {
         if ( index < 0 ) {
             throw new IllegalArgumentException("指定されたインデックスが負です");
         }
@@ -41,7 +38,7 @@ public class ListIndex implements Retrievable<Integer> {
     }
 
     @Override
-    public Integer get() {
+    public int get() {
         return index;
     }
 
