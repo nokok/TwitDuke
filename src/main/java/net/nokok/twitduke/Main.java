@@ -27,14 +27,12 @@ import static com.google.common.io.ByteStreams.nullOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 import net.nokok.twitduke.core.api.account.AccountManager;
-import net.nokok.twitduke.core.api.auth.TwitterAuthentication;
-import net.nokok.twitduke.core.api.auth.TwitterAuthenticationListener;
+import net.nokok.twitduke.core.api.auth.OAuthRunnable;
 import net.nokok.twitduke.core.api.io.Paths;
 import net.nokok.twitduke.core.impl.account.DirectoryHelper;
-import net.nokok.twitduke.core.impl.auth.PINAuthentication;
+import net.nokok.twitduke.core.impl.auth.LambdaPINOAuth;
 import net.nokok.twitduke.core.impl.factory.AccountManagerFactory;
 import net.nokok.twitduke.core.impl.log.ErrorLogExporter;
-import twitter4j.auth.AccessToken;
 
 /**
  * TwitDukeのMainクラスです。このクラスはエントリーポイントを持っています。
@@ -65,20 +63,10 @@ public class Main {
             if ( accountManager.hasValidAccount() ) {
 
             } else {
-                TwitterAuthentication authentication = new PINAuthentication();
-                authentication.setListener(new TwitterAuthenticationListener() {
-
-                    @Override
-                    public void error(String errorMessage) {
-                        logger.onError(errorMessage);
-                    }
-
-                    @Override
-                    public void success(AccessToken accessToken) {
-                        accountManager.addAccount(accessToken);
-                    }
-                });
-                authentication.start();
+                OAuthRunnable auth = new LambdaPINOAuth();
+                auth.onError(logger::onError);
+                auth.onSuccess(accountManager::addAccount);
+                auth.startOAuth();
             }
         } catch (Throwable e) {
             System.setOut(out);
