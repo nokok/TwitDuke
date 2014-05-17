@@ -64,6 +64,7 @@ public class DirectoryHelper {
         createDirectory(Paths.TWITDUKE_HOME);
         createDirectory(Paths.PLUGIN_DIR);
         createDirectory(Paths.LOG_DIR);
+        createDirectory(Paths.ACCOUNTS_PATH);
     }
 
     private static void createDirectory(String directoryPath) {
