@@ -29,7 +29,6 @@ import twitter4j.auth.AccessToken;
  * アクセストークンを書き込むメソッドを提供するインターフェースです
  *
  */
-@Deprecated
 public interface AccessTokenWriter {
 
     /**
