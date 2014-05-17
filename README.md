@@ -1,7 +1,11 @@
 #TwitDuke
-TwitDuke is a twitter client  
-TwitDuke is cool design  
-TwitDuke is cross-platform  
+##### TwitDuke is under development. still not working.
+TwitDuke is a twitter client.  
+
+#TwitDuke's Goal
+Cool design  
+Cross-platform  
+Customizable
 
 [Acknowledgements](https://github.com/nokok/TwitDuke/blob/master/acknowledgements.md)
 
