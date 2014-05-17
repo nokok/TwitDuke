@@ -40,6 +40,7 @@ public class AccountManagerImpl implements AccountManager {
 
     @Override
     public void addAccount(AccessToken accessToken) {
+        DirectoryHelper.createAccountDirectory(accessToken.getScreenName());
         AccessTokenWriter writer = new AccessTokenPropertyWriter();
         writer.writeAccessToken(accessToken);
     }
