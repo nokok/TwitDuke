@@ -33,6 +33,7 @@ import net.nokok.twitduke.core.api.io.Paths;
 import net.nokok.twitduke.core.impl.account.DirectoryHelper;
 import net.nokok.twitduke.core.impl.auth.PINAuthentication;
 import net.nokok.twitduke.core.impl.factory.AccountManagerFactory;
+import net.nokok.twitduke.core.impl.log.ErrorLogExporter;
 import twitter4j.auth.AccessToken;
 
 /**
@@ -52,6 +53,7 @@ public class Main {
 
         PrintStream out = System.out;
         PrintStream err = System.err;
+        ErrorLogExporter logger = new ErrorLogExporter();
 
         try {
             System.setErr(new PrintStream(nullOutputStream()));
@@ -68,7 +70,7 @@ public class Main {
 
                     @Override
                     public void error(String errorMessage) {
-                        System.out.println(errorMessage);
+                        logger.onError(errorMessage);
                     }
 
                     @Override
@@ -81,7 +83,7 @@ public class Main {
         } catch (Throwable e) {
             System.setOut(out);
             System.setErr(err);
-
+            logger.error(e);
         }
     }
 
