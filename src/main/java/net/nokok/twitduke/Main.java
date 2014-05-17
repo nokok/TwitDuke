@@ -27,11 +27,11 @@ import static com.google.common.io.ByteStreams.nullOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 import net.nokok.twitduke.core.account.AccountManager;
-import net.nokok.twitduke.core.auth.OAuthRunnable;
-import net.nokok.twitduke.core.io.Paths;
 import net.nokok.twitduke.core.account.DirectoryHelper;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
+import net.nokok.twitduke.core.auth.OAuthRunnable;
 import net.nokok.twitduke.core.factory.AccountManagerFactory;
+import net.nokok.twitduke.core.io.Paths;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
 
 /**
@@ -48,13 +48,13 @@ public class Main {
      * @param args 渡された引数の配列
      */
     public static void main(String[] args) {
-        ErrorLogExporter logger = new ErrorLogExporter();
         try {
-            System.setErr(new PrintStream(nullOutputStream()));
-            System.setOut(new PrintStream(nullOutputStream()));
             if ( !existsTwitDukeDir() ) {
                 DirectoryHelper.createTwitDukeDirectories();
             }
+            ErrorLogExporter logger = new ErrorLogExporter();
+            System.setErr(new PrintStream(nullOutputStream()));
+            System.setOut(new PrintStream(nullOutputStream()));
             final AccountManager accountManager = AccountManagerFactory.newInstance();
             if ( !accountManager.hasValidAccount() ) {
                 OAuthRunnable auth = LambdaOAuthFactory.newInstance();
@@ -63,7 +63,7 @@ public class Main {
                 auth.startOAuth();
             }
         } catch (Throwable e) {
-            logger.error(e);
+            e.printStackTrace();
         }
     }
 
