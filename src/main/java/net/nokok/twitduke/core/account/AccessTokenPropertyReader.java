@@ -40,7 +40,7 @@ public class AccessTokenPropertyReader implements AccessTokenReader2 {
     @Override
     public Optional<AccessToken> readAccessToken(ScreenName screenName) {
         File accountDir = DirectoryHelper.getAccountDirectory(screenName.get());
-        return Optional.ofNullable(readAccessTokenUnsafe(accountDir.getAbsolutePath()));
+        return Optional.ofNullable(readAccessTokenUnsafe(new File(accountDir, AccountPath.TOKEN_FILE_NAME).getAbsolutePath()));
     }
 
     /**
