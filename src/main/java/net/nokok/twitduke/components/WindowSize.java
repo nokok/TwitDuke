@@ -21,24 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
-
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+package net.nokok.twitduke.components;
 
 /**
+ * ウィンドウサイズを取得できるオブジェクトです
  *
- * @author noko
  */
-public class ErrorLogExporterTest {
+public interface WindowSize {
 
-    public ErrorLogExporterTest() {
-    }
+    /**
+     * 現在のウィンドウの高さを取得します
+     *
+     * @return ウィンドウの高さ
+     */
+    int height();
 
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
+    /**
+     * 現在のウィンドウの幅を取得します
+     *
+     * @return ウィンドウの幅
+     */
+    int width();
 }

@@ -23,11 +23,11 @@
  */
 package net.nokok.twitduke.pluginsupport;
 
-import net.nokok.twitduke.core.api.twitter.SendDMAPI;
-import net.nokok.twitduke.core.api.twitter.SendTweetAPI;
-import net.nokok.twitduke.core.api.twitter.TwitterExceptionReceivable;
-import net.nokok.twitduke.core.api.twitter.UpdateProfile;
-import net.nokok.twitduke.core.impl.twitter.AsyncTwitterInstanceGeneratorImpl;
+import net.nokok.twitduke.core.twitter.SendDMAPI;
+import net.nokok.twitduke.core.twitter.SendTweetAPI;
+import net.nokok.twitduke.core.twitter.TwitterExceptionReceivable;
+import net.nokok.twitduke.core.twitter.UpdateProfile;
+import net.nokok.twitduke.core.twitter.AsyncTwitterInstanceGeneratorImpl;
 import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 import net.nokok.twitduke.core.type.ScreenName;
 import net.nokok.twitduke.core.type.Tweet;

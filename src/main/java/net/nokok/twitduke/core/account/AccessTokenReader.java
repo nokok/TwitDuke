@@ -21,24 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.account;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.Optional;
+import twitter4j.auth.AccessToken;
 
 /**
- *
- * @author noko
+ * アクセストークンを読み込むメソッドを提供するインターフェースです。
+ * 
  */
-public class ErrorLogExporterTest {
+@Deprecated
+public interface AccessTokenReader {
 
-    public ErrorLogExporterTest() {
-    }
+    /**
+     * 利用可能なアクセストークンのリストを返します。
+     *
+     * 
+     * @return アクセストークンのリスト
+     */
+    ArrayList<Optional<AccessToken>> getAccessTokenList();
 
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
+    /**
+     * アクセストークンを一つだけ返します。
+     * 
+     * @return 読み込んだアクセストークン
+     */
+    Optional<AccessToken> readFirstAccessToken();
 }

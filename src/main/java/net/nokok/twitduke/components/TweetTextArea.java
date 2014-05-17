@@ -28,7 +28,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.text.JTextComponent;
 import net.nokok.twitduke.components.basic.TWTextArea;
-import net.nokok.twitduke.core.api.twitter.SendTweetAPI;
+import net.nokok.twitduke.core.twitter.SendTweetAPI;
 import net.nokok.twitduke.core.type.Tweet;
 
 /**

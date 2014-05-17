@@ -21,24 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
-
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+package net.nokok.twitduke.core.auth;
 
 /**
- *
- * @author noko
+ * OAuth認証が失敗した時のリスナーとして利用するインターフェースです
+ * 
  */
-public class ErrorLogExporterTest {
+@FunctionalInterface
+public interface OAuthOnError {
 
-    public ErrorLogExporterTest() {
-    }
-
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
+    /**
+     * 認証が失敗した時に呼ばれます
+     * 
+     * @param errorMessage 失敗した原因を説明するメッセージ
+     */
+    void onError(String errorMessage);
 }

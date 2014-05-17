@@ -21,24 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
-
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+package net.nokok.twitduke.core.auth;
 
 /**
- *
- * @author noko
+ * このインターフェースを実装したクラスは何らかの形でTwitterAPIの認証ができることを示します。
+ * start()を実行する事で認証処理が開始されます。setListenerメソッドでセットしたリスナーに
+ * 認証結果を返します
+ * 
  */
-public class ErrorLogExporterTest {
+public interface TwitterAuthentication {
 
-    public ErrorLogExporterTest() {
-    }
+    /**
+     * 認証処理を開始します
+     */
+    void start();
 
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
+    /**
+     * 認証処理結果を受け取るリスナーをセットします
+     * 
+     * @param authenticationListener 認証結果を受け取るリスナー
+     */
+    void setListener(TwitterAuthenticationListener authenticationListener);
 
 }

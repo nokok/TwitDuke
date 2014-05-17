@@ -21,24 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
-
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+package net.nokok.twitduke.core.auth;
 
 /**
- *
- * @author noko
+ * OAuth認証を実行できます。TwitterAuthenticationインターフェースと同じ役割ですが、
+ * このインターフェースを用いるとラムダ式による記述が可能になります。
+ * 
+ * @see TwitterAuthentication
  */
-public class ErrorLogExporterTest {
+public interface OAuthRunnable {
 
-    public ErrorLogExporterTest() {
-    }
+    /**
+     * 認証処理を開始します
+     */
+    void startOAuth();
 
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
+    /**
+     * 認証が成功した時に呼ばれます
+     * 
+     * @param onSuccess 認証が成功した時に実行されるリスナー
+     */
+    void onSuccess(OAuthOnSuccess onSuccess);
 
+    /**
+     * 認証が失敗した時に呼ばれます
+     * 
+     * @param onError 認証が失敗した時に実行されるリスナー
+     */
+    void onError(OAuthOnError onError);
 }

@@ -21,24 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
-
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+package net.nokok.twitduke.components;
 
 /**
+ * 表示できるオブジェクトです
  *
- * @author noko
  */
-public class ErrorLogExporterTest {
+@FunctionalInterface
+public interface Visible {
 
-    public ErrorLogExporterTest() {
-    }
-
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
+    /**
+     * オブジェクトを表示状態にします
+     */
+    void show();
 }

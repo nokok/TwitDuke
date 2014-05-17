@@ -21,24 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.account;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import twitter4j.auth.AccessToken;
 
 /**
+ * アクセストークンを書き込むメソッドを提供するインターフェースです
  *
- * @author noko
  */
-public class ErrorLogExporterTest {
+@Deprecated
+public interface AccessTokenWriter {
 
-    public ErrorLogExporterTest() {
-    }
-
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
+    /**
+     * 渡されたアクセストークンを書き込みます。
+     * 
+     * @param accessToken 書き込むアクセストークン
+     */
+    void writeAccessToken(AccessToken accessToken);
 }

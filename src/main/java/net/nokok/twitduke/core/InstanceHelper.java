@@ -21,24 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
-
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+package net.nokok.twitduke.core;
 
 /**
+ * インスタンスを生成するオブジェクトです
  *
- * @author noko
+ * @param <T> 生成するインスタンスの型
  */
-public class ErrorLogExporterTest {
+public class InstanceHelper<T> {
 
-    public ErrorLogExporterTest() {
-    }
-
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
+    /**
+     * 新しいインスタンスを生成します
+     *
+     * @param clazz インスタンスを生成するClassオブジェクト
+     *
+     * @return 新しいインスタンス
+     */
+    public T create(Class<? extends T> clazz) {
+        try {
+            T instance = clazz.newInstance();
+            return instance;
+        } catch (ReflectiveOperationException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
 }

@@ -21,24 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.log;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import java.io.File;
+import net.nokok.twitduke.core.io.Paths;
 
 /**
+ * ログファイルのパスを定義します
  *
- * @author noko
  */
-public class ErrorLogExporterTest {
+public interface LogPath {
 
-    public ErrorLogExporterTest() {
-    }
+    /**
+     * ログファイルのパスです
+     */
+    public static final String LOG_PATH = String.join(File.separator, Paths.TWITDUKE_HOME, "log", "out.log");
 
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
+    public static final String LOG_DIR = String.join(File.separator, Paths.TWITDUKE_HOME, "log");
 
 }

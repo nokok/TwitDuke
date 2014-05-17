@@ -21,24 +21,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.twitter;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import twitter4j.StallWarning;
+import twitter4j.Status;
+import twitter4j.StatusDeletionNotice;
+import twitter4j.StatusListener;
 
 /**
+ * StatusListenerで受信した内容を標準出力へ書き込みます。
+ * 主にデバッグ用途で使用します
  *
- * @author noko
  */
-public class ErrorLogExporterTest {
+public class PrintStatusListener implements StatusListener {
 
-    public ErrorLogExporterTest() {
+    @Override
+    public void onDeletionNotice(StatusDeletionNotice sdn) {
+        System.out.println("onDeletionNotice: " + sdn);
     }
 
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
+    @Override
+    public void onException(Exception excptn) {
+        System.out.println("onException: " + excptn);
     }
 
+    @Override
+    public void onScrubGeo(long l, long l1) {
+        System.out.println("onScrubGeo: " + l + ":" + l1);
+    }
+
+    @Override
+    public void onStallWarning(StallWarning sw) {
+        System.out.println("onStallWarning: " + sw);
+    }
+
+    @Override
+    public void onStatus(Status status) {
+        System.out.println("onStatus: " + status.getText());
+    }
+
+    @Override
+    public void onTrackLimitationNotice(int i) {
+        System.out.println("onTrackLimitationNotice: " + i);
+    }
 }

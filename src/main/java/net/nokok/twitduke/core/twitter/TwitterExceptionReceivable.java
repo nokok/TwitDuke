@@ -21,24 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.twitter;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 
 /**
+ * AsyncTwitterなどの例外を取得できます
  *
- * @author noko
  */
-public class ErrorLogExporterTest {
+public interface TwitterExceptionReceivable {
 
-    public ErrorLogExporterTest() {
-    }
-
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
+    /**
+     * エラー発生時に呼ばれます
+     *
+     * @param receivable エラーメッセージが受信可能なオブジェクト
+     */
+    void onError(ErrorMessageReceivable receivable);
 }

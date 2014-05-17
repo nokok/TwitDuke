@@ -33,8 +33,6 @@ import net.nokok.twitduke.components.basic.TWFrame;
 import net.nokok.twitduke.components.basic.TWLabel;
 import net.nokok.twitduke.components.basic.TWPanel;
 import net.nokok.twitduke.components.basic.TWTextField;
-import net.nokok.twitduke.core.api.view.Dialog;
-import net.nokok.twitduke.core.api.view.DialogResultListener;
 
 /**
  * OAuthダイアログはOAuth認証時に表示されるPINの入力画面を担当するクラスです。

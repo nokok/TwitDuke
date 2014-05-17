@@ -21,24 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.twitter;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import net.nokok.twitduke.core.twitter.TwitterStreamInstanceGenerator;
+import twitter4j.TwitterStream;
+import twitter4j.TwitterStreamFactory;
+import twitter4j.auth.AccessToken;
+import twitter4j.conf.Configuration;
 
 /**
+ * TwitterStreamを生成するクラスです。
  *
- * @author noko
  */
-public class ErrorLogExporterTest {
+public class TwitterStreamInstanceGeneratorImpl implements TwitterStreamInstanceGenerator {
 
-    public ErrorLogExporterTest() {
+    private final Configuration configuration = ConfigurationProvider.getConfiguration();
+
+    @Override
+    public TwitterStream generate() {
+        return new TwitterStreamFactory(configuration).getInstance();
     }
 
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
+    @Override
+    public TwitterStream generate(AccessToken accessToken) {
+        return new TwitterStreamFactory(configuration).getInstance(accessToken);
     }
 
 }

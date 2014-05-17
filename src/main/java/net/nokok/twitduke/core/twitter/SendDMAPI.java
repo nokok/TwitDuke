@@ -21,24 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.twitter;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import net.nokok.twitduke.core.type.ScreenName;
+import net.nokok.twitduke.core.type.Tweet;
 
 /**
- *
- * @author noko
+ * ダイレクトメッセージが送信可能なオブジェクトです
  */
-public class ErrorLogExporterTest {
+public interface SendDMAPI {
 
-    public ErrorLogExporterTest() {
-    }
-
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
+    /**
+     * 指定したスクリーンネームのユーザーに指定したツイートでDMを送信します
+     *
+     * @param screenName DMを送信するユーザーのスクリーンネーム
+     * @param tweet      送信するテキスト
+     */
+    void sendDM(ScreenName screenName, Tweet tweet);
 }

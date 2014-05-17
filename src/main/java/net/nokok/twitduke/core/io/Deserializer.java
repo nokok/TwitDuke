@@ -21,24 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.io;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.io.UncheckedIOException;
 
 /**
+ * オブジェクトをデシリアライズします
  *
- * @author noko
+ * @param <T> オブジェクトの型
  */
-public class ErrorLogExporterTest {
+public interface Deserializer<T extends Serializable> {
 
-    public ErrorLogExporterTest() {
+    /**
+     * 指定されたパスのファイルを読み込んでデシリアライズします
+     *
+     * @param path 読み込むパス
+     *
+     * @return デシリアライズされたオブジェクト
+     */
+    @SuppressWarnings("unchecked")
+    default T read(String path) {
+        try (ObjectInputStream stream = new ObjectInputStream(new FileInputStream(new File(path)))) {
+            return (T) stream.readObject();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        } catch (ClassNotFoundException | ClassCastException ex) {
+            throw new RuntimeException(ex);
+        }
     }
-
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
 }

@@ -21,24 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.io;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.io.UncheckedIOException;
 
 /**
+ * オブジェクトをシリアライズします
  *
- * @author noko
+ * @param <T> オブジェクトの型
  */
-public class ErrorLogExporterTest {
+public interface Serializer<T extends Serializable> {
 
-    public ErrorLogExporterTest() {
+    /**
+     * 指定されたパスにシリアライズしたオブジェクトを書き込みます
+     *
+     * @param path 書き込むパス
+     * @param obj  書き込むオブジェクト
+     */
+    default void write(String path, T obj) {
+        try (ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(path))) {
+            stream.writeObject(obj);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
-
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
 }

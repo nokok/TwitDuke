@@ -21,24 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.thirdpartyservice.shindanmaker;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import net.nokok.twitduke.core.type.AsyncTaskOnSuccess;
+import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 
 /**
- *
- * @author noko
+ * 診断メーカーの自動診断に必要なメソッドを定義するインターフェースです
+ * 
  */
-public class ErrorLogExporterTest {
+public interface Shindanmaker {
 
-    public ErrorLogExporterTest() {
-    }
+    /**
+     * 診断メーカーにリクエストを送信します
+     * 
+     * @param shindanmakerURL 診断メーカーのURL
+     * @param name            診断メーカーを実行するID
+     */
+    void sendRequest(String shindanmakerURL, String name);
 
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
+    /**
+     * エラーが発生した時に呼ばれます
+     *
+     * @param receivable エラーメッセージが受信可能なオブジェクト
+     */
+    void onError(ErrorMessageReceivable receivable);
 
+    /**
+     * 成功した時に呼ばれます
+     *
+     * @param result String型を受け取れるオブジェクト
+     */
+    void onSuccess(AsyncTaskOnSuccess<String> result);
 }

@@ -21,24 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.io;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import java.io.File;
+import net.nokok.twitduke.core.account.AccessTokenPath;
+import net.nokok.twitduke.core.log.LogPath;
+import net.nokok.twitduke.core.account.AccountPath;
+import net.nokok.twitduke.pluginsupport.PluginPath;
 
 /**
- *
- * @author noko
+ * パスクラスを集約します
  */
-public class ErrorLogExporterTest {
+public class Paths implements AccessTokenPath, AccountPath, LogPath, PluginPath {
 
-    public ErrorLogExporterTest() {
-    }
-
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
+    public static final String TWITDUKE_HOME = String.join(File.separator, new File("").getAbsolutePath(), ".td");
 }

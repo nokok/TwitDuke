@@ -21,24 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.auth;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import net.nokok.twitduke.core.auth.OAuthRunnable;
 
 /**
+ * ラムダ式で認証可能なOAuthRunnableインターフェースを実装したクラスを生成します
  *
  * @author noko
  */
-public class ErrorLogExporterTest {
+public class LambdaOAuthFactory {
 
-    public ErrorLogExporterTest() {
+    /**
+     * 新しくOAuthRunnableを実装したクラスを生成します
+     *
+     * @return OAuthRunnable実装クラス
+     */
+    public static OAuthRunnable newInstance() {
+        return new LambdaPINOAuth();
     }
-
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
 }

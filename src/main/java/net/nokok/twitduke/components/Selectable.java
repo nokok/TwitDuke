@@ -21,24 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
-
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+package net.nokok.twitduke.components;
 
 /**
+ * 選択可能なオブジェクトです
  *
- * @author noko
  */
-public class ErrorLogExporterTest {
+public interface Selectable {
 
-    public ErrorLogExporterTest() {
-    }
+    /**
+     * オブジェクトを選択状態にします。
+     */
+    void select();
 
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
+    /**
+     * オブジェクトの選択状態を解除します
+     */
+    void unselect();
 
+    /**
+     * オブジェクトの選択状態を返します。
+     *
+     * @return オブジェクトの選択状態
+     */
+    boolean isSelected();
 }

@@ -21,24 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
-
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+package net.nokok.twitduke.components;
 
 /**
+ * ダイアログのどのボタンが押されたかを取得するためのリスナーインターフェースです。
+ * ダイアログの処理はこのインターフェースを実装したクラスで行われるべきです
  *
- * @author noko
+ * @param <T> OKボタンが押された時に必要なオブジェクトの型
  */
-public class ErrorLogExporterTest {
+public interface DialogResultListener<T> {
 
-    public ErrorLogExporterTest() {
-    }
+    /**
+     * OKButtonが押された時に呼ばれます
+     *
+     * @param o OKボタンが押された時に処理・生成されたオブジェクト
+     */
+    void okButtonPushed(T o);
 
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
+    /**
+     * CancelButtonが押された時に呼ばれます
+     */
+    void cancelButtonPushed();
 }

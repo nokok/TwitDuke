@@ -21,24 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.account;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import java.io.File;
+import net.nokok.twitduke.core.io.Paths;
 
 /**
- *
- * @author noko
+ * アクセストークンを保存するパスを定義します
  */
-public class ErrorLogExporterTest {
+@Deprecated
+public interface AccessTokenPath {
 
-    public ErrorLogExporterTest() {
-    }
-
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
+    /**
+     * アクセストークンを保存するパスです
+     */
+    public static final String TOKEN_DIR = String.join(File.separator, Paths.TWITDUKE_HOME, "tokens");
 }

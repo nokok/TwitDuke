@@ -21,24 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.account;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import net.nokok.twitduke.core.account.AccessTokenPath;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import net.nokok.twitduke.core.account.AccessTokenWriter;
+import twitter4j.auth.AccessToken;
 
 /**
+ * アクセストークンをシリアライズしてファイルとして書き込みます。
  *
- * @author noko
  */
-public class ErrorLogExporterTest {
+@Deprecated
+public class AccessTokenSerializer implements AccessTokenWriter {
 
-    public ErrorLogExporterTest() {
+    /**
+     * アクセストークンを格納されているスクリーンネームの名前でディスクに書き込みます
+     *
+     * @param accessToken アクセストークン
+     */
+    @Override
+    public void writeAccessToken(AccessToken accessToken) {
+        try (ObjectOutputStream objectOutputStream
+                                = new ObjectOutputStream(new FileOutputStream(AccessTokenPath.TOKEN_DIR + File.separator + accessToken.getScreenName()))) {
+            objectOutputStream.writeObject(accessToken);
+        } catch (IOException e) {
+            throw new InternalError(e);
+        }
     }
-
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
 }

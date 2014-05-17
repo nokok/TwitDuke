@@ -21,39 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.components;
+package net.nokok.twitduke.core.thirdpartyservice.shindanmaker;
 
-import javax.swing.JFrame;
-import net.nokok.twitduke.components.basic.TWFrame;
+import java.io.IOException;
+import net.nokok.twitduke.core.thirdpartyservice.shindanmaker.Shindanmaker;
+import net.nokok.twitduke.core.type.AsyncTaskOnSuccess;
+import net.nokok.twitduke.core.type.ErrorMessageReceivable;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 /**
- * TwitDukeのメインウィンドウです
+ * 2014/4/30現在の仕様の診断メーカーで自動診断を実装したクラスです
+ * 
  */
-public class Window implements WindowSize, Visible, Disposable {
+public class ShindanmakerImpl implements Shindanmaker {
 
-    private final JFrame frame = new TWFrame("TwitDuke");
+    private ErrorMessageReceivable receivable;
+    private AsyncTaskOnSuccess<String> result;
 
     @Override
-    public void dispose() {
-        frame.dispose();
+    public void onError(ErrorMessageReceivable receivable) {
+        this.receivable = receivable;
     }
 
     @Override
-    public int height() {
-        return frame.getHeight();
+    public void onSuccess(AsyncTaskOnSuccess<String> result) {
+        this.result = result;
     }
 
     @Override
-    public void show() {
-        frame.setVisible(true);
-    }
-
-    @Override
-    public int width() {
-        return frame.getWidth();
-    }
-
-    public String title() {
-        return frame.getTitle();
+    public void sendRequest(String shindanmakerURL, String name) {
+        try {
+            Document doc = Jsoup.connect(shindanmakerURL).data("u", name).post();
+            Elements textArea = doc.select("textarea");
+            result.onSuccess(textArea.val());
+        } catch (IOException ex) {
+            receivable.onError(ex.getMessage());
+        }
     }
 }

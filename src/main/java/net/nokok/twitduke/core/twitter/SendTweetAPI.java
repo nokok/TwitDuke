@@ -21,24 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.twitter;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import net.nokok.twitduke.core.type.Tweet;
 
 /**
+ * ツイートが送信可能なオブジェクトです
  *
- * @author noko
  */
-public class ErrorLogExporterTest {
+public interface SendTweetAPI {
 
-    public ErrorLogExporterTest() {
-    }
-
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
+    /**
+     * ツイートを送信します。
+     *
+     * @param tweet 送信するツイート
+     */
+    void sendTweet(Tweet tweet);
 }

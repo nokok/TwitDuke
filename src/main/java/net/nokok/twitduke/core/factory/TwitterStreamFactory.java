@@ -21,24 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.factory;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import net.nokok.twitduke.core.twitter.TwitterStreamInstanceGeneratorImpl;
+import twitter4j.TwitterStream;
+import twitter4j.auth.AccessToken;
 
 /**
+ * ストリームを生成するstaticファクトリーメソッドが定義されています。
+ * このクラスを使用するとストリームを実装の影響なしで生成することが出来ます。
  *
- * @author noko
  */
-public class ErrorLogExporterTest {
+public class TwitterStreamFactory {
 
-    public ErrorLogExporterTest() {
+    /**
+     * ストリームを新たに生成します
+     *
+     * @param accessToken アクセストークン
+     *
+     * @return 生成されたストリーム
+     */
+    public static TwitterStream newInstance(AccessToken accessToken) {
+        final TwitterStream twitterStream = new TwitterStreamInstanceGeneratorImpl().generate(accessToken);
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                twitterStream.shutdown();
+            }
+        });
+        return twitterStream;
     }
-
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
 }

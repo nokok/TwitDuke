@@ -21,24 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.factory;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import net.nokok.twitduke.core.account.AccountManager;
+import net.nokok.twitduke.core.account.AccountManagerImpl;
 
 /**
+ * アカウントマネージャーを生成するstaticファクトリーメソッドが定義されています。
+ * このクラスを使用するとアカウントマネージャーを実装の影響なしで生成することが出来ます。
  *
- * @author noko
  */
-public class ErrorLogExporterTest {
+public class AccountManagerFactory {
 
-    public ErrorLogExporterTest() {
+    /**
+     * アカウントマネージャーを新たに生成します
+     *
+     * @return 新たに生成されたアカウントマネージャー
+     */
+    public static AccountManager newInstance() {
+        AccountManager accountManager = new AccountManagerImpl();
+        return accountManager;
     }
-
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
 }

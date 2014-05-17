@@ -21,24 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.twitter;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
 
 /**
+ * 認証関連の処理で必要な設定を供給するクラスです
  *
- * @author noko
  */
-public class ErrorLogExporterTest {
+class ConfigurationProvider {
 
-    public ErrorLogExporterTest() {
+    private ConfigurationProvider() {
     }
 
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
+    /**
+     * TwitDukeのConsumer/ConsumerSecretキーがセットされたConfigurationオブジェクトを返します。
+     * このオブジェクトにはアクセストークンがセットされていないためこのままでは利用できません
+     *
+     * @return Consumer/ConsumerSecretキーがセットされたTwitDukeConfigurationオブジェクト
+     */
+    static Configuration getConfiguration() {
+        return new ConfigurationBuilder()
+                .setOAuthConsumerKey("VOIW6nzPVPEGyILu0kgMRQ")
+                .setOAuthConsumerSecret("x42tjv2Xrzsi3p5hfiGSYSiNLfa7VZv8Ozd0VHEaQ")
+                .build();
     }
-
 }

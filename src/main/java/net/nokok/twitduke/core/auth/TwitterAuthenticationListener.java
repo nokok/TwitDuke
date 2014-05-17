@@ -21,24 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.auth;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import twitter4j.auth.AccessToken;
 
 /**
- *
- * @author noko
+ * Twitter認証の結果を受け取るメソッドを定義するインターフェースです。
+ * 
  */
-public class ErrorLogExporterTest {
+public interface TwitterAuthenticationListener {
 
-    public ErrorLogExporterTest() {
-    }
+    /**
+     * Twitter認証が成功した時に呼びます。
+     * 
+     * @param accessToken 取得したアクセストークン
+     */
+    void success(AccessToken accessToken);
 
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
+    /**
+     * Twitter認証が失敗した時に呼ばれます
+     * 
+     * @param errorMessage 失敗した原因を説明するメッセージ
+     */
+    void error(String errorMessage);
 }

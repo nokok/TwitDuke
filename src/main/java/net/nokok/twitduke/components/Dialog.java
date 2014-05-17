@@ -21,24 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
-
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+package net.nokok.twitduke.components;
 
 /**
+ * 表示可能なダイアログで必要なメソッドを定義するインターフェースです。
+ * 実際の処理はDialogResultListenerインターフェース実装クラスに委譲します。
  *
- * @author noko
+ * @param <T> DialogResultListener#okButtonPushedメソッドの引数で使用される型
+ *
+ * @see net.nokok.twitduke.core.api.view.DialogResultListener
  */
-public class ErrorLogExporterTest {
+public interface Dialog<T> extends Visible, Disposable {
 
-    public ErrorLogExporterTest() {
-    }
+    /**
+     * ダイアログを表示します
+     */
+    @Override
+    void show();
 
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
+    /**
+     * ダイアログを破棄します。このメソッドを実行後はダイアログが利用できなくなります。
+     */
+    @Override
+    void dispose();
 
+    /**
+     * ダイアログで行う実際の処理の委譲先をセットします
+     *
+     * @param dialogResultListener ダイアログの操作結果を受け取るリスナー
+     */
+    void setDialogResultListener(DialogResultListener<T> dialogResultListener);
 }

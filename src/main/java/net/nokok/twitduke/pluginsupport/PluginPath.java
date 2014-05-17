@@ -24,7 +24,7 @@
 package net.nokok.twitduke.pluginsupport;
 
 import java.io.File;
-import net.nokok.twitduke.core.api.io.Paths;
+import net.nokok.twitduke.core.io.Paths;
 
 public interface PluginPath {
 

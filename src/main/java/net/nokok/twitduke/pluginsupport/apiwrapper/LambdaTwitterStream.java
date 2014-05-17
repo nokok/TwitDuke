@@ -23,8 +23,8 @@
  */
 package net.nokok.twitduke.pluginsupport.apiwrapper;
 
-import net.nokok.twitduke.core.api.twitter.TwitterExceptionReceivable;
-import net.nokok.twitduke.core.impl.factory.TwitterStreamFactory;
+import net.nokok.twitduke.core.twitter.TwitterExceptionReceivable;
+import net.nokok.twitduke.core.factory.TwitterStreamFactory;
 import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 import twitter4j.DirectMessage;
 import twitter4j.StallWarning;

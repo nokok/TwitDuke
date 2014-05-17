@@ -21,24 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
+package net.nokok.twitduke.core.account;
 
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+import net.nokok.twitduke.core.type.ScreenName;
 
 /**
+ * TwitDukeで利用できるアカウントの情報を取得するメソッドを定義するインターフェースです
  *
- * @author noko
  */
-public class ErrorLogExporterTest {
+public interface AccountsInfo {
 
-    public ErrorLogExporterTest() {
-    }
+    /**
+     * 利用可能なアカウントがあるかどうかチェックします。
+     *
+     * @return 利用可能なアカウントが1つ以上ある場合はtrue
+     *         1つも利用できない場合false
+     */
+    boolean hasValidAccount();
 
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
+    /**
+     * 指定されたスクリーンネームのユーザーが存在するかチェックします
+     *
+     * @param screenName 存在チェックするユーザー
+     *
+     * @return 存在する場合はtrue
+     *         存在しない場合はfalse
+     */
+    boolean hasAccount(ScreenName screenName);
 }

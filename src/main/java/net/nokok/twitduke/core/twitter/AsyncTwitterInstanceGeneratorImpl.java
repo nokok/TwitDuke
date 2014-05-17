@@ -21,39 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.components;
+package net.nokok.twitduke.core.twitter;
 
-import javax.swing.JFrame;
-import net.nokok.twitduke.components.basic.TWFrame;
+import net.nokok.twitduke.core.twitter.AsyncTwitterInstanceGenerator;
+import twitter4j.AsyncTwitter;
+import twitter4j.AsyncTwitterFactory;
+import twitter4j.auth.AccessToken;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
 
 /**
- * TwitDukeのメインウィンドウです
+ * このクラスは実際にAsyncTwitterオブジェクトを生成して返すメソッドを提供します。
+ * 
  */
-public class Window implements WindowSize, Visible, Disposable {
+public class AsyncTwitterInstanceGeneratorImpl implements AsyncTwitterInstanceGenerator {
 
-    private final JFrame frame = new TWFrame("TwitDuke");
+    private final Configuration configuration = ConfigurationProvider.getConfiguration();
 
     @Override
-    public void dispose() {
-        frame.dispose();
+    public AsyncTwitter generate() {
+        return new AsyncTwitterFactory(configuration).getInstance();
     }
 
     @Override
-    public int height() {
-        return frame.getHeight();
+    public AsyncTwitter generate(String consumer, String consumerSecret) {
+        return new AsyncTwitterFactory(new ConfigurationBuilder()
+                .setOAuthConsumerKey(consumer)
+                .setOAuthConsumerSecret(consumerSecret)
+                .build()).getInstance();
     }
 
     @Override
-    public void show() {
-        frame.setVisible(true);
-    }
-
-    @Override
-    public int width() {
-        return frame.getWidth();
-    }
-
-    public String title() {
-        return frame.getTitle();
+    public AsyncTwitter generate(AccessToken accessToken) {
+        return new AsyncTwitterFactory(configuration).getInstance(accessToken);
     }
 }

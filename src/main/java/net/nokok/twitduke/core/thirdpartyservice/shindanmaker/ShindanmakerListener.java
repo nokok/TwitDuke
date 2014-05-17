@@ -21,24 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.impl;
-
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import org.junit.Test;
+package net.nokok.twitduke.core.thirdpartyservice.shindanmaker;
 
 /**
- *
- * @author noko
+ * 診断メーカーの実行結果を取得するリスナーです
+ * 
  */
-public class ErrorLogExporterTest {
+public interface ShindanmakerListener {
 
-    public ErrorLogExporterTest() {
-    }
+    /**
+     * エラーが発生した時に呼ばれます
+     */
+    void error();
 
-    @Test
-    public void testError() {
-        ErrorLogExporter exporter = new ErrorLogExporter();
-        exporter.error(new RuntimeException("テスト例外"));
-    }
-
+    /**
+     * 成功した時に呼ばれます
+     * 
+     * @param text 診断結果
+     */
+    void success(String text);
 }

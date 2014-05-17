@@ -27,7 +27,7 @@ import java.awt.BorderLayout;
 import javax.swing.JTextArea;
 import net.nokok.twitduke.components.basic.TWPanel;
 import net.nokok.twitduke.components.basic.TWTextArea;
-import net.nokok.twitduke.core.impl.SystemInfo;
+import net.nokok.twitduke.core.SystemInfo;
 
 /**
  * ライセンスを表示するパネルです
