@@ -29,4 +29,5 @@ import net.nokok.twitduke.core.io.Paths;
 public interface AccountPath {
 
     public static final String ACCOUNTS_PATH = String.join(File.separator, Paths.TWITDUKE_HOME, "accounts");
+    public static final String TOKEN_FILE_NAME = "token.properties";
 }
