@@ -73,6 +73,19 @@ public class AccountManagerImpl implements AccountManager {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    @Override
+    public Optional<AccessToken> readPrimaryAccount() {
+        for ( File file : readAccountDirFileList() ) {
+            File[] fs = file.listFiles();
+            for ( File f : fs ) {
+                if ( f.getName().equals("primary") ) {
+                    return readAccessToken(new ScreenName(file.getName()));
+                }
+            }
+        }
+        return null;
+    }
+
     private List<File> readAccountDirFileList() {
         File accountDir = new File(AccountPath.ACCOUNTS_PATH);
         File[] files = accountDir.listFiles();

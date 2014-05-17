@@ -71,4 +71,11 @@ public interface AccountManager extends AccountsInfo {
      * @return アクセストークン
      */
     Optional<AccessToken> readAccessToken(ScreenName screenName);
+
+    /**
+     * プライマリアカウントのアクセストークンを取得します
+     *
+     * @return プライマリアカウントのアクセストークン
+     */
+    Optional<AccessToken> readPrimaryAccount();
 }
