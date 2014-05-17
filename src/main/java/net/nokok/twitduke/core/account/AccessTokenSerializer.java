@@ -23,12 +23,10 @@
  */
 package net.nokok.twitduke.core.account;
 
-import net.nokok.twitduke.core.account.AccessTokenPath;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import net.nokok.twitduke.core.account.AccessTokenWriter;
 import twitter4j.auth.AccessToken;
 
 /**

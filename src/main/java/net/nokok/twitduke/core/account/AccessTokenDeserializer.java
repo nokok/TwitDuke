@@ -23,7 +23,6 @@
  */
 package net.nokok.twitduke.core.account;
 
-import net.nokok.twitduke.core.account.AccessTokenPath;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -32,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import net.nokok.twitduke.core.account.AccessTokenReader;
 import twitter4j.auth.AccessToken;
 
 /**

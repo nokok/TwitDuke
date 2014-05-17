@@ -23,7 +23,6 @@
  */
 package net.nokok.twitduke.core.twitter;
 
-import net.nokok.twitduke.core.twitter.UpdateProfile;
 import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;

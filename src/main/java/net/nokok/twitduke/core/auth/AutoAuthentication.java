@@ -30,8 +30,6 @@ import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
-import net.nokok.twitduke.core.auth.TwitterAuthentication;
-import net.nokok.twitduke.core.auth.TwitterAuthenticationListener;
 import net.nokok.twitduke.core.twitter.AsyncTwitterInstanceGeneratorImpl;
 import twitter4j.AsyncTwitter;
 import twitter4j.HttpResponseCode;
@@ -43,7 +41,7 @@ import twitter4j.auth.RequestToken;
  * HttpServerを使用した自動認証を実行します。
  *
  * クライアントアプリはPIN認証をするべきとの指摘からこのクラスは非推奨となりました。
- * 
+ *
  */
 @Deprecated
 public class AutoAuthentication implements TwitterAuthentication {

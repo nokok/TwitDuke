@@ -28,8 +28,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
-import net.nokok.twitduke.core.log.ErrorLogger;
-import net.nokok.twitduke.core.log.LogPath;
 import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 
 public class ErrorLogExporter implements ErrorLogger, ErrorMessageReceivable {

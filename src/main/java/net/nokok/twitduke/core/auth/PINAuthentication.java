@@ -28,8 +28,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import net.nokok.twitduke.components.OAuthDialog;
-import net.nokok.twitduke.core.auth.TwitterAuthentication;
-import net.nokok.twitduke.core.auth.TwitterAuthenticationListener;
 import net.nokok.twitduke.components.Dialog;
 import net.nokok.twitduke.components.DialogResultListener;
 import net.nokok.twitduke.core.twitter.AsyncTwitterInstanceGeneratorImpl;

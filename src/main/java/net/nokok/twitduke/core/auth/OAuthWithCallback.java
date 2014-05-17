@@ -23,11 +23,6 @@
  */
 package net.nokok.twitduke.core.auth;
 
-import net.nokok.twitduke.core.auth.OAuthOnError;
-import net.nokok.twitduke.core.auth.OAuthOnSuccess;
-import net.nokok.twitduke.core.auth.OAuthRunnable;
-import net.nokok.twitduke.core.auth.TwitterAuthentication;
-import net.nokok.twitduke.core.auth.TwitterAuthenticationListener;
 import twitter4j.auth.AccessToken;
 
 /**

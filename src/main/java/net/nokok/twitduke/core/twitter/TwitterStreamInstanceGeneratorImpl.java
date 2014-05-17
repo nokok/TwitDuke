@@ -23,7 +23,6 @@
  */
 package net.nokok.twitduke.core.twitter;
 
-import net.nokok.twitduke.core.twitter.TwitterStreamInstanceGenerator;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.auth.AccessToken;

@@ -24,7 +24,6 @@
 package net.nokok.twitduke.core.thirdpartyservice.shindanmaker;
 
 import java.io.IOException;
-import net.nokok.twitduke.core.thirdpartyservice.shindanmaker.Shindanmaker;
 import net.nokok.twitduke.core.type.AsyncTaskOnSuccess;
 import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 import org.jsoup.Jsoup;

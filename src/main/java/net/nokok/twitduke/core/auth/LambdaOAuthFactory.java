@@ -23,8 +23,6 @@
  */
 package net.nokok.twitduke.core.auth;
 
-import net.nokok.twitduke.core.auth.OAuthRunnable;
-
 /**
  * ラムダ式で認証可能なOAuthRunnableインターフェースを実装したクラスを生成します
  *

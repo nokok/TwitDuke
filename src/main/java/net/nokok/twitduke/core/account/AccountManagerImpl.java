@@ -28,7 +28,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.io.Serializer;
 import net.nokok.twitduke.core.type.ScreenName;
 import twitter4j.auth.AccessToken;
