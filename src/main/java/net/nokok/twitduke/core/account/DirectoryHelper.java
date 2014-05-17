@@ -54,7 +54,7 @@ public class DirectoryHelper {
      * @return アカウントのディレクトリ
      */
     public static File getAccountDirectory(String accountName) {
-        return new File(String.join(File.separator, Paths.TWITDUKE_HOME, accountName));
+        return new File(String.join(File.separator, Paths.ACCOUNTS_PATH, accountName));
     }
 
     /**
