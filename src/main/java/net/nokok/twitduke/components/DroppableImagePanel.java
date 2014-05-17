@@ -90,6 +90,7 @@ public class DroppableImagePanel extends TWPanel implements ResultListener<Strin
                     return path.endsWith(".jpg") || path.endsWith(".jpeg") || path.endsWith(".png");
                 }).forEach(result::onSuccess);
             } catch (UnsupportedFlavorException | IOException ex) {
+                error.error("対応していないか読み取れないファイルです");
                 return false;
             }
             return true;
