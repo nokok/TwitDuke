@@ -54,7 +54,7 @@ public class ErrorLogExporter implements ErrorLogger, ErrorMessageReceivable {
 
     @Override
     public void onError(String errorMessage) {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(errorMessage.length() + 30);//30は時刻と矢印の文字数分
         builder.append(LocalDateTime.now()).append(" -> ").append(errorMessage).append(newLine());
         appendLine(builder.toString());
     }
