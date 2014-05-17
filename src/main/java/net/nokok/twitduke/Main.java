@@ -81,7 +81,7 @@ public class Main {
         } catch (Throwable e) {
             System.setOut(out);
             System.setErr(err);
-            //バグレポダイアログを起動
+
         }
     }
 
