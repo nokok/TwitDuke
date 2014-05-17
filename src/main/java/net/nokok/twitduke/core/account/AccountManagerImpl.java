@@ -40,7 +40,6 @@ public class AccountManagerImpl implements AccountManager {
     @Override
     public void addAccount(AccessToken accessToken) {
         File accountDir = DirectoryHelper.createAccountDirectory(accessToken.getScreenName());
-        String tokenPath = String.join(File.separator, accountDir.getAbsolutePath(), "token");
         AccessTokenWriter writer = new AccessTokenPropertyWriter();
         writer.writeAccessToken(accessToken);
     }
