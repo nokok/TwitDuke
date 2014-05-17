@@ -48,11 +48,7 @@ public class Main {
      * @param args 渡された引数の配列
      */
     public static void main(String[] args) {
-
-        PrintStream out = System.out;
-        PrintStream err = System.err;
         ErrorLogExporter logger = new ErrorLogExporter();
-
         try {
             System.setErr(new PrintStream(nullOutputStream()));
             System.setOut(new PrintStream(nullOutputStream()));
@@ -67,8 +63,6 @@ public class Main {
                 auth.startOAuth();
             }
         } catch (Throwable e) {
-            System.setOut(out);
-            System.setErr(err);
             logger.error(e);
         }
     }
