@@ -24,6 +24,7 @@
 package net.nokok.twitduke.core.account;
 
 import java.util.List;
+import java.util.Optional;
 import net.nokok.twitduke.core.type.ScreenName;
 import twitter4j.auth.AccessToken;
 
@@ -60,4 +61,14 @@ public interface AccountManager extends AccountsInfo {
      * @return 利用できるアカウントのスクリーンネームのリスト
      */
     List<ScreenName> readAccountList();
+
+    /**
+     * 指定したスクリーンネームのアカウントの保存されたアクセストークンを読み込みます
+     * 読み込みに失敗した場合はOptional.empty()が返ります
+     *
+     * @param screenName スクリーンネーム
+     *
+     * @return アクセストークン
+     */
+    Optional<AccessToken> readAccessToken(ScreenName screenName);
 }

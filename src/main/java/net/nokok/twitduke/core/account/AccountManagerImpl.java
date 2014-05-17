@@ -27,6 +27,7 @@ import com.google.common.collect.Lists;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import net.nokok.twitduke.core.type.ScreenName;
 import twitter4j.auth.AccessToken;
@@ -52,6 +53,12 @@ public class AccountManagerImpl implements AccountManager {
     @Override
     public boolean hasValidAccount() {
         return !readAccountDirFileList().isEmpty();
+    }
+
+    @Override
+    public Optional<AccessToken> readAccessToken(ScreenName screenName) {
+        AccessTokenReader2 reader = new AccessTokenPropertyReader();
+        return reader.readAccessToken(screenName);
     }
 
     @Override
