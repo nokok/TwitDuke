@@ -29,7 +29,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
-import net.nokok.twitduke.components.OKCancelButtonPanel;
 import net.nokok.twitduke.components.basic.TWFrame;
 import net.nokok.twitduke.components.basic.TWLabel;
 import net.nokok.twitduke.components.basic.TWPanel;

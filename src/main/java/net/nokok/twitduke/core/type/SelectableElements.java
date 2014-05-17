@@ -25,7 +25,6 @@ package net.nokok.twitduke.core.type;
 
 import java.util.List;
 import net.nokok.twitduke.core.api.view.Selectable;
-import net.nokok.twitduke.core.type.ListIndex;
 
 /**
  * 任意の項目を選択出来る要素の集まりです
