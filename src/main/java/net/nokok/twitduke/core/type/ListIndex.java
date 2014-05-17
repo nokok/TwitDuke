@@ -30,6 +30,11 @@ public class ListIndex implements PrimitiveIntegerRetrievable {
 
     private final int index;
 
+    /**
+     * 指定した数値でインデックスを構築します
+     *
+     * @param index インデックス
+     */
     public ListIndex(int index) {
         if ( index < 0 ) {
             throw new IllegalArgumentException("指定されたインデックスが負です");
