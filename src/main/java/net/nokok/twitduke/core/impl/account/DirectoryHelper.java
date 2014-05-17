@@ -26,8 +26,19 @@ package net.nokok.twitduke.core.impl.account;
 import java.io.File;
 import net.nokok.twitduke.core.api.io.Paths;
 
+/**
+ * ディレクトリ関連する処理を行います
+ *
+ */
 public class DirectoryHelper {
 
+    /**
+     * 指定したアカウント固有のディレクトリを作成します。デフォルトではTwitDukeHome/.td/accounts/アカウント名/です
+     *
+     * @param accountName アカウントの名前
+     *
+     * @return アカウントのディレクトリ
+     */
     public static File createAccountDirectory(String accountName) {
         File dir = getAccountDirectory(accountName);
         dir.mkdir();
@@ -35,10 +46,20 @@ public class DirectoryHelper {
         return dir;
     }
 
+    /**
+     * 指定したアカウントのディレクトリを返します。存在する場合、返すFileオブジェクトのisDirectoryはtrueを返します。
+     *
+     * @param accountName アカウント名
+     *
+     * @return アカウントのディレクトリ
+     */
     public static File getAccountDirectory(String accountName) {
         return new File(String.join(File.separator, Paths.TWITDUKE_HOME, accountName));
     }
 
+    /**
+     * TwitDukeのディレクトリを作成します。初回起動時にのみ呼ぶべきです
+     */
     public static void createTwitDukeDirectories() {
         createDirectory(Paths.TWITDUKE_HOME);
         createDirectory(Paths.PLUGIN_DIR);
