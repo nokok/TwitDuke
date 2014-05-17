@@ -27,7 +27,18 @@ import java.util.Optional;
 import net.nokok.twitduke.core.type.ScreenName;
 import twitter4j.auth.AccessToken;
 
+/**
+ * アクセストークンを読み込むことが出来るオブジェクトです
+ */
 public interface AccessTokenReader2 {
 
+    /**
+     * 指定したスクリーンネームを持つアカウントのアクセストークンを読み込みます。
+     * 読み込みが失敗した時はOptional.empty()が返ります
+     *
+     * @param screenName スクリーンネーム
+     *
+     * @return アクセストークン
+     */
     Optional<AccessToken> readAccessToken(ScreenName screenName);
 }
