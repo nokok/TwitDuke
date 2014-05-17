@@ -43,6 +43,8 @@ import twitter4j.conf.Configuration;
 
 public class MockAsyncTwitter implements AsyncTwitter {
 
+    private static final long serialVersionUID = -2693773352392324621L;
+
     @Override
     public void addListener(TwitterListener listener) {
     }
