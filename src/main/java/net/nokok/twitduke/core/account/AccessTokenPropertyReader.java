@@ -31,20 +31,37 @@ import java.util.Properties;
 import net.nokok.twitduke.core.type.ScreenName;
 import twitter4j.auth.AccessToken;
 
+/**
+ * アクセストークンをプロパティから読み込みます
+ *
+ */
 public class AccessTokenPropertyReader implements AccessTokenReader2 {
 
     @Override
     public Optional<AccessToken> readAccessToken(ScreenName screenName) {
-        Properties properties = new Properties();
         File accountDir = DirectoryHelper.getAccountDirectory(screenName.get());
+        return Optional.ofNullable(readAccessTokenUnsafe(accountDir.getAbsolutePath()));
+    }
+
+    /**
+     * アクセストークンを指定したパスのプロパティから読み込みます。
+     * 読み込みに失敗した場合nullを返します。
+     *
+     * @param path アクセストークンの
+     *
+     * @return アクセストークン
+     */
+    public AccessToken readAccessTokenUnsafe(String path) {
+        File file = new File(path);
+        Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(new File(accountDir, "token")));
+            properties.load(new FileInputStream(file));
             String token = properties.getProperty(PropertyKey.TOKEN);
             String secret = properties.getProperty(PropertyKey.TOKEN_SECRET);
             long id = Long.parseLong(properties.getProperty(PropertyKey.ID));
-            return Optional.of(new AccessToken(token, secret, id));
-        } catch (IOException ex) {
-            return Optional.empty();
+            return new AccessToken(token, secret, id);
+        } catch (IOException e) {
+            return null;
         }
     }
 
