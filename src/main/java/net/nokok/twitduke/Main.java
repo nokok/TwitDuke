@@ -60,9 +60,7 @@ public class Main {
                 DirectoryHelper.createTwitDukeDirectories();
             }
             final AccountManager accountManager = AccountManagerFactory.newInstance();
-            if ( accountManager.hasValidAccount() ) {
-
-            } else {
+            if ( !accountManager.hasValidAccount() ) {
                 OAuthRunnable auth = LambdaOAuthFactory.newInstance();
                 auth.onError(logger::onError);
                 auth.onSuccess(accountManager::addAccount);
