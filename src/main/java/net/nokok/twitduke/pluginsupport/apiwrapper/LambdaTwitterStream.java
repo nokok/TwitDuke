@@ -26,7 +26,6 @@ package net.nokok.twitduke.pluginsupport.apiwrapper;
 import net.nokok.twitduke.core.api.twitter.TwitterExceptionReceivable;
 import net.nokok.twitduke.core.impl.factory.TwitterStreamFactory;
 import net.nokok.twitduke.core.type.ErrorMessageReceivable;
-import net.nokok.twitduke.core.type.StreamReceivable;
 import twitter4j.DirectMessage;
 import twitter4j.StallWarning;
 import twitter4j.Status;
@@ -41,7 +40,7 @@ import twitter4j.auth.AccessToken;
 /**
  * ラムダ式で記述可能なTwitterStreamのラッパークラスです。
  */
-public class LambdaTwitterStream implements StreamReceivable, TwitterExceptionReceivable {
+public class LambdaTwitterStream implements TwitterExceptionReceivable {
 
     private final TwitterStream twitterStream;
 
