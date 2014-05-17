@@ -54,7 +54,9 @@ public class ErrorLogExporter implements ErrorLogger, ErrorMessageReceivable {
 
     @Override
     public void onError(String errorMessage) {
-        appendLine(errorMessage + newLine());
+        StringBuilder builder = new StringBuilder();
+        builder.append(LocalDateTime.now()).append(" -> ").append(errorMessage).append(newLine());
+        appendLine(builder.toString());
     }
 
     private void appendLine(String line) {
