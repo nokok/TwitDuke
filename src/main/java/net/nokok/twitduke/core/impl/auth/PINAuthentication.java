@@ -75,7 +75,7 @@ public class PINAuthentication implements TwitterAuthentication, DialogResultLis
     @Override
     public void cancelButtonPushed() {
         dialog.dispose();
-        authenticationListener.error("キャンセルされました");
+        authenticationListener.error("OAuth認証がキャンセルされました。キャンセルボタンが選択されました。");
     }
 
     /**
