@@ -21,37 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.api;
+package net.nokok.twitduke.core.api.io;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.io.UncheckedIOException;
+import net.nokok.twitduke.core.api.account.AccessTokenPath;
+import net.nokok.twitduke.core.api.log.LogPath;
+import net.nokok.twitduke.core.impl.account.AccountPath;
+import net.nokok.twitduke.pluginsupport.PluginPath;
 
 /**
- * オブジェクトをデシリアライズします
- *
- * @param <T> オブジェクトの型
+ * パスクラスを集約します
  */
-public interface Deserializer<T extends Serializable> {
+public class Paths implements AccessTokenPath, AccountPath, LogPath, PluginPath {
 
-    /**
-     * 指定されたパスのファイルを読み込んでデシリアライズします
-     *
-     * @param path 読み込むパス
-     *
-     * @return デシリアライズされたオブジェクト
-     */
-    @SuppressWarnings("unchecked")
-    default T read(String path) {
-        try (ObjectInputStream stream = new ObjectInputStream(new FileInputStream(new File(path)))) {
-            return (T) stream.readObject();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        } catch (ClassNotFoundException | ClassCastException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
+    public static final String TWITDUKE_HOME = String.join(File.separator, new File("").getAbsolutePath(), ".td");
 }

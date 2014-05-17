@@ -24,7 +24,7 @@
 package net.nokok.twitduke.core.api.account;
 
 import java.io.File;
-import net.nokok.twitduke.core.api.Paths;
+import net.nokok.twitduke.core.api.io.Paths;
 
 /**
  * アクセストークンを保存するパスを定義します

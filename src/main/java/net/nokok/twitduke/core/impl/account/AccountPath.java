@@ -23,7 +23,7 @@
  */
 package net.nokok.twitduke.core.impl.account;
 
-import net.nokok.twitduke.core.api.Paths;
+import net.nokok.twitduke.core.api.io.Paths;
 
 public interface AccountPath {
 

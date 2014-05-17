@@ -21,32 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.api;
+package net.nokok.twitduke.core.api.io;
 
-import java.io.FileOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.io.UncheckedIOException;
 
 /**
- * オブジェクトをシリアライズします
+ * オブジェクトをデシリアライズします
  *
  * @param <T> オブジェクトの型
  */
-public interface Serializer<T extends Serializable> {
+public interface Deserializer<T extends Serializable> {
 
     /**
-     * 指定されたパスにシリアライズしたオブジェクトを書き込みます
+     * 指定されたパスのファイルを読み込んでデシリアライズします
      *
-     * @param path 書き込むパス
-     * @param obj  書き込むオブジェクト
+     * @param path 読み込むパス
+     *
+     * @return デシリアライズされたオブジェクト
      */
-    default void write(String path, T obj) {
-        try (ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(path))) {
-            stream.writeObject(obj);
+    @SuppressWarnings("unchecked")
+    default T read(String path) {
+        try (ObjectInputStream stream = new ObjectInputStream(new FileInputStream(new File(path)))) {
+            return (T) stream.readObject();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
+        } catch (ClassNotFoundException | ClassCastException ex) {
+            throw new RuntimeException(ex);
         }
     }
 }

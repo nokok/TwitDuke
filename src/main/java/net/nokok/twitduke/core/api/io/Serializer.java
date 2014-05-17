@@ -21,18 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.api;
+package net.nokok.twitduke.core.api.io;
 
-import java.io.File;
-import net.nokok.twitduke.core.api.account.AccessTokenPath;
-import net.nokok.twitduke.core.api.log.LogPath;
-import net.nokok.twitduke.core.impl.account.AccountPath;
-import net.nokok.twitduke.pluginsupport.PluginPath;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.io.UncheckedIOException;
 
 /**
- * パスクラスを集約します
+ * オブジェクトをシリアライズします
+ *
+ * @param <T> オブジェクトの型
  */
-public class Paths implements AccessTokenPath, AccountPath, LogPath, PluginPath {
+public interface Serializer<T extends Serializable> {
 
-    public static final String TWITDUKE_HOME = String.join(File.separator, new File("").getAbsolutePath(), ".td");
+    /**
+     * 指定されたパスにシリアライズしたオブジェクトを書き込みます
+     *
+     * @param path 書き込むパス
+     * @param obj  書き込むオブジェクト
+     */
+    default void write(String path, T obj) {
+        try (ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(path))) {
+            stream.writeObject(obj);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
 }
