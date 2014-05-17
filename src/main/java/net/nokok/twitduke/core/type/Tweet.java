@@ -27,7 +27,7 @@ import java.io.Serializable;
 
 /**
  * ツイート(String)のラッパクラスです
- * 
+ *
  */
 public class Tweet implements Cloneable, Serializable, Retrievable<String> {
 
@@ -46,6 +46,9 @@ public class Tweet implements Cloneable, Serializable, Retrievable<String> {
         }
         if ( text.length() > 140 ) {
             throw new IllegalArgumentException("140文字を超えています");
+        }
+        if ( text.isEmpty() ) {
+            throw new IllegalArgumentException("ツイートが空です");
         }
         this.text = text;
     }
