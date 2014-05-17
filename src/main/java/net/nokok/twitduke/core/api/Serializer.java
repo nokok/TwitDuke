@@ -23,14 +23,17 @@
  */
 package net.nokok.twitduke.core.api;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.io.UncheckedIOException;
 
 /**
  * オブジェクトをシリアライズします
  *
  * @param <T> オブジェクトの型
  */
-@FunctionalInterface
 public interface Serializer<T extends Serializable> {
 
     /**
@@ -39,5 +42,11 @@ public interface Serializer<T extends Serializable> {
      * @param path 書き込むパス
      * @param obj  書き込むオブジェクト
      */
-    void write(String path, T obj);
+    default void write(String path, T obj) {
+        try (ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(path))) {
+            stream.writeObject(obj);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
 }
