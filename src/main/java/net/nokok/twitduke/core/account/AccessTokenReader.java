@@ -40,6 +40,7 @@ public interface AccessTokenReader {
      *
      * @return アクセストークンのリスト
      */
+    @Deprecated
     ArrayList<Optional<AccessToken>> getAccessTokenList();
 
     /**
@@ -47,5 +48,6 @@ public interface AccessTokenReader {
      *
      * @return 読み込んだアクセストークン
      */
+    @Deprecated
     Optional<AccessToken> readFirstAccessToken();
 }
