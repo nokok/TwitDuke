@@ -28,7 +28,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import net.nokok.twitduke.core.io.Serializer;
 import net.nokok.twitduke.core.type.ScreenName;
 import twitter4j.auth.AccessToken;
 
@@ -42,9 +41,8 @@ public class AccountManagerImpl implements AccountManager {
     public void addAccount(AccessToken accessToken) {
         File accountDir = DirectoryHelper.createAccountDirectory(accessToken.getScreenName());
         String tokenPath = String.join(File.separator, accountDir.getAbsolutePath(), "token");
-        Serializer<AccessToken> writer = new Serializer<AccessToken>() {
-        };
-        writer.write(tokenPath, accessToken);
+        AccessTokenWriter writer = new AccessTokenPropertyWriter();
+        writer.writeAccessToken(accessToken);
     }
 
     @Override
