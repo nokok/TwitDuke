@@ -35,14 +35,11 @@ import twitter4j.auth.AccessToken;
  */
 public class AccessTokenPropertyWriter implements AccessTokenWriter {
 
-    public static final String TOKEN_PROPERTY_KEY = "token";
-    public static final String TOKEN_SECRET_PROPERTY_KEY = "tokensecret";
-
     @Override
     public void writeAccessToken(AccessToken accessToken) {
         Properties properties = new Properties();
-        properties.put(TOKEN_PROPERTY_KEY, accessToken.getToken());
-        properties.put(TOKEN_SECRET_PROPERTY_KEY, accessToken.getTokenSecret());
+        properties.put(PropertyKey.TOKEN, accessToken.getToken());
+        properties.put(PropertyKey.TOKEN_SECRET, accessToken.getTokenSecret());
         File accountDir = DirectoryHelper.getAccountDirectory(accessToken.getScreenName());
         try {
             properties.store(new FileOutputStream(new File(accountDir, "token")), "");
