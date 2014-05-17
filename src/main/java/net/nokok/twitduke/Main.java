@@ -24,6 +24,7 @@
 package net.nokok.twitduke;
 
 import static com.google.common.io.ByteStreams.nullOutputStream;
+import java.io.File;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -31,6 +32,7 @@ import net.nokok.twitduke.core.api.account.AccountManager;
 import net.nokok.twitduke.core.api.auth.TwitterAuthentication;
 import net.nokok.twitduke.core.api.auth.TwitterAuthenticationListener;
 import net.nokok.twitduke.core.impl.ErrorLogExporter;
+import net.nokok.twitduke.core.api.io.Paths;
 import net.nokok.twitduke.core.impl.account.DirectoryHelper;
 import net.nokok.twitduke.core.impl.auth.PINAuthentication;
 import net.nokok.twitduke.core.impl.factory.AccountManagerFactory;
@@ -98,4 +100,9 @@ public class Main {
             //バグレポダイアログを起動
         }
     }
+
+    private static boolean existsTwitDukeDir() {
+        return new File(Paths.TWITDUKE_HOME).exists();
+    }
+
 }
