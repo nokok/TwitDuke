@@ -70,7 +70,7 @@ public class AccountManagerImpl implements AccountManager {
     }
 
     private List<File> readAccountDirFileList() {
-        File accountDir = new File(AccountPath.PATH);
+        File accountDir = new File(AccountPath.ACCOUNTS_PATH);
         File[] files = accountDir.listFiles();
         if ( files == null ) {
             return new ArrayList<>(0);

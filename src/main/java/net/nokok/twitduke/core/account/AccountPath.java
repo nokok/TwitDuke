@@ -27,5 +27,5 @@ import net.nokok.twitduke.core.io.Paths;
 
 public interface AccountPath {
 
-    public static final String PATH = String.join(Paths.TWITDUKE_HOME, "accounts");
+    public static final String ACCOUNTS_PATH = String.join(Paths.TWITDUKE_HOME, "accounts");
 }
