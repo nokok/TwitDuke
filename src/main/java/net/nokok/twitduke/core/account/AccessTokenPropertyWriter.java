@@ -40,7 +40,7 @@ public class AccessTokenPropertyWriter implements AccessTokenWriter {
         Properties properties = new Properties();
         properties.put(PropertyKey.TOKEN, accessToken.getToken());
         properties.put(PropertyKey.TOKEN_SECRET, accessToken.getTokenSecret());
-        properties.put(PropertyKey.ID, accessToken.getUserId());
+        properties.put(PropertyKey.ID, String.valueOf(accessToken.getUserId()));
         File accountDir = DirectoryHelper.getAccountDirectory(accessToken.getScreenName());
         try {
             properties.store(new FileOutputStream(new File(accountDir, "token")), "");
