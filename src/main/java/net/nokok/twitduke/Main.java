@@ -26,17 +26,13 @@ package net.nokok.twitduke;
 import static com.google.common.io.ByteStreams.nullOutputStream;
 import java.io.File;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 import net.nokok.twitduke.core.api.account.AccountManager;
 import net.nokok.twitduke.core.api.auth.TwitterAuthentication;
 import net.nokok.twitduke.core.api.auth.TwitterAuthenticationListener;
-import net.nokok.twitduke.core.impl.ErrorLogExporter;
 import net.nokok.twitduke.core.api.io.Paths;
 import net.nokok.twitduke.core.impl.account.DirectoryHelper;
 import net.nokok.twitduke.core.impl.auth.PINAuthentication;
 import net.nokok.twitduke.core.impl.factory.AccountManagerFactory;
-import net.nokok.twitduke.pluginsupport.apiwrapper.LambdaTwitterStream;
 import twitter4j.auth.AccessToken;
 
 /**
@@ -65,18 +61,6 @@ public class Main {
             }
             final AccountManager accountManager = AccountManagerFactory.newInstance();
             if ( accountManager.hasValidAccount() ) {
-                ArrayList<AccessToken> tokenList = accountManager
-                        .getAccessTokenList()
-                        .stream()
-                        .filter(p -> p.isPresent())
-                        .map(t -> t.get())
-                        .collect(Collectors.toCollection(ArrayList::new));
-                if ( tokenList.isEmpty() ) {
-                    return;
-                }
-                ErrorLogExporter exporter = new ErrorLogExporter();
-                LambdaTwitterStream twitterStream = new LambdaTwitterStream(tokenList.get(0));
-                twitterStream.onException(e -> exporter.error(e));
 
             } else {
                 TwitterAuthentication authentication = new PINAuthentication();
