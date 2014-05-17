@@ -31,6 +31,7 @@ import net.nokok.twitduke.core.api.account.AccountManager;
 import net.nokok.twitduke.core.api.auth.TwitterAuthentication;
 import net.nokok.twitduke.core.api.auth.TwitterAuthenticationListener;
 import net.nokok.twitduke.core.impl.ErrorLogExporter;
+import net.nokok.twitduke.core.impl.account.DirectoryHelper;
 import net.nokok.twitduke.core.impl.auth.PINAuthentication;
 import net.nokok.twitduke.core.impl.factory.AccountManagerFactory;
 import net.nokok.twitduke.pluginsupport.apiwrapper.LambdaTwitterStream;
@@ -57,6 +58,9 @@ public class Main {
         try {
             System.setErr(new PrintStream(nullOutputStream()));
             System.setOut(new PrintStream(nullOutputStream()));
+            if ( !existsTwitDukeDir() ) {
+                DirectoryHelper.createTwitDukeDirectories();
+            }
             final AccountManager accountManager = AccountManagerFactory.newInstance();
             if ( accountManager.hasValidAccount() ) {
                 ArrayList<AccessToken> tokenList = accountManager
