@@ -30,7 +30,7 @@ import net.nokok.twitduke.core.api.account.AccountManager;
 import net.nokok.twitduke.core.api.auth.OAuthRunnable;
 import net.nokok.twitduke.core.api.io.Paths;
 import net.nokok.twitduke.core.impl.account.DirectoryHelper;
-import net.nokok.twitduke.core.impl.auth.LambdaPINOAuth;
+import net.nokok.twitduke.core.impl.auth.LambdaOAuthFactory;
 import net.nokok.twitduke.core.impl.factory.AccountManagerFactory;
 import net.nokok.twitduke.core.impl.log.ErrorLogExporter;
 
@@ -63,7 +63,7 @@ public class Main {
             if ( accountManager.hasValidAccount() ) {
 
             } else {
-                OAuthRunnable auth = new LambdaPINOAuth();
+                OAuthRunnable auth = LambdaOAuthFactory.newInstance();
                 auth.onError(logger::onError);
                 auth.onSuccess(accountManager::addAccount);
                 auth.startOAuth();
