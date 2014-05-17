@@ -29,6 +29,7 @@ import net.nokok.twitduke.core.api.Paths;
 /**
  * アクセストークンを保存するパスを定義します
  */
+@Deprecated
 public interface AccessTokenPath {
 
     /**
