@@ -87,7 +87,7 @@ public class Main {
 
                     @Override
                     public void success(AccessToken accessToken) {
-                        accountManager.writeAccessToken(accessToken);
+                        accountManager.addAccount(accessToken);
                     }
                 });
                 authentication.start();
