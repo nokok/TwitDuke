@@ -36,7 +36,10 @@ public class AccountModel {
     private final boolean isPrimary;
     private final String footer;
 
-    public AccountModel(AccessToken accessToken, ScreenName screenName, boolean isPrimary, String footer) {
+    public AccountModel(AccessToken accessToken,
+                        ScreenName screenName,
+                        boolean isPrimary,
+                        String footer) {
         this.accessToken = accessToken;
         this.screenName = screenName;
         this.isPrimary = isPrimary;
