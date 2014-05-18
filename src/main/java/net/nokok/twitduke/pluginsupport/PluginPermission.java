@@ -21,26 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport.boot;
+package net.nokok.twitduke.pluginsupport;
 
-import java.util.ArrayList;
-import java.util.List;
+public class PluginPermission {
 
-public class BootEventRunner implements BootEventListener {
+    private final boolean boot;
 
-    private final List<BootEventListener> listeners = new ArrayList<>();
-
-    public void addListener(BootEventListener listener) {
-        listeners.add(listener);
+    PluginPermission(boolean boot) {
+        this.boot = boot;
     }
 
-    @Override
-    public void completed() {
-        listeners.parallelStream().forEach(f -> f.completed());
+    public static PluginPermission parsePermission(String permission) {
+        boolean boot = permission.contains("boot");
+        return new PluginPermission(boot);
     }
 
-    @Override
-    public void starting() {
-        listeners.parallelStream().forEach(f -> f.starting());
+    public boolean isBoot() {
+        return boot;
     }
 }

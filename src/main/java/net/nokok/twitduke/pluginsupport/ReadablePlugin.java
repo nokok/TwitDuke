@@ -23,30 +23,9 @@
  */
 package net.nokok.twitduke.pluginsupport;
 
-public class PluginModel implements PluginInfo {
+import java.io.Reader;
 
-    public String name;
-    public String version;
-    public String author;
-    public String description;
+public interface ReadablePlugin {
 
-    @Override
-    public String author() {
-        return author;
-    }
-
-    @Override
-    public String description() {
-        return description;
-    }
-
-    @Override
-    public String name() {
-        return name;
-    }
-
-    @Override
-    public String version() {
-        return version;
-    }
+    Reader getReader();
 }

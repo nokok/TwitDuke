@@ -23,15 +23,55 @@
  */
 package net.nokok.twitduke.pluginsupport;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
+import java.io.UncheckedIOException;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-abstract public class AbstractPlugin {
+public class Plugin implements PluginInfo, ReadablePlugin {
 
-    protected final ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");
+    private final PluginInfo pluginInfo;
+    private final String pluginPath;
+    final ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");
 
-    protected AbstractPlugin() {
-        PluginModel plugin = new PluginModel();
-        scriptEngine.put("plugin", plugin);
+    public Plugin(String pluginPath, PluginInfo pluginInfo) {
+        this.pluginInfo = pluginInfo;
+        this.pluginPath = pluginPath;
+    }
+
+    @Override
+    public String author() {
+        return pluginInfo.author();
+    }
+
+    @Override
+    public String description() {
+        return pluginInfo.description();
+    }
+
+    @Override
+    public Reader getReader() {
+        try {
+            return new FileReader(pluginPath);
+        } catch (FileNotFoundException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    @Override
+    public String name() {
+        return pluginInfo.name();
+    }
+
+    @Override
+    public PluginPermission permission() {
+        return pluginInfo.permission();
+    }
+
+    @Override
+    public String version() {
+        return pluginInfo.version();
     }
 }
