@@ -24,7 +24,7 @@
 package net.nokok.twitduke.core.type;
 
 import java.io.Serializable;
-import net.nokok.twitduke.pluginsupport.Footer;
+import net.nokok.twitduke.core.twitter.Footer;
 
 /**
  * ツイート(String)のラッパクラスです

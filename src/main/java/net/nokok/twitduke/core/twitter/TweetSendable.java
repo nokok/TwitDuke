@@ -24,7 +24,6 @@
 package net.nokok.twitduke.core.twitter;
 
 import net.nokok.twitduke.core.type.Tweet;
-import net.nokok.twitduke.pluginsupport.Footer;
 
 /**
  * ツイートが送信可能なオブジェクトです

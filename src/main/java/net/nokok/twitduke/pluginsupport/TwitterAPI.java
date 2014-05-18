@@ -23,6 +23,7 @@
  */
 package net.nokok.twitduke.pluginsupport;
 
+import net.nokok.twitduke.core.twitter.Footer;
 import net.nokok.twitduke.core.twitter.AsyncTwitterInstanceGeneratorImpl;
 import net.nokok.twitduke.core.twitter.DMSendable;
 import net.nokok.twitduke.core.twitter.TweetSendable;
