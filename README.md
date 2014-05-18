@@ -7,7 +7,9 @@ Cool design
 Cross-platform  
 Customizable
 
-[Acknowledgements](https://github.com/nokok/TwitDuke/blob/master/acknowledgements.md)
+#Acknowledgements
+
+[Here](https://github.com/nokok/TwitDuke/blob/master/acknowledgements.md)
 
 #License
 The MIT License (MIT)
