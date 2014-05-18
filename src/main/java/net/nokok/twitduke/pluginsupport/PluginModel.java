@@ -32,7 +32,7 @@ public class PluginModel implements Plugin {
 
     @Override
     public String author() {
-        return name;
+        return author;
     }
 
     @Override
