@@ -24,13 +24,14 @@
 package net.nokok.twitduke.pluginsupport;
 
 import java.util.Objects;
+import net.nokok.twitduke.core.type.Retrievable;
 import net.nokok.twitduke.core.type.Tweet;
 
 /**
  * フッター機能を持つオブジェクトです
  *
  */
-public class Footer {
+public class Footer implements Retrievable<String> {
 
     private final String footer;
 
@@ -74,6 +75,7 @@ public class Footer {
      *
      * @return フッター
      */
+    @Override
     public String get() {
         return footer;
     }
