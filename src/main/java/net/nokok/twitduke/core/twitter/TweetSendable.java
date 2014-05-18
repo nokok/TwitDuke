@@ -24,6 +24,7 @@
 package net.nokok.twitduke.core.twitter;
 
 import net.nokok.twitduke.core.type.Tweet;
+import net.nokok.twitduke.pluginsupport.Footer;
 
 /**
  * ツイートが送信可能なオブジェクトです
@@ -37,4 +38,12 @@ public interface TweetSendable {
      * @param tweet 送信するツイート
      */
     void sendTweet(Tweet tweet);
+
+    /**
+     * フッターを付けてツイートをします
+     *
+     * @param tweet  ツイート
+     * @param footer フッター
+     */
+    void sendTweet(Tweet tweet, Footer footer);
 }
