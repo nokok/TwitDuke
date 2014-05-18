@@ -76,7 +76,7 @@ public class TwitterAPI implements TweetSendable, DMSendable, UpdateProfile, Twi
 
     @Override
     public void sendTweet(Tweet tweet, Footer footer) {
-        asyncTwitter.updateStatus(tweet.get() + footer.get());
+        asyncTwitter.updateStatus(tweet.applyFooter(footer).get());
     }
 
     @Override
