@@ -25,7 +25,6 @@ package net.nokok.twitduke.pluginsupport;
 
 import java.util.Objects;
 import net.nokok.twitduke.core.type.Retrievable;
-import net.nokok.twitduke.core.type.Tweet;
 
 /**
  * フッター機能を持つオブジェクトです
@@ -42,32 +41,6 @@ public class Footer implements Retrievable<String> {
      */
     public Footer(String footer) {
         this.footer = Objects.requireNonNull(footer);
-    }
-
-    /**
-     * 指定したツイートオブジェクトにフッターを付けて返します
-     *
-     * @param tweet フッターを付けるツイートオブジェクト
-     *
-     * @return フッターが付いたツイートオブジェクト
-     *
-     * @exception java.lang.IllegalArgumentException ツイートオブジェクトの文字数とフッターの文字数の合計が140文字を超える場合
-     */
-    public Tweet applyFooter(Tweet tweet) {
-        return applyFooter(tweet.get());
-    }
-
-    /**
-     * 指定したテキストにフッターを付けて返します
-     *
-     * @param tweet フッターを付けるテキスト
-     *
-     * @return フッターが付いたツイートオブジェクト
-     *
-     * @exception java.lang.IllegalArgumentException ツイートオブジェクトの文字数とフッターの文字数の合計が140文字を超える場合
-     */
-    public Tweet applyFooter(String tweet) {
-        return new Tweet(tweet + footer);
     }
 
     /**
