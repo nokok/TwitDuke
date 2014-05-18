@@ -23,7 +23,7 @@
  */
 package net.nokok.twitduke.pluginsupport;
 
-public interface Plugin {
+public interface PluginInfo {
 
     String name();
 

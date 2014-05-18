@@ -29,15 +29,15 @@ import java.io.Reader;
 import javax.script.Invocable;
 import javax.script.ScriptException;
 import net.nokok.twitduke.pluginsupport.AbstractPlugin;
-import net.nokok.twitduke.pluginsupport.Plugin;
+import net.nokok.twitduke.pluginsupport.PluginInfo;
 
 /**
  * 起動時に実行されるプラグインです
  */
-public class BootPlugin extends AbstractPlugin implements BootEventListener, Plugin {
+public class BootPlugin extends AbstractPlugin implements BootEventListener, PluginInfo {
 
     private final Reader reader;
-    private final Plugin plugin;
+    private final PluginInfo plugin;
 
     public BootPlugin(String path) throws FileNotFoundException {
         super();
@@ -50,7 +50,7 @@ public class BootPlugin extends AbstractPlugin implements BootEventListener, Plu
         } catch (ScriptException ignored) {
 
         }
-        plugin = (Plugin) scriptEngine.get("plugin");
+        plugin = (PluginInfo) scriptEngine.get("plugin");
     }
 
     @Override

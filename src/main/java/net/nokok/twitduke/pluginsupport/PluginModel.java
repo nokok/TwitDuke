@@ -23,7 +23,7 @@
  */
 package net.nokok.twitduke.pluginsupport;
 
-public class PluginModel implements Plugin {
+public class PluginModel implements PluginInfo {
 
     public String name;
     public String version;
