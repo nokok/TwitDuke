@@ -29,7 +29,7 @@ import net.nokok.twitduke.core.type.Tweet;
 /**
  * ダイレクトメッセージが送信可能なオブジェクトです
  */
-public interface SendDMAPI {
+public interface DMSendable {
 
     /**
      * 指定したスクリーンネームのユーザーに指定したツイートでDMを送信します
