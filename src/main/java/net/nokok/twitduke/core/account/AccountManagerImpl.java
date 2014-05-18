@@ -83,7 +83,7 @@ public class AccountManagerImpl implements AccountManager {
                 }
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     private List<File> readAccountDirFileList() {
