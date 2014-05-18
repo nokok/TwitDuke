@@ -23,6 +23,9 @@
  */
 package net.nokok.twitduke.pluginsupport.apiwrapper;
 
+import net.nokok.twitduke.pluginsupport.event.EventWithDoubleArg;
+import net.nokok.twitduke.pluginsupport.event.EventWithTripleArg;
+import net.nokok.twitduke.pluginsupport.event.EventWithSingleArg;
 import net.nokok.twitduke.core.twitter.TwitterExceptionReceivable;
 import net.nokok.twitduke.core.factory.TwitterStreamFactory;
 import net.nokok.twitduke.core.type.ErrorMessageReceivable;

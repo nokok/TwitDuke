@@ -21,23 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport.apiwrapper;
+package net.nokok.twitduke.pluginsupport.event;
 
 /**
- * イベント発生時引数の数が3つ必要なイベントです。
+ * イベント発生時引数の数が1つ必要なイベントです。
  *
- * @param <T1>
- * @param <T2>
- * @param <T3>
+ * @param <T>
  */
-public interface EventWithTripleArg<T1, T2, T3> {
+public interface EventWithSingleArg<T> {
 
     /**
-     * イベントが発生した時に呼ばれます
+     * イベント発生時に呼ばれます
      *
-     * @param arg1
-     * @param arg2
-     * @param arg3
+     * @param arg
      */
-    public void onEvent(T1 arg1, T2 arg2, T3 arg3);
+    public void onEvent(T arg);
 }
