@@ -24,9 +24,8 @@
 package net.nokok.twitduke.pluginsupport;
 
 import java.io.File;
-import net.nokok.twitduke.core.io.Paths;
 
 public interface PluginPath {
 
-    public static final String PLUGIN_DIR = String.join(File.separator, Paths.TWITDUKE_HOME, "plugins");
+    public static final String PLUGIN_DIR = String.join(File.separator, new File(".").getAbsolutePath(), "plugins");
 }
