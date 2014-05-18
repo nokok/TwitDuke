@@ -24,6 +24,7 @@
 package net.nokok.twitduke.core.type;
 
 import java.io.Serializable;
+import net.nokok.twitduke.pluginsupport.Footer;
 
 /**
  * ツイート(String)のラッパクラスです
@@ -51,6 +52,17 @@ public class Tweet implements Cloneable, Serializable, Retrievable<String> {
             throw new IllegalArgumentException("ツイートが空です");
         }
         this.text = text;
+    }
+
+    /**
+     * このツイートオブジェクトにフッターを付けたツイートオブジェクトを新たに生成して返します
+     *
+     * @param footer フッター
+     *
+     * @return フッター付きツイート
+     */
+    public Tweet applyFooter(Footer footer) {
+        return new Tweet(text + footer.get());
     }
 
     @Override
