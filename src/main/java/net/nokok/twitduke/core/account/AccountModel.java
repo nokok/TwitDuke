@@ -34,11 +34,13 @@ public class AccountModel {
     private final AccessToken accessToken;
     private final ScreenName screenName;
     private final boolean isPrimary;
+    private final String footer;
 
-    public AccountModel(AccessToken accessToken, ScreenName screenName, boolean isPrimary) {
+    public AccountModel(AccessToken accessToken, ScreenName screenName, boolean isPrimary, String footer) {
         this.accessToken = accessToken;
         this.screenName = screenName;
         this.isPrimary = isPrimary;
+        this.footer = footer;
     }
 
     public Path tokenPath() {
