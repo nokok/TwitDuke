@@ -28,7 +28,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.text.JTextComponent;
 import net.nokok.twitduke.components.basic.TWTextArea;
-import net.nokok.twitduke.core.twitter.SendTweetAPI;
+import net.nokok.twitduke.core.twitter.TweetSendable;
 import net.nokok.twitduke.core.type.Tweet;
 
 /**
@@ -39,7 +39,7 @@ public class TweetTextArea extends TWTextArea {
 
     private static final long serialVersionUID = -7817374896981739389L;
 
-    private final SendTweetAPI tweetAPI;
+    private final TweetSendable tweetAPI;
 
     /**
      * Shift+Enterキーでツイート送信可能なテキストエリアを生成します。
@@ -51,7 +51,7 @@ public class TweetTextArea extends TWTextArea {
      *
      * @exception NullPointerException 渡されたSendTweetAPIオブジェクトがnullだった場合
      */
-    public TweetTextArea(SendTweetAPI tweetAPI) {
+    public TweetTextArea(TweetSendable tweetAPI) {
         if ( tweetAPI == null ) {
             throw new NullPointerException("SendTweetAPIインターフェースがnullです");
         }
@@ -69,7 +69,7 @@ public class TweetTextArea extends TWTextArea {
      *
      * @exception NullPointerException 渡されたSendTweetAPIオブジェクトがnullの場合
      */
-    public TweetTextArea(SendTweetAPI tweetAPI, KeyListener keyListener) {
+    public TweetTextArea(TweetSendable tweetAPI, KeyListener keyListener) {
         this(tweetAPI);
         addKeyListener(keyListener);
     }

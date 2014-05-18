@@ -29,7 +29,7 @@ import net.nokok.twitduke.core.type.Tweet;
  * ツイートが送信可能なオブジェクトです
  *
  */
-public interface SendTweetAPI {
+public interface TweetSendable {
 
     /**
      * ツイートを送信します。

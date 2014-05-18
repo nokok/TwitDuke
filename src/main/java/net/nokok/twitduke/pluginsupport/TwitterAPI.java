@@ -24,7 +24,7 @@
 package net.nokok.twitduke.pluginsupport;
 
 import net.nokok.twitduke.core.twitter.SendDMAPI;
-import net.nokok.twitduke.core.twitter.SendTweetAPI;
+import net.nokok.twitduke.core.twitter.TweetSendable;
 import net.nokok.twitduke.core.twitter.TwitterExceptionReceivable;
 import net.nokok.twitduke.core.twitter.UpdateProfile;
 import net.nokok.twitduke.core.twitter.AsyncTwitterInstanceGeneratorImpl;
@@ -42,7 +42,7 @@ import twitter4j.auth.AccessToken;
  *
  * @author noko
  */
-public class TwitterAPI implements SendTweetAPI, SendDMAPI, UpdateProfile, TwitterExceptionReceivable {
+public class TwitterAPI implements TweetSendable, SendDMAPI, UpdateProfile, TwitterExceptionReceivable {
 
     private final AsyncTwitter asyncTwitter;
     private ErrorMessageReceivable receivable;
