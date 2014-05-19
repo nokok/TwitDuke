@@ -26,6 +26,8 @@ package net.nokok.twitduke.core.twitter;
 import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
 
 /**
  * ユーザー情報の変更をします
@@ -52,6 +54,13 @@ public class UpdateProfileImpl implements UpdateProfile {
             throw new IllegalArgumentException("渡されたTwitterオブジェクトは認証が完了していません。");
         }
         this.user = twitter;
+    }
+
+    public UpdateProfileImpl(AccessToken accessToken) {
+        if ( accessToken == null ) {
+            throw new NullPointerException("渡されたアクセストークンがnullです");
+        }
+        this.user = new TwitterFactory(ConfigurationProvider.getConfiguration()).getInstance(accessToken);
     }
 
     @Override
