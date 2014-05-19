@@ -31,10 +31,12 @@ import net.nokok.twitduke.core.account.DirectoryHelper;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
 import net.nokok.twitduke.core.auth.OAuthRunnable;
 import net.nokok.twitduke.core.factory.AccountManagerFactory;
+import net.nokok.twitduke.core.factory.TwitterStreamFactory;
 import net.nokok.twitduke.core.io.Paths;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
 import net.nokok.twitduke.pluginsupport.boot.BootEventListener;
 import net.nokok.twitduke.pluginsupport.eventrunner.PluginManager;
+import twitter4j.TwitterStream;
 
 /**
  * TwitDukeのMainクラスです。このクラスはエントリーポイントを持っています。
@@ -67,6 +69,9 @@ public class Main {
                 auth.onSuccess(accountManager::addAccount);
                 auth.startOAuth();
             }
+            TwitterStream twitterStream = TwitterStreamFactory.newInstance(accountManager.readPrimaryAccount().get());
+            twitterStream.addListener(globalPluginMgr.getStreamEventListener());
+            twitterStream.user();
             bootEventRunner.completed();
         } catch (Throwable e) {
             e.printStackTrace();
