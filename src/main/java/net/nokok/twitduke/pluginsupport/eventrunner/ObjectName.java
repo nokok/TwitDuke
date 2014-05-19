@@ -27,6 +27,12 @@ package net.nokok.twitduke.pluginsupport.eventrunner;
  * プラグインで使用するグローバルオブジェクトの名前です
  *
  */
-interface ObjectName extends BootObjectName, WindowObjectName {
+interface ObjectName {
 
+    static final String BOOT = "_boot";
+    static final String WINDOW = "_window";
+    static final String WINDOW_TITLE = "_windowTitle";
+    static final String TWITTER_API = "_api";
+    static final String STREAM = "_stream";
+    static final String PROFILE = "_profile";
 }
