@@ -33,6 +33,8 @@ import net.nokok.twitduke.core.auth.OAuthRunnable;
 import net.nokok.twitduke.core.factory.AccountManagerFactory;
 import net.nokok.twitduke.core.io.Paths;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
+import net.nokok.twitduke.pluginsupport.boot.BootEventListener;
+import net.nokok.twitduke.pluginsupport.eventrunner.PluginManager;
 
 /**
  * TwitDukeのMainクラスです。このクラスはエントリーポイントを持っています。
@@ -52,6 +54,9 @@ public class Main {
             if ( !existsTwitDukeDir() ) {
                 DirectoryHelper.createTwitDukeDirectories();
             }
+            PluginManager globalPluginMgr = new PluginManager("plugins");
+            BootEventListener bootEventRunner = globalPluginMgr.getBootEventListener();
+            bootEventRunner.starting();
             ErrorLogExporter logger = new ErrorLogExporter();
             System.setErr(new PrintStream(nullOutputStream()));
             System.setOut(new PrintStream(nullOutputStream()));
@@ -62,6 +67,7 @@ public class Main {
                 auth.onSuccess(accountManager::addAccount);
                 auth.startOAuth();
             }
+            bootEventRunner.completed();
         } catch (Throwable e) {
             e.printStackTrace();
         }
