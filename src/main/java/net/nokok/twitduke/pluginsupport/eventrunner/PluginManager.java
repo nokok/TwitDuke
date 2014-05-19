@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
+import net.nokok.twitduke.core.twitter.AsyncTwitterInstanceGeneratorImpl;
 import net.nokok.twitduke.core.twitter.UpdateProfileImpl;
 import net.nokok.twitduke.core.type.UncheckedScriptException;
 import net.nokok.twitduke.pluginsupport.boot.BootEventListener;
@@ -56,12 +57,12 @@ public class PluginManager {
                 .filter(p -> p.isPresent())
                 .map(p -> p.get())
                 .forEach(plugins::add);
-        resolvePermission();
     }
 
     public PluginManager(String pluginDirectoryPath, AccessToken accessToken) {
         this(pluginDirectoryPath);
         this.accessToken = accessToken;
+        resolvePermission();
     }
 
     private void resolvePermission() {
@@ -84,6 +85,9 @@ public class PluginManager {
                 if ( permission.isStream() ) {
                     scriptEngine.eval("var " + ObjectName.STREAM + " = {}");
                     streamEventRunner.addPlugin(plugin);
+                }
+                if ( permission.isTwitter() ) {
+                    scriptEngine.put(ObjectName.TWITTER_API, new AsyncTwitterInstanceGeneratorImpl().generate(accessToken));
                 }
                 Reader reader = plugin.getReader();
                 scriptEngine.eval(reader);
