@@ -23,7 +23,6 @@
  */
 package net.nokok.twitduke.pluginsupport.eventrunner;
 
-import net.nokok.twitduke.pluginsupport.eventrunner.ObjectName;
 import java.io.File;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -32,10 +31,10 @@ import java.util.stream.Stream;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import net.nokok.twitduke.core.type.UncheckedScriptException;
-import net.nokok.twitduke.pluginsupport.util.FileToPlugin;
+import net.nokok.twitduke.pluginsupport.boot.BootEventListener;
 import net.nokok.twitduke.pluginsupport.plugin.Plugin;
 import net.nokok.twitduke.pluginsupport.plugin.PluginPermission;
-import net.nokok.twitduke.pluginsupport.boot.BootEventListener;
+import net.nokok.twitduke.pluginsupport.util.FileToPlugin;
 import net.nokok.twitduke.pluginsupport.window.WindowEventListener;
 
 public class PluginManager {
@@ -46,13 +45,12 @@ public class PluginManager {
 
     public PluginManager(String pluginDirectoryPath) {
         File[] files = new File(pluginDirectoryPath).listFiles();
-        Stream.of(files).filter(f -> f.getName().endsWith(".js")).forEach(f -> {
-            FileToPlugin f2p = new FileToPlugin(f.getAbsolutePath(), f.getName());
-            Plugin p = f2p.get();
-            if ( p != null ) {
-                plugins.add(p);
-            }
-        });
+        Stream.of(files)
+                .filter(f -> f.getName().endsWith(".js"))
+                .map(FileToPlugin::encode)
+                .filter(p -> p.isPresent())
+                .map(p -> p.get())
+                .forEach(plugins::add);
         resolvePermission();
     }
 

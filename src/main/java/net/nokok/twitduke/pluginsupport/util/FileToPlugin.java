@@ -23,9 +23,10 @@
  */
 package net.nokok.twitduke.pluginsupport.util;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.util.Optional;
 import java.util.Properties;
 import net.nokok.twitduke.pluginsupport.plugin.Plugin;
 import net.nokok.twitduke.pluginsupport.plugin.PluginInfo;
@@ -33,14 +34,13 @@ import net.nokok.twitduke.pluginsupport.plugin.PluginPermission;
 
 public class FileToPlugin {
 
-    private Plugin plugin;
-
-    public FileToPlugin(String path, String pluginName) {
-        String propertyPath = path.replace(".js", ".properties");
+    public static Optional<Plugin> encode(File file) {
+        String propertyPath = file.getAbsolutePath().replace(".js", ".properties");
         final Properties properties = new Properties();
+        Plugin plugin;
         try {
             properties.load(new FileReader(propertyPath));
-            plugin = new Plugin(path, new PluginInfo() {
+            plugin = new Plugin(file.getAbsolutePath(), new PluginInfo() {
 
                 @Override
                 public String author() {
@@ -68,11 +68,8 @@ public class FileToPlugin {
                 }
             });
         } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            return Optional.empty();
         }
-    }
-
-    public Plugin get() {
-        return plugin;
+        return Optional.of(plugin);
     }
 }
