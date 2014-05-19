@@ -25,6 +25,7 @@ package net.nokok.twitduke.core.account;
 
 import com.google.common.collect.Lists;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +41,14 @@ public class AccountManagerImpl implements AccountManager {
 
     @Override
     public void addAccount(AccessToken accessToken) {
-        DirectoryHelper.createAccountDirectory(accessToken.getScreenName());
+        boolean isPrimary = !hasValidAccount();
+        File dir = DirectoryHelper.createAccountDirectory(accessToken.getScreenName());
+        if ( isPrimary ) {
+            try {
+                new File(dir, "primary").createNewFile();
+            } catch (IOException ignored) {
+            }
+        }
         AccessTokenWriter writer = new AccessTokenPropertyWriter();
         writer.writeAccessToken(accessToken);
     }
