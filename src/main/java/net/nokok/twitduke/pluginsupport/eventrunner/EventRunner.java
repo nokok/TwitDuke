@@ -28,7 +28,6 @@ import java.util.List;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
-import net.nokok.twitduke.core.type.UncheckedScriptException;
 import net.nokok.twitduke.pluginsupport.plugin.Plugin;
 
 class EventRunner {
@@ -50,8 +49,7 @@ class EventRunner {
             Invocable invocable = plugin.invocable();
             try {
                 invocable.invokeMethod(scriptEngine.get(objectName), methodName, args);
-            } catch (ScriptException | NoSuchMethodException e) {
-                throw new UncheckedScriptException(e);
+            } catch (ScriptException | NoSuchMethodException ignored) {
             }
         });
     }
