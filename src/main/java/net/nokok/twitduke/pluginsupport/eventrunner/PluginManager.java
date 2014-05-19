@@ -37,6 +37,7 @@ import net.nokok.twitduke.pluginsupport.plugin.PluginPermission;
 import net.nokok.twitduke.pluginsupport.util.FileToPlugin;
 import net.nokok.twitduke.pluginsupport.window.WindowEventListener;
 import twitter4j.UserStreamListener;
+import twitter4j.auth.AccessToken;
 
 public class PluginManager {
 
@@ -44,6 +45,7 @@ public class PluginManager {
     private final BootEventRunner bootEventRunner = new BootEventRunner();
     private final WindowEventRunner windowEventRunner = new WindowEventRunner();
     private final StreamEventRunner streamEventRunner = new StreamEventRunner();
+    private AccessToken accessToken;
 
     public PluginManager(String pluginDirectoryPath) {
         File[] files = new File(pluginDirectoryPath).listFiles();
@@ -54,6 +56,11 @@ public class PluginManager {
                 .map(p -> p.get())
                 .forEach(plugins::add);
         resolvePermission();
+    }
+
+    public PluginManager(String pluginDirectoryPath, AccessToken accessToken) {
+        this(pluginDirectoryPath);
+        this.accessToken = accessToken;
     }
 
     private void resolvePermission() {
