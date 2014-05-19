@@ -29,12 +29,14 @@ public class PluginPermission {
     private final boolean window;
     private final boolean stream;
     private final boolean profile;
+    private final boolean twitter;
 
-    private PluginPermission(boolean boot, boolean window, boolean stream, boolean profile) {
+    private PluginPermission(boolean boot, boolean window, boolean stream, boolean profile, boolean twitter) {
         this.boot = boot;
         this.window = window;
         this.stream = stream;
         this.profile = profile;
+        this.twitter = twitter;
     }
 
     public static PluginPermission parsePermission(String permission) {
@@ -42,7 +44,8 @@ public class PluginPermission {
         boolean window = permission.contains("window");
         boolean stream = permission.contains("stream");
         boolean profile = permission.contains("profile");
-        return new PluginPermission(boot, window, stream, profile);
+        boolean twitter = permission.contains("twitter");
+        return new PluginPermission(boot, window, stream, profile, twitter);
     }
 
     public boolean isBoot() {
@@ -59,5 +62,9 @@ public class PluginPermission {
 
     public boolean isProfile() {
         return profile;
+    }
+
+    public boolean isTwitter() {
+        return twitter;
     }
 }
