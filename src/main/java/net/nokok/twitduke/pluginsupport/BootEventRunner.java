@@ -23,47 +23,24 @@
  */
 package net.nokok.twitduke.pluginsupport;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
-import net.nokok.twitduke.core.type.UncheckedScriptException;
 import net.nokok.twitduke.pluginsupport.boot.BootEventListener;
 
-public class BootEventRunner implements BootEventListener {
+public class BootEventRunner implements BootEventListener, PluginRegistrable {
 
-    private final List<Plugin> plugins = new ArrayList<>();
+    private final EventRunner runner = new EventRunner(ObjectName.BOOT);
 
-    public BootEventRunner() {
-
-    }
-
-    public BootEventRunner(List<Plugin> plugins) {
-        this.plugins.addAll(plugins);
-    }
-
-    void addPlugin(Plugin plugin) {
-        plugins.add(plugin);
+    @Override
+    public void addPlugin(Plugin p) {
+        runner.addPlugin(p);
     }
 
     @Override
     public void completed() {
-        plugins.forEach(p -> this.invoke(p, "completed"));
+        runner.invokeAll("completed");
     }
 
     @Override
     public void starting() {
-        plugins.forEach(p -> this.invoke(p, "starting"));
-    }
-
-    private void invoke(Plugin plugin, String method) {
-        ScriptEngine scriptEngine = plugin.scriptEngine;
-        Invocable invocable = (Invocable) scriptEngine;
-        try {
-            invocable.invokeMethod(scriptEngine.get("boot"), method, "");
-        } catch (ScriptException | NoSuchMethodException e) {
-            throw new UncheckedScriptException(e);
-        }
+        runner.invokeAll("starting");
     }
 }

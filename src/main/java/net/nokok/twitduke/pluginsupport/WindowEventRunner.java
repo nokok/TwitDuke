@@ -23,27 +23,36 @@
  */
 package net.nokok.twitduke.pluginsupport;
 
-public class PluginPermission {
+import java.awt.Dimension;
+import net.nokok.twitduke.pluginsupport.window.WindowEventListener;
 
-    private final boolean boot;
-    private final boolean window;
+public class WindowEventRunner implements WindowEventListener, PluginRegistrable {
 
-    private PluginPermission(boolean boot, boolean window) {
-        this.boot = boot;
-        this.window = window;
+    private final EventRunner runner = new EventRunner(ObjectName.WINDOW);
+
+    @Override
+    public void addPlugin(Plugin p) {
+        runner.addPlugin(p);
     }
 
-    public static PluginPermission parsePermission(String permission) {
-        boolean boot = permission.contains("boot");
-        boolean window = permission.contains("window");
-        return new PluginPermission(boot, window);
+    @Override
+    public void closed() {
+        runner.invokeAll("closed");
     }
 
-    public boolean isBoot() {
-        return boot;
+    @Override
+    public void closing() {
+        runner.invokeAll("closing");
     }
 
-    public boolean isWindow() {
-        return window;
+    @Override
+    public void sizeChanged(Dimension d) {
+        runner.invokeAll("sizeChanged", d);
     }
+
+    @Override
+    public void titleChanged(String title) {
+        runner.invokeAll("titleChanged", title);
+    }
+
 }

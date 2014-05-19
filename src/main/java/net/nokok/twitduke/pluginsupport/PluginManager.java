@@ -32,11 +32,13 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import net.nokok.twitduke.core.type.UncheckedScriptException;
 import net.nokok.twitduke.pluginsupport.boot.BootEventListener;
+import net.nokok.twitduke.pluginsupport.window.WindowEventListener;
 
 public class PluginManager {
 
     private final List<Plugin> plugins = new ArrayList<>();
     private final BootEventRunner bootEventRunner = new BootEventRunner();
+    private final WindowEventRunner windowEventRunner = new WindowEventRunner();
 
     public PluginManager(String pluginDirectoryPath) {
         File[] files = new File(pluginDirectoryPath).listFiles();
@@ -56,8 +58,13 @@ public class PluginManager {
             ScriptEngine scriptEngine = plugin.scriptEngine;
             try {
                 if ( permission.isBoot() ) {
-                    scriptEngine.eval("var boot = {}");
+                    scriptEngine.eval("var " + ObjectName.BOOT + " = {}");
                     bootEventRunner.addPlugin(plugin);
+                }
+                if ( permission.isWindow() ) {
+                    scriptEngine.eval("var " + ObjectName.WINDOW + " = {}");
+                    scriptEngine.eval("var " + ObjectName.WINDOW_TITLE + " = ''");
+                    windowEventRunner.addPlugin(plugin);
                 }
                 Reader reader = plugin.getReader();
                 scriptEngine.eval(reader);
@@ -67,7 +74,11 @@ public class PluginManager {
         }
     }
 
-    public BootEventListener getBootEventRunner() {
+    public BootEventListener getBootEventListener() {
         return bootEventRunner;
+    }
+
+    public WindowEventListener getWindowEventListener() {
+        return windowEventRunner;
     }
 }
