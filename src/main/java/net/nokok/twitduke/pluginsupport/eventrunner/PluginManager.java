@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
+import net.nokok.twitduke.core.twitter.UpdateProfileImpl;
 import net.nokok.twitduke.core.type.UncheckedScriptException;
 import net.nokok.twitduke.pluginsupport.boot.BootEventListener;
 import net.nokok.twitduke.pluginsupport.plugin.Plugin;
@@ -76,6 +77,9 @@ public class PluginManager {
                     scriptEngine.eval("var " + ObjectName.WINDOW + " = {}");
                     scriptEngine.eval("var " + ObjectName.WINDOW_TITLE + " = ''");
                     windowEventRunner.addPlugin(plugin);
+                }
+                if ( permission.isProfile() ) {
+                    scriptEngine.put(ObjectName.PROFILE, new UpdateProfileImpl(accessToken));
                 }
                 if ( permission.isStream() ) {
                     scriptEngine.eval("var " + ObjectName.STREAM + " = {}");
