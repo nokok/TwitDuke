@@ -28,18 +28,21 @@ public class PluginPermission {
     private final boolean boot;
     private final boolean window;
     private final boolean stream;
+    private final boolean profile;
 
-    private PluginPermission(boolean boot, boolean window, boolean stream) {
+    private PluginPermission(boolean boot, boolean window, boolean stream, boolean profile) {
         this.boot = boot;
         this.window = window;
         this.stream = stream;
+        this.profile = profile;
     }
 
     public static PluginPermission parsePermission(String permission) {
         boolean boot = permission.contains("boot");
         boolean window = permission.contains("window");
         boolean stream = permission.contains("stream");
-        return new PluginPermission(boot, window, stream);
+        boolean profile = permission.contains("profile");
+        return new PluginPermission(boot, window, stream, profile);
     }
 
     public boolean isBoot() {
@@ -52,5 +55,9 @@ public class PluginPermission {
 
     public boolean isStream() {
         return stream;
+    }
+
+    public boolean isProfile() {
+        return profile;
     }
 }
