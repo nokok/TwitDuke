@@ -21,12 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport;
+package net.nokok.twitduke.pluginsupport.util;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Properties;
+import net.nokok.twitduke.pluginsupport.plugin.Plugin;
+import net.nokok.twitduke.pluginsupport.plugin.PluginInfo;
+import net.nokok.twitduke.pluginsupport.plugin.PluginPermission;
 
 public class FileToPlugin {
 

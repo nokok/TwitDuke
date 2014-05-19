@@ -21,12 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport;
+package net.nokok.twitduke.pluginsupport.eventrunner;
 
-/**
- * プラグインで使用するグローバルオブジェクトの名前です
- *
- */
-public interface ObjectName extends BootObjectName, WindowObjectName {
+interface WindowObjectName {
 
+    static final String WINDOW = "_window";
+    static final String WINDOW_TITLE = "_windowTitle";
 }

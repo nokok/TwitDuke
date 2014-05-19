@@ -21,18 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport;
+package net.nokok.twitduke.pluginsupport.plugin;
 
-/**
- * プラグインが登録可能です
- *
- */
-public interface PluginRegistrable {
+public class PluginPermission {
 
-    /**
-     * プラグインを登録します
-     *
-     * @param p プラグイン
-     */
-    void addPlugin(Plugin p);
+    private final boolean boot;
+    private final boolean window;
+
+    private PluginPermission(boolean boot, boolean window) {
+        this.boot = boot;
+        this.window = window;
+    }
+
+    public static PluginPermission parsePermission(String permission) {
+        boolean boot = permission.contains("boot");
+        boolean window = permission.contains("window");
+        return new PluginPermission(boot, window);
+    }
+
+    public boolean isBoot() {
+        return boot;
+    }
+
+    public boolean isWindow() {
+        return window;
+    }
 }

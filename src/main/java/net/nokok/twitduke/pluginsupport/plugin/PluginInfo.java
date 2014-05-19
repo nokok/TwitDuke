@@ -21,11 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport;
+package net.nokok.twitduke.pluginsupport.plugin;
 
-import java.io.Reader;
+public interface PluginInfo {
 
-public interface ReadablePlugin {
+    String name();
 
-    Reader getReader();
+    String version();
+
+    String author();
+
+    String description();
+
+    PluginPermission permission();
 }

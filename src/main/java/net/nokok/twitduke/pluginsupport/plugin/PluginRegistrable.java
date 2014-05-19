@@ -21,17 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport;
+package net.nokok.twitduke.pluginsupport.plugin;
 
-public interface PluginInfo {
+/**
+ * プラグインが登録可能です
+ *
+ */
+public interface PluginRegistrable {
 
-    String name();
-
-    String version();
-
-    String author();
-
-    String description();
-
-    PluginPermission permission();
+    /**
+     * プラグインを登録します
+     *
+     * @param p プラグイン
+     */
+    void addPlugin(Plugin p);
 }

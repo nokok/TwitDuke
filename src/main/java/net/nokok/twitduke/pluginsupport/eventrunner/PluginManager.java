@@ -21,8 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport;
+package net.nokok.twitduke.pluginsupport.eventrunner;
 
+import net.nokok.twitduke.pluginsupport.eventrunner.ObjectName;
 import java.io.File;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -31,6 +32,9 @@ import java.util.stream.Stream;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import net.nokok.twitduke.core.type.UncheckedScriptException;
+import net.nokok.twitduke.pluginsupport.util.FileToPlugin;
+import net.nokok.twitduke.pluginsupport.plugin.Plugin;
+import net.nokok.twitduke.pluginsupport.plugin.PluginPermission;
 import net.nokok.twitduke.pluginsupport.boot.BootEventListener;
 import net.nokok.twitduke.pluginsupport.window.WindowEventListener;
 
@@ -55,7 +59,7 @@ public class PluginManager {
     private void resolvePermission() {
         for ( Plugin plugin : plugins ) {
             PluginPermission permission = plugin.permission();
-            ScriptEngine scriptEngine = plugin.scriptEngine;
+            ScriptEngine scriptEngine = plugin.scriptEngine();
             try {
                 if ( permission.isBoot() ) {
                     scriptEngine.eval("var " + ObjectName.BOOT + " = {}");

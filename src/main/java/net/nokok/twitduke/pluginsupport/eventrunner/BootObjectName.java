@@ -21,38 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport;
+package net.nokok.twitduke.pluginsupport.eventrunner;
 
-import java.awt.Dimension;
-import net.nokok.twitduke.pluginsupport.window.WindowEventListener;
+interface BootObjectName {
 
-public class WindowEventRunner implements WindowEventListener, PluginRegistrable {
-
-    private final EventRunner runner = new EventRunner(ObjectName.WINDOW);
-
-    @Override
-    public void addPlugin(Plugin p) {
-        runner.addPlugin(p);
-    }
-
-    @Override
-    public void closed() {
-        runner.invokeAll("closed");
-    }
-
-    @Override
-    public void closing() {
-        runner.invokeAll("closing");
-    }
-
-    @Override
-    public void sizeChanged(Dimension d) {
-        runner.invokeAll("sizeChanged", d);
-    }
-
-    @Override
-    public void titleChanged(String title) {
-        runner.invokeAll("titleChanged", title);
-    }
-
+    static final String BOOT = "_boot";
 }

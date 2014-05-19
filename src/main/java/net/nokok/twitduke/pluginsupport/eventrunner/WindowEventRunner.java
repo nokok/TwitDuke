@@ -21,11 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport;
+package net.nokok.twitduke.pluginsupport.eventrunner;
 
-import java.io.File;
+import net.nokok.twitduke.pluginsupport.eventrunner.ObjectName;
+import java.awt.Dimension;
+import net.nokok.twitduke.pluginsupport.plugin.Plugin;
+import net.nokok.twitduke.pluginsupport.plugin.PluginRegistrable;
+import net.nokok.twitduke.pluginsupport.window.WindowEventListener;
 
-public interface PluginPath {
+public class WindowEventRunner implements WindowEventListener, PluginRegistrable {
 
-    public static final String PLUGIN_DIR = String.join(File.separator, new File(".").getAbsolutePath(), "plugins");
+    private final EventRunner runner = new EventRunner(ObjectName.WINDOW);
+
+    @Override
+    public void addPlugin(Plugin p) {
+        runner.addPlugin(p);
+    }
+
+    @Override
+    public void closed() {
+        runner.invokeAll("closed");
+    }
+
+    @Override
+    public void closing() {
+        runner.invokeAll("closing");
+    }
+
+    @Override
+    public void sizeChanged(Dimension d) {
+        runner.invokeAll("sizeChanged", d);
+    }
+
+    @Override
+    public void titleChanged(String title) {
+        runner.invokeAll("titleChanged", title);
+    }
+
 }

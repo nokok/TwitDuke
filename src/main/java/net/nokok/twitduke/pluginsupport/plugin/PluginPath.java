@@ -21,9 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport;
+package net.nokok.twitduke.pluginsupport.plugin;
 
-public interface BootObjectName {
+import java.io.File;
 
-    public static final String BOOT = "_boot";
+public interface PluginPath {
+
+    public static final String PLUGIN_DIR = String.join(File.separator, new File(".").getAbsolutePath(), "plugins");
 }

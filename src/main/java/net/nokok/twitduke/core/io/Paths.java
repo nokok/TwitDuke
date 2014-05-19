@@ -27,7 +27,7 @@ import java.io.File;
 import net.nokok.twitduke.core.account.AccessTokenPath;
 import net.nokok.twitduke.core.account.AccountPath;
 import net.nokok.twitduke.core.log.LogPath;
-import net.nokok.twitduke.pluginsupport.PluginPath;
+import net.nokok.twitduke.pluginsupport.plugin.PluginPath;
 
 /**
  * パスクラスを集約します

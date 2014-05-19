@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport;
+package net.nokok.twitduke.pluginsupport.eventrunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +29,7 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import net.nokok.twitduke.core.type.UncheckedScriptException;
+import net.nokok.twitduke.pluginsupport.plugin.Plugin;
 
 class EventRunner {
 
@@ -45,8 +46,8 @@ class EventRunner {
 
     void invokeAll(String methodName, Object... args) {
         plugins.forEach(plugin -> {
-            ScriptEngine scriptEngine = plugin.scriptEngine;
-            Invocable invocable = (Invocable) scriptEngine;
+            ScriptEngine scriptEngine = plugin.scriptEngine();
+            Invocable invocable = plugin.invocable();
             try {
                 invocable.invokeMethod(scriptEngine.get(objectName), methodName, args);
             } catch (ScriptException | NoSuchMethodException e) {

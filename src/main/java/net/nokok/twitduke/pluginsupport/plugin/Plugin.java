@@ -21,12 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport;
+package net.nokok.twitduke.pluginsupport.plugin;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
 import java.io.UncheckedIOException;
+import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
@@ -34,7 +35,7 @@ public class Plugin implements PluginInfo, ReadablePlugin {
 
     private final PluginInfo pluginInfo;
     private final String pluginPath;
-    final ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");
+    private final ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");
 
     public Plugin(String pluginPath, PluginInfo pluginInfo) {
         this.pluginInfo = pluginInfo;
@@ -58,6 +59,14 @@ public class Plugin implements PluginInfo, ReadablePlugin {
         } catch (FileNotFoundException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    public Invocable invocable() {
+        return (Invocable) scriptEngine;
+    }
+
+    public ScriptEngine scriptEngine() {
+        return scriptEngine;
     }
 
     @Override

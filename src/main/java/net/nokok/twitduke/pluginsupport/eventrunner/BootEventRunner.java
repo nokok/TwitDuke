@@ -21,29 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport;
+package net.nokok.twitduke.pluginsupport.eventrunner;
 
-public class PluginPermission {
+import net.nokok.twitduke.pluginsupport.plugin.Plugin;
+import net.nokok.twitduke.pluginsupport.plugin.PluginRegistrable;
+import net.nokok.twitduke.pluginsupport.eventrunner.ObjectName;
+import net.nokok.twitduke.pluginsupport.boot.BootEventListener;
 
-    private final boolean boot;
-    private final boolean window;
+public class BootEventRunner implements BootEventListener, PluginRegistrable {
 
-    private PluginPermission(boolean boot, boolean window) {
-        this.boot = boot;
-        this.window = window;
+    private final EventRunner runner = new EventRunner(ObjectName.BOOT);
+
+    @Override
+    public void addPlugin(Plugin p) {
+        runner.addPlugin(p);
     }
 
-    public static PluginPermission parsePermission(String permission) {
-        boolean boot = permission.contains("boot");
-        boolean window = permission.contains("window");
-        return new PluginPermission(boot, window);
+    @Override
+    public void completed() {
+        runner.invokeAll("completed");
     }
 
-    public boolean isBoot() {
-        return boot;
-    }
-
-    public boolean isWindow() {
-        return window;
+    @Override
+    public void starting() {
+        runner.invokeAll("starting");
     }
 }
