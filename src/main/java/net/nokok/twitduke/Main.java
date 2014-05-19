@@ -34,9 +34,9 @@ import net.nokok.twitduke.core.factory.AccountManagerFactory;
 import net.nokok.twitduke.core.factory.TwitterStreamFactory;
 import net.nokok.twitduke.core.io.Paths;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
-import net.nokok.twitduke.pluginsupport.boot.BootEventListener;
 import net.nokok.twitduke.pluginsupport.eventrunner.PluginManager;
 import twitter4j.TwitterStream;
+import twitter4j.auth.AccessToken;
 
 /**
  * TwitDukeのMainクラスです。このクラスはエントリーポイントを持っています。
@@ -52,30 +52,25 @@ public class Main {
      * @param args 渡された引数の配列
      */
     public static void main(String[] args) {
-        try {
-            if ( !existsTwitDukeDir() ) {
-                DirectoryHelper.createTwitDukeDirectories();
-            }
-            PluginManager globalPluginMgr = new PluginManager("plugins");
-            BootEventListener bootEventRunner = globalPluginMgr.getBootEventListener();
-            bootEventRunner.starting();
-            ErrorLogExporter logger = new ErrorLogExporter();
-            System.setErr(new PrintStream(nullOutputStream()));
-            System.setOut(new PrintStream(nullOutputStream()));
-            final AccountManager accountManager = AccountManagerFactory.newInstance();
-            if ( !accountManager.hasValidAccount() ) {
-                OAuthRunnable auth = LambdaOAuthFactory.newInstance();
-                auth.onError(logger::onError);
-                auth.onSuccess(accountManager::addAccount);
-                auth.startOAuth();
-            }
-            TwitterStream twitterStream = TwitterStreamFactory.newInstance(accountManager.readPrimaryAccount().get());
-            twitterStream.addListener(globalPluginMgr.getStreamEventListener());
-            twitterStream.user();
-            bootEventRunner.completed();
-        } catch (Throwable e) {
-            e.printStackTrace();
+        if ( !existsTwitDukeDir() ) {
+            DirectoryHelper.createTwitDukeDirectories();
         }
+        ErrorLogExporter logger = new ErrorLogExporter();
+        System.setErr(new PrintStream(nullOutputStream()));
+        System.setOut(new PrintStream(nullOutputStream()));
+        final AccountManager accountManager = AccountManagerFactory.newInstance();
+        if ( !accountManager.hasValidAccount() ) {
+            OAuthRunnable auth = LambdaOAuthFactory.newInstance();
+            auth.onError(logger::onError);
+            auth.onSuccess(accountManager::addAccount);
+            auth.startOAuth();
+            return;
+        }
+        AccessToken accessToken = accountManager.readPrimaryAccount().get();
+        PluginManager globalPluginMgr = new PluginManager("plugins", accessToken);
+        TwitterStream twitterStream = TwitterStreamFactory.newInstance(accessToken);
+        twitterStream.addListener(globalPluginMgr.getStreamEventListener());
+        twitterStream.user();
     }
 
     private static boolean existsTwitDukeDir() {
