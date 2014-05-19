@@ -36,12 +36,14 @@ import net.nokok.twitduke.pluginsupport.plugin.Plugin;
 import net.nokok.twitduke.pluginsupport.plugin.PluginPermission;
 import net.nokok.twitduke.pluginsupport.util.FileToPlugin;
 import net.nokok.twitduke.pluginsupport.window.WindowEventListener;
+import twitter4j.UserStreamListener;
 
 public class PluginManager {
 
     private final List<Plugin> plugins = new ArrayList<>();
     private final BootEventRunner bootEventRunner = new BootEventRunner();
     private final WindowEventRunner windowEventRunner = new WindowEventRunner();
+    private final StreamEventRunner streamEventRunner = new StreamEventRunner();
 
     public PluginManager(String pluginDirectoryPath) {
         File[] files = new File(pluginDirectoryPath).listFiles();
@@ -68,6 +70,10 @@ public class PluginManager {
                     scriptEngine.eval("var " + ObjectName.WINDOW_TITLE + " = ''");
                     windowEventRunner.addPlugin(plugin);
                 }
+                if ( permission.isStream() ) {
+                    scriptEngine.eval("var " + ObjectName.STREAM + " = {}");
+                    streamEventRunner.addPlugin(plugin);
+                }
                 Reader reader = plugin.getReader();
                 scriptEngine.eval(reader);
             } catch (ScriptException e) {
@@ -82,5 +88,9 @@ public class PluginManager {
 
     public WindowEventListener getWindowEventListener() {
         return windowEventRunner;
+    }
+
+    public UserStreamListener getStreamEventListener() {
+        return streamEventRunner;
     }
 }
