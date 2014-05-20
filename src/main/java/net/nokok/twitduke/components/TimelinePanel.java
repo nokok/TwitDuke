@@ -28,9 +28,12 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.swing.Scrollable;
+import javax.swing.SwingUtilities;
 import net.nokok.twitduke.components.basic.TWPanel;
 
 /**
@@ -87,6 +90,15 @@ public class TimelinePanel extends TWPanel implements Scrollable {
         @Override
         public void layoutContainer(Container parent) {
             Component[] components = parent.getComponents();
+            List<Component> components = Stream.of(parent.getComponents()).collect(Collectors.toList());
+            SwingUtilities.invokeLater(() -> {
+                if ( components.size() > 1000 ) {
+                    for ( int i = 0; i < 500; i++ ) {
+                        components.remove(i);
+                    }
+                    parent.validate();
+                }
+            });
             int currentY = 0;
             for ( Component component : components ) {
                 component.setBounds(0, currentY, parent.getWidth(), component.getSize().height);
