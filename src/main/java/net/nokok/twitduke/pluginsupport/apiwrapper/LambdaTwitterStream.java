@@ -23,17 +23,18 @@
  */
 package net.nokok.twitduke.pluginsupport.apiwrapper;
 
-import net.nokok.twitduke.pluginsupport.event.EventWithDoubleArg;
-import net.nokok.twitduke.pluginsupport.event.EventWithTripleArg;
-import net.nokok.twitduke.pluginsupport.event.EventWithSingleArg;
-import net.nokok.twitduke.core.twitter.TwitterExceptionReceivable;
 import net.nokok.twitduke.core.factory.TwitterStreamFactory;
+import net.nokok.twitduke.core.twitter.TwitterExceptionReceivable;
 import net.nokok.twitduke.core.type.ErrorMessageReceivable;
+import net.nokok.twitduke.pluginsupport.event.EventWithDoubleArg;
+import net.nokok.twitduke.pluginsupport.event.EventWithSingleArg;
+import net.nokok.twitduke.pluginsupport.event.EventWithTripleArg;
 import twitter4j.DirectMessage;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusAdapter;
 import twitter4j.StatusDeletionNotice;
+import twitter4j.StatusListener;
 import twitter4j.TwitterStream;
 import twitter4j.User;
 import twitter4j.UserList;
@@ -54,6 +55,10 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
      */
     public LambdaTwitterStream(AccessToken accessToken) {
         this.twitterStream = TwitterStreamFactory.newInstance(accessToken);
+    }
+
+    public void addListener(StatusListener statusListener) {
+        this.twitterStream.addListener(statusListener);
     }
 
     public void onDeletionNotice(EventWithSingleArg<StatusDeletionNotice> s) {
