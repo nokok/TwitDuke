@@ -51,7 +51,7 @@ public class FavoriteButton extends TWButton {
      */
     public FavoriteButton() {
         setBackground(DEFAULT_BACKGROUND_COLOR);
-        setPreferredSize(new Dimension(40, 15));
+        setPreferredSize(new Dimension(20, 10));
         setMargin(new Insets(0, 0, 0, 0));
     }
 }
