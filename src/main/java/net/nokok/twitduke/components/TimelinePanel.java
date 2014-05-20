@@ -56,8 +56,8 @@ public class TimelinePanel extends TWPanel implements Scrollable {
     public Dimension getPreferredScrollableViewportSize() {
         Component[] components = getComponents();
         int width = this.getWidth();
-        int height = Stream.of(components).collect(Collectors.summingInt(p -> p.getSize().height));
-        return new Dimension(width, height);
+        Double height = Stream.of(components).collect(Collectors.summingDouble(p -> p.getPreferredSize().getHeight()));
+        return new Dimension(width, height.intValue());
     }
 
     @Override
