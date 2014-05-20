@@ -89,7 +89,6 @@ public class TimelinePanel extends TWPanel implements Scrollable {
 
         @Override
         public void layoutContainer(Container parent) {
-            Component[] components = parent.getComponents();
             List<Component> components = Stream.of(parent.getComponents()).collect(Collectors.toList());
             SwingUtilities.invokeLater(() -> {
                 if ( components.size() > 1000 ) {
