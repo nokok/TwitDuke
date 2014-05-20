@@ -31,11 +31,10 @@ import net.nokok.twitduke.core.account.DirectoryHelper;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
 import net.nokok.twitduke.core.auth.OAuthRunnable;
 import net.nokok.twitduke.core.factory.AccountManagerFactory;
-import net.nokok.twitduke.core.factory.TwitterStreamFactory;
 import net.nokok.twitduke.core.io.Paths;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
 import net.nokok.twitduke.pluginsupport.PluginManager;
-import twitter4j.TwitterStream;
+import net.nokok.twitduke.pluginsupport.apiwrapper.LambdaTwitterStream;
 import twitter4j.auth.AccessToken;
 
 /**
@@ -62,15 +61,21 @@ public class Main {
         if ( !accountManager.hasValidAccount() ) {
             OAuthRunnable auth = LambdaOAuthFactory.newInstance();
             auth.onError(logger::onError);
-            auth.onSuccess(accountManager::addAccount);
+            auth.onSuccess(token -> {
+                accountManager.addAccount(token);
+                run(accountManager);;
+            });
             auth.startOAuth();
-            return;
         }
+        run(accountManager);
+    }
+
+    private static void run(AccountManager accountManager) {
         AccessToken accessToken = accountManager.readPrimaryAccount().get();
-        PluginManager globalPluginMgr = new PluginManager("plugins", accessToken);
-        TwitterStream twitterStream = TwitterStreamFactory.newInstance(accessToken);
-        twitterStream.addListener(globalPluginMgr.getStreamEventListener());
-        twitterStream.user();
+        PluginManager globaPluginManager = new PluginManager("plugins", accessToken);
+        LambdaTwitterStream lambdaTwitterStream = new LambdaTwitterStream(accessToken);
+        lambdaTwitterStream.addListener(globaPluginManager.getStreamEventListener());
+        lambdaTwitterStream.startStream();
     }
 
     private static boolean existsTwitDukeDir() {
