@@ -55,18 +55,18 @@ public class DefaultTweetCellFactory {
     public JPanel newPanel() {
         JPanel p = new TWPanel(new BorderLayout());
         p.add(panelFactory.createUserIcon(), BorderLayout.WEST);
-        JPanel tweetContent = new TWPanel(new BorderLayout());
-        JPanel northPanel = new TWPanel(new FlowLayout(FlowLayout.LEFT));
-        northPanel.add(panelFactory.createUserNameLabel());
-        northPanel.add(panelFactory.createScreenNameLabel());
-        tweetContent.add(northPanel, BorderLayout.NORTH);
-        tweetContent.add(panelFactory.createTweetTextArea(), BorderLayout.CENTER);
-        tweetContent.add(panelFactory.createTimeLabel(), BorderLayout.EAST);
-        p.add(tweetContent, BorderLayout.CENTER);
-        JPanel southPanel = new TWPanel(new FlowLayout(FlowLayout.LEFT, 2, 1));
-        southPanel.add(panelFactory.createFavoriteButton());
-        southPanel.add(panelFactory.createRetweetButton());
-        p.add(southPanel, BorderLayout.SOUTH);
+        JPanel contentPanel = new TWPanel(new BorderLayout());
+        JPanel userInfoPanel = new TWPanel(new FlowLayout(FlowLayout.LEFT));
+        userInfoPanel.add(panelFactory.createFavoriteButton());
+        userInfoPanel.add(panelFactory.createRetweetButton());
+        userInfoPanel.add(panelFactory.createUserNameLabel());
+        userInfoPanel.add(panelFactory.createScreenNameLabel());
+        userInfoPanel.add(panelFactory.createTimeLabel());
+        contentPanel.add(userInfoPanel, BorderLayout.NORTH);
+        contentPanel.add(panelFactory.createTweetTextArea(), BorderLayout.CENTER);
+        p.add(contentPanel, BorderLayout.CENTER);
+        p.setPreferredSize(p.getPreferredSize());
+        p.setSize(p.getPreferredSize());
         return p;
     }
 }
