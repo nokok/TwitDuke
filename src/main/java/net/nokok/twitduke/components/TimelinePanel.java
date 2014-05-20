@@ -98,6 +98,7 @@ public class TimelinePanel extends TWPanel implements Scrollable {
                     parent.validate();
                 }
             });
+            Collections.reverse(components);
             int currentY = 0;
             for ( Component component : components ) {
                 component.setBounds(0, currentY, parent.getWidth(), component.getSize().height);
