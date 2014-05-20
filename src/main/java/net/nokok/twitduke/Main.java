@@ -63,7 +63,7 @@ public class Main {
             auth.onError(logger::onError);
             auth.onSuccess(token -> {
                 accountManager.addAccount(token);
-                run(accountManager);;
+                run(accountManager);
             });
             auth.startOAuth();
         }
