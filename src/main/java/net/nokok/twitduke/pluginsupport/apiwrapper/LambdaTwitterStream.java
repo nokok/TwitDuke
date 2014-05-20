@@ -111,6 +111,10 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         this.twitterStream.addListener(new StatusAdapter() {
             @Override
             public void onStatus(Status status) {
+                if ( status.isRetweet() ) {
+                    s.onEvent(status.getRetweetedStatus());
+                    return;
+                }
                 s.onEvent(status);
             }
         });
