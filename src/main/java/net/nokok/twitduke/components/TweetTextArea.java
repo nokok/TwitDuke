@@ -29,7 +29,9 @@ import java.awt.event.KeyListener;
 import javax.swing.text.JTextComponent;
 import net.nokok.twitduke.components.basic.TWTextArea;
 import net.nokok.twitduke.core.twitter.TweetSendable;
+import net.nokok.twitduke.core.twitter.TweetSendableImpl;
 import net.nokok.twitduke.core.type.Tweet;
+import twitter4j.auth.AccessToken;
 
 /**
  * ツイート入力用のテキストエリアです。
@@ -40,6 +42,11 @@ public class TweetTextArea extends TWTextArea {
     private static final long serialVersionUID = -7817374896981739389L;
 
     private final TweetSendable tweetAPI;
+
+    public TweetTextArea(AccessToken accessToken) {
+        tweetAPI = new TweetSendableImpl(accessToken);
+        addKeyListener(new DefaultSendTweetKeyListener());
+    }
 
     /**
      * Shift+Enterキーでツイート送信可能なテキストエリアを生成します。
