@@ -21,18 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport.eventrunner;
+package net.nokok.twitduke.pluginsupport;
 
-/**
- * プラグインで使用するグローバルオブジェクトの名前です
- *
- */
-interface ObjectName {
+import net.nokok.twitduke.pluginsupport.ObjectName;
+import java.awt.Dimension;
+import net.nokok.twitduke.pluginsupport.plugin.Plugin;
+import net.nokok.twitduke.pluginsupport.plugin.PluginRegistrable;
+import net.nokok.twitduke.pluginsupport.window.WindowEventListener;
 
-    static final String BOOT = "_boot";
-    static final String WINDOW = "_window";
-    static final String WINDOW_TITLE = "_windowTitle";
-    static final String TWITTER_API = "_api";
-    static final String STREAM = "_stream";
-    static final String PROFILE = "_profile";
+public class WindowEventRunner implements WindowEventListener, PluginRegistrable {
+
+    private final EventRunner runner = new EventRunner(ObjectName.WINDOW);
+
+    @Override
+    public void addPlugin(Plugin p) {
+        runner.addPlugin(p);
+    }
+
+    @Override
+    public void closed() {
+        runner.invokeAll("closed");
+    }
+
+    @Override
+    public void closing() {
+        runner.invokeAll("closing");
+    }
+
+    @Override
+    public void sizeChanged(Dimension d) {
+        runner.invokeAll("sizeChanged", d);
+    }
+
+    @Override
+    public void titleChanged(String title) {
+        runner.invokeAll("titleChanged", title);
+    }
+
 }

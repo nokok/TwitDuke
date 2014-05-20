@@ -21,11 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport.eventrunner;
+package net.nokok.twitduke.pluginsupport;
 
 import net.nokok.twitduke.pluginsupport.plugin.Plugin;
 import net.nokok.twitduke.pluginsupport.plugin.PluginRegistrable;
-import net.nokok.twitduke.pluginsupport.eventrunner.ObjectName;
+import net.nokok.twitduke.pluginsupport.ObjectName;
 import net.nokok.twitduke.pluginsupport.boot.BootEventListener;
 
 public class BootEventRunner implements BootEventListener, PluginRegistrable {

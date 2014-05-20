@@ -21,41 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport.eventrunner;
+package net.nokok.twitduke.pluginsupport;
 
-import net.nokok.twitduke.pluginsupport.eventrunner.ObjectName;
-import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
 import net.nokok.twitduke.pluginsupport.plugin.Plugin;
-import net.nokok.twitduke.pluginsupport.plugin.PluginRegistrable;
-import net.nokok.twitduke.pluginsupport.window.WindowEventListener;
 
-public class WindowEventRunner implements WindowEventListener, PluginRegistrable {
+class EventRunner {
 
-    private final EventRunner runner = new EventRunner(ObjectName.WINDOW);
+    private final List<Plugin> plugins = new ArrayList<>();
+    private final String objectName;
 
-    @Override
-    public void addPlugin(Plugin p) {
-        runner.addPlugin(p);
+    EventRunner(String objectName) {
+        this.objectName = objectName;
     }
 
-    @Override
-    public void closed() {
-        runner.invokeAll("closed");
+    void addPlugin(Plugin plugin) {
+        this.plugins.add(plugin);
     }
 
-    @Override
-    public void closing() {
-        runner.invokeAll("closing");
-    }
-
-    @Override
-    public void sizeChanged(Dimension d) {
-        runner.invokeAll("sizeChanged", d);
-    }
-
-    @Override
-    public void titleChanged(String title) {
-        runner.invokeAll("titleChanged", title);
+    void invokeAll(String methodName, Object... args) {
+        plugins.forEach(plugin -> {
+            ScriptEngine scriptEngine = plugin.scriptEngine();
+            Invocable invocable = plugin.invocable();
+            try {
+                invocable.invokeMethod(scriptEngine.get(objectName), methodName, args);
+            } catch (ScriptException | NoSuchMethodException ignored) {
+            }
+        });
     }
 
 }

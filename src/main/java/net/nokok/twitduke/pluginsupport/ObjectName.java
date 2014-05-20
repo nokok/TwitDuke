@@ -21,37 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport.eventrunner;
+package net.nokok.twitduke.pluginsupport;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
-import net.nokok.twitduke.pluginsupport.plugin.Plugin;
+/**
+ * プラグインで使用するグローバルオブジェクトの名前です
+ *
+ */
+interface ObjectName {
 
-class EventRunner {
-
-    private final List<Plugin> plugins = new ArrayList<>();
-    private final String objectName;
-
-    EventRunner(String objectName) {
-        this.objectName = objectName;
-    }
-
-    void addPlugin(Plugin plugin) {
-        this.plugins.add(plugin);
-    }
-
-    void invokeAll(String methodName, Object... args) {
-        plugins.forEach(plugin -> {
-            ScriptEngine scriptEngine = plugin.scriptEngine();
-            Invocable invocable = plugin.invocable();
-            try {
-                invocable.invokeMethod(scriptEngine.get(objectName), methodName, args);
-            } catch (ScriptException | NoSuchMethodException ignored) {
-            }
-        });
-    }
-
+    static final String BOOT = "_boot";
+    static final String WINDOW = "_window";
+    static final String WINDOW_TITLE = "_windowTitle";
+    static final String TWITTER_API = "_api";
+    static final String STREAM = "_stream";
+    static final String PROFILE = "_profile";
 }

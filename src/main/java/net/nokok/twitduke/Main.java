@@ -34,7 +34,7 @@ import net.nokok.twitduke.core.factory.AccountManagerFactory;
 import net.nokok.twitduke.core.factory.TwitterStreamFactory;
 import net.nokok.twitduke.core.io.Paths;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
-import net.nokok.twitduke.pluginsupport.eventrunner.PluginManager;
+import net.nokok.twitduke.pluginsupport.PluginManager;
 import twitter4j.TwitterStream;
 import twitter4j.auth.AccessToken;
 
