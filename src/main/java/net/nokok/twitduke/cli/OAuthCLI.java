@@ -33,16 +33,22 @@ import net.nokok.twitduke.core.auth.LambdaOAuthImpl;
 /**
  * コマンドラインで認証を行うクラスです
  */
-public class OAuthCLI implements Runnable {
+public class OAuthCLI {
 
-    @Override
-    public void run() {
+    public static void main(String[] args) {
+        if ( args.length == 0 ) {
+            throw new IllegalArgumentException();
+        }
+        new OAuthCLI().run(args[0]);
+    }
+
+    public void run(String path) {
         LambdaOAuth lambdaOAuth = new LambdaOAuthImpl();
         lambdaOAuth.gotRequestToken(requestToken -> {
             System.out.println("please open this url:" + requestToken.getAuthorizationURL());
             System.out.println("Enter PIN:");
             Scanner scanner = new Scanner(System.in);
-            lambdaOAuth.setPin(scanner.next());
+            lambdaOAuth.setPin(String.valueOf(scanner.nextInt()));
         });
         lambdaOAuth.gotAccessToken(accessToken -> {
             Properties properties = new Properties();
@@ -50,7 +56,7 @@ public class OAuthCLI implements Runnable {
             properties.setProperty("tokenSecret", accessToken.getTokenSecret());
             properties.setProperty("id", String.valueOf(accessToken.getUserId()));
             properties.setProperty("screenname", accessToken.getScreenName());
-            try (FileWriter writer = new FileWriter("accessToken")) {
+            try (FileWriter writer = new FileWriter(path)) {
                 properties.store(writer, null);
             } catch (IOException e) {
                 e.printStackTrace();
