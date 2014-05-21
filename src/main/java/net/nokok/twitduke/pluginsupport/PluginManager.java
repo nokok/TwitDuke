@@ -24,7 +24,6 @@
 package net.nokok.twitduke.pluginsupport;
 
 import java.io.File;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -33,20 +32,15 @@ import javax.script.ScriptException;
 import net.nokok.twitduke.core.twitter.AsyncTwitterInstanceGeneratorImpl;
 import net.nokok.twitduke.core.twitter.UpdateProfileImpl;
 import net.nokok.twitduke.core.type.UncheckedScriptException;
-import net.nokok.twitduke.pluginsupport.boot.BootEventListener;
 import net.nokok.twitduke.pluginsupport.plugin.Plugin;
-import net.nokok.twitduke.pluginsupport.plugin.PluginPermission;
 import net.nokok.twitduke.pluginsupport.util.FileToPlugin;
-import net.nokok.twitduke.pluginsupport.window.WindowEventListener;
-import twitter4j.UserStreamListener;
+import twitter4j.StatusAdapter;
+import twitter4j.StatusListener;
 import twitter4j.auth.AccessToken;
 
 public class PluginManager {
 
     private final List<Plugin> plugins = new ArrayList<>();
-    private final BootEventRunner bootEventRunner = new BootEventRunner();
-    private final WindowEventRunner windowEventRunner = new WindowEventRunner();
-    private final StreamEventRunner streamEventRunner = new StreamEventRunner();
     private AccessToken accessToken;
 
     public PluginManager(String pluginDirectoryPath) {
@@ -67,45 +61,21 @@ public class PluginManager {
 
     private void resolvePermission() {
         for ( Plugin plugin : plugins ) {
-            PluginPermission permission = plugin.permission();
             ScriptEngine scriptEngine = plugin.scriptEngine();
             try {
-                if ( permission.isBoot() ) {
-                    scriptEngine.eval("var " + ObjectName.BOOT + " = {}");
-                    bootEventRunner.addPlugin(plugin);
-                }
-                if ( permission.isWindow() ) {
-                    scriptEngine.eval("var " + ObjectName.WINDOW + " = {}");
-                    scriptEngine.eval("var " + ObjectName.WINDOW_TITLE + " = ''");
-                    windowEventRunner.addPlugin(plugin);
-                }
-                if ( permission.isProfile() ) {
-                    scriptEngine.put(ObjectName.PROFILE, new UpdateProfileImpl(accessToken));
-                }
-                if ( permission.isStream() ) {
-                    scriptEngine.eval("var " + ObjectName.STREAM + " = {}");
-                    streamEventRunner.addPlugin(plugin);
-                }
-                if ( permission.isTwitter() ) {
-                    scriptEngine.put(ObjectName.TWITTER_API, new AsyncTwitterInstanceGeneratorImpl().generate(accessToken));
-                }
-                Reader reader = plugin.getReader();
-                scriptEngine.eval(reader);
+                scriptEngine.eval("var " + ObjectName.BOOT + " = {};");
+                scriptEngine.eval("var " + ObjectName.WINDOW + " = {};");
+                scriptEngine.eval("var " + ObjectName.WINDOW_TITLE + " = '';");
+                scriptEngine.eval("var " + ObjectName.STREAM + " = {};");
             } catch (ScriptException e) {
                 throw new UncheckedScriptException(e);
             }
+            scriptEngine.put(ObjectName.PROFILE, new UpdateProfileImpl(accessToken));
+            scriptEngine.put(ObjectName.TWITTER_API, new AsyncTwitterInstanceGeneratorImpl().generate(accessToken));
         }
     }
 
-    public BootEventListener getBootEventListener() {
-        return bootEventRunner;
-    }
-
-    public WindowEventListener getWindowEventListener() {
-        return windowEventRunner;
-    }
-
-    public UserStreamListener getStreamEventListener() {
-        return streamEventRunner;
+    public StatusListener getStatusListener() {
+        return new StatusAdapter();
     }
 }

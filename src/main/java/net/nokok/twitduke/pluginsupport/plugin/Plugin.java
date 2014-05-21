@@ -75,11 +75,6 @@ public class Plugin implements PluginInfo, ReadablePlugin {
     }
 
     @Override
-    public PluginPermission permission() {
-        return pluginInfo.permission();
-    }
-
-    @Override
     public String version() {
         return pluginInfo.version();
     }

@@ -32,6 +32,4 @@ public interface PluginInfo {
     String author();
 
     String description();
-
-    PluginPermission permission();
 }

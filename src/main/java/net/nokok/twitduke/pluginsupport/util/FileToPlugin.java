@@ -30,7 +30,6 @@ import java.util.Optional;
 import java.util.Properties;
 import net.nokok.twitduke.pluginsupport.plugin.Plugin;
 import net.nokok.twitduke.pluginsupport.plugin.PluginInfo;
-import net.nokok.twitduke.pluginsupport.plugin.PluginPermission;
 
 public class FileToPlugin {
 
@@ -55,11 +54,6 @@ public class FileToPlugin {
                 @Override
                 public String name() {
                     return properties.getProperty("name");
-                }
-
-                @Override
-                public PluginPermission permission() {
-                    return PluginPermission.parsePermission(properties.getProperty("permission"));
                 }
 
                 @Override
