@@ -37,9 +37,6 @@ public class LambdaOAuthImpl implements Runnable, LambdaOAuth {
 
     private AsyncTwitter asyncTwitter;
     private RequestToken requestToken;
-    private EventWithSingleArg<RequestToken> requestTokenLister;
-    private EventWithSingleArg<AccessToken> accessTokenListener;
-    private ErrorMessageReceivable errorListener;
 
     public LambdaOAuthImpl() {
         asyncTwitter = new AsyncTwitterInstanceGeneratorImpl().generate();
@@ -47,12 +44,27 @@ public class LambdaOAuthImpl implements Runnable, LambdaOAuth {
 
     @Override
     public void gotRequestToken(EventWithSingleArg<RequestToken> requestTokenListener) {
-        this.requestTokenLister = requestTokenListener;
+        this.asyncTwitter.addListener(new TwitterAdapter() {
+
+            @Override
+            public void gotOAuthRequestToken(RequestToken token) {
+                requestToken = token;
+                requestTokenListener.onEvent(token);
+            }
+
+        });
     }
 
     @Override
     public void gotAccessToken(EventWithSingleArg<AccessToken> accessTokenListener) {
-        this.accessTokenListener = accessTokenListener;
+        this.asyncTwitter.addListener(new TwitterAdapter() {
+
+            @Override
+            public void gotOAuthAccessToken(AccessToken token) {
+                accessTokenListener.onEvent(token);
+            }
+
+        });
     }
 
     @Override
@@ -62,33 +74,19 @@ public class LambdaOAuthImpl implements Runnable, LambdaOAuth {
 
     @Override
     public void onException(ErrorMessageReceivable errorListener) {
-        this.errorListener = errorListener;
+        this.asyncTwitter.addListener(new TwitterAdapter() {
+
+            @Override
+            public void onException(TwitterException te, TwitterMethod method) {
+                errorListener.onError(te.getErrorMessage());
+            }
+
+        });
     }
 
     @Override
     public void run() {
         asyncTwitter = new AsyncTwitterInstanceGeneratorImpl().generate();
-        asyncTwitter.addListener(new InnerOAuthListener());
         asyncTwitter.getOAuthRequestTokenAsync();
-    }
-
-    protected class InnerOAuthListener extends TwitterAdapter {
-
-        @Override
-        public void gotOAuthRequestToken(RequestToken token) {
-            requestToken = token;
-            requestTokenLister.onEvent(token);
-        }
-
-        @Override
-        public void gotOAuthAccessToken(AccessToken token) {
-            accessTokenListener.onEvent(token);
-        }
-
-        @Override
-        public void onException(TwitterException te, TwitterMethod method) {
-            errorListener.onError(te.getErrorMessage());
-        }
-
     }
 }
