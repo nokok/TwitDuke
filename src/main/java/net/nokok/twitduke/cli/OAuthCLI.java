@@ -21,12 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.auth;
+package net.nokok.twitduke.cli;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Scanner;
+import net.nokok.twitduke.core.auth.LambdaOAuth;
+import net.nokok.twitduke.core.auth.LambdaOAuthImpl;
 
 /**
  * コマンドラインで認証を行うクラスです
