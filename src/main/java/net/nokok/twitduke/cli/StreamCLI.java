@@ -39,6 +39,7 @@ public class StreamCLI {
             TwitterStream twitterStream = new TwitterStreamInstanceGeneratorImpl().generate(accessToken);
             twitterStream.addListener(new PrintUserStreamListener());
             twitterStream.user();
+            return;
         }
         System.out.println("認証が完了していません。認証した後に起動してください");
     }
