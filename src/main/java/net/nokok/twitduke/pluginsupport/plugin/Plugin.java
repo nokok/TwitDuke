@@ -30,8 +30,10 @@ import java.io.UncheckedIOException;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+import net.nokok.twitduke.pluginsupport.InvocablePlugin;
 
-public class Plugin implements PluginInfo, ReadablePlugin {
+public class Plugin implements PluginInfo, ReadablePlugin, InvocablePlugin {
 
     private final PluginInfo pluginInfo;
     private final String pluginPath;
@@ -63,6 +65,16 @@ public class Plugin implements PluginInfo, ReadablePlugin {
 
     public Invocable invocable() {
         return (Invocable) scriptEngine;
+    }
+
+    @Override
+    public void invokeMethod(String objectName, String methodName, Object... args) {
+        Invocable invocable = invocable();
+        try {
+            invocable.invokeMethod(scriptEngine.get(objectName), methodName, args);
+        } catch (NoSuchMethodException | ScriptException ignored) {
+
+        }
     }
 
     public ScriptEngine scriptEngine() {
