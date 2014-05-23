@@ -24,8 +24,17 @@
 package net.nokok.twitduke;
 
 import static com.google.common.io.ByteStreams.nullOutputStream;
+import java.awt.BorderLayout;
 import java.io.File;
 import java.io.PrintStream;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import net.nokok.twitduke.components.TimelinePanel;
+import net.nokok.twitduke.components.TweetTextArea;
+import net.nokok.twitduke.components.basic.TWFrame;
+import net.nokok.twitduke.components.basic.TWScrollPane;
+import net.nokok.twitduke.components.tweetcell.DefaultTweetCellFactory;
 import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.account.DirectoryHelper;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
@@ -74,8 +83,20 @@ public class Main {
         AccessToken accessToken = accountManager.readPrimaryAccount().get();
         PluginManager globaPluginManager = new PluginManager("plugins", accessToken);
         LambdaTwitterStream lambdaTwitterStream = new LambdaTwitterStream(accessToken);
-        lambdaTwitterStream.addListener(globaPluginManager.getStreamEventListener());
-        lambdaTwitterStream.startStream();
+        lambdaTwitterStream.addListener(globaPluginManager.getStatusListener());
+        JFrame frame = new TWFrame("TwitDuke");
+        frame.setLayout(new BorderLayout());
+        JPanel panel = new TimelinePanel();
+        JScrollPane scrollPane = new TWScrollPane(panel);
+        frame.add(new TweetTextArea(accessToken), BorderLayout.NORTH);
+        frame.add(scrollPane, BorderLayout.CENTER);
+        lambdaTwitterStream.onStatus(s -> {
+            DefaultTweetCellFactory tweetCellFactory = new DefaultTweetCellFactory(s, accessToken);
+            JPanel p = tweetCellFactory.newPanel();
+            panel.add(p);
+        });
+        lambdaTwitterStream.debugStream();
+        frame.setVisible(true);
     }
 
     private static boolean existsTwitDukeDir() {
