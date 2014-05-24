@@ -74,7 +74,7 @@ public class Main {
         AccessToken accessToken = accountManager.readPrimaryAccount().get();
         PluginManager globaPluginManager = new PluginManager("plugins", accessToken);
         LambdaTwitterStream lambdaTwitterStream = new LambdaTwitterStream(accessToken);
-        lambdaTwitterStream.addListener(globaPluginManager.getStreamEventListener());
+        lambdaTwitterStream.addListener(globaPluginManager.getStatusListener());
         lambdaTwitterStream.startStream();
     }
 
