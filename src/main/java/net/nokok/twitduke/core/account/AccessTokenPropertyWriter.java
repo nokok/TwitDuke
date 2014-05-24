@@ -28,12 +28,43 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Properties;
+import net.nokok.twitduke.core.type.ScreenName;
 import twitter4j.auth.AccessToken;
 
 /**
  * アクセストークンをプロパティとして書き込みます
  */
 public class AccessTokenPropertyWriter implements AccessTokenWriter {
+
+    private final File ACCESS_TOKEN;
+
+    /**
+     * 指定したスクリーンネームのアカウントのアクセストークンをデフォルトのパスに書き込むライターを構築します
+     *
+     * @param screenName アカウント名
+     */
+    public AccessTokenPropertyWriter(ScreenName screenName) {
+        ACCESS_TOKEN = new File(DirectoryHelper.getAccountDirectory(screenName), AccountPath.TOKEN_FILE_NAME);
+    }
+
+    /**
+     * 指定したパスとファイル名でアクセストークンを書き込むライターを構築します
+     *
+     * @param path
+     * @param fileName
+     */
+    public AccessTokenPropertyWriter(String path, String fileName) {
+        ACCESS_TOKEN = new File(path, fileName);
+    }
+
+    /**
+     * 指定したパスにアクセストークンを書き込むライターを構築します
+     *
+     * @param path
+     */
+    public AccessTokenPropertyWriter(String path) {
+        ACCESS_TOKEN = new File(path);
+    }
 
     @Override
     public void writeAccessToken(AccessToken accessToken) {
@@ -42,8 +73,7 @@ public class AccessTokenPropertyWriter implements AccessTokenWriter {
         properties.put(PropertyKey.TOKEN_SECRET, accessToken.getTokenSecret());
         properties.put(PropertyKey.USER_ID, String.valueOf(accessToken.getUserId()));
         properties.put(PropertyKey.SCREEN_NAME, accessToken.getScreenName());
-        File out = new File(DirectoryHelper.getAccountDirectory(accessToken.getScreenName()), AccountPath.TOKEN_FILE_NAME);
-        try (FileOutputStream outputStream = new FileOutputStream(out)) {
+        try (FileOutputStream outputStream = new FileOutputStream(ACCESS_TOKEN)) {
             properties.store(outputStream, null);
         } catch (IOException ex) {
             throw new UncheckedIOException(ex);
