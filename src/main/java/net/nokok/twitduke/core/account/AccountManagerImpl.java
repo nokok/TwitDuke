@@ -65,8 +65,8 @@ public class AccountManagerImpl implements AccountManager {
 
     @Override
     public Optional<AccessToken> readAccessToken(ScreenName screenName) {
-        AccessTokenReader2 reader = new AccessTokenPropertyReader();
-        return reader.readAccessToken(screenName);
+        AccessTokenReader2 reader = new AccessTokenPropertyReader(screenName);
+        return reader.readAccessToken();
     }
 
     @Override

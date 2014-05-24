@@ -37,10 +37,40 @@ import twitter4j.auth.AccessToken;
  */
 public class AccessTokenPropertyReader implements AccessTokenReader2 {
 
+    private final File ACCESS_TOKEN;
+
+    /**
+     * 指定したアカウントのアクセストークンをデフォルトのパスから読み込むリーダーを構築します
+     *
+     * @param screenName アカウント名
+     */
+    public AccessTokenPropertyReader(ScreenName screenName) {
+        File accountDir = DirectoryHelper.createAccountDirectory(screenName.get());
+        ACCESS_TOKEN = new File(accountDir, AccountPath.TOKEN_FILE_NAME);
+    }
+
+    /**
+     * 指定したパスとファイル名にあるアクセストークンを読み込むリーダーを構築します
+     *
+     * @param path     ディレクトリのパス
+     * @param fileName ファイル名
+     */
+    public AccessTokenPropertyReader(String path, String fileName) {
+        ACCESS_TOKEN = new File(path, fileName);
+    }
+
+    /**
+     * 指定したパスのアクセストークンを読み込むリーダーを構築します
+     *
+     * @param path
+     */
+    public AccessTokenPropertyReader(String path) {
+        ACCESS_TOKEN = new File(path);
+    }
+
     @Override
-    public Optional<AccessToken> readAccessToken(ScreenName screenName) {
-        File accountDir = DirectoryHelper.getAccountDirectory(screenName.get());
-        return Optional.ofNullable(readAccessTokenUnsafe(new File(accountDir, AccountPath.TOKEN_FILE_NAME).getAbsolutePath()));
+    public Optional<AccessToken> readAccessToken() {
+        return Optional.ofNullable(readAccessTokenUnsafe(ACCESS_TOKEN.getAbsolutePath()));
     }
 
     /**
