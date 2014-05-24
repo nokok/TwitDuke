@@ -49,7 +49,7 @@ public class AccountManagerImpl implements AccountManager {
             } catch (IOException ignored) {
             }
         }
-        AccessTokenWriter writer = new AccessTokenPropertyWriter();
+        AccessTokenWriter writer = new AccessTokenPropertyWriter(new ScreenName(accessToken.getScreenName()));
         writer.writeAccessToken(accessToken);
     }
 

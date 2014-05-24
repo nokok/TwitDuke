@@ -25,6 +25,7 @@ package net.nokok.twitduke.core.account;
 
 import java.io.File;
 import net.nokok.twitduke.core.io.Paths;
+import net.nokok.twitduke.core.type.ScreenName;
 
 /**
  * ディレクトリ関連する処理を行います
@@ -55,6 +56,13 @@ public class DirectoryHelper {
      */
     public static File getAccountDirectory(String accountName) {
         return new File(String.join(File.separator, Paths.ACCOUNTS_PATH, accountName));
+    }
+
+    /**
+     * 指定したスクリーンネームのアカウントのディレクトリを返します。
+     */
+    public static File getAccountDirectory(ScreenName screenName) {
+        return getAccountDirectory(screenName.get());
     }
 
     /**
