@@ -42,7 +42,7 @@ public class OAuthCLI {
         new OAuthCLI().run(args[0]);
     }
 
-    public void run(String path) {
+    private void run(String path) {
         LambdaOAuth lambdaOAuth = new LambdaOAuthImpl();
         lambdaOAuth.gotRequestToken(requestToken -> {
             System.out.println("please open this url:" + requestToken.getAuthorizationURL());
