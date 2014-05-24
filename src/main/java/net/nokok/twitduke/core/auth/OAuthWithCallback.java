@@ -29,7 +29,7 @@ import twitter4j.auth.AccessToken;
  * コールバック方式で認証を行います。
  *
  * クライアントアプリはPIN認証をするべきとの指摘からこのクラスは非推奨となりました。
- * 
+ *
  */
 @Deprecated
 public class OAuthWithCallback implements OAuthRunnable {

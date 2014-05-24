@@ -29,7 +29,7 @@ import javax.swing.JPanel;
 
 /**
  * TwitDuke用のカスタマイズ済みJPanelです
- * 
+ *
  */
 public class TWPanel extends JPanel {
 

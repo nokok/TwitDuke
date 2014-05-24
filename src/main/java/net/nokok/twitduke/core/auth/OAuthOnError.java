@@ -25,14 +25,14 @@ package net.nokok.twitduke.core.auth;
 
 /**
  * OAuth認証が失敗した時のリスナーとして利用するインターフェースです
- * 
+ *
  */
 @FunctionalInterface
 public interface OAuthOnError {
 
     /**
      * 認証が失敗した時に呼ばれます
-     * 
+     *
      * @param errorMessage 失敗した原因を説明するメッセージ
      */
     void onError(String errorMessage);

@@ -27,14 +27,14 @@ import twitter4j.auth.AccessToken;
 
 /**
  * OAuth認証が成功した時のリスナーとして利用するインターフェースです。
- * 
+ *
  */
 @FunctionalInterface
 public interface OAuthOnSuccess {
 
     /**
      * OAuth認証が成功した時に呼ばれます。
-     * 
+     *
      * @param accessToken 取得したアクセストークン
      */
     void onSuccess(AccessToken accessToken);
