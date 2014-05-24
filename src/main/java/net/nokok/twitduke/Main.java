@@ -66,8 +66,9 @@ public class Main {
                 run(accountManager);
             });
             auth.startOAuth();
+        } else {
+            run(accountManager);
         }
-        run(accountManager);
     }
 
     private static void run(AccountManager accountManager) {
