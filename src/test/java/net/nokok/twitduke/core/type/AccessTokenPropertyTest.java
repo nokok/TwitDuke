@@ -25,6 +25,7 @@ package net.nokok.twitduke.core.type;
 
 import java.util.Properties;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import org.junit.Test;
 import twitter4j.auth.AccessToken;
 
@@ -61,5 +62,13 @@ public class AccessTokenPropertyTest {
         assertEquals(property.toProperties(), mockProperty);
     }
 
+    @Test
+    public void testClone() {
+        try {
+            AccessTokenProperty property = new AccessTokenProperty(mockProperty);
+            property.clone();
+        } catch (Throwable e) {
+            fail();
+        }
     }
 }
