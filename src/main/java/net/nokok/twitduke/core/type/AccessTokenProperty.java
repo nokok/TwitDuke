@@ -32,7 +32,7 @@ import twitter4j.auth.AccessToken;
  * アクセストークンをプロパティオブジェクトとして保持します
  *
  */
-public class AccessTokenProperty implements Serializable {
+public class AccessTokenProperty implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 7251953107462775602L;
 
@@ -98,5 +98,14 @@ public class AccessTokenProperty implements Serializable {
 
     public AccessToken toAccessToken() {
         return accessToken;
+    }
+
+    @Override
+    protected Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new InternalError(ex);
+        }
     }
 }
