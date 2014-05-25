@@ -29,7 +29,7 @@ package net.nokok.twitduke.components;
  *
  * @param <T> DialogResultListener#okButtonPushedメソッドの引数で使用される型
  *
- * @see net.nokok.twitduke.core.api.view.DialogResultListener
+ * @see net.nokok.twitduke.components.DialogResultListener
  */
 public interface Dialog<T> extends Visible, Disposable {
 
