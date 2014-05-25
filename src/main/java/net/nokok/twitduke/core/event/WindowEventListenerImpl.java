@@ -21,45 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.components.basic;
+package net.nokok.twitduke.core.event;
 
-import java.awt.Color;
-import java.awt.LayoutManager;
-import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.util.Collections;
+import java.util.List;
 
-/**
- * TwitDuke用のカスタマイズ済みJPanelです
- *
- */
-public class TWPanel extends JPanel {
+public class WindowEventListenerImpl implements WindowEventListener {
 
-    private static final long serialVersionUID = -2656367163678204098L;
+    private final List<WindowEventListener> listeners = Collections.emptyList();
 
-    /**
-     * パネルの背景色です。
-     */
-    public static final Color BACKGROUND_COLOR = new Color(40, 40, 40);
-    /**
-     * パネルの前景色(フォント色)です。
-     */
-    public static final Color FOREGROUND_COLOR = new Color(200, 200, 200);
-
-    /**
-     * 空のパネルを生成します
-     */
-    public TWPanel() {
-        super();
-        setBackground(BACKGROUND_COLOR);
-        setForeground(FOREGROUND_COLOR);
+    @Override
+    public void add(WindowEventListener listener) {
+        listeners.add(listener);
     }
 
-    /**
-     * 指定したレイアウトマネージャーで空のパネルを生成します
-     *
-     * @param layoutManager パネルに指定するレイアウトマネージャー
-     */
-    public TWPanel(LayoutManager layoutManager) {
-        this();
-        setLayout(layoutManager);
+    @Override
+    public void closed() {
+        listeners.parallelStream().forEach(l -> l.closed());
     }
+
+    @Override
+    public void closing() {
+        listeners.parallelStream().forEach(l -> l.closing());
+    }
+
+    @Override
+    public void sizeChanged(Dimension d) {
+        listeners.parallelStream().forEach(l -> l.sizeChanged(d));
+    }
+
+    @Override
+    public void titleChanged(String title) {
+        listeners.parallelStream().forEach(l -> l.titleChanged(title));
+    }
+
 }

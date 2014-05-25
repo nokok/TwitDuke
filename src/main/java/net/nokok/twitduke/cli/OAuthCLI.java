@@ -23,18 +23,24 @@
  */
 package net.nokok.twitduke.cli;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Properties;
 import java.util.Scanner;
 import net.nokok.twitduke.core.auth.LambdaOAuth;
 import net.nokok.twitduke.core.auth.LambdaOAuthImpl;
+import net.nokok.twitduke.core.io.PropertyWriter;
+import net.nokok.twitduke.core.type.AccessTokenProperty;
 
 /**
  * コマンドラインで認証を行うクラスです
  */
 public class OAuthCLI {
 
+    /**
+     * エントリポイントです。
+     *
+     * 渡されたオプションの先頭の文字列をファイル名としてアクセストークンを保存します
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         if ( args.length == 0 ) {
             throw new IllegalArgumentException();
@@ -42,7 +48,7 @@ public class OAuthCLI {
         new OAuthCLI().run(args[0]);
     }
 
-    public void run(String path) {
+    private void run(String fileName) {
         LambdaOAuth lambdaOAuth = new LambdaOAuthImpl();
         lambdaOAuth.gotRequestToken(requestToken -> {
             System.out.println("please open this url:" + requestToken.getAuthorizationURL());
@@ -51,16 +57,9 @@ public class OAuthCLI {
             lambdaOAuth.setPin(String.valueOf(scanner.nextInt()));
         });
         lambdaOAuth.gotAccessToken(accessToken -> {
-            Properties properties = new Properties();
-            properties.setProperty("token", accessToken.getToken());
-            properties.setProperty("tokenSecret", accessToken.getTokenSecret());
-            properties.setProperty("id", String.valueOf(accessToken.getUserId()));
-            properties.setProperty("screenname", accessToken.getScreenName());
-            try (FileWriter writer = new FileWriter(path)) {
-                properties.store(writer, null);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            AccessTokenProperty accessTokenProperty = new AccessTokenProperty(accessToken);
+            PropertyWriter writer = new PropertyWriter(".");
+            writer.write(accessTokenProperty.toProperties(), fileName);
         });
         lambdaOAuth.onException(System.out::println);
         lambdaOAuth.run();

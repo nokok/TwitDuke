@@ -21,17 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport.boot;
+package net.nokok.twitduke.pluginsupport;
 
 /**
- * 起動処理が完了したことを受信するリスナーです
+ * プラグインで使用するグローバルオブジェクトの名前です
  *
  */
-@FunctionalInterface
-public interface BootCompletedListener {
+public interface PluginObjectName {
 
-    /**
-     * 起動処理が完了した時に呼ばれます
-     */
-    void completed();
+    static final String BOOT = "_boot";
+    static final String WINDOW = "_window";
+    static final String WINDOW_TITLE = "_windowTitle";
+    static final String TWITTER_API = "_api";
+    static final String STREAM = "_stream";
+    static final String PROFILE = "_profile";
 }

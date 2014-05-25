@@ -21,45 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.components.basic;
-
-import java.awt.Color;
-import java.awt.LayoutManager;
-import javax.swing.JPanel;
+package net.nokok.twitduke.core.event;
 
 /**
- * TwitDuke用のカスタマイズ済みJPanelです
+ * 起動処理が完了したことを受信するリスナーです
  *
  */
-public class TWPanel extends JPanel {
-
-    private static final long serialVersionUID = -2656367163678204098L;
-
-    /**
-     * パネルの背景色です。
-     */
-    public static final Color BACKGROUND_COLOR = new Color(40, 40, 40);
-    /**
-     * パネルの前景色(フォント色)です。
-     */
-    public static final Color FOREGROUND_COLOR = new Color(200, 200, 200);
+@FunctionalInterface
+public interface BootCompletedListener {
 
     /**
-     * 空のパネルを生成します
+     * 起動処理が完了した時に呼ばれます
      */
-    public TWPanel() {
-        super();
-        setBackground(BACKGROUND_COLOR);
-        setForeground(FOREGROUND_COLOR);
-    }
-
-    /**
-     * 指定したレイアウトマネージャーで空のパネルを生成します
-     *
-     * @param layoutManager パネルに指定するレイアウトマネージャー
-     */
-    public TWPanel(LayoutManager layoutManager) {
-        this();
-        setLayout(layoutManager);
-    }
+    void completed();
 }

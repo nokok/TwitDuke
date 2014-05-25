@@ -60,6 +60,10 @@ public class DirectoryHelper {
 
     /**
      * 指定したスクリーンネームのアカウントのディレクトリを返します。
+     *
+     * @param screenName
+     *
+     * @return 指定したアカウントディレクトリのFileオブジェクト
      */
     public static File getAccountDirectory(ScreenName screenName) {
         return getAccountDirectory(screenName.get());

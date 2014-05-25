@@ -21,18 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport;
+package net.nokok.twitduke.core.event;
 
 /**
- * プラグインで使用するグローバルオブジェクトの名前です
- *
+ * 起動イベントをハンドラなどに伝達するためのリスナーです
  */
-interface ObjectName {
+public interface BootEventListener extends BootStartingListener, BootCompletedListener {
 
-    static final String BOOT = "_boot";
-    static final String WINDOW = "_window";
-    static final String WINDOW_TITLE = "_windowTitle";
-    static final String TWITTER_API = "_api";
-    static final String STREAM = "_stream";
-    static final String PROFILE = "_profile";
 }

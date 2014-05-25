@@ -26,7 +26,7 @@ package net.nokok.twitduke.core.auth;
 /**
  * OAuth認証を実行できます。TwitterAuthenticationインターフェースと同じ役割ですが、
  * このインターフェースを用いるとラムダ式による記述が可能になります。
- * 
+ *
  * @see TwitterAuthentication
  */
 public interface OAuthRunnable {
@@ -38,14 +38,14 @@ public interface OAuthRunnable {
 
     /**
      * 認証が成功した時に呼ばれます
-     * 
+     *
      * @param onSuccess 認証が成功した時に実行されるリスナー
      */
     void onSuccess(OAuthOnSuccess onSuccess);
 
     /**
      * 認証が失敗した時に呼ばれます
-     * 
+     *
      * @param onError 認証が失敗した時に実行されるリスナー
      */
     void onError(OAuthOnError onError);

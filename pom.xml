@@ -5,6 +5,16 @@
     <artifactId>TwitDuke</artifactId>
     <version>0.2</version>
     <packaging>jar</packaging>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https:/github.com/nokok/TwitDuke/</url>
+        </license>
+    </licenses>
+    <issueManagement>
+        <system>YouTrack</system>
+        <url>http://youtrack.nokok.net/</url>
+    </issueManagement>
     <build>
         <plugins>
             <plugin>

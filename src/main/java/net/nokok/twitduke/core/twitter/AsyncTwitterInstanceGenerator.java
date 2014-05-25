@@ -28,32 +28,32 @@ import twitter4j.auth.AccessToken;
 
 /**
  * AsyncTwitterインスタンスを生成するメソッドを定義するインターフェースです
- * 
+ *
  */
 public interface AsyncTwitterInstanceGenerator {
 
     /**
      * デフォルトのキーを使用してAsyncTwitterオブジェクトを生成します
-     * 
+     *
      * @return デフォルトのキーを使用して生成されたAsyncTwitterオブジェクト
      */
     AsyncTwitter generate();
 
     /**
      * 渡されたキーを使用してAsyncTwitterオブジェクトを生成します
-     * 
+     *
      * @param consumer       コンシューマーキー
      * @param consumerSecret コンシューマーシークレットキー
-     * 
+     *
      * @return 独自のキーを使用して生成されたAsyncTwitterオブジェクト
      */
     AsyncTwitter generate(String consumer, String consumerSecret);
 
     /**
      * 渡されたアクセストークンを使用してAsyncTwitterオブジェクトを生成します
-     * 
+     *
      * @param accessToken AsyncTwitterオブジェクトを生成するAccessToken
-     * 
+     *
      * @return 渡されたアクセストークンを使用して生成されたAsyncTwitterオブジェクト
      */
     AsyncTwitter generate(AccessToken accessToken);

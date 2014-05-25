@@ -21,37 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport.window;
+package net.nokok.twitduke.core.io;
 
-import java.awt.Dimension;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.Properties;
 
-/**
- * ウィンドウに関するイベントが取得できます
- *
- */
-public interface WindowEventListener {
+public class PropertyWriter {
 
-    /**
-     * サイズ変更完了時に呼ばれます
-     *
-     * @param d 変更後のサイズ
-     */
-    void sizeChanged(Dimension d);
+    private final String PATH;
 
-    /**
-     * ウィンドウのタイトルが変更された時に呼ばれます
-     *
-     * @param title 変更後のタイトル
-     */
-    void titleChanged(String title);
+    public PropertyWriter(String path) {
+        PATH = path;
+    }
 
-    /**
-     * ウィンドウが閉じられようとする時に呼ばれます
-     */
-    void closing();
-
-    /**
-     * ウィンドウが閉じられた時に呼ばれます
-     */
-    void closed();
+    public void write(Properties properties, String fileName) {
+        try (FileWriter writer = new FileWriter(PATH)) {
+            properties.store(writer, null);
+        } catch (IOException ex) {
+            throw new UncheckedIOException(ex);
+        }
+    }
 }

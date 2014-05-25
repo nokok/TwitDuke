@@ -21,45 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.components.basic;
+package net.nokok.twitduke.core.event;
 
-import java.awt.Color;
-import java.awt.LayoutManager;
-import javax.swing.JPanel;
+import java.awt.Dimension;
 
 /**
- * TwitDuke用のカスタマイズ済みJPanelです
+ * ウィンドウに関するイベントが取得できます
  *
  */
-public class TWPanel extends JPanel {
-
-    private static final long serialVersionUID = -2656367163678204098L;
+public interface WindowEventListener extends ListenerRegistrable<WindowEventListener> {
 
     /**
-     * パネルの背景色です。
-     */
-    public static final Color BACKGROUND_COLOR = new Color(40, 40, 40);
-    /**
-     * パネルの前景色(フォント色)です。
-     */
-    public static final Color FOREGROUND_COLOR = new Color(200, 200, 200);
-
-    /**
-     * 空のパネルを生成します
-     */
-    public TWPanel() {
-        super();
-        setBackground(BACKGROUND_COLOR);
-        setForeground(FOREGROUND_COLOR);
-    }
-
-    /**
-     * 指定したレイアウトマネージャーで空のパネルを生成します
+     * サイズ変更完了時に呼ばれます
      *
-     * @param layoutManager パネルに指定するレイアウトマネージャー
+     * @param d 変更後のサイズ
      */
-    public TWPanel(LayoutManager layoutManager) {
-        this();
-        setLayout(layoutManager);
-    }
+    void sizeChanged(Dimension d);
+
+    /**
+     * ウィンドウのタイトルが変更された時に呼ばれます
+     *
+     * @param title 変更後のタイトル
+     */
+    void titleChanged(String title);
+
+    /**
+     * ウィンドウが閉じられようとする時に呼ばれます
+     */
+    void closing();
+
+    /**
+     * ウィンドウが閉じられた時に呼ばれます
+     */
+    void closed();
 }

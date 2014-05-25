@@ -35,7 +35,7 @@ import twitter4j.UserStreamListener;
 
 public class StreamEventRunner implements UserStreamListener, PluginRegistrable {
 
-    private final EventRunner eventRunner = new EventRunner(ObjectName.STREAM);
+    private final EventRunner eventRunner = new EventRunner(PluginObjectName.STREAM);
 
     @Override
     public void addPlugin(Plugin p) {

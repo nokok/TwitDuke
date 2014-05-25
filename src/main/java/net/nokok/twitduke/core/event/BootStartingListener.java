@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport.boot;
+package net.nokok.twitduke.core.event;
 
 /**
  * 起動処理が開始されたことを受信するリスナーです

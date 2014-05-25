@@ -23,15 +23,14 @@
  */
 package net.nokok.twitduke.pluginsupport;
 
-import net.nokok.twitduke.pluginsupport.ObjectName;
 import java.awt.Dimension;
 import net.nokok.twitduke.pluginsupport.plugin.Plugin;
 import net.nokok.twitduke.pluginsupport.plugin.PluginRegistrable;
-import net.nokok.twitduke.pluginsupport.window.WindowEventListener;
+import net.nokok.twitduke.core.event.WindowEventListener;
 
 public class WindowEventRunner implements WindowEventListener, PluginRegistrable {
 
-    private final EventRunner runner = new EventRunner(ObjectName.WINDOW);
+    private final EventRunner runner = new EventRunner(PluginObjectName.WINDOW);
 
     @Override
     public void addPlugin(Plugin p) {

@@ -27,20 +27,20 @@ import twitter4j.auth.AccessToken;
 
 /**
  * Twitter認証の結果を受け取るメソッドを定義するインターフェースです。
- * 
+ *
  */
 public interface TwitterAuthenticationListener {
 
     /**
      * Twitter認証が成功した時に呼びます。
-     * 
+     *
      * @param accessToken 取得したアクセストークン
      */
     void success(AccessToken accessToken);
 
     /**
      * Twitter認証が失敗した時に呼ばれます
-     * 
+     *
      * @param errorMessage 失敗した原因を説明するメッセージ
      */
     void error(String errorMessage);

@@ -28,7 +28,7 @@ import twitter4j.auth.AccessToken;
 
 /**
  * TwitterStreamインスタンスを生成するメソッドを定義するインターフェースです。
- * 
+ *
  */
 public interface TwitterStreamInstanceGenerator {
 
@@ -36,7 +36,7 @@ public interface TwitterStreamInstanceGenerator {
      * デフォルトのコンシューマーキーがセットされたTwitterStreamインスタンスを生成します。
      * このメソッドで生成したTwitterStreamインスタンスはそのままで利用できません。
      * アクセストークンを後からセットすることで利用可能になります。
-     * 
+     *
      * @return デフォルトのコンシューマーキーがセットされたTwitterStreamインスタンス
      */
     TwitterStream generate();
@@ -44,9 +44,9 @@ public interface TwitterStreamInstanceGenerator {
     /**
      * デフォルトのコンシューマーキーと渡されたアクセストークンがセットされたTwitterStream
      * インスタンスを生成します。
-     * 
+     *
      * @param accessToken セットするアクセストークン
-     * 
+     *
      * @return デフォルトのコンシューマーキーとアクセストークンがセットされたTwitterStreamインスタンス
      */
     TwitterStream generate(AccessToken accessToken);

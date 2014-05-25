@@ -32,7 +32,7 @@ import org.jsoup.select.Elements;
 
 /**
  * 2014/4/30現在の仕様の診断メーカーで自動診断を実装したクラスです
- * 
+ *
  */
 public class ShindanmakerImpl implements Shindanmaker {
 

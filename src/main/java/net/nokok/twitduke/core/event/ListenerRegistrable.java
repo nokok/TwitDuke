@@ -21,11 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport.boot;
+package net.nokok.twitduke.core.event;
 
 /**
- * 起動イベントをハンドラなどに伝達するためのリスナーです
+ * リスナーが登録可能です
+ *
+ * @param <T> リスナーの型
  */
-public interface BootEventListener extends BootStartingListener, BootCompletedListener {
+public interface ListenerRegistrable<T> {
 
+    /**
+     * リスナーを追加します
+     *
+     * @param listener 登録するリスナー
+     */
+    void add(T listener);
 }
