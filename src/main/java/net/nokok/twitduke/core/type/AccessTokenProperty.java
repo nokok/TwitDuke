@@ -77,7 +77,7 @@ public class AccessTokenProperty implements Serializable, Cloneable {
      * @return プロパティ
      */
     public Properties toProperties() {
-        return new Properties(properties);
+        return properties;
     }
 
     public String token() {
