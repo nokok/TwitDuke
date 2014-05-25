@@ -23,6 +23,7 @@
  */
 package net.nokok.twitduke.core.type;
 
+import java.util.Optional;
 import java.util.Properties;
 import twitter4j.auth.AccessToken;
 
@@ -32,7 +33,7 @@ import twitter4j.auth.AccessToken;
  */
 public class AccessTokenProperty {
 
-    private final Properties properties = new Properties();
+    private final Properties properties;
     private final AccessToken accessToken;
     private final String TOKEN_KEY = "token";
     private final String TOKEN_SECRET_KEY = "tokensecret";
@@ -46,10 +47,25 @@ public class AccessTokenProperty {
      */
     public AccessTokenProperty(AccessToken accessToken) {
         this.accessToken = accessToken;
+        properties = new Properties();
         properties.put(TOKEN_KEY, accessToken.getToken());
         properties.put(TOKEN_SECRET_KEY, accessToken.getTokenSecret());
         properties.put(SCREEN_NAME_KEY, accessToken.getScreenName());
         properties.put(USER_ID_KEY, accessToken.getUserId());
+    }
+
+    /**
+     * 指定されたプロパティからアクセストークンプロパティを構築します
+     *
+     * @param properties
+     */
+    public AccessTokenProperty(Properties properties) {
+        String token = Optional.of(properties.getProperty(TOKEN_KEY)).orElseThrow(IllegalArgumentException::new);
+        String secret = Optional.of(properties.getProperty(TOKEN_SECRET_KEY)).orElseThrow(IllegalArgumentException::new);
+        Optional.of(properties.getProperty(SCREEN_NAME_KEY)).orElseThrow(IllegalArgumentException::new);
+        Optional.of(properties.getProperty(USER_ID_KEY)).orElseThrow(IllegalArgumentException::new);
+        this.properties = properties;
+        accessToken = new AccessToken(token, secret);
     }
 
     /**
