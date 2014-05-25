@@ -24,6 +24,7 @@
 package net.nokok.twitduke.core.type;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
 import twitter4j.auth.AccessToken;
@@ -98,6 +99,23 @@ public class AccessTokenProperty implements Serializable, Cloneable {
 
     public AccessToken toAccessToken() {
         return accessToken;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(properties);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if ( this == obj ) {
+            return true;
+        }
+        if ( obj == null || !(obj instanceof AccessTokenProperty) ) {
+            return false;
+        }
+        AccessTokenProperty property = (AccessTokenProperty) obj;
+        return property.properties.equals(properties);
     }
 
     @Override
