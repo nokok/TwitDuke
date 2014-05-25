@@ -34,6 +34,15 @@ import twitter4j.auth.AccessToken;
  */
 public class AccessTokenPropertyTest {
 
+    private final Properties mockProperty = new Properties();
+
+    public AccessTokenPropertyTest() {
+        mockProperty.put("token", "token1");
+        mockProperty.put("tokensecret", "tokensecret");
+        mockProperty.put("name", "noko_k");
+        mockProperty.put("id", "1000");
+    }
+
     @Test
     public void testConstractor_AccessToken() {
         AccessToken accessToken = new AccessToken("hoge", "hoges");
@@ -44,16 +53,13 @@ public class AccessTokenPropertyTest {
 
     @Test
     public void testConstractor_Properties() {
-        Properties properties = new Properties();
-        properties.put("token", "token1");
-        properties.put("tokensecret", "tokensecret");
-        properties.put("name", "noko_k");
-        properties.put("id", "1000");
-        AccessTokenProperty property = new AccessTokenProperty(properties);
+        AccessTokenProperty property = new AccessTokenProperty(mockProperty);
         assertEquals(property.token(), "token1");
         assertEquals(property.tokenSecret(), "tokensecret");
         assertEquals(property.screenName(), "noko_k");
         assertEquals(String.valueOf(property.id()), "1000");
-        assertEquals(property.toProperties(), properties);
+        assertEquals(property.toProperties(), mockProperty);
+    }
+
     }
 }
