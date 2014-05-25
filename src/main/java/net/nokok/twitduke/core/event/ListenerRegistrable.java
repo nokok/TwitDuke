@@ -23,7 +23,17 @@
  */
 package net.nokok.twitduke.core.event;
 
+/**
+ * リスナーが登録可能です
+ *
+ * @param <T> リスナーの型
+ */
 public interface ListenerRegistrable<T> {
 
+    /**
+     * リスナーを追加します
+     *
+     * @param listener 登録するリスナー
+     */
     void add(T listener);
 }
