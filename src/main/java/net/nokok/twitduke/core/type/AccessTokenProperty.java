@@ -50,7 +50,7 @@ public class AccessTokenProperty {
         properties = new Properties();
         properties.put(TOKEN_KEY, accessToken.getToken());
         properties.put(TOKEN_SECRET_KEY, accessToken.getTokenSecret());
-        properties.put(SCREEN_NAME_KEY, accessToken.getScreenName());
+        properties.put(SCREEN_NAME_KEY, Optional.ofNullable(accessToken.getScreenName()).orElse(""));
         properties.put(USER_ID_KEY, accessToken.getUserId());
     }
 
