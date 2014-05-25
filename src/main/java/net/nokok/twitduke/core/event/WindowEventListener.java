@@ -29,7 +29,7 @@ import java.awt.Dimension;
  * ウィンドウに関するイベントが取得できます
  *
  */
-public interface WindowEventListener {
+public interface WindowEventListener extends ListenerRegistrable<WindowEventListener> {
 
     /**
      * サイズ変更完了時に呼ばれます
