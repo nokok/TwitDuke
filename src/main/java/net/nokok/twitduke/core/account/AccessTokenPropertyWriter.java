@@ -24,9 +24,10 @@
 package net.nokok.twitduke.core.account;
 
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.io.Writer;
 import java.util.Properties;
 import net.nokok.twitduke.core.type.ScreenName;
 import twitter4j.auth.AccessToken;
@@ -37,6 +38,7 @@ import twitter4j.auth.AccessToken;
 public class AccessTokenPropertyWriter implements AccessTokenWriter {
 
     private final File ACCESS_TOKEN;
+    private Writer propertyWriter;
 
     /**
      * 指定したスクリーンネームのアカウントのアクセストークンをデフォルトのパスに書き込むライターを構築します
@@ -73,11 +75,22 @@ public class AccessTokenPropertyWriter implements AccessTokenWriter {
         properties.put(PropertyKey.TOKEN_SECRET, accessToken.getTokenSecret());
         properties.put(PropertyKey.USER_ID, String.valueOf(accessToken.getUserId()));
         properties.put(PropertyKey.SCREEN_NAME, accessToken.getScreenName());
-        try (FileOutputStream outputStream = new FileOutputStream(ACCESS_TOKEN)) {
-            properties.store(outputStream, null);
+        try (Writer writer = (propertyWriter == null) ? new FileWriter(ACCESS_TOKEN) : propertyWriter) {
+            properties.store(writer, null);
         } catch (IOException ex) {
             throw new UncheckedIOException(ex);
         }
+    }
+
+    /**
+     * プロパティを書き込むライターをセットします。
+     *
+     * 通常このメソッドを使用する必要はありません。このメソッドはテストやデバッグで使用されます。
+     *
+     * @param propertyWriter
+     */
+    void setWriter(Writer propertyWriter) {
+        this.propertyWriter = propertyWriter;
     }
 
 }
