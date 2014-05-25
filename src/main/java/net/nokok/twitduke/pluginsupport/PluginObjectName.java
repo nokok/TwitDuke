@@ -27,7 +27,7 @@ package net.nokok.twitduke.pluginsupport;
  * プラグインで使用するグローバルオブジェクトの名前です
  *
  */
-public interface ObjectName {
+public interface PluginObjectName {
 
     static final String BOOT = "_boot";
     static final String WINDOW = "_window";

@@ -63,15 +63,15 @@ public class PluginManager {
         for ( Plugin plugin : plugins ) {
             ScriptEngine scriptEngine = plugin.scriptEngine();
             try {
-                scriptEngine.eval("var " + ObjectName.BOOT + " = {};");
-                scriptEngine.eval("var " + ObjectName.WINDOW + " = {};");
-                scriptEngine.eval("var " + ObjectName.WINDOW_TITLE + " = '';");
-                scriptEngine.eval("var " + ObjectName.STREAM + " = {};");
+                scriptEngine.eval("var " + PluginObjectName.BOOT + " = {};");
+                scriptEngine.eval("var " + PluginObjectName.WINDOW + " = {};");
+                scriptEngine.eval("var " + PluginObjectName.WINDOW_TITLE + " = '';");
+                scriptEngine.eval("var " + PluginObjectName.STREAM + " = {};");
             } catch (ScriptException e) {
                 throw new UncheckedScriptException(e);
             }
-            scriptEngine.put(ObjectName.PROFILE, new UpdateProfileImpl(accessToken));
-            scriptEngine.put(ObjectName.TWITTER_API, new AsyncTwitterInstanceGeneratorImpl().generate(accessToken));
+            scriptEngine.put(PluginObjectName.PROFILE, new UpdateProfileImpl(accessToken));
+            scriptEngine.put(PluginObjectName.TWITTER_API, new AsyncTwitterInstanceGeneratorImpl().generate(accessToken));
         }
     }
 

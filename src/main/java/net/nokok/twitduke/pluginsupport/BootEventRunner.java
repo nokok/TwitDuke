@@ -29,7 +29,7 @@ import net.nokok.twitduke.core.event.BootEventListener;
 
 public class BootEventRunner implements BootEventListener, PluginRegistrable {
 
-    private final EventRunner runner = new EventRunner(ObjectName.BOOT);
+    private final EventRunner runner = new EventRunner(PluginObjectName.BOOT);
 
     @Override
     public void addPlugin(Plugin p) {

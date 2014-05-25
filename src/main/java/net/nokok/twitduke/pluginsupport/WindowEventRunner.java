@@ -30,7 +30,7 @@ import net.nokok.twitduke.core.event.WindowEventListener;
 
 public class WindowEventRunner implements WindowEventListener, PluginRegistrable {
 
-    private final EventRunner runner = new EventRunner(ObjectName.WINDOW);
+    private final EventRunner runner = new EventRunner(PluginObjectName.WINDOW);
 
     @Override
     public void addPlugin(Plugin p) {
