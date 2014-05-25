@@ -85,6 +85,9 @@ public class AccountManagerImpl implements AccountManager {
     public Optional<AccessToken> readPrimaryAccount() {
         for ( File file : readAccountDirFileList() ) {
             File[] fs = file.listFiles();
+            if ( fs == null ) {
+                continue;
+            }
             for ( File f : fs ) {
                 if ( f.getName().equals("primary") ) {
                     return readAccessToken(new ScreenName(file.getName()));
