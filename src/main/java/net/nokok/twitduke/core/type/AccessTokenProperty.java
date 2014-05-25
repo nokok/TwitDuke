@@ -23,6 +23,7 @@
  */
 package net.nokok.twitduke.core.type;
 
+import java.io.Serializable;
 import java.util.Optional;
 import java.util.Properties;
 import twitter4j.auth.AccessToken;
@@ -31,7 +32,9 @@ import twitter4j.auth.AccessToken;
  * アクセストークンをプロパティオブジェクトとして保持します
  *
  */
-public class AccessTokenProperty {
+public class AccessTokenProperty implements Serializable {
+
+    private static final long serialVersionUID = 7251953107462775602L;
 
     private final Properties properties;
     private final AccessToken accessToken;
