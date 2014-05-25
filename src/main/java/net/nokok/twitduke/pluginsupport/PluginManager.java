@@ -24,7 +24,7 @@
 package net.nokok.twitduke.pluginsupport;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 import javax.script.ScriptEngine;
@@ -40,7 +40,7 @@ import twitter4j.auth.AccessToken;
 
 public class PluginManager {
 
-    private final List<Plugin> plugins = new ArrayList<>();
+    private final List<Plugin> plugins = Collections.emptyList();
     private AccessToken accessToken;
 
     public PluginManager(String pluginDirectoryPath) {
