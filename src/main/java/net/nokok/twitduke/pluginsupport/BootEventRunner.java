@@ -26,7 +26,7 @@ package net.nokok.twitduke.pluginsupport;
 import net.nokok.twitduke.pluginsupport.plugin.Plugin;
 import net.nokok.twitduke.pluginsupport.plugin.PluginRegistrable;
 import net.nokok.twitduke.pluginsupport.ObjectName;
-import net.nokok.twitduke.pluginsupport.boot.BootEventListener;
+import net.nokok.twitduke.core.event.BootEventListener;
 
 public class BootEventRunner implements BootEventListener, PluginRegistrable {
 

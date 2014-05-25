@@ -21,17 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.pluginsupport.boot;
+package net.nokok.twitduke.core.event;
+
+import java.awt.Dimension;
 
 /**
- * 起動処理が完了したことを受信するリスナーです
+ * ウィンドウに関するイベントが取得できます
  *
  */
-@FunctionalInterface
-public interface BootCompletedListener {
+public interface WindowEventListener {
 
     /**
-     * 起動処理が完了した時に呼ばれます
+     * サイズ変更完了時に呼ばれます
+     *
+     * @param d 変更後のサイズ
      */
-    void completed();
+    void sizeChanged(Dimension d);
+
+    /**
+     * ウィンドウのタイトルが変更された時に呼ばれます
+     *
+     * @param title 変更後のタイトル
+     */
+    void titleChanged(String title);
+
+    /**
+     * ウィンドウが閉じられようとする時に呼ばれます
+     */
+    void closing();
+
+    /**
+     * ウィンドウが閉じられた時に呼ばれます
+     */
+    void closed();
 }
