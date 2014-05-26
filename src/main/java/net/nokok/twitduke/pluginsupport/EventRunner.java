@@ -23,7 +23,7 @@
  */
 package net.nokok.twitduke.pluginsupport;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -32,7 +32,7 @@ import net.nokok.twitduke.pluginsupport.plugin.Plugin;
 
 class EventRunner {
 
-    private final List<Plugin> plugins = Collections.emptyList();
+    private final List<Plugin> plugins = new ArrayList<>();
     private final String objectName;
 
     EventRunner(String objectName) {
