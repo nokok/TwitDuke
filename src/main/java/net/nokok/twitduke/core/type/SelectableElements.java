@@ -46,11 +46,11 @@ public interface SelectableElements<T extends Selectable> {
      * 指定した位置にある要素を取得します
      *
      * @param index
-     * @param indexs
+     * @param indexes
      *
      * @return 指定した位置にある要素のリスト
      */
-    List<T> get(ListIndex index, ListIndex... indexs);
+    List<T> get(ListIndex index, ListIndex... indexes);
 
     /**
      * 指定した範囲にある要素を取得します
