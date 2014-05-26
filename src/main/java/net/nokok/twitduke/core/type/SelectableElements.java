@@ -72,6 +72,16 @@ public interface SelectableElements<T extends Selectable> {
     T select(ListIndex index);
 
     /**
+     * 指定した位置の要素を選択します
+     *
+     * @param index
+     * @param indexes
+     *
+     * @return 選択した要素のリスト
+     */
+    List<T> select(ListIndex index, ListIndex... indexes);
+
+    /**
      * 指定した範囲の要素を選択します
      *
      * @param from 選択する要素の始点
