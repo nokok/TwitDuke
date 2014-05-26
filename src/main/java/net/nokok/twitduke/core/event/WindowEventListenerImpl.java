@@ -47,6 +47,16 @@ public class WindowEventListenerImpl implements WindowEventListener {
     }
 
     @Override
+    public void opened() {
+        listeners.parallelStream().forEach(l -> l.opened());
+    }
+
+    @Override
+    public void opening() {
+        listeners.parallelStream().forEach(l -> l.opening());
+    }
+
+    @Override
     public void sizeChanged(Dimension d) {
         listeners.parallelStream().forEach(l -> l.sizeChanged(d));
     }

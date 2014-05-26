@@ -58,6 +58,18 @@ public class WindowEventRunner implements WindowEventListener, PluginRegistrable
     }
 
     @Override
+    public void opened() {
+        listeners.parallelStream().forEach(l -> l.opened());
+        runner.invokeAll("opened");
+    }
+
+    @Override
+    public void opening() {
+        listeners.parallelStream().forEach(l -> l.opening());
+        runner.invokeAll("opening");
+    }
+
+    @Override
     public void sizeChanged(Dimension d) {
         listeners.parallelStream().forEach(l -> l.sizeChanged(d));
         runner.invokeAll("sizeChanged", d);

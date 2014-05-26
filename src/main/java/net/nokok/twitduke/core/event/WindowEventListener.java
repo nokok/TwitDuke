@@ -46,6 +46,16 @@ public interface WindowEventListener extends ListenerRegistrable<WindowEventList
     void titleChanged(String title);
 
     /**
+     * ウィンドウが開かれようとする時に呼ばれます。
+     */
+    void opening();
+
+    /**
+     * ウィンドウが開かれた時に呼ばれます
+     */
+    void opened();
+
+    /**
      * ウィンドウが閉じられようとする時に呼ばれます
      */
     void closing();
