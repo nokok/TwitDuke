@@ -29,7 +29,7 @@ import org.junit.Test;
 
 /**
  *
- * @author noko
+ * 
  */
 public class ScreenNameTest {
 

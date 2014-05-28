@@ -26,7 +26,7 @@ package net.nokok.twitduke.core.auth;
 /**
  * ラムダ式で認証可能なOAuthRunnableインターフェースを実装したクラスを生成します
  *
- * @author noko
+ *
  */
 public class LambdaOAuthFactory {
 

@@ -41,7 +41,6 @@ import twitter4j.auth.AccessToken;
 /**
  * プラグイン側で利用可能なTwitter4jのラッパーです。
  *
- * @author noko
  */
 public class TwitterAPI implements TweetSendable, DMSendable, UpdateProfile, TwitterExceptionReceivable {
 

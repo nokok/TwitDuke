@@ -32,7 +32,7 @@ import twitter4j.auth.AccessToken;
 
 /**
  *
- * @author noko
+ * 
  */
 public class AccessTokenPropertyTest {
 
