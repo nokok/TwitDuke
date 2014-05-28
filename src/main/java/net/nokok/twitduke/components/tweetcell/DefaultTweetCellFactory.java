@@ -26,6 +26,7 @@ package net.nokok.twitduke.components.tweetcell;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.JPanel;
+import net.nokok.twitduke.components.SelectablePanel;
 import net.nokok.twitduke.components.basic.TWPanel;
 import twitter4j.Status;
 import twitter4j.auth.AccessToken;
@@ -53,7 +54,7 @@ public class DefaultTweetCellFactory {
      * @return 標準サイズのツイートセル
      */
     public JPanel newPanel() {
-        JPanel p = new TWPanel(new BorderLayout());
+        JPanel p = new SelectablePanel(new BorderLayout());
         p.add(panelFactory.createUserIcon(), BorderLayout.WEST);
         JPanel contentPanel = new TWPanel(new BorderLayout());
         JPanel userInfoPanel = new TWPanel(new FlowLayout(FlowLayout.LEFT));
