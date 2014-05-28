@@ -35,7 +35,7 @@ import javax.swing.JTextArea;
 import net.nokok.twitduke.components.async.UserIcon;
 import net.nokok.twitduke.components.basic.TWButton;
 import net.nokok.twitduke.components.basic.TWTextArea;
-import net.nokok.twitduke.core.twitter.AsyncTwitterInstanceGeneratorImpl;
+import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
 import twitter4j.AsyncTwitter;
 import twitter4j.HashtagEntity;
 import twitter4j.Status;
@@ -59,7 +59,7 @@ public class TweetPanelFactory {
      */
     public TweetPanelFactory(Status status, AccessToken accessToken) {
         this.status = status;
-        twitter = new AsyncTwitterInstanceGeneratorImpl().generate(accessToken);
+        twitter = AsyncTwitterFactory.newInstance(accessToken);
     }
 
     /**

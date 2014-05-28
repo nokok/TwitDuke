@@ -23,6 +23,7 @@
  */
 package net.nokok.twitduke.core.twitter;
 
+import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
 import net.nokok.twitduke.core.type.Tweet;
 import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
@@ -32,7 +33,7 @@ public class TweetSendableImpl implements TweetSendable {
     private final AsyncTwitter asyncTwitter;
 
     public TweetSendableImpl(AccessToken accessToken) {
-        asyncTwitter = new AsyncTwitterInstanceGeneratorImpl().generate(accessToken);
+        asyncTwitter = AsyncTwitterFactory.newInstance(accessToken);
     }
 
     @Override

@@ -23,9 +23,9 @@
  */
 package net.nokok.twitduke.pluginsupport;
 
-import net.nokok.twitduke.core.twitter.Footer;
-import net.nokok.twitduke.core.twitter.AsyncTwitterInstanceGeneratorImpl;
+import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
 import net.nokok.twitduke.core.twitter.DMSendable;
+import net.nokok.twitduke.core.twitter.Footer;
 import net.nokok.twitduke.core.twitter.TweetSendable;
 import net.nokok.twitduke.core.twitter.TwitterExceptionReceivable;
 import net.nokok.twitduke.core.twitter.UpdateProfile;
@@ -49,7 +49,7 @@ public class TwitterAPI implements TweetSendable, DMSendable, UpdateProfile, Twi
     private ErrorMessageReceivable receivable;
 
     public TwitterAPI(AccessToken accessToken) {
-        asyncTwitter = new AsyncTwitterInstanceGeneratorImpl().generate(accessToken);
+        asyncTwitter = AsyncTwitterFactory.newInstance(accessToken);
     }
 
     @Override

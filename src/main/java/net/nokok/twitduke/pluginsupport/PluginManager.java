@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
-import net.nokok.twitduke.core.twitter.AsyncTwitterInstanceGeneratorImpl;
+import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
 import net.nokok.twitduke.core.twitter.UpdateProfileImpl;
 import net.nokok.twitduke.core.type.UncheckedScriptException;
 import net.nokok.twitduke.pluginsupport.plugin.Plugin;
@@ -71,7 +71,7 @@ public class PluginManager {
                 throw new UncheckedScriptException(e);
             }
             scriptEngine.put(PluginObjectName.PROFILE, new UpdateProfileImpl(accessToken));
-            scriptEngine.put(PluginObjectName.TWITTER_API, new AsyncTwitterInstanceGeneratorImpl().generate(accessToken));
+            scriptEngine.put(PluginObjectName.TWITTER_API, AsyncTwitterFactory.newInstance(accessToken));
         }
     }
 
