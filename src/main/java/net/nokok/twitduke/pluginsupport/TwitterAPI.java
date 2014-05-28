@@ -51,6 +51,10 @@ public class TwitterAPI implements TweetSendable, DMSendable, UpdateProfile, Twi
         asyncTwitter = AsyncTwitterFactory.newInstance(accessToken);
     }
 
+    public TwitterAPI(AsyncTwitter asyncTwitter) {
+        this.asyncTwitter = asyncTwitter;
+    }
+
     @Override
     public void onError(ErrorMessageReceivable receivable) {
         asyncTwitter.addListener(new TwitterAdapter() {
