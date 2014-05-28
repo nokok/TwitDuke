@@ -23,8 +23,12 @@
  */
 package net.nokok.twitduke.components;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import javax.swing.JFrame;
 import net.nokok.twitduke.components.basic.TWFrame;
+import net.nokok.twitduke.core.event.WindowEventListener;
 
 /**
  * TwitDukeのメインウィンドウです
@@ -32,6 +36,42 @@ import net.nokok.twitduke.components.basic.TWFrame;
 public class Window implements WindowSize, Visible, Disposable {
 
     private final JFrame frame = new TWFrame("TwitDuke");
+
+    public void addListener(WindowStateListener listener) {
+        frame.addWindowStateListener(listener);
+    }
+
+    public void addListener(WindowEventListener listener) {
+        frame.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                listener.closing();
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                listener.closed();
+            }
+
+            @Override
+            public void windowOpened(WindowEvent e) {
+                listener.opened();
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+                listener.opening();
+            }
+
+            @Override
+            public void windowStateChanged(WindowEvent e) {
+                if ( e.getID() == WindowEvent.COMPONENT_RESIZED ) {
+                    listener.sizeChanged(e.getWindow().getPreferredSize());
+                }
+            }
+        });
+    }
 
     @Override
     public void dispose() {
