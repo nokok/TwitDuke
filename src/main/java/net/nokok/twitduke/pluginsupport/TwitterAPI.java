@@ -46,7 +46,6 @@ import twitter4j.auth.AccessToken;
 public class TwitterAPI implements TweetSendable, DMSendable, UpdateProfile, TwitterExceptionReceivable {
 
     private final AsyncTwitter asyncTwitter;
-    private ErrorMessageReceivable receivable;
 
     public TwitterAPI(AccessToken accessToken) {
         asyncTwitter = AsyncTwitterFactory.newInstance(accessToken);
@@ -54,7 +53,6 @@ public class TwitterAPI implements TweetSendable, DMSendable, UpdateProfile, Twi
 
     @Override
     public void onError(ErrorMessageReceivable receivable) {
-        this.receivable = receivable;
         asyncTwitter.addListener(new TwitterAdapter() {
 
             @Override
