@@ -41,12 +41,12 @@ public class RetweetButton extends TWButton implements Selectable {
     /**
      * リツイートしていないボタンの背景色です
      */
-    public static final Color DEFAULT_BACKGROUND_COLOR = new Color(39, 174, 96);
+    public static final Color DEFAULT_BACKGROUND_COLOR = new Color(0, 100, 0);
 
     /**
      * リツイート済みのボタンの背景色です
      */
-    public static final Color RETWEETED_BACKGROUND_COLOR = new Color(39, 174, 96);
+    public static final Color RETWEETED_BACKGROUND_COLOR = new Color(50, 200, 50);
 
     /**
      * リツイートボタンを生成します

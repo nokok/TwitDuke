@@ -41,12 +41,12 @@ public class FavoriteButton extends TWButton implements Selectable {
     /**
      * まだお気に入りにしていないボタンの背景色です
      */
-    public static final Color DEFAULT_BACKGROUND_COLOR = new Color(241, 196, 15).darker();
+    public static final Color DEFAULT_BACKGROUND_COLOR = new Color(180, 180, 0);
 
     /**
      * お気に入り済みのボタンの背景色です
      */
-    public static final Color FAVORITED_BACKGROUND_COLOR = new Color(241, 196, 15);
+    public static final Color FAVORITED_BACKGROUND_COLOR = Color.YELLOW;
 
     /**
      * お気に入りボタンを生成します
