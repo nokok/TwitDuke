@@ -39,10 +39,23 @@ public class Window implements WindowSize, Visible, Disposable {
 
     private final JFrame frame = new TWFrame("TwitDuke");
 
+    public Window() {
+        frame.setLayout(new BorderLayout());
+    }
+
+    /**
+     * ウィンドウ状態イベントを受け取るリスナーを追加します
+     *
+     * @param listener
+     */
     public void addListener(WindowStateListener listener) {
         frame.addWindowStateListener(listener);
     }
 
+    /**
+     *
+     * @param listener
+     */
     public void addListener(WindowEventListener listener) {
         frame.addWindowListener(new WindowAdapter() {
 
@@ -111,6 +124,9 @@ public class Window implements WindowSize, Visible, Disposable {
         return frame.getWidth();
     }
 
+    /**
+     * @return ウィンドウタイトル
+     */
     public String title() {
         return frame.getTitle();
     }
