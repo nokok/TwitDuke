@@ -84,7 +84,7 @@ public class TimelinePanel extends TWPanel implements Scrollable {
 
         @Override
         public void addLayoutComponent(String name, Component comp) {
-
+            //なにもしない
         }
 
         @Override
@@ -125,7 +125,7 @@ public class TimelinePanel extends TWPanel implements Scrollable {
 
         @Override
         public void removeLayoutComponent(Component comp) {
-
+            //なにもしない
         }
 
     }
