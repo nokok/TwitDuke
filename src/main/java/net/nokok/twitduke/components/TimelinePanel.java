@@ -102,7 +102,7 @@ public class TimelinePanel extends TWPanel implements Scrollable {
             int currentY = 0;
             for ( Component component : components ) {
                 component.setBounds(0, currentY, parent.getWidth(), component.getSize().height);
-                component.setPreferredSize(new Dimension(parent.getWidth(), component.getPreferredSize().height));
+                component.setMaximumSize(new Dimension(parent.getWidth(), component.getPreferredSize().height));
                 currentY += component.getPreferredSize().height + 1;
             }
         }
