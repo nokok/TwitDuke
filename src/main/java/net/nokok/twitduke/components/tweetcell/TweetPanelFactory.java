@@ -91,20 +91,17 @@ public class TweetPanelFactory {
      * @return お気に入りボタン
      */
     public JButton createFavoriteButton() {
-        JButton button = new FavoriteButton();
+        FavoriteButton button = new FavoriteButton();
         if ( status.isFavorited() ) {
-            button.setBackground(FavoriteButton.FAVORITED_BACKGROUND_COLOR);
+            button.select();
         }
         button.addActionListener(e -> {
-            boolean isFavorited = status.isFavorited();
-            if ( isFavorited ) {
+            if ( button.isSelected() ) {
                 twitter.destroyFavorite(status.getId());
-                button.setBackground(FavoriteButton.DEFAULT_BACKGROUND_COLOR);
-                isFavorited = false;
+                button.unselect();
             } else {
                 twitter.createFavorite(status.getId());
-                button.setBackground(FavoriteButton.DEFAULT_BACKGROUND_COLOR);
-                isFavorited = true;
+                button.select();
             }
         });
         return button;
@@ -117,20 +114,17 @@ public class TweetPanelFactory {
      * @return リツイートボタン
      */
     public JButton createRetweetButton() {
-        JButton button = new RetweetButton();
+        RetweetButton button = new RetweetButton();
         if ( status.isRetweetedByMe() ) {
-            button.setBackground(RetweetButton.RETWEETED_BACKGROUND_COLOR);
+            button.select();
         }
         button.addActionListener(e -> {
-            boolean isRetweeted = status.isRetweetedByMe();
-            if ( isRetweeted ) {
+            if ( button.isSelected() ) {
                 twitter.destroyStatus(status.getId());
-                button.setBackground(RetweetButton.DEFAULT_BACKGROUND_COLOR);
-                isRetweeted = false;
+                button.unselect();
             } else {
                 twitter.retweetStatus(status.getId());
-                button.setBackground(RetweetButton.RETWEETED_BACKGROUND_COLOR);
-                isRetweeted = true;
+                button.select();
             }
         });
         return button;
