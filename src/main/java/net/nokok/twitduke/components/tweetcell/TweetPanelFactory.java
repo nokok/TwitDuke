@@ -188,4 +188,14 @@ public class TweetPanelFactory {
         JLabel label = new UserIcon(status.getUser().getProfileImageURLHttps());
         return label;
     }
+
+    /**
+     * Viaのラベルを生成します
+     *
+     * @return Viaのラベル
+     */
+    public JLabel createViaLabel() {
+        JLabel label = new ViaLabel(status.getSource());
+        return label;
+    }
 }
