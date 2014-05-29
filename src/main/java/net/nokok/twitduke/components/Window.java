@@ -23,9 +23,11 @@
  */
 package net.nokok.twitduke.components;
 
+import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import net.nokok.twitduke.components.basic.TWFrame;
 import net.nokok.twitduke.core.event.WindowEventListener;
@@ -71,6 +73,22 @@ public class Window implements WindowSize, Visible, Disposable {
                 }
             }
         });
+    }
+
+    public void addHeader(JComponent component) {
+        frame.add(component, BorderLayout.NORTH);
+    }
+
+    public void addContents(JComponent component) {
+        frame.add(component, BorderLayout.CENTER);
+    }
+
+    public void addFooter(JComponent component) {
+        frame.add(component, BorderLayout.SOUTH);
+    }
+
+    public void addRightPanel(JComponent component) {
+        frame.add(component, BorderLayout.EAST);
     }
 
     @Override
