@@ -49,6 +49,7 @@ public class TWTextArea extends JTextArea {
     public TWTextArea() {
         setBackground(BACKGROUND_COLOR);
         setForeground(FOREGROUND_COLOR);
+        super.setCaretColor(Color.WHITE);
     }
 
     /**
