@@ -26,15 +26,17 @@ package net.nokok.twitduke.components.tweetcell;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
+import net.nokok.twitduke.components.Selectable;
 import net.nokok.twitduke.components.basic.TWButton;
 
 /**
  * お気に入りボタンです
  *
  */
-public class FavoriteButton extends TWButton {
+public class FavoriteButton extends TWButton implements Selectable {
 
     private static final long serialVersionUID = 2609656566714323682L;
+    private boolean isSelected;
 
     /**
      * まだお気に入りにしていないボタンの背景色です
@@ -53,5 +55,28 @@ public class FavoriteButton extends TWButton {
         setBackground(DEFAULT_BACKGROUND_COLOR);
         setPreferredSize(new Dimension(20, 10));
         setMargin(new Insets(0, 0, 0, 0));
+    }
+
+    /**
+     * ボタンをお気に入り済み状態にします
+     */
+    @Override
+    public void select() {
+        setBackground(FAVORITED_BACKGROUND_COLOR);
+        isSelected = true;
+    }
+
+    /**
+     * ボタンを通常状態にします
+     */
+    @Override
+    public void unselect() {
+        setBackground(DEFAULT_BACKGROUND_COLOR);
+        isSelected = false;
+    }
+
+    @Override
+    public boolean isSelected() {
+        return isSelected;
     }
 }

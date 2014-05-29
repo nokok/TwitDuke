@@ -26,15 +26,17 @@ package net.nokok.twitduke.components.tweetcell;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
+import net.nokok.twitduke.components.Selectable;
 import net.nokok.twitduke.components.basic.TWButton;
 
 /**
  * リツイートボタンです
  *
  */
-public class RetweetButton extends TWButton {
+public class RetweetButton extends TWButton implements Selectable {
 
     private static final long serialVersionUID = 2349270506630754751L;
+    private boolean isSelected;
 
     /**
      * リツイートしていないボタンの背景色です
@@ -54,4 +56,28 @@ public class RetweetButton extends TWButton {
         setPreferredSize(new Dimension(20, 10));
         setMargin(new Insets(0, 0, 0, 0));
     }
+
+    /**
+     * ボタンをリツイート済み状態にします
+     */
+    @Override
+    public void select() {
+        setBackground(RETWEETED_BACKGROUND_COLOR);
+        isSelected = true;
+    }
+
+    /**
+     * ボタンを通常状態にします
+     */
+    @Override
+    public void unselect() {
+        setBackground(DEFAULT_BACKGROUND_COLOR);
+        isSelected = false;
+    }
+
+    @Override
+    public boolean isSelected() {
+        return isSelected;
+    }
+
 }
