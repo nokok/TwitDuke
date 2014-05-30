@@ -29,6 +29,7 @@ import net.nokok.twitduke.components.basic.TWPanel;
 
 public class SelectablePanel extends TWPanel implements Selectable {
 
+    private static final long serialVersionUID = -5874949418945445316L;
     public static final Color SELECT_COLOR = new Color(41, 128, 185);
 
     private boolean isSelected;

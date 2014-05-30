@@ -31,6 +31,8 @@ import net.nokok.twitduke.components.basic.TWLabel;
  */
 public class ViaLabel extends TWLabel {
 
+    private static final long serialVersionUID = -8324387111159938413L;
+
     /**
      * 指定したテキストでViaLabelを構築します
      *
