@@ -95,6 +95,7 @@ public class TimelinePanel extends TWPanel implements Scrollable {
                     Component comp = components.get(1000);
                     comp.setVisible(false);
                     parent.remove(comp);
+                    comp = null; //GC
                     parent.validate();
                 }
             });
