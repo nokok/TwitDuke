@@ -38,6 +38,7 @@ import net.nokok.twitduke.components.basic.TWTextArea;
 import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
 import twitter4j.AsyncTwitter;
 import twitter4j.HashtagEntity;
+import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.URLEntity;
 import twitter4j.auth.AccessToken;
@@ -139,6 +140,9 @@ public class TweetPanelFactory {
         String text = status.getText();
         for ( URLEntity entity : status.getURLEntities() ) {
             text = text.replaceAll(entity.getURL(), entity.getDisplayURL());
+        }
+        for ( MediaEntity entity : status.getMediaEntities() ) {
+            text = text.replace(entity.getURL(), entity.getDisplayURL());
         }
         JTextArea textArea = TWTextArea.newNotEditableTextArea(text);
         return textArea;
