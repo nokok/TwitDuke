@@ -66,7 +66,6 @@ public class DefaultTweetCellFactory {
         contentPanel.add(userInfoPanel, BorderLayout.NORTH);
         contentPanel.add(panelFactory.createTweetTextArea(), BorderLayout.CENTER);
         p.add(contentPanel, BorderLayout.CENTER);
-        p.setPreferredSize(p.getPreferredSize());
         p.setSize(p.getPreferredSize());
         return p;
     }

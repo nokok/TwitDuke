@@ -25,6 +25,7 @@ package net.nokok.twitduke.components.basic;
 
 import java.awt.Color;
 import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 
 /**
  * TwitDuke用のカスタマイズ済みJTextAreaです
@@ -52,6 +53,8 @@ public class TWTextArea extends JTextArea {
         super.setCaretColor(Color.WHITE);
         setLineWrap(true);
         setWrapStyleWord(true);
+        setOpaque(true);
+        setBorder(new EmptyBorder(2, 0, 5, 0));
     }
 
     /**
