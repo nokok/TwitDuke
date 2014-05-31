@@ -103,8 +103,8 @@ public class TimelinePanel extends TWPanel implements Scrollable {
             Collections.reverse(components);
             int currentY = 0;
             for ( Component component : components ) {
-                component.setBounds(0, currentY, parent.getWidth(), component.getSize().height);
-                component.setMaximumSize(new Dimension(parent.getWidth(), component.getPreferredSize().height));
+                component.setBounds(0, currentY, parent.getWidth(), component.getPreferredSize().height);
+                component.setPreferredSize(null); //サイズを計算させる
                 currentY += component.getPreferredSize().height + 1; //1はセルとセルの間のマージン
             }
         }
