@@ -136,7 +136,11 @@ public class TweetPanelFactory {
      * @return ツイート本文を表示するテキストエリア
      */
     public JTextArea createTweetTextArea() {
-        JTextArea textArea = TWTextArea.newNotEditableTextArea(status.getText());
+        String text = status.getText();
+        for ( URLEntity entity : status.getURLEntities() ) {
+            text = text.replaceAll(entity.getURL(), entity.getDisplayURL());
+        }
+        JTextArea textArea = TWTextArea.newNotEditableTextArea(text);
         return textArea;
     }
 
