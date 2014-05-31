@@ -105,7 +105,7 @@ public class TimelinePanel extends TWPanel implements Scrollable {
             for ( Component component : components ) {
                 component.setBounds(0, currentY, parent.getWidth(), component.getSize().height);
                 component.setMaximumSize(new Dimension(parent.getWidth(), component.getPreferredSize().height));
-                currentY += component.getPreferredSize().height + 1;
+                currentY += component.getPreferredSize().height + 1; //1はセルとセルの間のマージン
             }
         }
 
@@ -120,7 +120,7 @@ public class TimelinePanel extends TWPanel implements Scrollable {
         @Override
         public Dimension preferredLayoutSize(Container parent) {
             Component[] components = parent.getComponents();
-            int height = Stream.of(components).collect(Collectors.summingInt(c -> c.getPreferredSize().height));
+            int height = Stream.of(components).collect(Collectors.summingInt(c -> c.getPreferredSize().height + 1)); //1はマージン
             int width = parent.getWidth();
             return new Dimension(width, height);
         }
