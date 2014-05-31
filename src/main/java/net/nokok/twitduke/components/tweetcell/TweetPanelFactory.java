@@ -137,7 +137,6 @@ public class TweetPanelFactory {
      */
     public JTextArea createTweetTextArea() {
         JTextArea textArea = TWTextArea.newNotEditableTextArea(status.getText());
-        textArea.setLineWrap(true);
         return textArea;
     }
 

@@ -44,12 +44,24 @@ public class TWTextArea extends JTextArea {
     public static final Color FOREGROUND_COLOR = new Color(200, 200, 200);
 
     /**
-     * 空のテキストエリアを生成します
+     * 空のカスタマイズ済みのテキストエリアを生成します
      */
     public TWTextArea() {
         setBackground(BACKGROUND_COLOR);
         setForeground(FOREGROUND_COLOR);
         super.setCaretColor(Color.WHITE);
+        setLineWrap(true);
+        setWrapStyleWord(true);
+    }
+
+    /**
+     * 指定したテキストでカスタマイズ済みのテキストエリアを生成します
+     *
+     * @param text
+     */
+    public TWTextArea(String text) {
+        this();
+        setText(text);
     }
 
     /**
@@ -67,8 +79,7 @@ public class TWTextArea extends JTextArea {
      * @return テキストがセットされた編集出来ないテキストエリア
      */
     public static JTextArea newNotEditableTextArea(String text) {
-        JTextArea textArea = new TWTextArea();
-        textArea.setText(text);
+        JTextArea textArea = new TWTextArea(text);
         textArea.setEditable(false);
         return textArea;
     }
