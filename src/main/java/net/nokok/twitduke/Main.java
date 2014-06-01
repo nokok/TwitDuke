@@ -86,12 +86,7 @@ public class Main {
         LambdaTwitterStream lambdaTwitterStream = new LambdaTwitterStream(accessToken);
         lambdaTwitterStream.addListener(globaPluginManager.getStatusListener());
         lambdaTwitterStream.onStatus((status, rt) -> {
-            TweetCellFactory factory;
-            if ( rt.isPresent() ) {
-                factory = new DefaultTweetCellFactory(status, accessToken);
-            } else {
-                factory = new DefaultTweetCellFactory(status, accessToken);
-            }
+            TweetCellFactory factory = new DefaultTweetCellFactory(status, accessToken);
             scrollablePanel.addComponent(factory.newTweetCellComponent());
         });
         lambdaTwitterStream.onException(System.out::println);
