@@ -25,7 +25,9 @@ package net.nokok.twitduke.components.basic;
 
 import java.awt.Color;
 import java.awt.Component;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 /**
  * TwitDuke用のカスタマイズ済みJScrollPaneです
@@ -50,6 +52,26 @@ public class TWScrollPane extends JScrollPane {
         setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
         setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_AS_NEEDED);
         setBackground(BACKGROUND_COLOR);
+    }
+
+    /**
+     * @return スクロールバーが最上部にある場合true
+     */
+    public boolean isScrollbarTop() {
+        return this.getVerticalScrollBar().getValue() == 0;
+    }
+
+    /**
+     * 指定した値だけスクロールバーを移動します
+     *
+     * @param value
+     */
+    public void shiftScrollBar(int value) {
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar scrollBar = getVerticalScrollBar();
+            int current = scrollBar.getValue();
+            scrollBar.setValue(current + value);
+        });
     }
 
 }
