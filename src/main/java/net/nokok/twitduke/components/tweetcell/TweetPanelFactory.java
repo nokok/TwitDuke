@@ -71,7 +71,12 @@ public class TweetPanelFactory {
      * @return ユーザー名がセットされたラベル
      */
     public JLabel createUserNameLabel() {
-        String userName = status.getUser().getName();
+        String userName;
+        if ( status.isRetweet() ) {
+            userName = status.getRetweetedStatus().getUser().getName();
+        } else {
+            userName = status.getUser().getName();
+        }
         JLabel label = new UserNameLabel(userName);
         return label;
     }
@@ -82,7 +87,13 @@ public class TweetPanelFactory {
      * @return スクリーンネームがセットされたラベル
      */
     public JLabel createScreenNameLabel() {
-        String screenName = status.getUser().getScreenName();
+        String screenName;
+        if ( status.isRetweet() ) {
+            screenName = status.getRetweetedStatus().getUser().getScreenName();
+        } else {
+            screenName = status.getUser().getScreenName();
+
+        }
         JLabel label = new ScreenNameLabel("@" + screenName);
         return label;
     }
@@ -139,7 +150,12 @@ public class TweetPanelFactory {
      * @return ツイート本文を表示するテキストエリア
      */
     public JTextArea createTweetTextArea() {
-        String text = status.getText();
+        String text;
+        if ( status.isRetweet() ) {
+            text = status.getRetweetedStatus().getText();
+        } else {
+            text = status.getText();
+        }
         for ( URLEntity entity : status.getURLEntities() ) {
             text = text.replaceAll(entity.getURL(), entity.getDisplayURL());
         }
