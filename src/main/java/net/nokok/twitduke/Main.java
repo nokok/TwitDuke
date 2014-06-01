@@ -24,8 +24,14 @@
 package net.nokok.twitduke;
 
 import static com.google.common.io.ByteStreams.nullOutputStream;
+import java.awt.Dimension;
 import java.io.File;
 import java.io.PrintStream;
+import net.nokok.twitduke.components.ScrollableTimelinePanel;
+import net.nokok.twitduke.components.TweetTextArea;
+import net.nokok.twitduke.components.Window;
+import net.nokok.twitduke.components.tweetcell.DefaultTweetCellFactory;
+import net.nokok.twitduke.components.tweetcell.TweetCellFactory;
 import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.account.DirectoryHelper;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
@@ -72,11 +78,28 @@ public class Main {
     }
 
     private static void run(AccountManager accountManager) {
+        Window window = new Window();
+        ScrollableTimelinePanel scrollablePanel = new ScrollableTimelinePanel();
+        window.addContents(scrollablePanel.getScrollPane());
         AccessToken accessToken = accountManager.readPrimaryAccount().get();
         PluginManager globaPluginManager = new PluginManager("plugins", accessToken);
         LambdaTwitterStream lambdaTwitterStream = new LambdaTwitterStream(accessToken);
         lambdaTwitterStream.addListener(globaPluginManager.getStatusListener());
+        lambdaTwitterStream.onStatus((status, rt) -> {
+            TweetCellFactory factory;
+            if ( rt.isPresent() ) {
+                factory = new DefaultTweetCellFactory(status, accessToken);
+            } else {
+                factory = new DefaultTweetCellFactory(status, accessToken);
+            }
+            scrollablePanel.addComponent(factory.newTweetCellComponent());
+        });
+        lambdaTwitterStream.onException(System.out::println);
         lambdaTwitterStream.startStream();
+        TweetTextArea tweetTextArea = new TweetTextArea(accessToken);
+        tweetTextArea.setPreferredSize(new Dimension(-1, 50));
+        window.addHeader(tweetTextArea);
+        window.show();
     }
 
     private static boolean existsTwitDukeDir() {
