@@ -30,8 +30,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
+import net.nokok.twitduke.components.async.OverlayUserIcon;
 import net.nokok.twitduke.components.async.UserIcon;
 import net.nokok.twitduke.components.basic.TWButton;
 import net.nokok.twitduke.components.basic.TWTextArea;
@@ -191,9 +193,23 @@ public class TweetPanelFactory {
      *
      * @return ユーザーアイコン
      */
-    public JLabel createUserIcon() {
+    private JLabel createUserIconLabel() {
         JLabel label = new UserIcon(status.getUser().getProfileImageURLHttps());
         return label;
+    }
+
+    /**
+     * ユーザーのアイコンを生成します。
+     *
+     * ステータスがRTの場合はRTしたユーザーとされたユーザーのアイコンをオーバーレイ表示します
+     *
+     * @return アイコン
+     */
+    public JComponent createUserIcon() {
+        if ( !status.isRetweet() ) {
+            return createUserIconLabel();
+        }
+        return new OverlayUserIcon(status);
     }
 
     /**
