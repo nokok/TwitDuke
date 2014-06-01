@@ -44,6 +44,7 @@ public class TweetTextArea extends TWTextArea {
     private final TweetSendable tweetAPI;
 
     public TweetTextArea(AccessToken accessToken) {
+        super();
         tweetAPI = new TweetSendableImpl(accessToken);
         addKeyListener(new DefaultSendTweetKeyListener());
     }
@@ -59,6 +60,7 @@ public class TweetTextArea extends TWTextArea {
      * @exception NullPointerException 渡されたSendTweetAPIオブジェクトがnullだった場合
      */
     public TweetTextArea(TweetSendable tweetAPI) {
+        super();
         if ( tweetAPI == null ) {
             throw new NullPointerException("SendTweetAPIインターフェースがnullです");
         }
