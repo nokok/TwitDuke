@@ -31,7 +31,7 @@ public class MediaThumbnail extends AsyncImageIcon {
 
     public MediaThumbnail(String url) {
         super(url);
-        this.setSize(new Dimension(350, 50));
+        setPreferredSize(new Dimension(350, 50));
         addMouseListener(new MouseAdapter() {
 
             @Override
