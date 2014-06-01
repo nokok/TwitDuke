@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -51,6 +52,8 @@ import twitter4j.auth.AccessToken;
 public class TweetPanelFactory {
 
     private final Status status;
+    private final Optional<Status> retweetedStatus;
+    private final Status activeStatus;
     private final AsyncTwitter twitter;
 
     /**
@@ -62,6 +65,9 @@ public class TweetPanelFactory {
      */
     public TweetPanelFactory(Status status, AccessToken accessToken) {
         this.status = status;
+        retweetedStatus = Optional.ofNullable(status.getRetweetedStatus());
+        //リツイートの場合はRetweeteeStatus、そうでない場合はstatusが入る
+        activeStatus = retweetedStatus.orElseGet(() -> status);
         twitter = AsyncTwitterFactory.newInstance(accessToken);
     }
 
@@ -71,12 +77,7 @@ public class TweetPanelFactory {
      * @return ユーザー名がセットされたラベル
      */
     public JLabel createUserNameLabel() {
-        String userName;
-        if ( status.isRetweet() ) {
-            userName = status.getRetweetedStatus().getUser().getName();
-        } else {
-            userName = status.getUser().getName();
-        }
+        String userName = activeStatus.getUser().getName();
         JLabel label = new UserNameLabel(userName);
         return label;
     }
@@ -87,13 +88,7 @@ public class TweetPanelFactory {
      * @return スクリーンネームがセットされたラベル
      */
     public JLabel createScreenNameLabel() {
-        String screenName;
-        if ( status.isRetweet() ) {
-            screenName = status.getRetweetedStatus().getUser().getScreenName();
-        } else {
-            screenName = status.getUser().getScreenName();
-
-        }
+        String screenName = activeStatus.getUser().getScreenName();
         JLabel label = new ScreenNameLabel("@" + screenName);
         return label;
     }
@@ -150,12 +145,7 @@ public class TweetPanelFactory {
      * @return ツイート本文を表示するテキストエリア
      */
     public JTextArea createTweetTextArea() {
-        String text;
-        if ( status.isRetweet() ) {
-            text = status.getRetweetedStatus().getText();
-        } else {
-            text = status.getText();
-        }
+        String text = activeStatus.getText();
         for ( URLEntity entity : status.getURLEntities() ) {
             text = text.replaceAll(entity.getURL(), entity.getDisplayURL());
         }
@@ -222,10 +212,10 @@ public class TweetPanelFactory {
      * @return アイコン
      */
     public JComponent createUserIcon() {
-        if ( !status.isRetweet() ) {
-            return createUserIconLabel();
+        if ( retweetedStatus.isPresent() ) {
+            return new OverlayUserIcon(status);
         }
-        return new OverlayUserIcon(status);
+        return createUserIconLabel();
     }
 
     /**
