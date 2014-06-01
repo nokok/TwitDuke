@@ -30,8 +30,7 @@ import java.io.PrintStream;
 import net.nokok.twitduke.components.ScrollableTimelinePanel;
 import net.nokok.twitduke.components.TweetTextArea;
 import net.nokok.twitduke.components.Window;
-import net.nokok.twitduke.components.tweetcell.DefaultTweetCellFactory;
-import net.nokok.twitduke.components.tweetcell.TweetCellFactory;
+import net.nokok.twitduke.components.tweetcell.DefaultTweetCell;
 import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.account.DirectoryHelper;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
@@ -86,8 +85,7 @@ public class Main {
         LambdaTwitterStream lambdaTwitterStream = new LambdaTwitterStream(accessToken);
         lambdaTwitterStream.addListener(globaPluginManager.getStatusListener());
         lambdaTwitterStream.onStatus((status, rt) -> {
-            TweetCellFactory factory = new DefaultTweetCellFactory(status, accessToken);
-            scrollablePanel.addComponent(factory.newTweetCellComponent());
+            scrollablePanel.addComponent(new DefaultTweetCell(status, accessToken));
         });
         lambdaTwitterStream.onException(System.out::println);
         lambdaTwitterStream.startStream();

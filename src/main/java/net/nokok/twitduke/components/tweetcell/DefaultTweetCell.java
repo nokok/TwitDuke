@@ -24,10 +24,9 @@
 package net.nokok.twitduke.components.tweetcell;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
-import net.nokok.twitduke.components.SelectablePanel;
 import net.nokok.twitduke.components.basic.TWPanel;
 import twitter4j.Status;
 import twitter4j.auth.AccessToken;
@@ -35,7 +34,7 @@ import twitter4j.auth.AccessToken;
 /**
  * 標準サイズのツイートを生成するクラスです。
  */
-public class DefaultTweetCellFactory implements TweetCellFactory {
+public class DefaultTweetCell extends TWPanel {
 
     private final TweetPanelFactory panelFactory;
 
@@ -45,19 +44,10 @@ public class DefaultTweetCellFactory implements TweetCellFactory {
      * @param status      ツイートのステータス
      * @param accessToken 有効なアクセストークン
      */
-    public DefaultTweetCellFactory(Status status, AccessToken accessToken) {
+    public DefaultTweetCell(Status status, AccessToken accessToken) {
         panelFactory = new TweetPanelFactory(status, accessToken);
-    }
-
-    /**
-     * 標準サイズのツイートセルを生成します
-     *
-     * @return 標準サイズのツイートセル
-     */
-    @Override
-    public JComponent newTweetCellComponent() {
-        JPanel p = new SelectablePanel(new BorderLayout());
-        p.add(panelFactory.createUserIcon(), BorderLayout.WEST);
+        setLayout(new BorderLayout());
+        add(panelFactory.createUserIcon(), BorderLayout.WEST);
         JPanel contentPanel = new TWPanel(new BorderLayout());
         JPanel userInfoPanel = new TWPanel(new FlowLayout(FlowLayout.LEFT));
         userInfoPanel.add(panelFactory.createFavoriteButton());
@@ -65,10 +55,10 @@ public class DefaultTweetCellFactory implements TweetCellFactory {
         userInfoPanel.add(panelFactory.createUserNameLabel());
         userInfoPanel.add(panelFactory.createScreenNameLabel());
         userInfoPanel.add(panelFactory.createTimeLabel());
+        userInfoPanel.setPreferredSize(new Dimension(-1, 30));
         contentPanel.add(userInfoPanel, BorderLayout.NORTH);
         contentPanel.add(panelFactory.createTweetTextArea(), BorderLayout.CENTER);
-        p.add(contentPanel, BorderLayout.CENTER);
-        p.setSize(p.getPreferredSize());
-        return p;
+        add(contentPanel, BorderLayout.CENTER);
+        setSize(getPreferredSize());
     }
 }
