@@ -34,8 +34,9 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
-import net.nokok.twitduke.components.async.OverlayUserIcon;
 import net.nokok.twitduke.components.async.AsyncImageIcon;
+import net.nokok.twitduke.components.async.MediaThumbnail;
+import net.nokok.twitduke.components.async.OverlayUserIcon;
 import net.nokok.twitduke.components.basic.TWButton;
 import net.nokok.twitduke.components.basic.TWTextArea;
 import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
@@ -181,6 +182,19 @@ public class TweetPanelFactory {
         Stream.of(urlEntities)
                 .forEach(u -> buttonList.add(new TWButton(u.getDisplayURL())));
         return buttonList;
+    }
+
+    /**
+     * ステータスに含まれる画像のリストを生成します
+     *
+     * @return
+     */
+    public List<JComponent> createThumbnailList() {
+        List<JComponent> thunbnails = new ArrayList<>(status.getMediaEntities().length);
+        Stream.of(status.getMediaEntities())
+                .map(entity -> new MediaThumbnail(entity.getMediaURLHttps()))
+                .forEach(thunbnails::add);
+        return thunbnails;
     }
 
     /**
