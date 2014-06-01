@@ -26,6 +26,8 @@ package net.nokok.twitduke.components.tweetcell;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.List;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import net.nokok.twitduke.components.basic.TWPanel;
 import twitter4j.Status;
@@ -58,6 +60,10 @@ public class DefaultTweetCell extends TWPanel {
         userInfoPanel.setPreferredSize(new Dimension(-1, 30));
         contentPanel.add(userInfoPanel, BorderLayout.NORTH);
         contentPanel.add(panelFactory.createTweetTextArea(), BorderLayout.CENTER);
+        JPanel thumbnailPanel = new TWPanel(new FlowLayout(FlowLayout.CENTER));
+        List<JComponent> thumbnails = panelFactory.createThumbnailList();
+        thumbnails.forEach(t -> thumbnailPanel.add(t, BorderLayout.CENTER));
+        contentPanel.add(thumbnailPanel, BorderLayout.SOUTH);
         add(contentPanel, BorderLayout.CENTER);
         setSize(getPreferredSize());
     }
