@@ -26,7 +26,6 @@ package net.nokok.twitduke.components.async;
 import java.net.MalformedURLException;
 import java.net.URL;
 import static java.util.Objects.requireNonNull;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import net.nokok.twitduke.core.type.AsyncTaskOnSuccess;
 import net.nokok.twitduke.core.type.ErrorMessageReceivable;
@@ -40,7 +39,7 @@ import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 class AsyncImageLoader implements Runnable {
 
     private final String url;
-    private AsyncTaskOnSuccess<Icon> onSuccess;
+    private AsyncTaskOnSuccess<ImageIcon> onSuccess;
     private ErrorMessageReceivable receivable;
 
     /**
@@ -57,7 +56,7 @@ class AsyncImageLoader implements Runnable {
      *
      * @param onSuccess 画像が取得される時に実行するタスク
      */
-    void onSuccess(AsyncTaskOnSuccess<Icon> onSuccess) {
+    void onSuccess(AsyncTaskOnSuccess<ImageIcon> onSuccess) {
         this.onSuccess = onSuccess;
     }
 
@@ -76,7 +75,7 @@ class AsyncImageLoader implements Runnable {
     @Override
     public void run() {
         try {
-            Icon icon = new ImageIcon(new URL(url));
+            ImageIcon icon = new ImageIcon(new URL(url));
             if ( onSuccess == null ) {
                 return;
             }
