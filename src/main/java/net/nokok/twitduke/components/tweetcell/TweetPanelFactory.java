@@ -35,7 +35,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import net.nokok.twitduke.components.async.OverlayUserIcon;
-import net.nokok.twitduke.components.async.UserIcon;
+import net.nokok.twitduke.components.async.AsyncImageIcon;
 import net.nokok.twitduke.components.basic.TWButton;
 import net.nokok.twitduke.components.basic.TWTextArea;
 import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
@@ -200,7 +200,7 @@ public class TweetPanelFactory {
      * @return ユーザーアイコン
      */
     private JLabel createUserIconLabel() {
-        JLabel label = new UserIcon(status.getUser().getProfileImageURLHttps());
+        JLabel label = new AsyncImageIcon(status.getUser().getProfileImageURLHttps());
         return label;
     }
 

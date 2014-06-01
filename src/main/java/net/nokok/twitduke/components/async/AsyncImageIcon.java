@@ -29,7 +29,7 @@ import net.nokok.twitduke.components.basic.TWLabel;
 /**
  * 非同期でユーザーアイコンを取得できるラベルコンポーネントです
  */
-public class UserIcon extends TWLabel {
+public class AsyncImageIcon extends TWLabel {
 
     private static final long serialVersionUID = -350591259780147393L;
 
@@ -38,7 +38,7 @@ public class UserIcon extends TWLabel {
      *
      * @param url 画像のURL
      */
-    public UserIcon(String url) {
+    public AsyncImageIcon(String url) {
         AsyncImageLoader task = new AsyncImageLoader(url);
         task.onSuccess(this::setIcon);
         UIAsyncTaskPool.INSTANCE.runTask(task);
