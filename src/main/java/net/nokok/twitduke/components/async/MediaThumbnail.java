@@ -23,6 +23,7 @@
  */
 package net.nokok.twitduke.components.async;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -37,11 +38,13 @@ public class MediaThumbnail extends AsyncImageIcon {
             @Override
             public void mousePressed(MouseEvent e) {
                 Dimension d = new Dimension(getIcon().getIconWidth(), getIcon().getIconHeight());
-                e.getComponent().setSize(d);
-                e.getComponent().setPreferredSize(d);
-                e.getComponent().setMinimumSize(d);
-                e.getComponent().setMaximumSize(d);
-                validate();
+                Component component = e.getComponent();
+                component.setSize(d);
+                component.setPreferredSize(d);
+                component.setMinimumSize(d);
+                component.setMaximumSize(d);
+                component.getParent().validate();
+                component.validate();
             }
 
         });
