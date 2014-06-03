@@ -47,7 +47,7 @@ public class DefaultTweetCell extends TWPanel {
      * @param accessToken 有効なアクセストークン
      */
     public DefaultTweetCell(Status status, AccessToken accessToken) {
-        panelFactory = new TweetPanelFactory(status, accessToken);
+        panelFactory = new TweetPanelFactoryImpl(status, accessToken);
         setLayout(new BorderLayout());
         add(panelFactory.createUserIcon(), BorderLayout.WEST);
         JPanel contentPanel = new TWPanel(new BorderLayout());
