@@ -65,6 +65,14 @@ public class DefaultTweetCell extends TWPanel {
         thumbnails.forEach(t -> thumbnailPanel.add(t, BorderLayout.CENTER));
         contentPanel.add(thumbnailPanel, BorderLayout.SOUTH);
         add(contentPanel, BorderLayout.CENTER);
+        JPanel southPanel = new TWPanel(new FlowLayout(FlowLayout.LEFT));
+        List<Component> urlButtons = panelFactory.createURLButtonList();
+        urlButtons.forEach(southPanel::add);
+        List<Component> mediaButtons = panelFactory.createMediaButtonList();
+        mediaButtons.forEach(southPanel::add);
+        List<Component> hashTagButtons = panelFactory.createHashtagButtonList();
+        hashTagButtons.forEach(southPanel::add);
+        add(southPanel, BorderLayout.SOUTH);
         setSize(getPreferredSize());
     }
 }
