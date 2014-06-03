@@ -40,7 +40,7 @@ public class ShindanmakerSlimButton extends TWSlimButton {
         addActionListener(e -> {
             AsyncTwitter asyncTwitter = AsyncTwitterFactory.newInstance(accessToken);
             shindanmaker.onSuccess(asyncTwitter::updateStatus);
-            shindanmaker.onError(System.out::println);
+            shindanmaker.onError(RuntimeException::new);
             shindanmaker.sendRequest(url, name);
         });
     }
