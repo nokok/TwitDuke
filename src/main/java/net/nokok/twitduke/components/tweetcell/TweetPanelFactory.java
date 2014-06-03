@@ -23,6 +23,7 @@
  */
 package net.nokok.twitduke.components.tweetcell;
 
+import java.awt.Component;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -30,8 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import net.nokok.twitduke.components.async.AsyncImageIcon;
@@ -77,7 +76,7 @@ public class TweetPanelFactory {
      *
      * @return ユーザー名がセットされたラベル
      */
-    public JLabel createUserNameLabel() {
+    public Component createUserNameLabel() {
         String userName = activeStatus.getUser().getName();
         JLabel label = new UserNameLabel(userName);
         return label;
@@ -88,7 +87,7 @@ public class TweetPanelFactory {
      *
      * @return スクリーンネームがセットされたラベル
      */
-    public JLabel createScreenNameLabel() {
+    public Component createScreenNameLabel() {
         String screenName = activeStatus.getUser().getScreenName();
         JLabel label = new ScreenNameLabel("@" + screenName);
         return label;
@@ -100,7 +99,7 @@ public class TweetPanelFactory {
      *
      * @return お気に入りボタン
      */
-    public JButton createFavoriteButton() {
+    public Component createFavoriteButton() {
         FavoriteButton button = new FavoriteButton();
         if ( status.isFavorited() ) {
             button.select();
@@ -123,7 +122,7 @@ public class TweetPanelFactory {
      *
      * @return リツイートボタン
      */
-    public JButton createRetweetButton() {
+    public Component createRetweetButton() {
         RetweetButton button = new RetweetButton();
         if ( status.isRetweetedByMe() ) {
             button.select();
@@ -145,7 +144,7 @@ public class TweetPanelFactory {
      *
      * @return ツイート本文を表示するテキストエリア
      */
-    public JTextArea createTweetTextArea() {
+    public Component createTweetTextArea() {
         String text = activeStatus.getText();
         for ( URLEntity entity : status.getURLEntities() ) {
             text = text.replaceAll(entity.getURL(), entity.getDisplayURL());
@@ -162,9 +161,9 @@ public class TweetPanelFactory {
      *
      * @return ハッシュタグのボタンのリスト
      */
-    public List<JButton> createHashtagButtonList() {
+    public List<Component> createHashtagButtonList() {
         HashtagEntity[] hashtagEntities = status.getHashtagEntities();
-        List<JButton> buttonList = new ArrayList<>(hashtagEntities.length);
+        List<Component> buttonList = new ArrayList<>(hashtagEntities.length);
         Stream
                 .of(hashtagEntities)
                 .forEach(h -> buttonList.add(new TWButton(h.getText())));
@@ -176,9 +175,9 @@ public class TweetPanelFactory {
      *
      * @return URLのボタンのリスト
      */
-    public List<JButton> createURLButtonList() {
+    public List<Component> createURLButtonList() {
         URLEntity[] urlEntities = status.getURLEntities();
-        List<JButton> buttonList = new ArrayList<>(urlEntities.length);
+        List<Component> buttonList = new ArrayList<>(urlEntities.length);
         Stream.of(urlEntities)
                 .forEach(u -> buttonList.add(new TWButton(u.getDisplayURL())));
         return buttonList;
@@ -189,8 +188,8 @@ public class TweetPanelFactory {
      *
      * @return
      */
-    public List<JComponent> createThumbnailList() {
-        List<JComponent> thunbnails = new ArrayList<>(status.getMediaEntities().length);
+    public List<Component> createThumbnailList() {
+        List<Component> thunbnails = new ArrayList<>(status.getMediaEntities().length);
         Stream.of(status.getMediaEntities())
                 .map(entity -> new MediaThumbnail(entity.getMediaURLHttps()))
                 .forEach(thunbnails::add);
@@ -202,7 +201,7 @@ public class TweetPanelFactory {
      *
      * @return 時間差を表示するラベル
      */
-    public JLabel createTimeLabel() {
+    public Component createTimeLabel() {
         Instant instant = Instant.ofEpochMilli(status.getCreatedAt().getTime());
         LocalDateTime time = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
         return new TimeLabel(time);
@@ -213,7 +212,7 @@ public class TweetPanelFactory {
      *
      * @return ユーザーアイコン
      */
-    private JLabel createUserIconLabel() {
+    private Component createUserIconLabel() {
         JLabel label = new AsyncImageIcon(status.getUser().getProfileImageURLHttps());
         return label;
     }
@@ -225,7 +224,7 @@ public class TweetPanelFactory {
      *
      * @return アイコン
      */
-    public JComponent createUserIcon() {
+    public Component createUserIcon() {
         if ( retweetedStatus.isPresent() ) {
             return new OverlayUserIcon(status);
         }
@@ -237,7 +236,7 @@ public class TweetPanelFactory {
      *
      * @return Viaのラベル
      */
-    public JLabel createViaLabel() {
+    public Component createViaLabel() {
         JLabel label = new ViaLabel(status.getSource());
         return label;
     }
