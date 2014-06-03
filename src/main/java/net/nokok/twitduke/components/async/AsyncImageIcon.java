@@ -42,6 +42,7 @@ public class AsyncImageIcon extends TWLabel {
         setPreferredSize(new Dimension(50, 50));
         AsyncImageLoader task = new AsyncImageLoader(url);
         task.onSuccess(this::setIcon);
+        task.onError(System.out::println);
         UIAsyncTaskPool.INSTANCE.runTask(task);
     }
 
