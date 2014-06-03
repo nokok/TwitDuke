@@ -39,10 +39,10 @@ public class AsyncImageIcon extends TWLabel {
      * @param url 画像のURL
      */
     public AsyncImageIcon(String url) {
+        setPreferredSize(new Dimension(50, 50));
         AsyncImageLoader task = new AsyncImageLoader(url);
         task.onSuccess(this::setIcon);
         UIAsyncTaskPool.INSTANCE.runTask(task);
-        setPreferredSize(new Dimension(50, 50));
     }
 
 }

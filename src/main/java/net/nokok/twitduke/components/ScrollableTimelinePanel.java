@@ -41,11 +41,10 @@ public class ScrollableTimelinePanel {
 
     public void addComponent(JComponent component) {
         SwingUtilities.invokeLater(() -> {
-            timelinePanel.add(component);
-            if ( scrollPane.isScrollbarTop() ) {
-                return;
+            if ( !scrollPane.isScrollbarTop() ) {
+                scrollPane.shiftScrollBar(component.getHeight() + 1);
             }
-            scrollPane.shiftScrollBar(component.getHeight() + 1);
+            timelinePanel.add(component);
         });
     }
 
