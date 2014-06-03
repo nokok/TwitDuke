@@ -21,12 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package net.nokok.twitduke.components.tweetcell;
 
 import java.awt.Component;
 import java.util.List;
-
 
 public interface TweetPanelFactory {
 
@@ -37,13 +35,6 @@ public interface TweetPanelFactory {
      * @return お気に入りボタン
      */
     Component createFavoriteButton();
-
-    /**
-     * ステータスに含まれるハッシュタグのボタンリストを生成します
-     *
-     * @return ハッシュタグのボタンのリスト
-     */
-    List<Component> createHashtagButtonList();
 
     /**
      * リツイートボタンを生成します。
@@ -87,6 +78,20 @@ public interface TweetPanelFactory {
      * @return URLのボタンのリスト
      */
     List<Component> createURLButtonList();
+
+    /**
+     * ステータスに含まれる画像のURLのボタンリストを生成します
+     *
+     * @return
+     */
+    List<Component> createMediaButtonList();
+
+    /**
+     * ステータスに含まれるハッシュタグのボタンリストを生成します
+     *
+     * @return ハッシュタグのボタンのリスト
+     */
+    List<Component> createHashtagButtonList();
 
     /**
      * ユーザーのアイコンを生成します。

@@ -36,7 +36,7 @@ import javax.swing.JTextArea;
 import net.nokok.twitduke.components.async.AsyncImageIcon;
 import net.nokok.twitduke.components.async.MediaThumbnail;
 import net.nokok.twitduke.components.async.OverlayUserIcon;
-import net.nokok.twitduke.components.basic.TWButton;
+import net.nokok.twitduke.components.basic.TWSlimButton;
 import net.nokok.twitduke.components.basic.TWTextArea;
 import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
 import twitter4j.AsyncTwitter;
@@ -55,6 +55,7 @@ public class TweetPanelFactoryImpl implements TweetPanelFactory {
     private final Optional<Status> retweetedStatus;
     private final Status activeStatus;
     private final AsyncTwitter twitter;
+    private final AccessToken accessToken;
 
     /**
      * 指定されたステータスとアクセストークンで新しいパネルファクトリーを生成します。
@@ -65,10 +66,18 @@ public class TweetPanelFactoryImpl implements TweetPanelFactory {
      */
     public TweetPanelFactoryImpl(Status status, AccessToken accessToken) {
         this.status = status;
+        this.accessToken = accessToken;
         retweetedStatus = Optional.ofNullable(status.getRetweetedStatus());
         //リツイートの場合はRetweeteeStatus、そうでない場合はstatusが入る
         activeStatus = retweetedStatus.orElseGet(() -> status);
         twitter = AsyncTwitterFactory.newInstance(accessToken);
+    }
+
+    @Override
+    public List<Component> createMediaButtonList() {
+        List<Component> buttons = new ArrayList<>(status.getMediaEntities().length);
+        Stream.of(status.getMediaEntities()).map(s -> new MediaSlimButton(s)).forEach(buttons::add);
+        return buttons;
     }
 
     /**
@@ -172,7 +181,7 @@ public class TweetPanelFactoryImpl implements TweetPanelFactory {
         List<Component> buttonList = new ArrayList<>(hashtagEntities.length);
         Stream
                 .of(hashtagEntities)
-                .forEach(h -> buttonList.add(new TWButton(h.getText())));
+                .forEach(h -> buttonList.add(new TWSlimButton("#" + h.getText())));
         return buttonList;
     }
 
@@ -186,7 +195,11 @@ public class TweetPanelFactoryImpl implements TweetPanelFactory {
         URLEntity[] urlEntities = status.getURLEntities();
         List<Component> buttonList = new ArrayList<>(urlEntities.length);
         Stream.of(urlEntities)
-                .forEach(u -> buttonList.add(new TWButton(u.getDisplayURL())));
+                .forEach(u -> buttonList.add(new URLSlimButton(u)));
+        Stream.of(urlEntities)
+                .filter(p -> p.getDisplayURL().contains("shindanmaker"))
+                .map(p -> new ShindanmakerSlimButton(p.getExpandedURL(), "noko", accessToken))
+                .forEach(buttonList::add);
         return buttonList;
     }
 
