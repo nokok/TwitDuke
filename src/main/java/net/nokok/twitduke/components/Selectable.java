@@ -41,8 +41,9 @@ public interface Selectable {
 
     /**
      * オブジェクトの選択状態を返します。
+     * AbstractButton#isSelectedとは区別されます
      *
      * @return オブジェクトの選択状態
      */
-    boolean isSelected();
+    boolean isSelect();
 }

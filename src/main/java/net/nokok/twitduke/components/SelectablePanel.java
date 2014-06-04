@@ -42,7 +42,7 @@ public class SelectablePanel extends TWPanel implements Selectable {
     }
 
     @Override
-    public boolean isSelected() {
+    public boolean isSelect() {
         return isSelected;
     }
 

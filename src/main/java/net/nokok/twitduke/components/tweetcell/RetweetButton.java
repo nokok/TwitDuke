@@ -76,7 +76,7 @@ public class RetweetButton extends TWButton implements Selectable {
     }
 
     @Override
-    public boolean isSelected() {
+    public boolean isSelect() {
         return isSelected;
     }
 

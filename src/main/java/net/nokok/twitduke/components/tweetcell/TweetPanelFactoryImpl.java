@@ -117,7 +117,7 @@ public class TweetPanelFactoryImpl implements TweetPanelFactory {
             button.select();
         }
         button.addActionListener(e -> {
-            if ( button.isSelected() ) {
+            if ( button.isSelect() ) {
                 twitter.destroyFavorite(status.getId());
                 button.unselect();
             } else {
@@ -141,7 +141,7 @@ public class TweetPanelFactoryImpl implements TweetPanelFactory {
             button.select();
         }
         button.addActionListener(e -> {
-            if ( button.isSelected() ) {
+            if ( button.isSelect() ) {
                 twitter.destroyStatus(status.getId());
                 button.unselect();
             } else {
