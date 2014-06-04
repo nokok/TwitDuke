@@ -87,7 +87,7 @@ public class Main {
         lambdaTwitterStream.onStatus((status, rt) -> {
             scrollablePanel.addComponent(new DefaultTweetCell(status, accessToken));
         });
-        lambdaTwitterStream.onException(System.out::println);
+        lambdaTwitterStream.onException(e -> e.printStackTrace());
         lambdaTwitterStream.startStream();
         TweetTextArea tweetTextArea = new TweetTextArea(accessToken);
         tweetTextArea.setPreferredSize(new Dimension(-1, 50));
