@@ -27,6 +27,7 @@ import static com.google.common.io.ByteStreams.nullOutputStream;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.PrintStream;
+import java.util.stream.Stream;
 import net.nokok.twitduke.components.ScrollableTimelinePanel;
 import net.nokok.twitduke.components.TweetTextArea;
 import net.nokok.twitduke.components.Window;
@@ -60,8 +61,11 @@ public class Main {
             DirectoryHelper.createTwitDukeDirectories();
         }
         ErrorLogExporter logger = new ErrorLogExporter();
-        System.setErr(new PrintStream(nullOutputStream()));
-        System.setOut(new PrintStream(nullOutputStream()));
+        boolean isDebug = Stream.of(args).anyMatch(arg -> arg.equals("--debug"));
+        if ( !isDebug ) {
+            System.setErr(new PrintStream(nullOutputStream()));
+            System.setOut(new PrintStream(nullOutputStream()));
+        }
         final AccountManager accountManager = AccountManagerFactory.newInstance();
         if ( !accountManager.hasValidAccount() ) {
             OAuthRunnable auth = LambdaOAuthFactory.newInstance();
