@@ -23,7 +23,7 @@
  */
 package net.nokok.twitduke.core.auth;
 
-import net.nokok.twitduke.core.type.ErrorMessageReceivable;
+import net.nokok.twitduke.core.type.ThrowableReceivable;
 import net.nokok.twitduke.pluginsupport.event.EventWithSingleArg;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
@@ -51,9 +51,9 @@ public interface LambdaOAuth extends Runnable {
     /**
      * エラーが発生した時に呼ばれます
      *
-     * @param errorListener エラーメッセージが取得できるオブジェクト
+     * @param receiver Throwableを取得できるオブジェクト
      */
-    void onException(ErrorMessageReceivable errorListener);
+    void onException(ThrowableReceivable receiver);
 
     /**
      * PINをセットします

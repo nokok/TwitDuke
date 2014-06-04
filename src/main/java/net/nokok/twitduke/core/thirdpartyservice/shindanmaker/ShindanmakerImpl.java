@@ -25,7 +25,7 @@ package net.nokok.twitduke.core.thirdpartyservice.shindanmaker;
 
 import java.io.IOException;
 import net.nokok.twitduke.core.type.AsyncTaskOnSuccess;
-import net.nokok.twitduke.core.type.ErrorMessageReceivable;
+import net.nokok.twitduke.core.type.ThrowableReceivable;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -36,12 +36,12 @@ import org.jsoup.select.Elements;
  */
 public class ShindanmakerImpl implements Shindanmaker {
 
-    private ErrorMessageReceivable receivable;
+    private ThrowableReceivable receiver;
     private AsyncTaskOnSuccess<String> result;
 
     @Override
-    public void onError(ErrorMessageReceivable receivable) {
-        this.receivable = receivable;
+    public void onError(ThrowableReceivable receiver) {
+        this.receiver = receiver;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class ShindanmakerImpl implements Shindanmaker {
             Elements textArea = doc.select("textarea");
             result.onSuccess(textArea.val());
         } catch (IOException ex) {
-            receivable.onError(ex.getMessage());
+            receiver.onError(ex);
         }
     }
 }

@@ -24,7 +24,7 @@
 package net.nokok.twitduke.core.thirdpartyservice.shindanmaker;
 
 import net.nokok.twitduke.core.type.AsyncTaskOnSuccess;
-import net.nokok.twitduke.core.type.ErrorMessageReceivable;
+import net.nokok.twitduke.core.type.ThrowableReceivable;
 
 /**
  * 診断メーカーの自動診断に必要なメソッドを定義するインターフェースです
@@ -43,9 +43,9 @@ public interface Shindanmaker {
     /**
      * エラーが発生した時に呼ばれます
      *
-     * @param receivable エラーメッセージが受信可能なオブジェクト
+     * @param receiver Throwableが受信可能なオブジェクト
      */
-    void onError(ErrorMessageReceivable receivable);
+    void onError(ThrowableReceivable receiver);
 
     /**
      * 成功した時に呼ばれます

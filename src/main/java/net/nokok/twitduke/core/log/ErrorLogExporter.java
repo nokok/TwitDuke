@@ -29,8 +29,9 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
 import net.nokok.twitduke.core.type.ErrorMessageReceivable;
+import net.nokok.twitduke.core.type.ThrowableReceivable;
 
-public class ErrorLogExporter implements ErrorLogger, ErrorMessageReceivable {
+public class ErrorLogExporter implements ErrorMessageReceivable, ThrowableReceivable {
 
     private final File logFile = new File(LogPath.LOG_PATH);
 
@@ -41,20 +42,20 @@ public class ErrorLogExporter implements ErrorLogger, ErrorMessageReceivable {
     }
 
     @Override
-    public void error(Throwable e) {
-        StackTraceElement[] elements = e.getStackTrace();
+    public void onError(String errorMessage) {
+        StringBuilder builder = new StringBuilder(errorMessage.length() + 30);//30は時刻と矢印の文字数分
+        builder.append(LocalDateTime.now()).append(" -> ").append(errorMessage).append(newLine());
+        appendLine(builder.toString());
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        StackTraceElement[] elements = throwable.getStackTrace();
         appendLine(LocalDateTime.now() + newLine());
         Stream.of(elements)
                 .filter(p -> !p.isNativeMethod())
                 .forEach(elm -> appendLine(elm.toString() + newLine()));
         appendLine(newLine());
-    }
-
-    @Override
-    public void onError(String errorMessage) {
-        StringBuilder builder = new StringBuilder(errorMessage.length() + 30);//30は時刻と矢印の文字数分
-        builder.append(LocalDateTime.now()).append(" -> ").append(errorMessage).append(newLine());
-        appendLine(builder.toString());
     }
 
     private void appendLine(String line) {

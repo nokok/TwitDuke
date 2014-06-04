@@ -41,7 +41,7 @@ public interface TwitterAuthenticationListener {
     /**
      * Twitter認証が失敗した時に呼ばれます
      *
-     * @param errorMessage 失敗した原因を説明するメッセージ
+     * @param throwable 失敗の原因
      */
-    void error(String errorMessage);
+    void error(Throwable throwable);
 }

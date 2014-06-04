@@ -34,19 +34,18 @@ import javax.swing.TransferHandler;
 import javax.swing.border.LineBorder;
 import net.nokok.twitduke.components.basic.TWLabel;
 import net.nokok.twitduke.components.basic.TWPanel;
-import net.nokok.twitduke.core.type.AsyncTaskOnError;
 import net.nokok.twitduke.core.type.AsyncTaskOnSuccess;
-import net.nokok.twitduke.core.type.ResultListener;
+import net.nokok.twitduke.core.type.ThrowableReceivable;
 
 /**
  * パネルにドラッグアンドドロップされたファイルを受け取るパネルです。
  */
-public class DroppableImagePanel extends TWPanel implements ResultListener<String, File> {
+public class DroppableImagePanel extends TWPanel {
 
     private static final long serialVersionUID = 2843592085054940054L;
 
-    private AsyncTaskOnError<String> error;
-    private AsyncTaskOnSuccess<File> result;
+    private List<AsyncTaskOnSuccess<File>> resultReceivers;
+    private List<ThrowableReceivable> errorReceivers;
 
     /**
      * 新しくパネルを生成します
@@ -57,14 +56,12 @@ public class DroppableImagePanel extends TWPanel implements ResultListener<Strin
         setBorder(new LineBorder(Color.WHITE));
     }
 
-    @Override
-    public void onError(AsyncTaskOnError<String> error) {
-        this.error = error;
+    public void onSuccess(AsyncTaskOnSuccess<File> receiver) {
+        this.resultReceivers.add(receiver);
     }
 
-    @Override
-    public void onSuccess(AsyncTaskOnSuccess<File> result) {
-        this.result = result;
+    public void onError(ThrowableReceivable receiver) {
+        this.errorReceivers.add(receiver);
     }
 
     private class DropImageHandler extends TransferHandler {
@@ -88,9 +85,9 @@ public class DroppableImagePanel extends TWPanel implements ResultListener<Strin
                 files.stream().filter(p -> {
                     String path = p.getAbsolutePath();
                     return path.endsWith(".jpg") || path.endsWith(".jpeg") || path.endsWith(".png");
-                }).forEach(result::onSuccess);
+                }).forEach(f -> resultReceivers.forEach(r -> r.onSuccess(f)));
             } catch (UnsupportedFlavorException | IOException ex) {
-                error.error("対応していないか読み取れないファイルです");
+                errorReceivers.forEach(r -> r.onError(ex));
                 return false;
             }
             return true;

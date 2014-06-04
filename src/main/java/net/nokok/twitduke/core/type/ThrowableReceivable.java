@@ -23,9 +23,8 @@
  */
 package net.nokok.twitduke.core.type;
 
-import net.nokok.twitduke.pluginsupport.event.EventWithSingleArg;
-
+@FunctionalInterface
 public interface ThrowableReceivable {
 
-    void onError(EventWithSingleArg<Throwable> receiver);
+    void onError(Throwable throwable);
 }

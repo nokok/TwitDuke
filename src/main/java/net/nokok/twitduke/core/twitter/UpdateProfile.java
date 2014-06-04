@@ -23,7 +23,7 @@
  */
 package net.nokok.twitduke.core.twitter;
 
-import net.nokok.twitduke.core.type.ErrorMessageReceivable;
+import net.nokok.twitduke.core.type.ThrowableReceivable;
 
 /**
  * ユーザー情報の変更が出来ます。
@@ -33,13 +33,13 @@ public interface UpdateProfile extends TwitterExceptionReceivable {
 
     /**
      * ユーザー情報変更中にエラーが発生した場合に呼ばれるメソッドです。
-     * エラーメッセージはErrorMessageReceivableを実装したオブジェクトに移譲されます。
+     * エラーメッセージはThrowableReceivableを実装したオブジェクトに移譲されます。
      *
-     * @param receivable エラーメッセージを実際に受信するオブジェクト
+     * @param receiver Throwableを受信できるオブジェクト
      *
      */
     @Override
-    void onError(ErrorMessageReceivable receivable);
+    void onError(ThrowableReceivable receiver);
 
     /**
      * プロフィールの詳細(TwitterAPI上ではDescription)を変更します。

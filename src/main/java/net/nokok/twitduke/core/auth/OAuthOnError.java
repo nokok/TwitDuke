@@ -33,7 +33,7 @@ public interface OAuthOnError {
     /**
      * 認証が失敗した時に呼ばれます
      *
-     * @param errorMessage 失敗した原因を説明するメッセージ
+     * @param throwable 失敗した原因
      */
-    void onError(String errorMessage);
+    void onError(Throwable throwable);
 }

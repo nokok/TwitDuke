@@ -23,7 +23,7 @@
  */
 package net.nokok.twitduke.core.twitter;
 
-import net.nokok.twitduke.core.type.ErrorMessageReceivable;
+import net.nokok.twitduke.core.type.ThrowableReceivable;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -36,7 +36,7 @@ import twitter4j.auth.AccessToken;
 public class UpdateProfileImpl implements UpdateProfile {
 
     private final Twitter user;
-    private ErrorMessageReceivable resultOnError;
+    private ThrowableReceivable resultOnError;
 
     /**
      * 渡されたTwitterオブジェクトで認証されているユーザー情報を変更します。
@@ -68,7 +68,7 @@ public class UpdateProfileImpl implements UpdateProfile {
         try {
             user.updateProfile(name, null, null, null);
         } catch (TwitterException e) {
-            resultOnError.onError(e.getErrorMessage());
+            resultOnError.onError(e);
         }
     }
 
@@ -77,7 +77,7 @@ public class UpdateProfileImpl implements UpdateProfile {
         try {
             user.updateProfile(null, url, null, null);
         } catch (TwitterException e) {
-            resultOnError.onError(e.getErrorMessage());
+            resultOnError.onError(e);
         }
     }
 
@@ -86,7 +86,7 @@ public class UpdateProfileImpl implements UpdateProfile {
         try {
             user.updateProfile(null, null, location, null);
         } catch (TwitterException e) {
-            resultOnError.onError(e.getErrorMessage());
+            resultOnError.onError(e);
         }
     }
 
@@ -95,12 +95,12 @@ public class UpdateProfileImpl implements UpdateProfile {
         try {
             user.updateProfile(null, null, null, bio);
         } catch (TwitterException e) {
-            resultOnError.onError(e.getErrorMessage());
+            resultOnError.onError(e);
         }
     }
 
     @Override
-    public void onError(ErrorMessageReceivable receivable) {
+    public void onError(ThrowableReceivable receivable) {
         this.resultOnError = receivable;
     }
 }

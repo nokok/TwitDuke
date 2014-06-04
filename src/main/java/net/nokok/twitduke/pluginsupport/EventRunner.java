@@ -50,6 +50,8 @@ class EventRunner {
             try {
                 invocable.invokeMethod(scriptEngine.get(objectName), methodName, args);
             } catch (ScriptException | NoSuchMethodException ignored) {
+                //プラグイン側は実装していないメソッド及び関数がほとんどなので無視
+                //この部分を修正したらPluginクラスのinvokeMethodを修正したほうが良いかも
             }
         });
     }

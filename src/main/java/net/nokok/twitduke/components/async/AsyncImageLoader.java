@@ -30,7 +30,7 @@ import java.util.List;
 import static java.util.Objects.requireNonNull;
 import javax.swing.ImageIcon;
 import net.nokok.twitduke.core.type.AsyncTaskOnSuccess;
-import net.nokok.twitduke.core.type.ErrorMessageReceivable;
+import net.nokok.twitduke.core.type.ThrowableReceivable;
 
 /**
  * このクラスは画像を非同期で読み込みます。
@@ -42,7 +42,7 @@ class AsyncImageLoader implements Runnable {
 
     private final String url;
     private final List<AsyncTaskOnSuccess<ImageIcon>> onSuccessReceiver = new ArrayList<>();
-    private final List<ErrorMessageReceivable> onErrorReceiver = new ArrayList<>();
+    private final List<ThrowableReceivable> onErrorReceiver = new ArrayList<>();
 
     /**
      * 指定されたURLの画像を非同期で読み込むオブジェクトを生成します
@@ -67,7 +67,7 @@ class AsyncImageLoader implements Runnable {
      *
      * @param receiver 画像の取得が失敗した時に実行するタスク
      */
-    void onError(ErrorMessageReceivable receiver) {
+    void onError(ThrowableReceivable receiver) {
         onErrorReceiver.add(receiver);
     }
 
@@ -80,7 +80,7 @@ class AsyncImageLoader implements Runnable {
             ImageIcon icon = new ImageIcon(new URL(url));
             onSuccessReceiver.forEach(r -> r.onSuccess(icon));
         } catch (MalformedURLException ex) {
-            onErrorReceiver.forEach(r -> r.onError(ex.getMessage()));
+            onErrorReceiver.forEach(r -> r.onError(ex));
         }
     }
 }

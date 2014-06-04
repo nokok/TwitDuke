@@ -24,7 +24,7 @@
 package net.nokok.twitduke.core.auth;
 
 import net.nokok.twitduke.core.twitter.AsyncTwitterInstanceGeneratorImpl;
-import net.nokok.twitduke.core.type.ErrorMessageReceivable;
+import net.nokok.twitduke.core.type.ThrowableReceivable;
 import net.nokok.twitduke.pluginsupport.event.EventWithSingleArg;
 import twitter4j.AsyncTwitter;
 import twitter4j.TwitterAdapter;
@@ -73,12 +73,12 @@ public class LambdaOAuthImpl implements Runnable, LambdaOAuth {
     }
 
     @Override
-    public void onException(ErrorMessageReceivable errorListener) {
+    public void onException(ThrowableReceivable errorListener) {
         this.asyncTwitter.addListener(new TwitterAdapter() {
 
             @Override
             public void onException(TwitterException te, TwitterMethod method) {
-                errorListener.onError(te.getErrorMessage());
+                errorListener.onError(te);
             }
 
         });

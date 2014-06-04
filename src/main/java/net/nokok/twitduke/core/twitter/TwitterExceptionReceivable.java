@@ -23,7 +23,7 @@
  */
 package net.nokok.twitduke.core.twitter;
 
-import net.nokok.twitduke.core.type.ErrorMessageReceivable;
+import net.nokok.twitduke.core.type.ThrowableReceivable;
 
 /**
  * AsyncTwitterなどの例外を取得できます
@@ -34,7 +34,7 @@ public interface TwitterExceptionReceivable {
     /**
      * エラー発生時に呼ばれます
      *
-     * @param receivable エラーメッセージが受信可能なオブジェクト
+     * @param receiver Throwableが受信可能なオブジェクト
      */
-    void onError(ErrorMessageReceivable receivable);
+    void onError(ThrowableReceivable receiver);
 }

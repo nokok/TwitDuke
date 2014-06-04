@@ -27,9 +27,9 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import net.nokok.twitduke.components.OAuthDialog;
 import net.nokok.twitduke.components.Dialog;
 import net.nokok.twitduke.components.DialogResultListener;
+import net.nokok.twitduke.components.OAuthDialog;
 import net.nokok.twitduke.core.twitter.AsyncTwitterInstanceGeneratorImpl;
 import twitter4j.AsyncTwitter;
 import twitter4j.TwitterAdapter;
@@ -73,7 +73,7 @@ public class PINAuthentication implements TwitterAuthentication, DialogResultLis
     @Override
     public void cancelButtonPushed() {
         dialog.dispose();
-        authenticationListener.error("OAuth認証がキャンセルされました。キャンセルボタンが選択されました。");
+        authenticationListener.error(new RuntimeException("OAuth認証がキャンセルされました。キャンセルボタンが選択されました。"));
     }
 
     /**
@@ -122,7 +122,7 @@ public class PINAuthentication implements TwitterAuthentication, DialogResultLis
          */
         @Override
         public void onException(TwitterException te, TwitterMethod method) {
-            authenticationListener.error(te.getErrorMessage());
+            authenticationListener.error(te);
         }
 
         /**
@@ -137,7 +137,7 @@ public class PINAuthentication implements TwitterAuthentication, DialogResultLis
                 Desktop.getDesktop().browse(new URI(url));
                 dialog.show();
             } catch (IOException | URISyntaxException ex) {
-                authenticationListener.error(ex.getMessage());
+                authenticationListener.error(ex);
             }
         }
     }

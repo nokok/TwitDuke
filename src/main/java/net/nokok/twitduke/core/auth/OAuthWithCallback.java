@@ -53,8 +53,8 @@ public class OAuthWithCallback implements OAuthRunnable {
         authentication.setListener(new TwitterAuthenticationListener() {
 
             @Override
-            public void error(String errorMessage) {
-                error.onError(errorMessage);
+            public void error(Throwable throwable) {
+                error.onError(throwable);
             }
 
             @Override

@@ -26,7 +26,7 @@ package net.nokok.twitduke.pluginsupport.apiwrapper;
 import java.util.Optional;
 import net.nokok.twitduke.core.factory.TwitterStreamFactory;
 import net.nokok.twitduke.core.twitter.TwitterExceptionReceivable;
-import net.nokok.twitduke.core.type.ErrorMessageReceivable;
+import net.nokok.twitduke.core.type.ThrowableReceivable;
 import net.nokok.twitduke.pluginsupport.event.EventWithDoubleArg;
 import net.nokok.twitduke.pluginsupport.event.EventWithSingleArg;
 import net.nokok.twitduke.pluginsupport.event.EventWithTripleArg;
@@ -72,20 +72,20 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
     }
 
     @Override
-    public void onError(ErrorMessageReceivable receivable) {
+    public void onError(ThrowableReceivable receivable) {
         this.twitterStream.addListener(new StatusAdapter() {
             @Override
             public void onException(Exception ex) {
-                receivable.onError(ex.getMessage());
+                receivable.onError(ex);
             }
         });
     }
 
-    public void onException(EventWithSingleArg<Exception> e) {
+    public void onException(ThrowableReceivable e) {
         this.twitterStream.addListener(new StatusAdapter() {
             @Override
             public void onException(Exception ex) {
-                e.onEvent(ex);
+                e.onError(ex);
             }
         });
     }

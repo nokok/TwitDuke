@@ -29,8 +29,8 @@ import net.nokok.twitduke.core.twitter.Footer;
 import net.nokok.twitduke.core.twitter.TweetSendable;
 import net.nokok.twitduke.core.twitter.TwitterExceptionReceivable;
 import net.nokok.twitduke.core.twitter.UpdateProfile;
-import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 import net.nokok.twitduke.core.type.ScreenName;
+import net.nokok.twitduke.core.type.ThrowableReceivable;
 import net.nokok.twitduke.core.type.Tweet;
 import twitter4j.AsyncTwitter;
 import twitter4j.TwitterAdapter;
@@ -55,12 +55,12 @@ public class TwitterAPI implements TweetSendable, DMSendable, UpdateProfile, Twi
     }
 
     @Override
-    public void onError(ErrorMessageReceivable receivable) {
+    public void onError(ThrowableReceivable receiver) {
         asyncTwitter.addListener(new TwitterAdapter() {
 
             @Override
             public void onException(TwitterException te, TwitterMethod method) {
-                receivable.onError(te.getErrorMessage());
+                receiver.onError(te);
             }
 
         });

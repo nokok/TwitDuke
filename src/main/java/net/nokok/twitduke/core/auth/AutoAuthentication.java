@@ -73,12 +73,12 @@ public class AutoAuthentication implements TwitterAuthentication {
                     AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, verifier);
                     authenticationListener.success(accessToken);
                 } catch (TwitterException ex) {
-                    authenticationListener.error(ex.getErrorMessage());
+                    authenticationListener.error(ex);
                 }
             });
             server.start();
         } catch (IOException | TwitterException e) {
-            authenticationListener.error(e.getMessage());
+            authenticationListener.error(e);
         }
     }
 
@@ -86,7 +86,7 @@ public class AutoAuthentication implements TwitterAuthentication {
         try {
             Desktop.getDesktop().browse(new URI(url));
         } catch (IOException | URISyntaxException ex) {
-            authenticationListener.error(ex.getMessage());
+            authenticationListener.error(ex);
         }
     }
 }

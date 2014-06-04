@@ -50,8 +50,8 @@ public class LambdaPINOAuth implements OAuthRunnable {
         authentication.setListener(new TwitterAuthenticationListener() {
 
             @Override
-            public void error(String errorMessage) {
-                errorHandler.onError(errorMessage);
+            public void error(Throwable throwable) {
+                errorHandler.onError(throwable);
             }
 
             @Override

@@ -73,7 +73,8 @@ public class Plugin implements PluginInfo, ReadablePlugin, InvocablePlugin {
         try {
             invocable.invokeMethod(scriptEngine.get(objectName), methodName, args);
         } catch (NoSuchMethodException | ScriptException ignored) {
-
+            //プラグイン側は実装していないメソッド及び関数がほとんどなので無視
+            //この部分を修正したらEventRunnerのinvokeAllを修正したほうが良いかも
         }
     }
 
