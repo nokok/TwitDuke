@@ -25,6 +25,8 @@ package net.nokok.twitduke.components.async;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import static java.util.Objects.requireNonNull;
 import javax.swing.ImageIcon;
 import net.nokok.twitduke.core.type.AsyncTaskOnSuccess;
@@ -39,8 +41,8 @@ import net.nokok.twitduke.core.type.ErrorMessageReceivable;
 class AsyncImageLoader implements Runnable {
 
     private final String url;
-    private AsyncTaskOnSuccess<ImageIcon> onSuccess;
-    private ErrorMessageReceivable receivable;
+    private final List<AsyncTaskOnSuccess<ImageIcon>> onSuccessReceiver = new ArrayList<>();
+    private final List<ErrorMessageReceivable> onErrorReceiver = new ArrayList<>();
 
     /**
      * 指定されたURLの画像を非同期で読み込むオブジェクトを生成します
@@ -54,19 +56,19 @@ class AsyncImageLoader implements Runnable {
     /**
      * 画像の取得が成功した時に呼ばれます。
      *
-     * @param onSuccess 画像が取得される時に実行するタスク
+     * @param receiver 画像が取得される時に実行するタスク
      */
-    void onSuccess(AsyncTaskOnSuccess<ImageIcon> onSuccess) {
-        this.onSuccess = onSuccess;
+    void onSuccess(AsyncTaskOnSuccess<ImageIcon> receiver) {
+        onSuccessReceiver.add(receiver);
     }
 
     /**
      * 画像の取得が失敗した時に呼ばれます
      *
-     * @param receivable 画像の取得が失敗した時に実行するタスク
+     * @param receiver 画像の取得が失敗した時に実行するタスク
      */
-    void onError(ErrorMessageReceivable receivable) {
-        this.receivable = receivable;
+    void onError(ErrorMessageReceivable receiver) {
+        onErrorReceiver.add(receiver);
     }
 
     /**
@@ -76,15 +78,9 @@ class AsyncImageLoader implements Runnable {
     public void run() {
         try {
             ImageIcon icon = new ImageIcon(new URL(url));
-            if ( onSuccess == null ) {
-                return;
-            }
-            onSuccess.onSuccess(icon);
+            onSuccessReceiver.forEach(r -> r.onSuccess(icon));
         } catch (MalformedURLException ex) {
-            if ( receivable == null ) {
-                return;
-            }
-            receivable.onError(ex.getMessage());
+            onErrorReceiver.forEach(r -> r.onError(ex.getMessage()));
         }
     }
 }
