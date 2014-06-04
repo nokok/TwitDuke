@@ -27,12 +27,13 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
+import net.nokok.twitduke.components.Selectable;
 
 /**
  * TwitDuke用のカスタマイズ済みJButtonを定義します
  *
  */
-public class TWButton extends JButton {
+public class TWButton extends JButton implements Selectable {
 
     private static final long serialVersionUID = -6950374784491086356L;
 
@@ -46,6 +47,13 @@ public class TWButton extends JButton {
     public static final Color FOREGROUND_COLOR = new Color(40, 40, 40);
 
     /**
+     * デフォルトのボタン選択色です
+     */
+    public static final Color DEFAULT_SELECT_COLOR = new Color(189, 195, 199).darker();
+
+    private boolean isSelected;
+
+    /**
      * 空のボタンを生成します
      */
     public TWButton() {
@@ -57,12 +65,12 @@ public class TWButton extends JButton {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                setBackground(getBackground().darker());
+                setBackground(DEFAULT_SELECT_COLOR);
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                setBackground(getBackground().brighter());
+                setBackground(BACKGROUND_COLOR);
             }
         });
     }
@@ -75,5 +83,20 @@ public class TWButton extends JButton {
     public TWButton(String text) {
         this();
         setText(text);
+    }
+
+    @Override
+    public boolean isSelect() {
+        return isSelected;
+    }
+
+    @Override
+    public void select() {
+        setBackground(DEFAULT_SELECT_COLOR);
+    }
+
+    @Override
+    public void unselect() {
+        setBackground(BACKGROUND_COLOR);
     }
 }
