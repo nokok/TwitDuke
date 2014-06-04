@@ -26,14 +26,13 @@ package net.nokok.twitduke.components.tweetcell;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
-import net.nokok.twitduke.components.Selectable;
 import net.nokok.twitduke.components.basic.TWButton;
 
 /**
  * お気に入りボタンです
  *
  */
-public class FavoriteButton extends TWButton implements Selectable {
+public class FavoriteButton extends TWButton {
 
     private static final long serialVersionUID = 2609656566714323682L;
     private boolean isSelected;

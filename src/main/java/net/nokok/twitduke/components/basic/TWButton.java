@@ -65,12 +65,12 @@ public class TWButton extends JButton implements Selectable {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                setBackground(DEFAULT_SELECT_COLOR);
+                setBackground(getBackground().darker());
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                setBackground(BACKGROUND_COLOR);
+                setBackground(getBackground().brighter());
             }
         });
     }
