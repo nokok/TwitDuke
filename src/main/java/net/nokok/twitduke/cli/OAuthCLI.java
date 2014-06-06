@@ -32,6 +32,7 @@ import net.nokok.twitduke.core.type.AccessTokenProperty;
 /**
  * コマンドラインで認証を行うクラスです
  */
+@Deprecated
 public class OAuthCLI {
 
     /**

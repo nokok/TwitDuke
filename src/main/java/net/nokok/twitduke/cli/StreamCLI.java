@@ -30,6 +30,7 @@ import net.nokok.twitduke.core.twitter.TwitterStreamInstanceGeneratorImpl;
 import twitter4j.TwitterStream;
 import twitter4j.auth.AccessToken;
 
+@Deprecated
 public class StreamCLI {
 
     public static void main(String[] args) {

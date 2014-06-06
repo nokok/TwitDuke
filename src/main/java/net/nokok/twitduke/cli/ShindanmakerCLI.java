@@ -26,6 +26,7 @@ package net.nokok.twitduke.cli;
 import net.nokok.twitduke.core.thirdpartyservice.shindanmaker.Shindanmaker;
 import net.nokok.twitduke.core.thirdpartyservice.shindanmaker.ShindanmakerImpl;
 
+@Deprecated
 public class ShindanmakerCLI {
 
     public static void main(String[] args) {
