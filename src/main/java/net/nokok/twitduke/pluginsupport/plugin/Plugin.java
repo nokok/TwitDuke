@@ -23,10 +23,14 @@
  */
 package net.nokok.twitduke.pluginsupport.plugin;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
 import java.io.UncheckedIOException;
+import java.util.Optional;
+import java.util.Properties;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -99,5 +103,39 @@ public class Plugin implements PluginInfo, ReadablePlugin, InvocablePlugin {
     @Override
     public String version() {
         return pluginInfo.version();
+    }
+
+    public static Optional<Plugin> encode(File file) {
+        String propertyPath = file.getAbsolutePath().replace(".js", ".properties");
+        final Properties properties = new Properties();
+        Plugin plugin;
+        try {
+            properties.load(new FileReader(propertyPath));
+            plugin = new Plugin(file.getAbsolutePath(), new PluginInfo() {
+
+                @Override
+                public String author() {
+                    return properties.getProperty("author");
+                }
+
+                @Override
+                public String description() {
+                    return properties.getProperty("description");
+                }
+
+                @Override
+                public String name() {
+                    return properties.getProperty("name");
+                }
+
+                @Override
+                public String version() {
+                    return properties.getProperty("version");
+                }
+            });
+        } catch (IOException e) {
+            return Optional.empty();
+        }
+        return Optional.of(plugin);
     }
 }

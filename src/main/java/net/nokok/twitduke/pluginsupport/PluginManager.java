@@ -34,7 +34,6 @@ import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
 import net.nokok.twitduke.core.twitter.UpdateProfileImpl;
 import net.nokok.twitduke.core.type.UncheckedScriptException;
 import net.nokok.twitduke.pluginsupport.plugin.Plugin;
-import net.nokok.twitduke.pluginsupport.util.FileToPlugin;
 import twitter4j.auth.AccessToken;
 
 public class PluginManager {
@@ -46,7 +45,7 @@ public class PluginManager {
         File[] files = new File(pluginDirectoryPath).listFiles();
         Stream.of(files)
                 .filter(f -> f.getName().endsWith(".js"))
-                .map(FileToPlugin::encode)
+                .map(Plugin::encode)
                 .filter(p -> p.isPresent())
                 .map(p -> p.get())
                 .forEach(plugins::add);
