@@ -38,6 +38,8 @@ import twitter4j.Status;
  */
 public class OverlayUserIcon extends TWPanel {
 
+    private static final long serialVersionUID = 2484721633191391187L;
+
     private Image smallIcon;
 
     public OverlayUserIcon(Status status) {

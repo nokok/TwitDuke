@@ -30,6 +30,8 @@ import java.awt.event.MouseEvent;
 
 public class MediaThumbnail extends AsyncImageIcon {
 
+    private static final long serialVersionUID = 3974047816465990274L;
+
     public MediaThumbnail(String url) {
         super(url);
         setPreferredSize(new Dimension(350, 50));

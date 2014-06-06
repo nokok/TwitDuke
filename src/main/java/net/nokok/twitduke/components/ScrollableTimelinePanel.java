@@ -32,6 +32,8 @@ import net.nokok.twitduke.components.basic.TWScrollPane;
 
 public class ScrollableTimelinePanel extends JComponent {
 
+    private static final long serialVersionUID = 6520331982802451546L;
+
     private final JPanel timelinePanel;
     private final TWScrollPane scrollPane;
 

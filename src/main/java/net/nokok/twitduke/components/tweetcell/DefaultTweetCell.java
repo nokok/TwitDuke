@@ -38,6 +38,8 @@ import twitter4j.auth.AccessToken;
  */
 public class DefaultTweetCell extends TWPanel {
 
+    private static final long serialVersionUID = 2533161383478118204L;
+
     private final TweetPanelFactory panelFactory;
 
     /**

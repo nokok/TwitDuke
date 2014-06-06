@@ -34,6 +34,8 @@ import twitter4j.URLEntity;
 
 public class URLSlimButton extends TWSlimButton {
 
+    private static final long serialVersionUID = 3697076660756865942L;
+
     public static final Color URL_BACKGROUND_COLOR = new Color(44, 62, 80);
     public static final Color URL_FOREGROUND_COLOR = new Color(236, 240, 241);
 

@@ -27,6 +27,8 @@ import twitter4j.MediaEntity;
 
 public class MediaSlimButton extends URLSlimButton {
 
+    private static final long serialVersionUID = -5988146847750641516L;
+
     public MediaSlimButton(String text) {
         super(text);
     }

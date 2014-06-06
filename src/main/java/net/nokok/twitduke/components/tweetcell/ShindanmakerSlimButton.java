@@ -33,6 +33,8 @@ import twitter4j.auth.AccessToken;
 
 public class ShindanmakerSlimButton extends TWSlimButton {
 
+    private static final long serialVersionUID = 2413821909257131606L;
+
     public ShindanmakerSlimButton(String url, String name, AccessToken accessToken) {
         setText("診断をツイート");
         setPreferredSize(new Dimension(130, 20));
