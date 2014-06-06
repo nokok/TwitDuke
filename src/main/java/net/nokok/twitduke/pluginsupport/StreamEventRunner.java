@@ -23,19 +23,29 @@
  */
 package net.nokok.twitduke.pluginsupport;
 
+import java.util.List;
 import net.nokok.twitduke.pluginsupport.plugin.Plugin;
 import net.nokok.twitduke.pluginsupport.plugin.PluginRegistrable;
 import twitter4j.DirectMessage;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
+import twitter4j.StatusListener;
 import twitter4j.User;
 import twitter4j.UserList;
 import twitter4j.UserStreamListener;
 
-public class StreamEventRunner implements UserStreamListener, PluginRegistrable {
+public class StreamEventRunner implements UserStreamListener, StatusListener, PluginRegistrable {
 
     private final EventRunner eventRunner = new EventRunner(PluginObjectName.STREAM);
+
+    public StreamEventRunner() {
+
+    }
+
+    public StreamEventRunner(List<Plugin> plugins) {
+        plugins.forEach(eventRunner::addPlugin);
+    }
 
     @Override
     public void addPlugin(Plugin p) {
