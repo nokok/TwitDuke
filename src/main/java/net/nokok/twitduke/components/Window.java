@@ -24,6 +24,7 @@
 package net.nokok.twitduke.components;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
@@ -31,6 +32,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import net.nokok.twitduke.components.basic.TWFrame;
 import net.nokok.twitduke.core.event.WindowEventListener;
+import twitter4j.auth.AccessToken;
 
 /**
  * TwitDukeのメインウィンドウです
@@ -38,6 +40,7 @@ import net.nokok.twitduke.core.event.WindowEventListener;
 public class Window implements WindowSize, Visible, Disposable {
 
     private final JFrame frame = new TWFrame("TwitDuke");
+    private JComponent component;
 
     public Window() {
         frame.setLayout(new BorderLayout());
@@ -93,7 +96,12 @@ public class Window implements WindowSize, Visible, Disposable {
     }
 
     public void addContents(JComponent component) {
-        frame.add(component, BorderLayout.CENTER);
+        if ( component instanceof ScrollableTimelinePanel ) {
+            frame.add(((ScrollableTimelinePanel) component).getScrollPane(), BorderLayout.CENTER);
+        } else {
+            frame.add(component, BorderLayout.CENTER);
+        }
+        this.component = component;
     }
 
     public void addFooter(JComponent component) {
@@ -102,6 +110,10 @@ public class Window implements WindowSize, Visible, Disposable {
 
     public void addRightPanel(JComponent component) {
         frame.add(component, BorderLayout.EAST);
+    }
+
+    public void insertTweetCell(JComponent component) {
+        this.component.add(component);
     }
 
     @Override
@@ -129,5 +141,15 @@ public class Window implements WindowSize, Visible, Disposable {
      */
     public String title() {
         return frame.getTitle();
+    }
+
+    public static Window createNewWindow(AccessToken accessToken) {
+        Window window = new Window();
+        window.addContents(new ScrollableTimelinePanel());
+        TweetTextArea textArea = new TweetTextArea(accessToken);
+        textArea.setPreferredSize(new Dimension(-1, 50));
+        window.addHeader(textArea);
+        window.show();
+        return window;
     }
 }

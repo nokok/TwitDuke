@@ -24,12 +24,9 @@
 package net.nokok.twitduke;
 
 import static com.google.common.io.ByteStreams.nullOutputStream;
-import java.awt.Dimension;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.stream.Stream;
-import net.nokok.twitduke.components.ScrollableTimelinePanel;
-import net.nokok.twitduke.components.TweetTextArea;
 import net.nokok.twitduke.components.Window;
 import net.nokok.twitduke.components.tweetcell.DefaultTweetCell;
 import net.nokok.twitduke.core.account.AccountManager;
@@ -87,22 +84,16 @@ public class Main {
      * @param accountManager
      */
     private static void run(AccountManager accountManager) {
-        Window window = new Window();
-        ScrollableTimelinePanel scrollablePanel = new ScrollableTimelinePanel();
-        window.addContents(scrollablePanel.getScrollPane());
         AccessToken accessToken = accountManager.readPrimaryAccount().get();
+        Window window = Window.createNewWindow(accessToken);
         PluginManager globaPluginManager = new PluginManager("plugins", accessToken);
         LambdaTwitterStream lambdaTwitterStream = new LambdaTwitterStream(accessToken);
         lambdaTwitterStream.addListener(globaPluginManager.getStatusListener());
         lambdaTwitterStream.onStatus((status, rt) -> {
-            scrollablePanel.addComponent(new DefaultTweetCell(status, accessToken));
+            window.insertTweetCell(new DefaultTweetCell(status, accessToken));
         });
         lambdaTwitterStream.onException(e -> e.printStackTrace());
         lambdaTwitterStream.startStream();
-        TweetTextArea tweetTextArea = new TweetTextArea(accessToken);
-        tweetTextArea.setPreferredSize(new Dimension(-1, 50));
-        window.addHeader(tweetTextArea);
-        window.show();
     }
 
     private static boolean existsTwitDukeDir() {

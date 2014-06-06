@@ -23,13 +23,14 @@
  */
 package net.nokok.twitduke.components;
 
+import java.awt.Component;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import net.nokok.twitduke.components.basic.TWScrollPane;
 
-public class ScrollableTimelinePanel {
+public class ScrollableTimelinePanel extends JComponent {
 
     private final JPanel timelinePanel;
     private final TWScrollPane scrollPane;
@@ -39,13 +40,15 @@ public class ScrollableTimelinePanel {
         scrollPane = new TWScrollPane(timelinePanel);
     }
 
-    public void addComponent(JComponent component) {
+    @Override
+    public Component add(Component component) {
         SwingUtilities.invokeLater(() -> {
             if ( !scrollPane.isScrollbarTop() ) {
                 scrollPane.shiftScrollBar(component.getHeight() + 1);
             }
             timelinePanel.add(component);
         });
+        return component;
     }
 
     public JScrollPane getScrollPane() {
