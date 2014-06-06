@@ -70,6 +70,7 @@ public class Main {
         if ( accountManager.hasValidAccount() ) {
             run(accountManager);
         } else {
+            //利用可能なアカウントがない状態なので認証処理を開始する
             OAuthRunnable auth = LambdaOAuthFactory.newInstance();
             auth.onError(logger::onError);
             auth.onSuccess(token -> {
@@ -80,6 +81,11 @@ public class Main {
         }
     }
 
+    /**
+     * ウィンドウを初期化し、ストリームの受信を開始します
+     *
+     * @param accountManager
+     */
     private static void run(AccountManager accountManager) {
         Window window = new Window();
         ScrollableTimelinePanel scrollablePanel = new ScrollableTimelinePanel();
