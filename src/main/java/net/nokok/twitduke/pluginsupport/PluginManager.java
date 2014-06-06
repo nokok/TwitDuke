@@ -25,6 +25,7 @@ package net.nokok.twitduke.pluginsupport;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 import javax.script.ScriptEngine;
@@ -34,8 +35,6 @@ import net.nokok.twitduke.core.twitter.UpdateProfileImpl;
 import net.nokok.twitduke.core.type.UncheckedScriptException;
 import net.nokok.twitduke.pluginsupport.plugin.Plugin;
 import net.nokok.twitduke.pluginsupport.util.FileToPlugin;
-import twitter4j.StatusAdapter;
-import twitter4j.StatusListener;
 import twitter4j.auth.AccessToken;
 
 public class PluginManager {
@@ -62,20 +61,21 @@ public class PluginManager {
     private void resolvePermission() {
         for ( Plugin plugin : plugins ) {
             ScriptEngine scriptEngine = plugin.scriptEngine();
+            scriptEngine.put(PluginObjectName.PROFILE, new UpdateProfileImpl(accessToken));
+            scriptEngine.put(PluginObjectName.TWITTER_API, AsyncTwitterFactory.newInstance(accessToken));
             try {
                 scriptEngine.eval("var " + PluginObjectName.BOOT + " = {};");
                 scriptEngine.eval("var " + PluginObjectName.WINDOW + " = {};");
                 scriptEngine.eval("var " + PluginObjectName.WINDOW_TITLE + " = '';");
                 scriptEngine.eval("var " + PluginObjectName.STREAM + " = {};");
+                plugin.eval();
             } catch (ScriptException e) {
                 throw new UncheckedScriptException(e);
             }
-            scriptEngine.put(PluginObjectName.PROFILE, new UpdateProfileImpl(accessToken));
-            scriptEngine.put(PluginObjectName.TWITTER_API, AsyncTwitterFactory.newInstance(accessToken));
         }
     }
 
-    public StatusListener getStatusListener() {
-        return new StatusAdapter();
+    public List<Plugin> getPlugins() {
+        return Collections.unmodifiableList(plugins);
     }
 }

@@ -37,6 +37,7 @@ import net.nokok.twitduke.core.factory.AccountManagerFactory;
 import net.nokok.twitduke.core.io.Paths;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
 import net.nokok.twitduke.pluginsupport.PluginManager;
+import net.nokok.twitduke.pluginsupport.StreamEventRunner;
 import net.nokok.twitduke.pluginsupport.apiwrapper.LambdaTwitterStream;
 import twitter4j.auth.AccessToken;
 
@@ -88,7 +89,7 @@ public class Main {
         Window window = Window.createNewWindow(accessToken);
         PluginManager globaPluginManager = new PluginManager("plugins", accessToken);
         LambdaTwitterStream lambdaTwitterStream = new LambdaTwitterStream(accessToken);
-        lambdaTwitterStream.addListener(globaPluginManager.getStatusListener());
+        lambdaTwitterStream.addListener(new StreamEventRunner(globaPluginManager.getPlugins()));
         lambdaTwitterStream.onStatus((status, rt) -> {
             window.insertTweetCell(new DefaultTweetCell(status, accessToken));
         });
