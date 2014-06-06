@@ -31,6 +31,7 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import net.nokok.twitduke.core.type.UncheckedScriptException;
 import net.nokok.twitduke.pluginsupport.InvocablePlugin;
 
 public class Plugin implements PluginInfo, ReadablePlugin, InvocablePlugin {
@@ -60,6 +61,14 @@ public class Plugin implements PluginInfo, ReadablePlugin, InvocablePlugin {
             return new FileReader(pluginPath);
         } catch (FileNotFoundException e) {
             throw new UncheckedIOException(e);
+        }
+    }
+
+    public void eval() {
+        try {
+            scriptEngine.eval(new FileReader(pluginPath));
+        } catch (ScriptException | FileNotFoundException e) {
+            throw new UncheckedScriptException(e);
         }
     }
 
