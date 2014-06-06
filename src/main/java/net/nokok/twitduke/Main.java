@@ -66,14 +66,14 @@ public class Main {
         }
         final AccountManager accountManager = AccountManagerFactory.newInstance();
         if ( accountManager.hasValidAccount() ) {
-            run(accountManager);
+            run(accountManager.readPrimaryAccount().get());
         } else {
             //利用可能なアカウントがない状態なので認証処理を開始する
             OAuthRunnable auth = LambdaOAuthFactory.newInstance();
             auth.onError(logger::onError);
             auth.onSuccess(token -> {
                 accountManager.addAccount(token);
-                run(accountManager);
+                run(token);
             });
             auth.startOAuth();
         }
@@ -84,8 +84,7 @@ public class Main {
      *
      * @param accountManager
      */
-    private static void run(AccountManager accountManager) {
-        AccessToken accessToken = accountManager.readPrimaryAccount().get();
+    private static void run(AccessToken accessToken) {
         Window window = Window.createNewWindow(accessToken);
         PluginManager globaPluginManager = new PluginManager("plugins", accessToken);
         LambdaTwitterStream lambdaTwitterStream = new LambdaTwitterStream(accessToken);
