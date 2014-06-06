@@ -61,7 +61,7 @@ public class Main {
             DirectoryHelper.createTwitDukeDirectories();
         }
         ErrorLogExporter logger = new ErrorLogExporter();
-        boolean isDebug = Stream.of(args).anyMatch(arg -> arg.equals("--debug"));
+        boolean isDebug = hasOption("--debug", args);
         if ( !isDebug ) {
             System.setErr(new PrintStream(nullOutputStream()));
             System.setOut(new PrintStream(nullOutputStream()));
@@ -101,6 +101,10 @@ public class Main {
 
     private static boolean existsTwitDukeDir() {
         return new File(Paths.TWITDUKE_HOME).exists();
+    }
+
+    private static boolean hasOption(String arg, String[] args) {
+        return Stream.of(args).anyMatch(a -> a.equals(arg));
     }
 
 }
