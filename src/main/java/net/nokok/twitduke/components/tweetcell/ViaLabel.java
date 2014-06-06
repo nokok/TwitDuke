@@ -23,6 +23,7 @@
  */
 package net.nokok.twitduke.components.tweetcell;
 
+import com.google.common.base.Strings;
 import net.nokok.twitduke.components.basic.TWLabel;
 
 /**
@@ -40,7 +41,7 @@ public class ViaLabel extends TWLabel {
      */
     public ViaLabel(String via) {
         setFont(getFont().deriveFont(10));
-        if ( via == null || via.isEmpty() ) {
+        if ( Strings.isNullOrEmpty(via) ) {
             setViaText("other");
             return;
         }
