@@ -67,7 +67,9 @@ public class Main {
             System.setOut(new PrintStream(nullOutputStream()));
         }
         final AccountManager accountManager = AccountManagerFactory.newInstance();
-        if ( !accountManager.hasValidAccount() ) {
+        if ( accountManager.hasValidAccount() ) {
+            run(accountManager);
+        } else {
             OAuthRunnable auth = LambdaOAuthFactory.newInstance();
             auth.onError(logger::onError);
             auth.onSuccess(token -> {
@@ -75,8 +77,6 @@ public class Main {
                 run(accountManager);
             });
             auth.startOAuth();
-        } else {
-            run(accountManager);
         }
     }
 
