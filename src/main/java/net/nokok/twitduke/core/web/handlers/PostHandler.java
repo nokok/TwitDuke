@@ -31,6 +31,10 @@ import org.mortbay.jetty.handler.ContextHandler;
 
 public class PostHandler extends ContextHandler {
 
+    public PostHandler() {
+        setAllowNullPathInfo(true);
+    }
+
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, int dispatch) throws IOException, ServletException {
         if ( !request.getMethod().equalsIgnoreCase("post") ) {
