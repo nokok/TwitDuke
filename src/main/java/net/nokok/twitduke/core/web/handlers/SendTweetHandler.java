@@ -29,6 +29,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
+import org.mortbay.jetty.HttpConnection;
+import org.mortbay.jetty.Request;
 import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
 
@@ -36,10 +38,11 @@ public class SendTweetHandler extends PostHandler {
 
     private final AsyncTwitter asyncTwitter;
 
+    public static final String CONTEXT_PATH = "/v1/tweet";
+
     public SendTweetHandler(AccessToken accessToken) {
         this.asyncTwitter = AsyncTwitterFactory.newInstance(accessToken);
         setContextPath("/v1/tweet");
-        setAllowNullPathInfo(true);
     }
 
     public SendTweetHandler(AsyncTwitter asyncTwitter) {
@@ -50,13 +53,17 @@ public class SendTweetHandler extends PostHandler {
     @Override
     public void handle(String target, HttpServletRequest req, HttpServletResponse resp, int i) throws IOException, ServletException {
         super.handle(target, req, resp, i);
+        if ( !target.equals(CONTEXT_PATH) ) {
+            return;
+        }
         String parameter = req.getParameter("text");
         if ( Strings.isNullOrEmpty(parameter) ) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
         asyncTwitter.updateStatus(parameter);
-        resp.sendRedirect(target);
+        Request baseRequest = (req instanceof Request) ? (Request) req : HttpConnection.getCurrentConnection().getRequest();
+        baseRequest.setHandled(true);
     }
 
 }
