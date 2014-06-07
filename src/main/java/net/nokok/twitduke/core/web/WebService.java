@@ -23,6 +23,7 @@
  */
 package net.nokok.twitduke.core.web;
 
+import net.nokok.twitduke.core.web.handlers.SendTweetHandler;
 import org.mortbay.jetty.Server;
 import twitter4j.auth.AccessToken;
 

@@ -36,7 +36,7 @@ import net.nokok.twitduke.core.auth.OAuthRunnable;
 import net.nokok.twitduke.core.factory.AccountManagerFactory;
 import net.nokok.twitduke.core.io.Paths;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
-import net.nokok.twitduke.core.web.SendTweetHandler;
+import net.nokok.twitduke.core.web.handlers.SendTweetHandler;
 import net.nokok.twitduke.core.web.WebServiceConfiguration;
 import net.nokok.twitduke.pluginsupport.PluginManager;
 import net.nokok.twitduke.pluginsupport.StreamEventRunner;
