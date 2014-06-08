@@ -23,15 +23,22 @@
  */
 package net.nokok.twitduke.core.web;
 
+import java.util.Properties;
+import net.nokok.twitduke.core.io.Paths;
+import net.nokok.twitduke.core.io.PropertyReader;
 import net.nokok.twitduke.core.web.handlers.SendTweetHandler;
 import org.mortbay.jetty.Server;
 import twitter4j.auth.AccessToken;
 
 public class WebService implements Runnable {
 
-    private final Server server = new Server(8192);
+    private final Server server;
 
     public WebService(AccessToken accessToken) {
+        PropertyReader reader = new PropertyReader(Paths.WEB_CONFIG_PATH_STR);
+        Properties prop = reader.read();
+        int port = Integer.parseInt(prop.getProperty("port"));
+        server = new Server(port);
         server.addHandler(new SendTweetHandler(accessToken));
     }
 
