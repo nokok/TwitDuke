@@ -46,6 +46,7 @@ public class TwitterStreamFactory {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
+                setName("Twitter Stream Shutdown Thread");
                 twitterStream.shutdown();
             }
         });

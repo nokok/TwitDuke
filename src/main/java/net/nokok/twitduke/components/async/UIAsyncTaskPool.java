@@ -34,12 +34,27 @@ enum UIAsyncTaskPool {
 
     private final ForkJoinPool pool = new ForkJoinPool();
 
+    private UIAsyncTaskPool() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+
+            @Override
+            public void run() {
+                setName("UIAsyncTaskPool Shutdown Thread");
+                pool.shutdownNow();
+            }
+
+        });
+    }
+
     /**
      * タスクをCPUで利用可能なスレッド数で並列に実行します。
      *
      * @param runnable 実行するタスク
      */
     public void runTask(Runnable runnable) {
+        if ( pool.isShutdown() ) {
+            return;
+        }
         pool.execute(runnable);
     }
 }
