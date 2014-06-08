@@ -43,10 +43,9 @@ public class TwitterStreamFactory {
      */
     public static TwitterStream newInstance(AccessToken accessToken) {
         final TwitterStream twitterStream = new TwitterStreamInstanceGeneratorImpl().generate(accessToken);
-        Runtime.getRuntime().addShutdownHook(new Thread() {
+        Runtime.getRuntime().addShutdownHook(new Thread("Twitter Stream Shutdown Thread") {
             @Override
             public void run() {
-                setName("Twitter Stream Shutdown Thread");
                 twitterStream.shutdown();
             }
         });

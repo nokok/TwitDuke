@@ -35,11 +35,10 @@ enum UIAsyncTaskPool {
     private final ForkJoinPool pool = new ForkJoinPool();
 
     private UIAsyncTaskPool() {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
+        Runtime.getRuntime().addShutdownHook(new Thread("UIAsyncTaskPool Shutdown Thread") {
 
             @Override
             public void run() {
-                setName("UIAsyncTaskPool Shutdown Thread");
                 pool.shutdownNow();
             }
 
