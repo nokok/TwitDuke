@@ -32,12 +32,17 @@ import twitter4j.auth.AccessToken;
 
 public class WebService implements Runnable {
 
-    private final Server server;
+    private Server server;
+    private final Properties DEFAULT_PROPERTIES = new Properties();
+
+    public WebService() {
+        DEFAULT_PROPERTIES.put(WebServicePropertyKey.PORT_KEY, "8192");
+    }
 
     public WebService(AccessToken accessToken) {
         PropertyReader reader = new PropertyReader(Paths.WEB_CONFIG_PATH_STR);
-        Properties prop = reader.read();
-        int port = Integer.parseInt(prop.getProperty("port"));
+        Properties prop = reader.read().orElse(DEFAULT_PROPERTIES);
+        int port = Integer.parseInt(prop.getProperty(WebServicePropertyKey.PORT_KEY));
         server = new Server(port);
         server.addHandler(new SendTweetHandler(accessToken));
     }

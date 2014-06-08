@@ -25,10 +25,10 @@ package net.nokok.twitduke.core.io;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.util.Optional;
 import java.util.Properties;
 
-public class PropertyReader {
+public class PropertyReader implements Reader<Properties> {
 
     private final String PATH;
 
@@ -36,13 +36,14 @@ public class PropertyReader {
         PATH = path;
     }
 
-    public Properties read() {
+    @Override
+    public Optional<Properties> read() {
         Properties properties = new Properties();
         try (FileReader reader = new FileReader(PATH)) {
             properties.load(reader);
         } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            return Optional.empty();
         }
-        return properties;
+        return Optional.of(properties);
     }
 }
