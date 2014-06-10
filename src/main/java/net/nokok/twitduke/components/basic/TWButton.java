@@ -24,8 +24,6 @@
 package net.nokok.twitduke.components.basic;
 
 import java.awt.Color;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import net.nokok.twitduke.components.Selectable;
 
@@ -61,18 +59,7 @@ public class TWButton extends JButton implements Selectable {
         setForeground(FOREGROUND_COLOR);
         setOpaque(true);
         setBorderPainted(false);
-        addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                setBackground(getBackground().darker());
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                setBackground(getBackground().brighter());
-            }
-        });
+        addMouseListener(new CommonSelectMouseAction());
     }
 
     /**
