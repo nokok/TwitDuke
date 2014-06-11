@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.UncheckedIOException;
 import twitter4j.auth.AccessToken;
 
 /**
@@ -40,6 +41,8 @@ public class AccessTokenSerializer implements AccessTokenWriter {
      * アクセストークンを格納されているスクリーンネームの名前でディスクに書き込みます
      *
      * @param accessToken アクセストークン
+     *
+     * @exception UncheckedIOException アクセストークンの書き込みに失敗した場合
      */
     @Override
     public void writeAccessToken(AccessToken accessToken) {
@@ -47,7 +50,7 @@ public class AccessTokenSerializer implements AccessTokenWriter {
                                 = new ObjectOutputStream(new FileOutputStream(AccessTokenPath.TOKEN_DIR + File.separator + accessToken.getScreenName()))) {
             objectOutputStream.writeObject(accessToken);
         } catch (IOException e) {
-            throw new InternalError(e);
+            throw new UncheckedIOException(e);
         }
     }
 }
