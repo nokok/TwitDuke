@@ -25,12 +25,13 @@ package net.nokok.twitduke.components.basic;
 
 import java.awt.Color;
 import javax.swing.JLabel;
+import net.nokok.twitduke.components.Selectable;
 
 /**
  * TwitDuke用のカスタマイズ済みJLabelを定義します
  *
  */
-public class TWLabel extends JLabel {
+public class TWLabel extends JLabel implements Selectable {
 
     private static final long serialVersionUID = -4138268682327167202L;
 
@@ -42,6 +43,10 @@ public class TWLabel extends JLabel {
      * ラベルの前景色(フォント色)です。
      */
     public static final Color FOREGROUND_COLOR = new Color(200, 200, 200);
+
+    public static final Color SELECT_COLOR = new Color(40, 40, 40).brighter();
+
+    private boolean isSelect;
 
     /**
      * 空のラベルを生成します
@@ -59,5 +64,22 @@ public class TWLabel extends JLabel {
     public TWLabel(String text) {
         this();
         setText(text);
+    }
+
+    @Override
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    @Override
+    public void select() {
+        setBackground(SELECT_COLOR);
+        isSelect = true;
+    }
+
+    @Override
+    public void unselect() {
+        setBackground(BACKGROUND_COLOR);
+        isSelect = false;
     }
 }
