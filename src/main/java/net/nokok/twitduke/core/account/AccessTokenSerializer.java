@@ -23,7 +23,6 @@
  */
 package net.nokok.twitduke.core.account;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -34,8 +33,18 @@ import twitter4j.auth.AccessToken;
  * アクセストークンをシリアライズしてファイルとして書き込みます。
  *
  */
-@Deprecated
 public class AccessTokenSerializer implements AccessTokenWriter {
+
+    private final String PATH;
+
+    /**
+     * 指定したパスにアクセストークンを保存するAccessTokenSerializerを構築します
+     *
+     * @param path アクセストークンを保存するファイル名を含んだパス
+     */
+    public AccessTokenSerializer(String path) {
+        this.PATH = path;
+    }
 
     /**
      * アクセストークンを格納されているスクリーンネームの名前でディスクに書き込みます
@@ -47,7 +56,7 @@ public class AccessTokenSerializer implements AccessTokenWriter {
     @Override
     public void writeAccessToken(AccessToken accessToken) {
         try (ObjectOutputStream objectOutputStream
-                                = new ObjectOutputStream(new FileOutputStream(AccessTokenPath.TOKEN_DIR + File.separator + accessToken.getScreenName()))) {
+                                = new ObjectOutputStream(new FileOutputStream(PATH))) {
             objectOutputStream.writeObject(accessToken);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
