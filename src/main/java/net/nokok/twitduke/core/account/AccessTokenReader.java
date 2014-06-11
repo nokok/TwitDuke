@@ -29,7 +29,7 @@ import twitter4j.auth.AccessToken;
 /**
  * アクセストークンを読み込むことが出来るオブジェクトです
  */
-public interface AccessTokenReader2 {
+public interface AccessTokenReader {
 
     /**
      * アカウントのアクセストークンを読み込みます。

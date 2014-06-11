@@ -35,7 +35,7 @@ import twitter4j.auth.AccessToken;
  * アクセストークンをプロパティから読み込みます
  *
  */
-public class AccessTokenPropertyReader implements AccessTokenReader2 {
+public class AccessTokenPropertyReader implements AccessTokenReader {
 
     private final File ACCESS_TOKEN;
 
