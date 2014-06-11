@@ -23,66 +23,35 @@
  */
 package net.nokok.twitduke.core.account;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.ArrayList;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import twitter4j.auth.AccessToken;
 
 /**
  * AccessTokenをデシリアライズする事によって読み込むクラスです
  *
  */
-@Deprecated
-public class AccessTokenDeserializer implements AccessTokenReader {
+public class AccessTokenDeserializer implements AccessTokenReader2 {
+
+    private final String PATH;
 
     /**
-     * 利用可能なAccessTokenをOptionalでラップされたオブジェクトのリストの形で返します。
+     * 指定したパスに保存されたアクセストークンをデシリアライズするAccessTokenDeserializerを構築します
      *
-     * @return Optionalなアクセストークン
+     * @param path アクセストークンのパス
      */
-    @Override
-    public ArrayList<Optional<AccessToken>> getAccessTokenList() {
-        File[] files = new File(".").listFiles();
-        ArrayList<Optional<AccessToken>> list;
-        list = Stream.of(files)
-                .filter(p -> p.isFile())
-                .map(f -> getAccessToken(AccessTokenPath.TOKEN_DIR + File.separator + f.getAbsolutePath()))
-                .filter(e -> e.isPresent())
-                .collect(Collectors.toCollection(ArrayList::new));
-        return list;
+    public AccessTokenDeserializer(String path) {
+        this.PATH = path;
     }
 
-    /**
-     * 指定したファイル名のファイルを読み込み、AccessTokenに変換して返します。
-     * 失敗した場合Optional.empty()が返ります
-     *
-     * @param fileName 読み込むファイル
-     *
-     * @return 読み込みに成功した場合はAccessTokenオブジェクト
-     *         失敗した場合はOptional.empty();
-     */
-    public Optional<AccessToken> getAccessToken(String fileName) {
-        try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(fileName))) {
+    @Override
+    public Optional<AccessToken> readAccessToken() {
+        try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(PATH))) {
             AccessToken mayBeAccessToken = (AccessToken) objectInputStream.readObject();
             return Optional.of(mayBeAccessToken);
         } catch (ClassNotFoundException | IOException e) {
-            return Optional.empty();
-        }
-    }
-
-    @Override
-    public Optional<AccessToken> readFirstAccessToken() {
-        ArrayList<Optional<AccessToken>> accessTokenList = getAccessTokenList();
-        Optional<Optional<AccessToken>> mayBeAccessTokenOptional
-                                        = accessTokenList.stream().findFirst();
-        if ( mayBeAccessTokenOptional.isPresent() ) {
-            return mayBeAccessTokenOptional.get();
-        } else {
             return Optional.empty();
         }
     }
