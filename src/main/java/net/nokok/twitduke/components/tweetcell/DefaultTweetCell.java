@@ -75,6 +75,7 @@ public class DefaultTweetCell extends TWPanel {
         List<Component> hashTagButtons = panelFactory.createHashtagButtonList();
         hashTagButtons.forEach(southPanel::add);
         add(southPanel, BorderLayout.SOUTH);
+        add(panelFactory.createTweetStatusPanel(), BorderLayout.EAST);
         setSize(getPreferredSize());
     }
 }
