@@ -41,8 +41,8 @@ import net.nokok.twitduke.core.type.ThrowableReceivable;
 class AsyncImageLoader implements Runnable {
 
     private final String url;
-    private final List<AsyncTaskOnSuccess<ImageIcon>> onSuccessReceiver = new ArrayList<>();
-    private final List<ThrowableReceivable> onErrorReceiver = new ArrayList<>();
+    private final List<AsyncTaskOnSuccess<ImageIcon>> onSuccessReceiver = new ArrayList<>(2);
+    private final List<ThrowableReceivable> onErrorReceiver = new ArrayList<>(2);
 
     /**
      * 指定されたURLの画像を非同期で読み込むオブジェクトを生成します
