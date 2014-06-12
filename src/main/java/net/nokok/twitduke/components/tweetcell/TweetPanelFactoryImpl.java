@@ -23,7 +23,9 @@
  */
 package net.nokok.twitduke.components.tweetcell;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -32,10 +34,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import net.nokok.twitduke.components.async.AsyncImageIcon;
 import net.nokok.twitduke.components.async.MediaThumbnail;
 import net.nokok.twitduke.components.async.OverlayUserIcon;
+import net.nokok.twitduke.components.basic.TWPanel;
 import net.nokok.twitduke.components.basic.TWSlimButton;
 import net.nokok.twitduke.components.basic.TWTextArea;
 import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
@@ -80,6 +84,19 @@ public class TweetPanelFactoryImpl implements TweetPanelFactory {
         List<Component> buttons = new ArrayList<>(status.getMediaEntities().length);
         Stream.of(status.getMediaEntities()).map(s -> new MediaSlimButton(s)).forEach(buttons::add);
         return buttons;
+    }
+
+    @Override
+    public Component createTweetStatusPanel() {
+        JPanel panel = new TWPanel();
+        panel.setPreferredSize(new Dimension(7, -1));
+        if ( status.isRetweet() ) {
+            panel.setBackground(Color.GREEN);
+        }
+        if ( activeStatus.getText().contains("@" + accessToken.getScreenName()) ) {
+            panel.setBackground(Color.RED);
+        }
+        return panel;
     }
 
     /**

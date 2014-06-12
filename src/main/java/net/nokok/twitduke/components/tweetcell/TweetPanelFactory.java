@@ -116,4 +116,9 @@ public interface TweetPanelFactory {
      */
     Component createViaLabel();
 
+    /**
+     * ツイートの状態を示すパネルを生成します
+     */
+    Component createTweetStatusPanel();
+
 }
