@@ -40,7 +40,7 @@ public class OverlayUserIcon extends TWPanel {
 
     private static final long serialVersionUID = 2484721633191391187L;
 
-    private Image smallIcon;
+    private volatile Image smallIcon;
 
     public OverlayUserIcon(Status status) {
         setPreferredSize(new Dimension(50, 50));
