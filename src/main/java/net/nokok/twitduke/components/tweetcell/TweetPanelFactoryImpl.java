@@ -56,6 +56,7 @@ public class TweetPanelFactoryImpl implements TweetPanelFactory {
     private final Status activeStatus;
     private final AsyncTwitter twitter;
     private final AccessToken accessToken;
+    private final String screenName;
 
     /**
      * 指定されたステータスとアクセストークンで新しいパネルファクトリーを生成します。
@@ -71,6 +72,7 @@ public class TweetPanelFactoryImpl implements TweetPanelFactory {
         //リツイートの場合はRetweeteeStatus、そうでない場合はstatusが入る
         activeStatus = retweetedStatus.orElseGet(() -> status);
         twitter = AsyncTwitterFactory.newInstance(accessToken);
+        this.screenName = accessToken.getScreenName();
     }
 
     @Override
@@ -99,7 +101,6 @@ public class TweetPanelFactoryImpl implements TweetPanelFactory {
      */
     @Override
     public Component createScreenNameLabel() {
-        String screenName = activeStatus.getUser().getScreenName();
         JLabel label = new ScreenNameLabel("@" + screenName);
         return label;
     }
