@@ -26,6 +26,7 @@ package net.nokok.twitduke.core.account;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.Optional;
 import java.util.Properties;
 import net.nokok.twitduke.core.type.ScreenName;
@@ -92,10 +93,22 @@ public class AccessTokenPropertyReader implements AccessTokenReader {
             String secret = properties.getProperty(PropertyKey.TOKEN_SECRET);
             long id = Long.parseLong(properties.getProperty(PropertyKey.USER_ID));
             String screenName = properties.getProperty(PropertyKey.SCREEN_NAME);
-            return new AccessToken(token, secret, id);
+            AccessToken accessToken = new AccessToken(token, secret, id);
+            setScreenNameWithReflection(accessToken, screenName);
+            return accessToken;
         } catch (IOException | NumberFormatException e) {
             return null;
         }
     }
 
+    private void setScreenNameWithReflection(AccessToken accessToken, String screenName) {
+        Class<? extends AccessToken> clazz = accessToken.getClass();
+        try {
+            Field field = clazz.getDeclaredField("screenName");
+            field.setAccessible(true);
+            field.set(accessToken, screenName);
+        } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException | SecurityException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
