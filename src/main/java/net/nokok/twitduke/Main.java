@@ -63,6 +63,7 @@ public class Main {
         }
         ErrorLogExporter logger = new ErrorLogExporter();
         boolean isDebug = hasOption("--debug", args);
+        boolean isServerMode = hasOption("--servermode", args);
         if ( !isDebug ) {
             System.setErr(new PrintStream(nullOutputStream()));
             System.setOut(new PrintStream(nullOutputStream()));
@@ -70,7 +71,9 @@ public class Main {
         final AccountManager accountManager = AccountManagerFactory.newInstance();
         if ( accountManager.hasValidAccount() ) {
             AccessToken accessToken = accountManager.readPrimaryAccount().get();
-            openWindow(accessToken);
+            if ( !isServerMode ) {
+                openWindow(accessToken);
+            }
             startServer(accessToken);
         } else {
             //利用可能なアカウントがない状態なので認証処理を開始する
@@ -78,7 +81,9 @@ public class Main {
             auth.onError(logger::onError);
             auth.onSuccess(token -> {
                 accountManager.addAccount(token);
-                openWindow(token);
+                if ( !isServerMode ) {
+                    openWindow(token);
+                }
                 startServer(token);
             });
             auth.startOAuth();
