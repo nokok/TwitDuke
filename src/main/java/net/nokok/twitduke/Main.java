@@ -36,9 +36,7 @@ import net.nokok.twitduke.core.auth.OAuthRunnable;
 import net.nokok.twitduke.core.factory.AccountManagerFactory;
 import net.nokok.twitduke.core.io.Paths;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
-import net.nokok.twitduke.core.web.WebServiceConfiguration;
-import net.nokok.twitduke.core.web.handlers.SendTweetHandler;
-import net.nokok.twitduke.core.web.handlers.ShindanmakerHandler;
+import net.nokok.twitduke.core.web.WebServerStarter;
 import net.nokok.twitduke.pluginsupport.PluginManager;
 import net.nokok.twitduke.pluginsupport.StreamEventRunner;
 import net.nokok.twitduke.pluginsupport.apiwrapper.LambdaTwitterStream;
@@ -108,11 +106,8 @@ public class Main {
     }
 
     private static void startServer(AccessToken accessToken) {
-        WebServiceConfiguration
-                .newService()
-                .addHandler(new SendTweetHandler(accessToken).getHandler())
-                .addHandler(new ShindanmakerHandler(accessToken).getHandler())
-                .run();
+        Runnable server = new WebServerStarter(accessToken);
+        server.run();
     }
 
     private static boolean existsTwitDukeDir() {
