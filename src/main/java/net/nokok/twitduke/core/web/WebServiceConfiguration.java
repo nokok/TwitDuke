@@ -26,16 +26,17 @@ package net.nokok.twitduke.core.web;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import net.nokok.twitduke.core.type.Port;
 import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.Server;
 
 public class WebServiceConfiguration implements Runnable {
 
-    private int port = 8192;
+    private Port port;
     private final List<Handler> handlers = new ArrayList<>();
 
     private WebServiceConfiguration() {
-
+        this.port = new Port(8192);
     }
 
     public static WebServiceConfiguration newService() {
@@ -43,7 +44,7 @@ public class WebServiceConfiguration implements Runnable {
     }
 
     public WebServiceConfiguration port(int port) {
-        this.port = port;
+        this.port = new Port(port);
         return this;
     }
 
@@ -73,7 +74,7 @@ public class WebServiceConfiguration implements Runnable {
     @Override
     public void run() {
         try {
-            Server server = new Server(port);
+            Server server = new Server(port.get());
             handlers.forEach(server::addHandler);
             server.start();
             server.join();
