@@ -30,42 +30,37 @@ import javax.servlet.http.HttpServletResponse;
 import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
 import net.nokok.twitduke.core.thirdpartyservice.shindanmaker.Shindanmaker;
 import net.nokok.twitduke.core.thirdpartyservice.shindanmaker.ShindanmakerImpl;
-import org.mortbay.jetty.HttpConnection;
-import org.mortbay.jetty.Request;
+import org.mortbay.jetty.Handler;
 import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
 
-public class ShindanmakerHandler extends PostHandler {
+public class ShindanmakerHandler {
 
-    public static final String CONTEXT_PATH = "/v1/smakerpost";
+    private final AbstractPostRequestHandler handler = new AbstractPostRequestHandler("/v1/smakerpost") {
+
+        @Override
+        public void doHandle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+            String url = request.getParameter("url");
+            String name = request.getParameter("name");
+            Shindanmaker shindanmaker = new ShindanmakerImpl();
+            shindanmaker.onSuccess(result -> {
+                sendOK();
+                asyncTwitter.updateStatus(result);
+            });
+            shindanmaker.onError(throwable -> {
+                sendBadRequest();
+            });
+            shindanmaker.sendRequest(url, name);
+        }
+
+    };
     private final AsyncTwitter asyncTwitter;
 
     public ShindanmakerHandler(AccessToken accessToken) {
-        setContextPath(CONTEXT_PATH);
         this.asyncTwitter = AsyncTwitterFactory.newInstance(accessToken);
     }
 
-    @Override
-    public void handle(String target, HttpServletRequest request, HttpServletResponse response, int dispatch) throws IOException, ServletException {
-        super.handle(target, request, response, dispatch);
-        Request baseRequest = (request instanceof Request) ? (Request) request : HttpConnection.getCurrentConnection().getRequest();
-        if ( !target.equals(CONTEXT_PATH) ) {
-            return;
-        }
-        String url = request.getParameter("url");
-        String name = request.getParameter("name");
-        Shindanmaker shindanmaker = new ShindanmakerImpl();
-        shindanmaker.onSuccess(result -> {
-            response.setStatus(HttpServletResponse.SC_OK);
-            asyncTwitter.updateStatus(result);
-        });
-        shindanmaker.onError(throwable -> {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            baseRequest.setHandled(false);
-        });
-        shindanmaker.sendRequest(url, name);
-        baseRequest.setHandled(true);
-        response.sendRedirect(target);
+    public Handler getHandler() {
+        return handler;
     }
-
 }

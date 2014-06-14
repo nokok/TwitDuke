@@ -23,46 +23,42 @@
  */
 package net.nokok.twitduke.core.web.handlers;
 
-import com.google.common.base.Strings;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
-import org.mortbay.jetty.HttpConnection;
-import org.mortbay.jetty.Request;
+import net.nokok.twitduke.core.type.Tweet;
+import org.mortbay.jetty.Handler;
 import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
 
-public class SendTweetHandler extends PostHandler {
+public class SendTweetHandler {
 
     private final AsyncTwitter asyncTwitter;
+    private final AbstractPostRequestHandler handler = new AbstractPostRequestHandler("/v1/tweet") {
 
-    public static final String CONTEXT_PATH = "/v1/tweet";
+        @Override
+        public void doHandle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+            try {
+                Tweet tweet = new Tweet(request.getParameter("text"));
+                asyncTwitter.updateStatus(tweet.toString());
+                sendOK();
+            } catch (NullPointerException | IllegalArgumentException e) {
+                sendBadRequest();
+            }
+        }
+    };
 
     public SendTweetHandler(AccessToken accessToken) {
         this.asyncTwitter = AsyncTwitterFactory.newInstance(accessToken);
-        setContextPath("/v1/tweet");
     }
 
     public SendTweetHandler(AsyncTwitter asyncTwitter) {
         this.asyncTwitter = asyncTwitter;
     }
 
-    @Override
-    public void handle(String target, HttpServletRequest req, HttpServletResponse resp, int i) throws IOException, ServletException {
-        super.handle(target, req, resp, i);
-        if ( !target.equals(CONTEXT_PATH) ) {
-            return;
-        }
-        String parameter = req.getParameter("text");
-        if ( Strings.isNullOrEmpty(parameter) ) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-        asyncTwitter.updateStatus(parameter);
-        Request baseRequest = (req instanceof Request) ? (Request) req : HttpConnection.getCurrentConnection().getRequest();
-        baseRequest.setHandled(true);
+    public Handler getHandler() {
+        return handler;
     }
-
 }

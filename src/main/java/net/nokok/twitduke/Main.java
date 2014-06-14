@@ -99,8 +99,8 @@ public class Main {
         lambdaTwitterStream.startStream();
         WebServiceConfiguration
                 .newService()
-                .addHandler(new SendTweetHandler(accessToken))
-                .addHandler(new ShindanmakerHandler(accessToken))
+                .addHandler(new SendTweetHandler(accessToken).getHandler())
+                .addHandler(new ShindanmakerHandler(accessToken).getHandler())
                 .run();
     }
 
