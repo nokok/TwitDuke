@@ -57,6 +57,22 @@ public class Footer implements Retrievable<String> {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if ( obj == null ) {
+            return false;
+        }
+        if ( !(obj instanceof Footer) ) {
+            return false;
+        }
+        return obj.toString().equals(this.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return footer.hashCode();
+    }
+
+    @Override
     public String toString() {
         return footer;
     }
