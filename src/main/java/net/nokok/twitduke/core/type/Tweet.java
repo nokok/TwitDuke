@@ -55,6 +55,16 @@ public class Tweet implements Cloneable, Serializable, Retrievable<String> {
     }
 
     /**
+     * 渡された文字列とフッターでツイートオブジェクトを生成します
+     *
+     * @param tweet
+     * @param footer
+     */
+    public Tweet(String tweet, Footer footer) {
+        this(tweet + footer.toString());
+    }
+
+    /**
      * このツイートオブジェクトにフッターを付けたツイートオブジェクトを新たに生成して返します
      *
      * @param footer フッター
