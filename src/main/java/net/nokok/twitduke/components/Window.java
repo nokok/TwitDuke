@@ -40,7 +40,7 @@ import twitter4j.auth.AccessToken;
 public class Window implements WindowSize, Visible, Disposable {
 
     private final JFrame frame = new TWFrame("TwitDuke");
-    private JComponent component;
+    private JComponent contents;
 
     public Window() {
         frame.setLayout(new BorderLayout());
@@ -101,7 +101,7 @@ public class Window implements WindowSize, Visible, Disposable {
         } else {
             frame.add(component, BorderLayout.CENTER);
         }
-        this.component = component;
+        this.contents = component;
     }
 
     public void addFooter(JComponent component) {
@@ -113,7 +113,7 @@ public class Window implements WindowSize, Visible, Disposable {
     }
 
     public void insertTweetCell(JComponent component) {
-        this.component.add(component);
+        this.contents.add(component);
     }
 
     @Override
