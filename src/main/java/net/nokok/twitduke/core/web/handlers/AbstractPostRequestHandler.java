@@ -29,20 +29,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * GETリクエスとトのみを許可するハンドラです。
+ * POSTリクエストのみを許可するハンドラです。
  * このクラスを継承するハンドラに対してGETでリクエストを送信すると
  * クライアントに対して405 Method Not Allowedが返されます。
  */
-public class GetRequestHandler extends CommonHandler {
+public abstract class AbstractPostRequestHandler extends CommonHandler {
 
-    public GetRequestHandler(String contextPath) {
+    public AbstractPostRequestHandler(String contextPath) {
         super(contextPath);
     }
 
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, int dispatch) throws IOException, ServletException {
         super.handle(target, request, response, dispatch);
-        if ( isPostRequest() ) {
+        if ( isGetRequest() ) {
             response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         }
         if ( !super.isTarget() ) {
