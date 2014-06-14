@@ -27,24 +27,27 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.mortbay.jetty.handler.ContextHandler;
 
 /**
- * POSTのみを許可するハンドラです。
+ * POSTリクエストのみを許可するハンドラです。
  * このクラスを継承するハンドラに対してGETでリクエストを送信すると
- * 405 Method Not Allowedが返されます。
+ * クライアントに対して405 Method Not Allowedが返されます。
  */
-public class PostHandler extends ContextHandler {
+public class PostRequestHandler extends CommonHandler {
 
-    public PostHandler() {
-        setAllowNullPathInfo(true);
+    public PostRequestHandler(String contextPath) {
+        super(contextPath);
     }
 
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, int dispatch) throws IOException, ServletException {
-        if ( !request.getMethod().equalsIgnoreCase("post") ) {
+        super.handle(target, request, response, dispatch);
+        if ( isGetRequest() ) {
             response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         }
+        if ( !super.isTarget() ) {
+            return;
+        }
+        super.getBaseRequest().ifPresent(base -> base.setHandled(true));
     }
-
 }
