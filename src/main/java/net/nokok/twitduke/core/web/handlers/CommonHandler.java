@@ -41,6 +41,7 @@ public class CommonHandler extends ContextHandler {
     private boolean isTarget;
     private boolean isPostRequest;
     private boolean isGetRequest;
+    private HttpServletResponse response;
 
     public CommonHandler(String contextPath) {
         super(contextPath);
@@ -51,6 +52,7 @@ public class CommonHandler extends ContextHandler {
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, int dispatch) throws IOException, ServletException {
         baseRequest = Optional.ofNullable((request instanceof Request) ? (Request) request : null);
+        this.response = response;
         isTarget = target.equals(CONTEXT_PATH);
         isPostRequest = request.getMethod().equalsIgnoreCase("post");
         isGetRequest = request.getMethod().equalsIgnoreCase("get");
@@ -70,5 +72,13 @@ public class CommonHandler extends ContextHandler {
 
     protected boolean isGetRequest() {
         return isGetRequest;
+    }
+
+    protected void sendOK() {
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    protected void sendBadRequest() {
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     }
 }
