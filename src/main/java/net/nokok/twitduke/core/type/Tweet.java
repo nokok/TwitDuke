@@ -61,7 +61,7 @@ public class Tweet implements Cloneable, Serializable, Retrievable<String> {
      * @param footer
      */
     public Tweet(String tweet, Footer footer) {
-        this(tweet + footer.toString());
+        this(tweet + " " + footer.toString());
     }
 
     /**
@@ -72,7 +72,7 @@ public class Tweet implements Cloneable, Serializable, Retrievable<String> {
      * @return フッター付きツイート
      */
     public Tweet applyFooter(Footer footer) {
-        return new Tweet(text + footer.get());
+        return new Tweet(text, footer);
     }
 
     @Override
