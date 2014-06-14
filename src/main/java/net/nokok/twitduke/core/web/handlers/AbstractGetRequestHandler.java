@@ -49,5 +49,8 @@ public abstract class AbstractGetRequestHandler extends CommonHandler {
             return;
         }
         super.getBaseRequest().ifPresent(base -> base.setHandled(true));
+        doHandle(request, response);
     }
+
+    public abstract void doHandle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException;
 }
