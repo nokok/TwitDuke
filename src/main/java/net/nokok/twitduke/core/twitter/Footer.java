@@ -52,4 +52,9 @@ public class Footer implements Retrievable<String> {
     public String get() {
         return footer;
     }
+
+    @Override
+    public String toString() {
+        return footer;
+    }
 }
