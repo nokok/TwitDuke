@@ -24,11 +24,9 @@
 package net.nokok.twitduke.core.type;
 
 import java.util.Objects;
-import net.nokok.twitduke.core.type.Retrievable;
 
 /**
- * フッター機能を持つオブジェクトです
- *
+ * フッターを表現するオブジェクトです
  */
 public class Footer implements Retrievable<String> {
 
