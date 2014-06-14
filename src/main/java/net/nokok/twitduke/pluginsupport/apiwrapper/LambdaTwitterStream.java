@@ -23,7 +23,6 @@
  */
 package net.nokok.twitduke.pluginsupport.apiwrapper;
 
-import java.util.Optional;
 import net.nokok.twitduke.core.factory.TwitterStreamFactory;
 import net.nokok.twitduke.core.twitter.TwitterExceptionReceivable;
 import net.nokok.twitduke.core.type.ThrowableReceivable;
@@ -108,11 +107,11 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onStatus(EventWithDoubleArg<Status, Optional<Status>> s) {
+    public void onStatus(EventWithSingleArg<Status> s) {
         this.twitterStream.addListener(new StatusAdapter() {
             @Override
             public void onStatus(Status status) {
-                s.onEvent(status, Optional.ofNullable(status.getRetweetedStatus()));
+                s.onEvent(status);
             }
         });
     }

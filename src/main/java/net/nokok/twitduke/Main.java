@@ -98,7 +98,7 @@ public class Main {
         PluginManager globaPluginManager = new PluginManager("plugins", accessToken);
         LambdaTwitterStream lambdaTwitterStream = new LambdaTwitterStream(accessToken);
         lambdaTwitterStream.addListener(new StreamEventRunner(globaPluginManager.getPlugins()));
-        lambdaTwitterStream.onStatus((status, rt) -> {
+        lambdaTwitterStream.onStatus(status -> {
             window.insertTweetCell(new DefaultTweetCell(status, accessToken));
         });
         lambdaTwitterStream.onException(e -> e.printStackTrace());
