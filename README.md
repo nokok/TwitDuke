@@ -10,7 +10,7 @@ Customizable
 
 #Acknowledgements
 
-[Here](https://github.com/nokok/TwitDuke/blob/master/acknowledgements.md)
+[Acknowledgements](https://github.com/nokok/TwitDuke/blob/master/acknowledgements.md)
 
 #License
 The MIT License (MIT)
