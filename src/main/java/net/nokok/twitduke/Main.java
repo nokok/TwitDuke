@@ -69,14 +69,17 @@ public class Main {
         }
         final AccountManager accountManager = AccountManagerFactory.newInstance();
         if ( accountManager.hasValidAccount() ) {
-            run(accountManager.readPrimaryAccount().get());
+            AccessToken accessToken = accountManager.readPrimaryAccount().get();
+            openWindow(accessToken);
+            startServer(accessToken);
         } else {
             //利用可能なアカウントがない状態なので認証処理を開始する
             OAuthRunnable auth = LambdaOAuthFactory.newInstance();
             auth.onError(logger::onError);
             auth.onSuccess(token -> {
                 accountManager.addAccount(token);
-                run(token);
+                openWindow(token);
+                startServer(token);
             });
             auth.startOAuth();
         }
@@ -87,7 +90,7 @@ public class Main {
      *
      * @param accountManager
      */
-    private static void run(AccessToken accessToken) {
+    private static void openWindow(AccessToken accessToken) {
         Window window = Window.createNewWindow(accessToken);
         PluginManager globaPluginManager = new PluginManager("plugins", accessToken);
         LambdaTwitterStream lambdaTwitterStream = new LambdaTwitterStream(accessToken);
@@ -97,6 +100,9 @@ public class Main {
         });
         lambdaTwitterStream.onException(e -> e.printStackTrace());
         lambdaTwitterStream.startStream();
+    }
+
+    private static void startServer(AccessToken accessToken) {
         WebServiceConfiguration
                 .newService()
                 .addHandler(new SendTweetHandler(accessToken).getHandler())
