@@ -47,7 +47,6 @@ public class SendTweetHandler extends PostHandler {
 
     public SendTweetHandler(AsyncTwitter asyncTwitter) {
         this.asyncTwitter = asyncTwitter;
-        setAllowNullPathInfo(true);
     }
 
     @Override
