@@ -61,7 +61,7 @@ public class Main {
         }
         ErrorLogExporter logger = new ErrorLogExporter();
         boolean isDebug = hasOption("--debug", args);
-        boolean isServerMode = hasOption("--servermode", args);
+        boolean isServerMode = hasOption("--server-mode", args);
         if ( !isDebug ) {
             System.setErr(new PrintStream(nullOutputStream()));
             System.setOut(new PrintStream(nullOutputStream()));
