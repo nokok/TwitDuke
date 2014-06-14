@@ -23,8 +23,6 @@
  */
 package net.nokok.twitduke.core.type;
 
-import java.util.Objects;
-
 /**
  * フッターを表現するオブジェクトです
  */
@@ -38,7 +36,14 @@ public class Footer implements Retrievable<String> {
      * @param footer フッターにするテキスト
      */
     public Footer(String footer) {
-        this.footer = Objects.requireNonNull(footer);
+        if ( footer == null ) {
+            throw new NullPointerException();
+        }
+        if ( footer.startsWith("#") ) {
+            this.footer = footer;
+        } else {
+            this.footer = "#" + footer;
+        }
     }
 
     /**
