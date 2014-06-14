@@ -39,13 +39,13 @@ public class WebServiceConfiguration implements Runnable {
         this.port = new Port(8192);
     }
 
-    public static WebServiceConfiguration newService() {
-        return new WebServiceConfiguration();
-    }
-
     public WebServiceConfiguration port(int port) {
         this.port = new Port(port);
         return this;
+    }
+
+    public static WebServiceConfiguration newService() {
+        return new WebServiceConfiguration();
     }
 
     public WebServiceConfiguration addHandler(Handler handler) {
