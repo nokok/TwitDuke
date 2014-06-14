@@ -21,29 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.web;
+package net.nokok.twitduke.core.web.handlers;
 
-import net.nokok.twitduke.core.web.handlers.SendTweetHandler;
-import org.mortbay.jetty.Server;
-import twitter4j.auth.AccessToken;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-public class WebService implements Runnable {
+/**
+ * GETリクエスとトのみを許可するハンドラです。
+ * このクラスを継承するハンドラに対してGETでリクエストを送信すると
+ * クライアントに対して405 Method Not Allowedが返されます。
+ */
+public class GetRequestHandler extends CommonHandler {
 
-    private Server server;
-
-    public WebService(AccessToken accessToken) {
-        server = new Server(new PortPropertyReader().getPort());
-        server.addHandler(new SendTweetHandler(accessToken));
+    public GetRequestHandler(String contextPath) {
+        super(contextPath);
     }
 
     @Override
-    public void run() {
-        try {
-            server.start();
-            server.join();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    public void handle(String target, HttpServletRequest request, HttpServletResponse response, int dispatch) throws IOException, ServletException {
+        super.handle(target, request, response, dispatch);
+        if ( isPostRequest() ) {
+            response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         }
+        if ( !super.isTarget() ) {
+            return;
+        }
+        super.getBaseRequest().ifPresent(base -> base.setHandled(true));
     }
-
 }
