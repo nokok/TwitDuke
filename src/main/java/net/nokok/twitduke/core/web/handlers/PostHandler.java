@@ -29,6 +29,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.mortbay.jetty.handler.ContextHandler;
 
+/**
+ * POSTのみを許可するハンドラです。
+ * このクラスを継承するハンドラに対してGETでリクエストを送信すると
+ * 405 Method Not Allowedが返されます。
+ */
 public class PostHandler extends ContextHandler {
 
     public PostHandler() {
