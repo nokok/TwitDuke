@@ -23,6 +23,7 @@
  */
 package net.nokok.twitduke.core.twitter;
 
+import net.nokok.twitduke.core.type.Footer;
 import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
 import net.nokok.twitduke.core.type.Tweet;
 import twitter4j.AsyncTwitter;

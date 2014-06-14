@@ -28,7 +28,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
-import net.nokok.twitduke.core.twitter.Footer;
+import net.nokok.twitduke.core.type.Footer;
 import net.nokok.twitduke.core.type.Tweet;
 import org.mortbay.jetty.Handler;
 import twitter4j.AsyncTwitter;
