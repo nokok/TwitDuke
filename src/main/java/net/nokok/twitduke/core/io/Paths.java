@@ -24,7 +24,6 @@
 package net.nokok.twitduke.core.io;
 
 import java.io.File;
-import net.nokok.twitduke.core.account.AccessTokenPath;
 import net.nokok.twitduke.core.account.AccountPath;
 import net.nokok.twitduke.core.log.LogPath;
 import net.nokok.twitduke.core.web.WebConfig;
@@ -33,7 +32,7 @@ import net.nokok.twitduke.pluginsupport.plugin.PluginPath;
 /**
  * パスクラスを集約します
  */
-public class Paths implements AccessTokenPath, AccountPath, LogPath, PluginPath, WebConfig {
+public class Paths implements AccountPath, LogPath, PluginPath, WebConfig {
 
     /**
      * TwitDukeの.tdディレクトリのパスです
