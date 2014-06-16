@@ -23,7 +23,17 @@
  */
 package net.nokok.twitduke.pluginsupport;
 
+/**
+ * プラグインのスクリプト内のメソッドを実行可能です。
+ */
 public interface InvocablePlugin {
 
+    /**
+     * 指定したオブジェクトの指定したメソッドを実行します。
+     *
+     * @param objectName オブジェクト名
+     * @param methodName メソッド名
+     * @param args       引数のリスト
+     */
     void invokeMethod(String objectName, String methodName, Object... args);
 }

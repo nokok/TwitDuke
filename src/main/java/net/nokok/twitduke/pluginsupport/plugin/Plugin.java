@@ -38,6 +38,9 @@ import javax.script.ScriptException;
 import net.nokok.twitduke.core.type.UncheckedScriptException;
 import net.nokok.twitduke.pluginsupport.InvocablePlugin;
 
+/**
+ * プラグインオブジェクトを表現します。
+ */
 public class Plugin implements PluginInfo, ReadablePlugin, InvocablePlugin {
 
     private final PluginInfo pluginInfo;
@@ -68,6 +71,11 @@ public class Plugin implements PluginInfo, ReadablePlugin, InvocablePlugin {
         }
     }
 
+    /**
+     * プラグインを実行します。
+     *
+     * @exception UncheckedScriptException プラグインの実行中にエラーが発生した場合
+     */
     public void eval() {
         try {
             scriptEngine.eval(new FileReader(pluginPath));
@@ -76,6 +84,9 @@ public class Plugin implements PluginInfo, ReadablePlugin, InvocablePlugin {
         }
     }
 
+    /**
+     * @return プラグインのInvocableインターフェース実装オブジェクト
+     */
     public Invocable invocable() {
         return (Invocable) scriptEngine;
     }
@@ -91,6 +102,9 @@ public class Plugin implements PluginInfo, ReadablePlugin, InvocablePlugin {
         }
     }
 
+    /**
+     * @return ScriptEngineオブジェクト
+     */
     public ScriptEngine scriptEngine() {
         return scriptEngine;
     }
@@ -105,6 +119,14 @@ public class Plugin implements PluginInfo, ReadablePlugin, InvocablePlugin {
         return pluginInfo.version();
     }
 
+    /**
+     * ファイルオブジェクトからプラグインオブジェクトに変換するコンバータメソッドです。
+     * 変換に失敗した場合Optional.empty()が返ります。
+     *
+     * @param file ファイル
+     *
+     * @return プラグインオブジェクトまたはOptional.empty()
+     */
     public static Optional<Plugin> encode(File file) {
         String propertyPath = file.getAbsolutePath().replace(".js", ".properties");
         final Properties properties = new Properties();

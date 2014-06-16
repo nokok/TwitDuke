@@ -25,7 +25,13 @@ package net.nokok.twitduke.pluginsupport.plugin;
 
 import java.io.File;
 
+/**
+ * デフォルトのグローバルプラグイン格納場所を保持します。
+ */
 public interface PluginPath {
 
+    /**
+     * プラグインを保存するディレクトリのパスです
+     */
     public static final String PLUGIN_DIR = String.join(File.separator, new File(".").getAbsolutePath(), "plugins");
 }

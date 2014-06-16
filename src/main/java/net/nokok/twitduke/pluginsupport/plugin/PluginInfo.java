@@ -23,13 +23,28 @@
  */
 package net.nokok.twitduke.pluginsupport.plugin;
 
+/**
+ * プラグインの情報を取得できるオブジェクトです。
+ */
 public interface PluginInfo {
 
+    /**
+     * @return プラグイン名
+     */
     String name();
 
+    /**
+     * @return プラグインバージョン
+     */
     String version();
 
+    /**
+     * @return プラグインバージョン
+     */
     String author();
 
+    /**
+     * @return プラグインについての説明
+     */
     String description();
 }

@@ -25,7 +25,13 @@ package net.nokok.twitduke.pluginsupport.plugin;
 
 import java.io.Reader;
 
+/**
+ * プラグインのリーダーを取得できるオブジェクトです
+ */
 public interface ReadablePlugin {
 
+    /**
+     * @return プラグインのリーダー
+     */
     Reader getReader();
 }
