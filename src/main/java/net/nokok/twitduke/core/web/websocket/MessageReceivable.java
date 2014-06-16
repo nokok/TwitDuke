@@ -23,8 +23,11 @@
  */
 package net.nokok.twitduke.core.web.websocket;
 
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
+
 @FunctionalInterface
 public interface MessageReceivable {
 
+    @OnWebSocketMessage
     public void onMessage(String message);
 }
