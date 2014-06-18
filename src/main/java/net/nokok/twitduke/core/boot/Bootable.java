@@ -23,15 +23,8 @@
  */
 package net.nokok.twitduke.core.boot;
 
-import twitter4j.auth.AccessToken;
+import java.util.concurrent.Callable;
 
-public abstract class AbstractBoot {
+public interface Bootable<T> extends Callable<T> {
 
-    private final AccessToken accessToken;
-
-    public AbstractBoot(AccessToken accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    public abstract void startBooting();
 }
