@@ -43,7 +43,7 @@ public class WebServerStarter implements Runnable {
                 .addHandler(new SendTweetHandler(accessToken).getHandler())
                 .addHandler(new ShindanmakerHandler(accessToken).getHandler())
                 .addHandler(new TweetWithFooterHandler(accessToken).getHandler())
-                .run();
+                .call();
     }
 
 }

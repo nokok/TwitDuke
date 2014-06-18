@@ -26,11 +26,12 @@ package net.nokok.twitduke.core.web;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Callable;
 import net.nokok.twitduke.core.type.Port;
 import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.Server;
 
-public class WebServiceConfiguration implements Runnable {
+public class WebServiceConfiguration implements Callable<Server> {
 
     private Port port;
     private final List<Handler> handlers = new ArrayList<>();
@@ -72,12 +73,13 @@ public class WebServiceConfiguration implements Runnable {
     }
 
     @Override
-    public void run() {
+    public Server call() {
         try {
             Server server = new Server(port.get());
             handlers.forEach(server::addHandler);
             server.start();
             server.join();
+            return server;
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
