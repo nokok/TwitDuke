@@ -21,29 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.web;
+package net.nokok.twitduke.core.boot;
 
-import net.nokok.twitduke.core.web.handlers.SendTweetHandler;
-import net.nokok.twitduke.core.web.handlers.ShindanmakerHandler;
-import net.nokok.twitduke.core.web.handlers.TweetWithFooterHandler;
-import twitter4j.auth.AccessToken;
+import java.util.concurrent.Callable;
 
-public class WebServerStarter implements Runnable {
-
-    private final AccessToken accessToken;
-
-    public WebServerStarter(AccessToken accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    @Override
-    public void run() {
-        WebServiceConfiguration
-                .newService()
-                .addHandler(new SendTweetHandler(accessToken).getHandler())
-                .addHandler(new ShindanmakerHandler(accessToken).getHandler())
-                .addHandler(new TweetWithFooterHandler(accessToken).getHandler())
-                .call();
-    }
+public interface Bootable<T> extends Callable<T> {
 
 }
