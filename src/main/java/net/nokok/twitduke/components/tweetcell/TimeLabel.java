@@ -65,12 +65,12 @@ public class TimeLabel extends TWLabel {
                 int hour = now.getHour() - statusTime.getHour();
                 if ( hour == 0 ) {
                     //現在時刻と同じ時間につぶやかれたツイート
-                    int minue = now.getMinute() - statusTime.getMinute();
-                    if ( minue == 0 ) {
+                    int minute = now.getMinute() - statusTime.getMinute();
+                    if ( minute == 0 ) {
                         //現在時刻と同じ分につぶやかれたツイート
                         return (now.getSecond() - statusTime.getSecond()) + "秒前";
                     } else {
-                        return minue + "分前";
+                        return minute + "分前";
                     }
                 } else {
                     return hour + "時間前";
