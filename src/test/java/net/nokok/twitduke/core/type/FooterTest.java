@@ -39,7 +39,7 @@ public class FooterTest {
     public void testGet() {
         String str = "hoge";
         Footer footer = new Footer(str);
-        assertEquals(footer.get(), "#" + str);
+        assertEquals(footer.get(), str);
         String str1 = "#fuga";
         Footer f1 = new Footer(str1);
         assertEquals(f1.get(), str1);
@@ -69,7 +69,7 @@ public class FooterTest {
     public void testToString() {
         String s1 = "hoge";
         Footer f1 = new Footer(s1);
-        assertEquals(f1.toString(), "#hoge");
+        assertEquals(f1.toString(), "hoge");
         String s2 = "#hoge";
         Footer f2 = new Footer(s2);
         assertEquals(f2.toString(), "#hoge");
