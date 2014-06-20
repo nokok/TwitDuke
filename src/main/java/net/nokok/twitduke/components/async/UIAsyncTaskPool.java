@@ -24,6 +24,7 @@
 package net.nokok.twitduke.components.async;
 
 import java.util.concurrent.ForkJoinPool;
+import net.nokok.twitduke.core.ShutdownHook;
 
 /**
  * 非同期でコンポーネントの状態を更新するためのマネージャーです。
@@ -35,14 +36,7 @@ enum UIAsyncTaskPool {
     private final ForkJoinPool pool = new ForkJoinPool();
 
     private UIAsyncTaskPool() {
-        Runtime.getRuntime().addShutdownHook(new Thread("UIAsyncTaskPool Shutdown Thread") {
-
-            @Override
-            public void run() {
-                pool.shutdownNow();
-            }
-
-        });
+        ShutdownHook.INSTANCE.addHook("UIAsyncTaskPool Shutdown Thread", pool::shutdownNow);
     }
 
     /**

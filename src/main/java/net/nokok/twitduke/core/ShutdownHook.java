@@ -21,30 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.factory;
+package net.nokok.twitduke.core;
 
-import net.nokok.twitduke.core.ShutdownHook;
-import net.nokok.twitduke.core.twitter.TwitterStreamInstanceGeneratorImpl;
-import twitter4j.TwitterStream;
-import twitter4j.auth.AccessToken;
+public enum ShutdownHook {
 
-/**
- * ストリームを生成するstaticファクトリーメソッドが定義されています。
- * このクラスを使用するとストリームを実装の影響なしで生成することが出来ます。
- *
- */
-public class TwitterStreamFactory {
+    INSTANCE,;
 
-    /**
-     * ストリームを新たに生成します
-     *
-     * @param accessToken アクセストークン
-     *
-     * @return 生成されたストリーム
-     */
-    public static TwitterStream newInstance(AccessToken accessToken) {
-        final TwitterStream twitterStream = new TwitterStreamInstanceGeneratorImpl().generate(accessToken);
-        ShutdownHook.INSTANCE.addHook("Twitter Stream Shutdown Thread", twitterStream::shutdown);
-        return twitterStream;
+    public void addHook(Runnable runnable) {
+        Runtime.getRuntime().addShutdownHook(new Thread(runnable));
+    }
+
+    public void addHook(String threadName, Runnable runnable) {
+        Runtime.getRuntime().addShutdownHook(new Thread(runnable, threadName));
     }
 }
