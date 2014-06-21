@@ -66,3 +66,9 @@ THE SOFTWARE.
 [https://code.google.com/p/guava-libraries/](https://code.google.com/p/guava-libraries/)  
 [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
+##Jetty 9
+[http://www.eclipse.org/jetty/licenses.php](http://www.eclipse.org/jetty/licenses.php)
+
+>Jetty 9 (as well as 7 and 8) is dual licensed under the Apache License 2.0 and Eclipse Public License 1.0. Jetty is free for commercial use and distribution under the terms of either license, with exceptions listed in the NOTICE file.
+
+>Jetty 6 was distributed solely under the Apache License 2.0 with details and exceptions listed in the NOTICE file. 
