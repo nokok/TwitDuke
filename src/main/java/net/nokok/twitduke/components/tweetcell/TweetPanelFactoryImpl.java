@@ -118,7 +118,7 @@ public class TweetPanelFactoryImpl implements TweetPanelFactory {
      */
     @Override
     public Component createScreenNameLabel() {
-        JLabel label = new ScreenNameLabel("@" + screenName);
+        JLabel label = new ScreenNameLabel("@" + activeStatus.getUser().getScreenName());
         return label;
     }
 
