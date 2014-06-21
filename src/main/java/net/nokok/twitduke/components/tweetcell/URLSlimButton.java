@@ -45,7 +45,10 @@ public class URLSlimButton extends TWSlimButton {
         setForeground(URL_FOREGROUND_COLOR);
         try {
             URL url = new URL(text);
-            addActionListener(e -> openInBrowser(url));
+            addActionListener(e -> {
+                openInBrowser(url);
+                setText("再度開く");
+            });
         } catch (MalformedURLException ex) {
             throw new RuntimeException(ex);
         }
