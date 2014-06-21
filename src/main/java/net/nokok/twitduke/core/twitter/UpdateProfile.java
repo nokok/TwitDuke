@@ -39,7 +39,7 @@ public interface UpdateProfile extends TwitterExceptionReceivable {
      *
      */
     @Override
-    void onError(ThrowableReceivable receiver);
+    void onException(ThrowableReceivable receiver);
 
     /**
      * プロフィールの詳細(TwitterAPI上ではDescription)を変更します。

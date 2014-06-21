@@ -55,7 +55,7 @@ public class TwitterAPI implements TweetSendable, DMSendable, UpdateProfile, Twi
     }
 
     @Override
-    public void onError(ThrowableReceivable receiver) {
+    public void onException(ThrowableReceivable receiver) {
         asyncTwitter.addListener(new TwitterAdapter() {
 
             @Override

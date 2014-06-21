@@ -36,5 +36,5 @@ public interface TwitterExceptionReceivable {
      *
      * @param receiver Throwableが受信可能なオブジェクト
      */
-    void onError(ThrowableReceivable receiver);
+    void onException(ThrowableReceivable receiver);
 }

@@ -100,7 +100,7 @@ public class UpdateProfileImpl implements UpdateProfile {
     }
 
     @Override
-    public void onError(ThrowableReceivable receivable) {
+    public void onException(ThrowableReceivable receivable) {
         this.resultOnError = receivable;
     }
 }

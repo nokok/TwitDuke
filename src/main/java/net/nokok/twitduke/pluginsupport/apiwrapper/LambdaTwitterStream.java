@@ -71,20 +71,11 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
     }
 
     @Override
-    public void onError(ThrowableReceivable receivable) {
+    public void onException(ThrowableReceivable receiver) {
         this.twitterStream.addListener(new StatusAdapter() {
             @Override
             public void onException(Exception ex) {
-                receivable.onError(ex);
-            }
-        });
-    }
-
-    public void onException(ThrowableReceivable e) {
-        this.twitterStream.addListener(new StatusAdapter() {
-            @Override
-            public void onException(Exception ex) {
-                e.onError(ex);
+                receiver.onError(ex);
             }
         });
     }
