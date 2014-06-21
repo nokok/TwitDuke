@@ -93,6 +93,7 @@ public class Window implements WindowSize, Visible, Disposable {
 
     public void addHeader(JComponent component) {
         frame.add(component, BorderLayout.NORTH);
+        frame.validate();
     }
 
     public void addContents(JComponent component) {
@@ -102,18 +103,22 @@ public class Window implements WindowSize, Visible, Disposable {
             frame.add(component, BorderLayout.CENTER);
         }
         this.contents = component;
+        frame.validate();
     }
 
     public void addFooter(JComponent component) {
         frame.add(component, BorderLayout.SOUTH);
+        frame.validate();
     }
 
     public void addRightPanel(JComponent component) {
         frame.add(component, BorderLayout.EAST);
+        frame.validate();
     }
 
     public void insertTweetCell(JComponent component) {
         this.contents.add(component);
+        frame.validate();
     }
 
     @Override
