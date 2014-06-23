@@ -21,10 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.components;
+package net.nokok.twitduke.components.basic;
 
 import java.awt.Color;
 import java.awt.LayoutManager;
+import net.nokok.twitduke.components.Selectable;
 import net.nokok.twitduke.components.basic.TWPanel;
 
 public class SelectablePanel extends TWPanel implements Selectable {

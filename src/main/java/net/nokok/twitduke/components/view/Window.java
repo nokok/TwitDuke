@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.components;
+package net.nokok.twitduke.components.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -30,6 +30,10 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import net.nokok.twitduke.components.Disposable;
+import net.nokok.twitduke.components.customlayoutcomponents.ScrollableTimelinePanel;
+import net.nokok.twitduke.components.Visible;
+import net.nokok.twitduke.components.WindowSize;
 import net.nokok.twitduke.components.basic.TWFrame;
 import net.nokok.twitduke.core.event.WindowEventListener;
 import twitter4j.auth.AccessToken;

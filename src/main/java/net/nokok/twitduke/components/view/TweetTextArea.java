@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.components;
+package net.nokok.twitduke.components.view;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

@@ -21,8 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.components;
+package net.nokok.twitduke.components.customlayoutcomponents;
 
+import net.nokok.twitduke.components.customlayoutcomponents.TimelinePanel;
 import java.awt.Component;
 import javax.swing.JComponent;
 import javax.swing.JPanel;

@@ -27,7 +27,7 @@ import static com.google.common.io.ByteStreams.nullOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.stream.Stream;
-import net.nokok.twitduke.components.Window;
+import net.nokok.twitduke.components.view.Window;
 import net.nokok.twitduke.components.tweetcell.DefaultTweetCell;
 import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.account.DirectoryHelper;

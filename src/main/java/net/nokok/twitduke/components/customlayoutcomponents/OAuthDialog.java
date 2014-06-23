@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.components;
+package net.nokok.twitduke.components.customlayoutcomponents;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,6 +29,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+import net.nokok.twitduke.components.Dialog;
+import net.nokok.twitduke.components.DialogResultListener;
 import net.nokok.twitduke.components.basic.TWFrame;
 import net.nokok.twitduke.components.basic.TWLabel;
 import net.nokok.twitduke.components.basic.TWPanel;

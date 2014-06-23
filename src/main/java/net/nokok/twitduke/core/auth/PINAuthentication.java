@@ -29,7 +29,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import net.nokok.twitduke.components.Dialog;
 import net.nokok.twitduke.components.DialogResultListener;
-import net.nokok.twitduke.components.OAuthDialog;
+import net.nokok.twitduke.components.customlayoutcomponents.OAuthDialog;
 import net.nokok.twitduke.core.twitter.AsyncTwitterInstanceGeneratorImpl;
 import twitter4j.AsyncTwitter;
 import twitter4j.TwitterAdapter;
