@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * {@link TypeSafeMap} のエントリーを表現するクラスです。{@link EntryBuilder}によって生成されることを想定しています。
+ * {@link TypeSafeDataStore} のエントリーを表現するクラスです。{@link EntryBuilder}によって生成されることを想定しています。
  *
  * @param <K> キー
  * @param <V> バリュー
