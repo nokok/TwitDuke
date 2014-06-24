@@ -31,13 +31,13 @@ public enum NotificationTimer {
     INSTANCE,;
     private final Timer timer = new Timer();
 
-    void startNotification(Runnable task, long delay) {
+    void startNotification(Runnable task) {
         timer.scheduleAtFixedRate(new TimerTask() {
 
             @Override
             public void run() {
                 task.run();
             }
-        }, 0, delay);
+        }, 0, 5000);
     }
 }
