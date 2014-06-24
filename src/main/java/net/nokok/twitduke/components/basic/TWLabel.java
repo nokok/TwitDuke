@@ -24,6 +24,7 @@
 package net.nokok.twitduke.components.basic;
 
 import java.awt.Color;
+import javax.swing.Icon;
 import javax.swing.JLabel;
 import net.nokok.twitduke.components.Selectable;
 
@@ -64,6 +65,11 @@ public class TWLabel extends JLabel implements Selectable {
     public TWLabel(String text) {
         this();
         setText(text);
+    }
+
+    public TWLabel(Icon icon) {
+        this();
+        setIcon(icon);
     }
 
     @Override
