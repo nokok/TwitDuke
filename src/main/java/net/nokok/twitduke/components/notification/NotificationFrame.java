@@ -39,6 +39,7 @@ public class NotificationFrame extends TWFrame {
         setResizable(false);
         Dimension s = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation((int) s.getWidth() - 320, 20);
+        setAlwaysOnTop(true);
         NotificationTimer.INSTANCE.startNotification(() -> {
             this.setVisible(false);
             this.dispose();
