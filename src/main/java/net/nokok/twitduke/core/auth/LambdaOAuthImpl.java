@@ -25,7 +25,7 @@ package net.nokok.twitduke.core.auth;
 
 import net.nokok.twitduke.core.twitter.AsyncTwitterInstanceGeneratorImpl;
 import net.nokok.twitduke.core.type.ThrowableReceivable;
-import net.nokok.twitduke.pluginsupport.event.EventWithSingleArg;
+import net.nokok.twitduke.pluginsupport.event.Event;
 import twitter4j.AsyncTwitter;
 import twitter4j.TwitterAdapter;
 import twitter4j.TwitterException;
@@ -43,7 +43,7 @@ public class LambdaOAuthImpl implements Runnable, LambdaOAuth {
     }
 
     @Override
-    public void gotRequestToken(EventWithSingleArg<RequestToken> requestTokenListener) {
+    public void gotRequestToken(Event<RequestToken> requestTokenListener) {
         this.asyncTwitter.addListener(new TwitterAdapter() {
 
             @Override
@@ -56,7 +56,7 @@ public class LambdaOAuthImpl implements Runnable, LambdaOAuth {
     }
 
     @Override
-    public void gotAccessToken(EventWithSingleArg<AccessToken> accessTokenListener) {
+    public void gotAccessToken(Event<AccessToken> accessTokenListener) {
         this.asyncTwitter.addListener(new TwitterAdapter() {
 
             @Override

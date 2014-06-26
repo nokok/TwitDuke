@@ -30,7 +30,7 @@ package net.nokok.twitduke.pluginsupport.event;
  * @param <T2>
  * @param <T3>
  */
-public interface EventWithTripleArg<T1, T2, T3> {
+public interface Event3<T1, T2, T3> {
 
     /**
      * イベントが発生した時に呼ばれます

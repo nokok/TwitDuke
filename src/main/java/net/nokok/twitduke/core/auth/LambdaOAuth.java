@@ -24,7 +24,7 @@
 package net.nokok.twitduke.core.auth;
 
 import net.nokok.twitduke.core.type.ThrowableReceivable;
-import net.nokok.twitduke.pluginsupport.event.EventWithSingleArg;
+import net.nokok.twitduke.pluginsupport.event.Event;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
@@ -39,14 +39,14 @@ public interface LambdaOAuth extends Runnable {
      *
      * @param accessTokenListener アクセストークンに対して処理を行うオブジェクト
      */
-    void gotAccessToken(EventWithSingleArg<AccessToken> accessTokenListener);
+    void gotAccessToken(Event<AccessToken> accessTokenListener);
 
     /**
      * リクエストトークンが取得された時に呼ばれます。
      *
      * @param requestTokenListener リクエストトークンに対して処理を行うオブジェクト
      */
-    void gotRequestToken(EventWithSingleArg<RequestToken> requestTokenListener);
+    void gotRequestToken(Event<RequestToken> requestTokenListener);
 
     /**
      * エラーが発生した時に呼ばれます

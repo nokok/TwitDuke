@@ -26,9 +26,9 @@ package net.nokok.twitduke.pluginsupport.apiwrapper;
 import net.nokok.twitduke.core.factory.TwitterStreamFactory;
 import net.nokok.twitduke.core.twitter.TwitterExceptionReceivable;
 import net.nokok.twitduke.core.type.ThrowableReceivable;
-import net.nokok.twitduke.pluginsupport.event.EventWithDoubleArg;
-import net.nokok.twitduke.pluginsupport.event.EventWithSingleArg;
-import net.nokok.twitduke.pluginsupport.event.EventWithTripleArg;
+import net.nokok.twitduke.pluginsupport.event.Event2;
+import net.nokok.twitduke.pluginsupport.event.Event;
+import net.nokok.twitduke.pluginsupport.event.Event3;
 import twitter4j.DirectMessage;
 import twitter4j.StallWarning;
 import twitter4j.Status;
@@ -61,7 +61,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         this.twitterStream.addListener(statusListener);
     }
 
-    public void onDeletionNotice(EventWithSingleArg<StatusDeletionNotice> s) {
+    public void onDeletionNotice(Event<StatusDeletionNotice> s) {
         this.twitterStream.addListener(new StatusAdapter() {
             @Override
             public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
@@ -80,7 +80,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void ScrubGeo(EventWithDoubleArg<Long, Long> s) {
+    public void ScrubGeo(Event2<Long, Long> s) {
         this.twitterStream.addListener(new StatusAdapter() {
             @Override
             public void onScrubGeo(long userId, long upToStatusId) {
@@ -89,7 +89,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onStallWarning(EventWithSingleArg<StallWarning> w) {
+    public void onStallWarning(Event<StallWarning> w) {
         this.twitterStream.addListener(new StatusAdapter() {
             @Override
             public void onStallWarning(StallWarning warning) {
@@ -98,7 +98,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onStatus(EventWithSingleArg<Status> s) {
+    public void onStatus(Event<Status> s) {
         this.twitterStream.addListener(new StatusAdapter() {
             @Override
             public void onStatus(Status status) {
@@ -107,7 +107,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onStatusUser(EventWithSingleArg<User> u) {
+    public void onStatusUser(Event<User> u) {
         this.twitterStream.addListener(new StatusAdapter() {
 
             @Override
@@ -118,7 +118,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onStatusScreenName(EventWithSingleArg<String> s) {
+    public void onStatusScreenName(Event<String> s) {
         this.twitterStream.addListener(new StatusAdapter() {
 
             @Override
@@ -129,7 +129,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onTrackLimitationNotice(EventWithSingleArg<Integer> i) {
+    public void onTrackLimitationNotice(Event<Integer> i) {
         this.twitterStream.addListener(new StatusAdapter() {
             @Override
             public void onTrackLimitationNotice(int numberOfLimitedStatuses) {
@@ -138,7 +138,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onBlock(EventWithDoubleArg<User, User> b) {
+    public void onBlock(Event2<User, User> b) {
         this.twitterStream.addListener(new UserStreamAdapter() {
             @Override
             public void onBlock(User source, User blockedUser) {
@@ -147,7 +147,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onUnBlock(EventWithDoubleArg<User, User> arg) {
+    public void onUnBlock(Event2<User, User> arg) {
         this.twitterStream.addListener(new UserStreamAdapter() {
             @Override
             public void onUnblock(User source, User unblockedUser) {
@@ -156,7 +156,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onFavorite(EventWithTripleArg<User, User, Status> arg) {
+    public void onFavorite(Event3<User, User, Status> arg) {
         this.twitterStream.addListener(new UserStreamAdapter() {
             @Override
             public void onFavorite(User source, User target, Status favoritedStatus) {
@@ -165,7 +165,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onUnfavorite(EventWithTripleArg<User, User, Status> arg) {
+    public void onUnfavorite(Event3<User, User, Status> arg) {
         this.twitterStream.addListener(new UserStreamAdapter() {
             @Override
             public void onUnfavorite(User source, User target, Status unfavoritedStatus) {
@@ -174,7 +174,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onFollow(EventWithDoubleArg<User, User> arg) {
+    public void onFollow(Event2<User, User> arg) {
         this.twitterStream.addListener(new UserStreamAdapter() {
             @Override
             public void onFollow(User source, User followedUser) {
@@ -183,7 +183,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onDirectMessage(EventWithSingleArg<DirectMessage> arg) {
+    public void onDirectMessage(Event<DirectMessage> arg) {
         this.twitterStream.addListener(new UserStreamAdapter() {
             @Override
             public void onDirectMessage(DirectMessage directMessage) {
@@ -192,7 +192,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onUserListMenberAddition(EventWithTripleArg<User, User, UserList> arg) {
+    public void onUserListMenberAddition(Event3<User, User, UserList> arg) {
         this.twitterStream.addListener(new UserStreamAdapter() {
             @Override
             public void onUserListMemberAddition(User addedMember, User listOwner, UserList list) {
@@ -201,7 +201,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onUserListMemberDeletion(EventWithTripleArg<User, User, UserList> arg) {
+    public void onUserListMemberDeletion(Event3<User, User, UserList> arg) {
         this.twitterStream.addListener(new UserStreamAdapter() {
             @Override
             public void onUserListMemberDeletion(User deletedMember, User listOwner, UserList list) {
@@ -210,7 +210,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onUserListSubscription(EventWithTripleArg<User, User, UserList> arg) {
+    public void onUserListSubscription(Event3<User, User, UserList> arg) {
         this.twitterStream.addListener(new UserStreamAdapter() {
             @Override
             public void onUserListSubscription(User subscriber, User listOwner, UserList list) {
@@ -219,7 +219,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onUserListUnsubscription(EventWithTripleArg<User, User, UserList> arg) {
+    public void onUserListUnsubscription(Event3<User, User, UserList> arg) {
         this.twitterStream.addListener(new UserStreamAdapter() {
             @Override
             public void onUserListUnsubscription(User subscriber, User listOwner, UserList list) {
@@ -228,7 +228,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onUserListCreation(EventWithDoubleArg<User, UserList> arg) {
+    public void onUserListCreation(Event2<User, UserList> arg) {
         this.twitterStream.addListener(new UserStreamAdapter() {
             @Override
             public void onUserListCreation(User listOwner, UserList list) {
@@ -237,7 +237,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onUserListUpdate(EventWithDoubleArg<User, UserList> arg) {
+    public void onUserListUpdate(Event2<User, UserList> arg) {
         this.twitterStream.addListener(new UserStreamAdapter() {
             @Override
             public void onUserListUpdate(User listOwner, UserList list) {
@@ -246,7 +246,7 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         });
     }
 
-    public void onUserProfileUpdate(EventWithSingleArg<User> arg) {
+    public void onUserProfileUpdate(Event<User> arg) {
         this.twitterStream.addListener(new UserStreamAdapter() {
             @Override
             public void onUserProfileUpdate(User updatedUser) {

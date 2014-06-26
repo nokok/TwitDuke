@@ -24,18 +24,16 @@
 package net.nokok.twitduke.pluginsupport.event;
 
 /**
- * イベント発生時引数の数が2つ必要なイベントです。
+ * イベント発生時引数の数が1つ必要なイベントです。
  *
- * @param <T1>
- * @param <T2>
+ * @param <T>
  */
-public interface EventWithDoubleArg<T1, T2> {
+public interface Event<T> {
 
     /**
-     * イベントが発生した時に呼ばれます
+     * イベント発生時に呼ばれます
      *
-     * @param arg1
-     * @param arg2
+     * @param arg
      */
-    public void onEvent(T1 arg1, T2 arg2);
+    public void onEvent(T arg);
 }
