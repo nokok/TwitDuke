@@ -96,13 +96,12 @@ public class Main {
     private static void openWindow(AccessToken accessToken) {
         Window window = Window.createNewWindow(accessToken);
         PluginManager globaPluginManager = new PluginManager("plugins", accessToken);
-        LambdaTwitterStream lambdaTwitterStream = new LambdaTwitterStream(accessToken);
-        lambdaTwitterStream.addListener(new StreamEventRunner(globaPluginManager.getPlugins()));
-        lambdaTwitterStream.onStatus(status -> {
-            window.insertTweetCell(new DefaultTweetCell(status, accessToken));
-        });
-        lambdaTwitterStream.onException(e -> e.printStackTrace());
-        lambdaTwitterStream.startStream();
+        TwitterStreamRunner streamRunner = new TwitterStreamRunner(accessToken);
+        streamRunner.addTwitterListener(new StreamEventRunner(globaPluginManager.getPlugins()));
+        streamRunner.addTwitterListener(new TwitterNotificationListener());
+        streamRunner.addHomeTimelineTweetCellListener(window);
+        streamRunner.enableStackTrace();
+        streamRunner.run();
     }
 
     private static void startServer(AccessToken accessToken) {
