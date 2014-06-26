@@ -28,18 +28,19 @@ import java.io.File;
 import java.io.PrintStream;
 import java.util.stream.Stream;
 import net.nokok.twitduke.components.view.Window;
-import net.nokok.twitduke.components.tweetcell.DefaultTweetCell;
 import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.account.DirectoryHelper;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
+import net.nokok.twitduke.core.auth.OAuthOnSuccess;
 import net.nokok.twitduke.core.auth.OAuthRunnable;
+import net.nokok.twitduke.core.boot.TwitterStreamRunner;
 import net.nokok.twitduke.core.factory.AccountManagerFactory;
 import net.nokok.twitduke.core.io.Paths;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
+import net.nokok.twitduke.core.twitter.TwitterNotificationListener;
 import net.nokok.twitduke.core.web.WebServerStarter;
 import net.nokok.twitduke.pluginsupport.PluginManager;
 import net.nokok.twitduke.pluginsupport.StreamEventRunner;
-import net.nokok.twitduke.pluginsupport.apiwrapper.LambdaTwitterStream;
 import twitter4j.auth.AccessToken;
 
 /**
@@ -59,12 +60,10 @@ public class Main {
         if ( !existsTwitDukeDir() ) {
             DirectoryHelper.createTwitDukeDirectories();
         }
-        ErrorLogExporter logger = new ErrorLogExporter();
         boolean isDebug = hasOption("--debug", args);
         boolean isServerMode = hasOption("--server-mode", args);
         if ( !isDebug ) {
-            System.setErr(new PrintStream(nullOutputStream()));
-            System.setOut(new PrintStream(nullOutputStream()));
+            disableOutput();
         }
         final AccountManager accountManager = AccountManagerFactory.newInstance();
         if ( accountManager.hasValidAccount() ) {
@@ -74,18 +73,30 @@ public class Main {
             }
             startServer(accessToken);
         } else {
-            //利用可能なアカウントがない状態なので認証処理を開始する
-            OAuthRunnable auth = LambdaOAuthFactory.newInstance();
-            auth.onError(logger::onError);
-            auth.onSuccess(token -> {
-                accountManager.addAccount(token);
+            startOAuth(accountManager, token -> {
                 if ( !isServerMode ) {
                     openWindow(token);
                 }
                 startServer(token);
             });
-            auth.startOAuth();
         }
+    }
+
+    private static void disableOutput() {
+        System.setErr(new PrintStream(nullOutputStream()));
+        System.setOut(new PrintStream(nullOutputStream()));
+    }
+
+    private static void startOAuth(AccountManager accountManager, OAuthOnSuccess receiver) {
+        //利用可能なアカウントがない状態なので認証処理を開始する
+        OAuthRunnable auth = LambdaOAuthFactory.newInstance();
+        ErrorLogExporter logger = new ErrorLogExporter();
+        auth.onError(logger::onError);
+        auth.onSuccess(token -> {
+            accountManager.addAccount(token);
+            receiver.onSuccess(token);
+        });
+        auth.startOAuth();
     }
 
     /**
