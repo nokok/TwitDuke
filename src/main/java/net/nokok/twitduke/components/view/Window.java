@@ -24,24 +24,26 @@
 package net.nokok.twitduke.components.view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import net.nokok.twitduke.components.ComponentInsertable;
 import net.nokok.twitduke.components.Disposable;
-import net.nokok.twitduke.components.customlayoutcomponents.ScrollableTimelinePanel;
 import net.nokok.twitduke.components.Visible;
 import net.nokok.twitduke.components.WindowSize;
 import net.nokok.twitduke.components.basic.TWFrame;
+import net.nokok.twitduke.components.customlayoutcomponents.ScrollableTimelinePanel;
 import net.nokok.twitduke.core.event.WindowEventListener;
 import twitter4j.auth.AccessToken;
 
 /**
  * TwitDukeのメインウィンドウです
  */
-public class Window implements WindowSize, Visible, Disposable {
+public class Window implements WindowSize, Visible, Disposable, ComponentInsertable {
 
     private final JFrame frame = new TWFrame("TwitDuke");
     private JComponent contents;
@@ -120,7 +122,8 @@ public class Window implements WindowSize, Visible, Disposable {
         frame.validate();
     }
 
-    public void insertTweetCell(JComponent component) {
+    @Override
+    public void insert(Component component) {
         this.contents.add(component);
         frame.validate();
     }
