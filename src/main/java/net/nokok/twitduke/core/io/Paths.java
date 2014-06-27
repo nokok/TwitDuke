@@ -26,13 +26,14 @@ package net.nokok.twitduke.core.io;
 import java.io.File;
 import net.nokok.twitduke.core.account.AccountPath;
 import net.nokok.twitduke.core.log.LogPath;
+import net.nokok.twitduke.core.thirdpartyservice.shindanmaker.ShindanmakerConfig;
 import net.nokok.twitduke.core.web.WebConfig;
 import net.nokok.twitduke.pluginsupport.plugin.PluginPath;
 
 /**
  * パスクラスを集約します
  */
-public class Paths implements AccountPath, LogPath, PluginPath, WebConfig {
+public class Paths implements AccountPath, LogPath, PluginPath, WebConfig, ShindanmakerConfig {
 
     /**
      * TwitDukeの.tdディレクトリのパスです
