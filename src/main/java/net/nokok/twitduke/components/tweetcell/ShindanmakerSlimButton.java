@@ -39,7 +39,7 @@ public class ShindanmakerSlimButton extends TWSlimButton {
 
     private static final long serialVersionUID = 2413821909257131606L;
 
-    public ShindanmakerSlimButton(String url, String name, AccessToken accessToken) {
+    public ShindanmakerSlimButton(String url, AccessToken accessToken) {
         setText("診断をツイート");
         setPreferredSize(new Dimension(130, 20));
         Shindanmaker shindanmaker = new ShindanmakerImpl();

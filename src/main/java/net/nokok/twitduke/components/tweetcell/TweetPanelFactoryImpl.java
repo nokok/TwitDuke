@@ -216,7 +216,7 @@ public class TweetPanelFactoryImpl implements TweetPanelFactory {
                 .forEach(u -> buttonList.add(new URLSlimButton(u)));
         Stream.of(urlEntities)
                 .filter(p -> p.getDisplayURL().contains("shindanmaker"))
-                .map(p -> new ShindanmakerSlimButton(p.getExpandedURL(), "noko", accessToken))
+                .map(p -> new ShindanmakerSlimButton(p.getExpandedURL(), accessToken))
                 .forEach(buttonList::add);
         return buttonList;
     }
