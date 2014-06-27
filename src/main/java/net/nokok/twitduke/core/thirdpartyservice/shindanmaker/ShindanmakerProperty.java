@@ -35,6 +35,9 @@ public class ShindanmakerProperty {
     public ShindanmakerProperty() {
         this.properties = new PropertyReader(Paths.SHINDANMAKER_CONFIG_FILE)
                 .read().orElseThrow(() -> new RuntimeException(Paths.SHINDANMAKER_CONFIG_FILE + "が見つかりません"));
+        if ( properties.getProperty("name") == null ) {
+            throw new RuntimeException("プロパティにnameが指定されていません");
+        }
     }
 
     public Optional<String> name() {

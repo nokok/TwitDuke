@@ -24,14 +24,11 @@
 package net.nokok.twitduke.components.tweetcell;
 
 import java.awt.Dimension;
-import java.util.Optional;
-import java.util.Properties;
 import net.nokok.twitduke.components.basic.TWSlimButton;
 import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
-import net.nokok.twitduke.core.io.Paths;
-import net.nokok.twitduke.core.io.PropertyReader;
 import net.nokok.twitduke.core.thirdpartyservice.shindanmaker.Shindanmaker;
 import net.nokok.twitduke.core.thirdpartyservice.shindanmaker.ShindanmakerImpl;
+import net.nokok.twitduke.core.thirdpartyservice.shindanmaker.ShindanmakerProperty;
 import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
 
@@ -44,18 +41,13 @@ public class ShindanmakerSlimButton extends TWSlimButton {
         setPreferredSize(new Dimension(130, 20));
         Shindanmaker shindanmaker = new ShindanmakerImpl();
         addActionListener(e -> {
-            PropertyReader reader = new PropertyReader(Paths.SHINDANMAKER_CONFIG_FILE);
             AsyncTwitter asyncTwitter = AsyncTwitterFactory.newInstance(accessToken);
             shindanmaker.onSuccess(asyncTwitter::updateStatus);
             shindanmaker.onError(RuntimeException::new);
-            Optional<Properties> mayBeProp = reader.read();
-            if ( mayBeProp.isPresent() ) {
-                Properties prop = mayBeProp.get();
-                shindanmaker.sendRequest(url, prop.getProperty("name"));
-            } else {
-                shindanmaker.sendRequest(url, accessToken.getScreenName());
-            }
-
+            ShindanmakerProperty prop = new ShindanmakerProperty();
+            prop.name().ifPresent(name -> {
+                shindanmaker.sendRequest(url, name);
+            });
         });
     }
 }
