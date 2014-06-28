@@ -39,7 +39,7 @@ public class OKCancelButtonPanel extends TWPanel {
     private static final long serialVersionUID = -6417410274474706405L;
 
     private final JButton okButton = new TWButton("OK");
-    private final JButton cancelButton = new TWButton("Cancel");
+    private final JButton cancelButton = new TWButton("キャンセル");
 
     /**
      * OKボタンとキャンセルボタンが2つ横方向に並んだパネルを生成します。
