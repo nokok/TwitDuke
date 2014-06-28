@@ -24,7 +24,10 @@
 package net.nokok.twitduke.components.tweetcell;
 
 import java.awt.Dimension;
+import net.nokok.twitduke.components.Dialog;
+import net.nokok.twitduke.components.DialogResultListener;
 import net.nokok.twitduke.components.basic.TWSlimButton;
+import net.nokok.twitduke.components.customlayoutcomponents.ShindanmakerDialog;
 import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
 import net.nokok.twitduke.core.thirdpartyservice.shindanmaker.Shindanmaker;
 import net.nokok.twitduke.core.thirdpartyservice.shindanmaker.ShindanmakerImpl;
@@ -45,9 +48,26 @@ public class ShindanmakerSlimButton extends TWSlimButton {
             shindanmaker.onSuccess(asyncTwitter::updateStatus);
             shindanmaker.onError(RuntimeException::new);
             ShindanmakerProperty prop = new ShindanmakerProperty();
-            prop.name().ifPresent(name -> {
-                shindanmaker.sendRequest(url, name);
+            if ( prop.name().isPresent() ) {
+                shindanmaker.sendRequest(url, prop.name().get());
+                return;
+            }
+            Dialog<String> dialog = new ShindanmakerDialog();
+            dialog.setDialogResultListener(new DialogResultListener<String>() {
+
+                @Override
+                public void cancelButtonPushed() {
+                    dialog.dispose();
+                }
+
+                @Override
+                public void okButtonPushed(String o) {
+                    prop.writeName(o);
+                    shindanmaker.sendRequest(url, o);
+                    dialog.dispose();
+                }
             });
+            dialog.show();
         });
     }
 }
