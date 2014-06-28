@@ -25,6 +25,7 @@ package net.nokok.twitduke.core.web;
 
 import net.nokok.twitduke.core.web.handlers.AddAccountHandler;
 import net.nokok.twitduke.core.web.handlers.BurnOwenHandler;
+import net.nokok.twitduke.core.web.handlers.JavaJavaHandler;
 import net.nokok.twitduke.core.web.handlers.SendTweetHandler;
 import net.nokok.twitduke.core.web.handlers.ShindanmakerHandler;
 import net.nokok.twitduke.core.web.handlers.TweetWithFooterHandler;
@@ -47,6 +48,7 @@ public class WebServerStarter implements Runnable {
                 .addHandler(new TweetWithFooterHandler(accessToken).getHandler())
                 .addHandlerRetrievable(AddAccountHandler.class)
                 .addHandler(new BurnOwenHandler(accessToken).get())
+                .addHandler(new JavaJavaHandler(accessToken).get())
                 .call();
     }
 
