@@ -23,18 +23,9 @@
  */
 package net.nokok.twitduke.components.customlayoutcomponents;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
 import net.nokok.twitduke.components.Dialog;
 import net.nokok.twitduke.components.DialogResultListener;
-import net.nokok.twitduke.components.basic.TWFrame;
-import net.nokok.twitduke.components.basic.TWLabel;
-import net.nokok.twitduke.components.basic.TWPanel;
-import net.nokok.twitduke.components.basic.TWTextField;
+import net.nokok.twitduke.components.basic.TextFieldDialog;
 
 /**
  * OAuthダイアログはOAuth認証時に表示されるPINの入力画面を担当するクラスです。
@@ -43,50 +34,20 @@ import net.nokok.twitduke.components.basic.TWTextField;
  */
 public class OAuthDialog implements Dialog<String> {
 
-    private final JFrame frame;
-    private final OKCancelButtonPanel okCancelPanel = new OKCancelButtonPanel();
-    private DialogResultListener<String> dialogResultListener;
-
-    /**
-     * OAuth認証のPINを入力するダイアログを生成します。
-     */
-    public OAuthDialog() {
-        frame = new TWFrame("認証して下さい");
-        JTextField textField = new TWTextField();
-        textField.setHorizontalAlignment(JTextField.CENTER);
-        textField.setBorder(new LineBorder(new Color(200, 200, 200)));
-        frame.setLayout(new BorderLayout());
-        frame.add(createNorthPanel(), BorderLayout.NORTH);
-        frame.add(textField, BorderLayout.CENTER);
-        frame.add(okCancelPanel, BorderLayout.SOUTH);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-
-        okCancelPanel.addOKButtonAction(e -> {
-            dialogResultListener.okButtonPushed(textField.getText());
-        });
-        okCancelPanel.addCancelButtonAction(e
-                -> dialogResultListener.cancelButtonPushed());
-    }
-
-    private JPanel createNorthPanel() {
-        JPanel panel = new TWPanel();
-        panel.add(new TWLabel("ログイン後、表示された数字を半角数字で入力して下さい"));
-        return panel;
-    }
+    private final Dialog<String> dialog = new TextFieldDialog("認証して下さい", "ログイン後、表示された数字を半角数字で入力して下さい");
 
     @Override
     public void dispose() {
-        frame.dispose();
+        dialog.dispose();
     }
 
     @Override
     public void setDialogResultListener(DialogResultListener<String> dialogResultListener) {
-        this.dialogResultListener = dialogResultListener;
+        this.dialog.setDialogResultListener(dialogResultListener);
     }
 
     @Override
     public void show() {
-        frame.setVisible(true);
+        dialog.show();
     }
 }
