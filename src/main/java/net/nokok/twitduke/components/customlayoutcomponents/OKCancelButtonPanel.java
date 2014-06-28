@@ -50,6 +50,12 @@ public class OKCancelButtonPanel extends TWPanel {
         add(cancelButton);
     }
 
+    public OKCancelButtonPanel(String okButtonText, String cancelButtonText) {
+        this();
+        okButton.setText(okButtonText);
+        cancelButton.setText(cancelButtonText);
+    }
+
     /**
      * OKボタンがクリックされた時のアクションリスナを追加します。
      *
