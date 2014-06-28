@@ -23,6 +23,9 @@
  */
 package net.nokok.twitduke.core.thirdpartyservice.shindanmaker;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Optional;
 import java.util.Properties;
 import net.nokok.twitduke.core.io.Paths;
@@ -33,14 +36,25 @@ public class ShindanmakerProperty {
     private final Properties properties;
 
     public ShindanmakerProperty() {
-        this.properties = new PropertyReader(Paths.SHINDANMAKER_CONFIG_FILE)
-                .read().orElseThrow(() -> new RuntimeException(Paths.SHINDANMAKER_CONFIG_FILE + "が見つかりません"));
-        if ( properties.getProperty("name") == null ) {
-            throw new RuntimeException("プロパティにnameが指定されていません");
+        Optional<Properties> oProp = new PropertyReader(Paths.SHINDANMAKER_CONFIG_FILE)
+                .read();
+        if ( oProp.isPresent() ) {
+            this.properties = oProp.get();
+        } else {
+            this.properties = new Properties();
         }
     }
 
     public Optional<String> name() {
         return Optional.ofNullable(properties.getProperty("name"));
+    }
+
+    public void writeName(String name) {
+        properties.setProperty("name", name);
+        try {
+            properties.store(new FileWriter(Paths.SHINDANMAKER_CONFIG_FILE), null);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }
