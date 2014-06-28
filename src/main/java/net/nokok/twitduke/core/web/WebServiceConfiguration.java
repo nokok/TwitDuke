@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import net.nokok.twitduke.core.type.Port;
+import net.nokok.twitduke.core.type.Retrievable;
 import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.Server;
 
@@ -64,7 +65,22 @@ public class WebServiceConfiguration implements Callable<Server> {
         return this;
     }
 
+    public WebServiceConfiguration addHandlerRetrievable(Class<? extends Retrievable<Handler>> clazz) {
+        Optional<Retrievable<Handler>> oHandler = clazzToRetriveable(clazz);
+        Retrievable<Handler> retrievable = oHandler.orElseThrow(() -> new IllegalArgumentException("インスタンスの生成に失敗しました" + clazz.getName()));
+        handlers.add(retrievable.get());
+        return this;
+    }
+
     private Optional<Handler> clazzToObject(Class<? extends Handler> clazz) {
+        try {
+            return Optional.of(clazz.newInstance());
+        } catch (ReflectiveOperationException e) {
+            return Optional.empty();
+        }
+    }
+
+    private Optional<Retrievable<Handler>> clazzToRetriveable(Class<? extends Retrievable<Handler>> clazz) {
         try {
             return Optional.of(clazz.newInstance());
         } catch (ReflectiveOperationException e) {
