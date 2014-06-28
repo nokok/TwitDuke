@@ -42,11 +42,11 @@ public abstract class AbstractPostRequestHandler extends CommonHandler {
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, int dispatch) throws IOException, ServletException {
         super.handle(target, request, response, dispatch);
-        if ( isGetRequest() ) {
-            response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-        }
         if ( !super.isTarget() ) {
             return;
+        }
+        if ( isGetRequest() ) {
+            response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         }
         super.getBaseRequest().ifPresent(base -> base.setHandled(true));
         doHandle(request, response);
