@@ -46,9 +46,9 @@ public class WebServerStarter implements Runnable {
                 .addHandler(new SendTweetHandler(accessToken).getHandler())
                 .addHandler(new ShindanmakerHandler(accessToken).getHandler())
                 .addHandler(new TweetWithFooterHandler(accessToken).getHandler())
-                .addHandlerRetrievable(AddAccountHandler.class)
                 .addHandler(new BurnOwenHandler(accessToken).get())
                 .addHandler(new JavaJavaHandler(accessToken).get())
+                .addHandlerRetrievable(AddAccountHandler.class)
                 .call();
     }
 
