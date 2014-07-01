@@ -28,5 +28,6 @@ import net.nokok.twitduke.core.io.Paths;
 
 public interface WebConfig {
 
-    public static final String WEB_CONFIG_PATH_STR = new File(Paths.TWITDUKE_HOME, "webconfig.properties").getAbsolutePath();
+    public static final String WEB_CONFIG_FILE_NAME = "webconfig.properties";
+    public static final String WEB_CONFIG_PATH_STR = new File(Paths.TWITDUKE_HOME, WEB_CONFIG_FILE_NAME).getAbsolutePath();
 }
