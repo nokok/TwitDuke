@@ -17,5 +17,7 @@
     </issueManagement>
     <modules>
         <module>TwitDuke-all</module>
+        <module>TwitDuke-server</module>
+        <module>TwitDuke-core</module>
     </modules>
 </project>
