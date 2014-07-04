@@ -33,7 +33,7 @@ import twitter4j.auth.AccessToken;
  * アクセストークンをシリアライズしてファイルとして書き込みます。
  *
  */
-public class AccessTokenSerializer implements AccessTokenWriter {
+class AccessTokenSerializer implements Writer<AccessToken> {
 
     private final String PATH;
 
@@ -54,7 +54,7 @@ public class AccessTokenSerializer implements AccessTokenWriter {
      * @exception UncheckedIOException アクセストークンの書き込みに失敗した場合
      */
     @Override
-    public void writeAccessToken(AccessToken accessToken) {
+    public void write(AccessToken accessToken) {
         try (ObjectOutputStream objectOutputStream
                                 = new ObjectOutputStream(new FileOutputStream(PATH))) {
             objectOutputStream.writeObject(accessToken);

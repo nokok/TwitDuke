@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.io.Writer;
 import java.util.Properties;
 import net.nokok.twitduke.core.type.ScreenName;
 import twitter4j.auth.AccessToken;
@@ -35,10 +34,10 @@ import twitter4j.auth.AccessToken;
 /**
  * アクセストークンをプロパティとして書き込みます
  */
-public class AccessTokenPropertyWriter implements AccessTokenWriter {
+class AccessTokenPropertyWriter implements Writer<AccessToken> {
 
     private final File ACCESS_TOKEN;
-    private Writer propertyWriter;
+    private java.io.Writer propertyWriter;
 
     /**
      * 指定したスクリーンネームのアカウントのアクセストークンをデフォルトのパスに書き込むライターを構築します
@@ -69,13 +68,13 @@ public class AccessTokenPropertyWriter implements AccessTokenWriter {
     }
 
     @Override
-    public void writeAccessToken(AccessToken accessToken) {
+    public void write(AccessToken accessToken) {
         Properties properties = new Properties();
         properties.put(PropertyKey.TOKEN, accessToken.getToken());
         properties.put(PropertyKey.TOKEN_SECRET, accessToken.getTokenSecret());
         properties.put(PropertyKey.USER_ID, String.valueOf(accessToken.getUserId()));
         properties.put(PropertyKey.SCREEN_NAME, accessToken.getScreenName());
-        try (Writer writer = (propertyWriter == null) ? new FileWriter(ACCESS_TOKEN) : propertyWriter) {
+        try (java.io.Writer writer = (propertyWriter == null) ? new FileWriter(ACCESS_TOKEN) : propertyWriter) {
             properties.store(writer, null);
         } catch (IOException ex) {
             throw new UncheckedIOException(ex);
@@ -89,7 +88,7 @@ public class AccessTokenPropertyWriter implements AccessTokenWriter {
      *
      * @param propertyWriter
      */
-    void setWriter(Writer propertyWriter) {
+    void setWriter(java.io.Writer propertyWriter) {
         this.propertyWriter = propertyWriter;
     }
 

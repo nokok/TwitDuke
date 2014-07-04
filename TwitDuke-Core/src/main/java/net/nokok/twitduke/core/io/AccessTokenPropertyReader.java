@@ -36,7 +36,7 @@ import twitter4j.auth.AccessToken;
  * アクセストークンをプロパティから読み込みます
  *
  */
-public class AccessTokenPropertyReader implements AccessTokenReader {
+class AccessTokenPropertyReader implements Reader<AccessToken> {
 
     private final File ACCESS_TOKEN;
 
@@ -70,7 +70,7 @@ public class AccessTokenPropertyReader implements AccessTokenReader {
     }
 
     @Override
-    public Optional<AccessToken> readAccessToken() {
+    public Optional<AccessToken> read() {
         return Optional.ofNullable(readAccessTokenUnsafe(ACCESS_TOKEN.getAbsolutePath()));
     }
 

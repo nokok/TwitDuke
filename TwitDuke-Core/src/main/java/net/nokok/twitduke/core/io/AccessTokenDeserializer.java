@@ -33,7 +33,7 @@ import twitter4j.auth.AccessToken;
  * AccessTokenをデシリアライズする事によって読み込むクラスです
  *
  */
-public class AccessTokenDeserializer implements AccessTokenReader {
+class AccessTokenDeserializer implements Reader<AccessToken> {
 
     private final String PATH;
 
@@ -47,7 +47,7 @@ public class AccessTokenDeserializer implements AccessTokenReader {
     }
 
     @Override
-    public Optional<AccessToken> readAccessToken() {
+    public Optional<AccessToken> read() {
         try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(PATH))) {
             AccessToken mayBeAccessToken = (AccessToken) objectInputStream.readObject();
             return Optional.of(mayBeAccessToken);
