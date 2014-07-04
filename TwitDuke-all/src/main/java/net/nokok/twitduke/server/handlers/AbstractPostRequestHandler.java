@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.web.handlers;
+package net.nokok.twitduke.server.handlers;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -29,13 +29,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * GETリクエスとトのみを許可するハンドラです。
+ * POSTリクエストのみを許可するハンドラです。
  * このクラスを継承するハンドラに対してGETでリクエストを送信すると
  * クライアントに対して405 Method Not Allowedが返されます。
  */
-public abstract class AbstractGetRequestHandler extends CommonHandler {
+public abstract class AbstractPostRequestHandler extends CommonHandler {
 
-    public AbstractGetRequestHandler(String contextPath) {
+    public AbstractPostRequestHandler(String contextPath) {
         super(contextPath);
     }
 
@@ -45,7 +45,7 @@ public abstract class AbstractGetRequestHandler extends CommonHandler {
         if ( !super.isTarget() ) {
             return;
         }
-        if ( isPostRequest() ) {
+        if ( isGetRequest() ) {
             response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         }
         super.getBaseRequest().ifPresent(base -> base.setHandled(true));

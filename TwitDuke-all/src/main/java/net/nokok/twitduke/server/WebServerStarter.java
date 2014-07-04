@@ -21,14 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.web;
+package net.nokok.twitduke.server;
 
-import net.nokok.twitduke.core.web.handlers.AddAccountHandler;
-import net.nokok.twitduke.core.web.handlers.BurnOwenHandler;
-import net.nokok.twitduke.core.web.handlers.JavaJavaHandler;
-import net.nokok.twitduke.core.web.handlers.SendTweetHandler;
-import net.nokok.twitduke.core.web.handlers.ShindanmakerHandler;
-import net.nokok.twitduke.core.web.handlers.TweetWithFooterHandler;
+import net.nokok.twitduke.server.handlers.AddAccountHandler;
+import net.nokok.twitduke.server.handlers.BurnOwenHandler;
+import net.nokok.twitduke.server.handlers.JavaJavaHandler;
+import net.nokok.twitduke.server.handlers.SendTweetHandler;
+import net.nokok.twitduke.server.handlers.ShindanmakerHandler;
+import net.nokok.twitduke.server.handlers.TweetWithFooterHandler;
 import twitter4j.auth.AccessToken;
 
 public class WebServerStarter implements Runnable {

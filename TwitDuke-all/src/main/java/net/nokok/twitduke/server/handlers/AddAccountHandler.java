@@ -21,45 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.web.handlers;
+package net.nokok.twitduke.server.handlers;
 
 import java.io.IOException;
-import java.util.Random;
-import java.util.stream.IntStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
+import net.nokok.twitduke.core.account.AccountManager;
+import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
+import net.nokok.twitduke.core.auth.OAuthRunnable;
+import net.nokok.twitduke.core.factory.AccountManagerFactory;
+import net.nokok.twitduke.core.log.ErrorLogExporter;
 import net.nokok.twitduke.core.type.Retrievable;
 import org.mortbay.jetty.Handler;
-import twitter4j.AsyncTwitter;
-import twitter4j.auth.AccessToken;
 
-public class BurnOwenHandler implements Retrievable<Handler> {
+public class AddAccountHandler implements Retrievable<Handler> {
 
-    private final AsyncTwitter asyncTwitter;
-    private final AbstractGetRequestHandler handler = new AbstractGetRequestHandler("/v1/burn") {
+    private final AccountManager accountManager = AccountManagerFactory.newInstance();
+    private final AbstractPostRequestHandler handler = new AbstractPostRequestHandler("/v1/addAccount") {
 
         @Override
         public void doHandle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-            StringBuilder stringBuilder = new StringBuilder("/burn");
-            IntStream.range(0, new Random().nextInt(50)).mapToObj(i -> "　").forEach(stringBuilder::append);
-            asyncTwitter.updateStatus(stringBuilder.toString());
-            sendOK();
+            OAuthRunnable auth = LambdaOAuthFactory.newInstance();
+            ErrorLogExporter logger = new ErrorLogExporter();
+            auth.onError(logger::onError);
+            auth.onSuccess(token -> {
+                accountManager.addAccount(token);
+            });
+            auth.startOAuth();
         }
     };
-
-    public BurnOwenHandler(AccessToken accessToken) {
-        this.asyncTwitter = AsyncTwitterFactory.newInstance(accessToken);
-    }
-
-    public BurnOwenHandler(AsyncTwitter asyncTwitter) {
-        this.asyncTwitter = asyncTwitter;
-    }
 
     @Override
     public Handler get() {
         return handler;
     }
-
 }

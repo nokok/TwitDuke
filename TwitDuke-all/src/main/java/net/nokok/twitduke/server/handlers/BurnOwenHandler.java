@@ -21,46 +21,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.web.handlers;
+package net.nokok.twitduke.server.handlers;
 
 import java.io.IOException;
+import java.util.Random;
+import java.util.stream.IntStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
-import net.nokok.twitduke.core.thirdpartyservice.shindanmaker.Shindanmaker;
-import net.nokok.twitduke.core.thirdpartyservice.shindanmaker.ShindanmakerImpl;
+import net.nokok.twitduke.core.type.Retrievable;
 import org.mortbay.jetty.Handler;
 import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
 
-public class ShindanmakerHandler {
+public class BurnOwenHandler implements Retrievable<Handler> {
 
-    private final AbstractPostRequestHandler handler = new AbstractPostRequestHandler("/v1/smakerpost") {
+    private final AsyncTwitter asyncTwitter;
+    private final AbstractGetRequestHandler handler = new AbstractGetRequestHandler("/v1/burn") {
 
         @Override
         public void doHandle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-            String url = request.getParameter("url");
-            String name = request.getParameter("name");
-            Shindanmaker shindanmaker = new ShindanmakerImpl();
-            shindanmaker.onSuccess(result -> {
-                sendOK();
-                asyncTwitter.updateStatus(result);
-            });
-            shindanmaker.onError(throwable -> {
-                sendBadRequest();
-            });
-            shindanmaker.sendRequest(url, name);
+            StringBuilder stringBuilder = new StringBuilder("/burn");
+            IntStream.range(0, new Random().nextInt(50)).mapToObj(i -> "　").forEach(stringBuilder::append);
+            asyncTwitter.updateStatus(stringBuilder.toString());
+            sendOK();
         }
-
     };
-    private final AsyncTwitter asyncTwitter;
 
-    public ShindanmakerHandler(AccessToken accessToken) {
+    public BurnOwenHandler(AccessToken accessToken) {
         this.asyncTwitter = AsyncTwitterFactory.newInstance(accessToken);
     }
 
-    public Handler getHandler() {
+    public BurnOwenHandler(AsyncTwitter asyncTwitter) {
+        this.asyncTwitter = asyncTwitter;
+    }
+
+    @Override
+    public Handler get() {
         return handler;
     }
+
 }

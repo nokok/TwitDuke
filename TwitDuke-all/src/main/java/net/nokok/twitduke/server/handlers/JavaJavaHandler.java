@@ -21,55 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.web.handlers;
+package net.nokok.twitduke.server.handlers;
 
 import java.io.IOException;
+import java.util.Random;
+import java.util.stream.IntStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
-import net.nokok.twitduke.core.type.Footer;
-import net.nokok.twitduke.core.type.Tweet;
+import net.nokok.twitduke.core.type.Retrievable;
 import org.mortbay.jetty.Handler;
 import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
 
-/**
- * フッター付きでツイートするためのハンドラです。
- * フッターを1度指定すると2回目以降のツイートはフッターパラメータを付ける必要はありません
- * 初回とフッターを更新したい時にのみフッターを指定することを推奨します
- */
-public class TweetWithFooterHandler {
+public class JavaJavaHandler implements Retrievable<Handler> {
 
     private final AsyncTwitter asyncTwitter;
-    private Footer footer = new Footer("");
-    private final AbstractPostRequestHandler handler = new AbstractPostRequestHandler("/v1/tweetf") {
+    private final AbstractGetRequestHandler handler = new AbstractGetRequestHandler("/v1/javajava") {
 
         @Override
         public void doHandle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-            String footerparam = request.getParameter("footer");
-            if ( footerparam != null ) {
-                footer = new Footer(footerparam);
-            }
-            try {
-                Tweet tweet = new Tweet(request.getParameter("text"), footer);
-                asyncTwitter.updateStatus(tweet.toString());
-                sendOK();
-            } catch (NullPointerException | IllegalArgumentException e) {
-                sendBadRequest();
-            }
+            StringBuilder stringBuilder = new StringBuilder("JavaJavaJava〜〜〜");
+            IntStream.range(0, new Random().nextInt(10)).mapToObj(i -> "ｗ").forEach(stringBuilder::append);
+            asyncTwitter.updateStatus(stringBuilder.toString());
         }
     };
 
-    public TweetWithFooterHandler(AccessToken accessToken) {
+    public JavaJavaHandler(AccessToken accessToken) {
         this.asyncTwitter = AsyncTwitterFactory.newInstance(accessToken);
     }
 
-    public TweetWithFooterHandler(AsyncTwitter asyncTwitter) {
+    public JavaJavaHandler(AsyncTwitter asyncTwitter) {
         this.asyncTwitter = asyncTwitter;
     }
 
-    public Handler getHandler() {
+    @Override
+    public Handler get() {
         return handler;
     }
 }

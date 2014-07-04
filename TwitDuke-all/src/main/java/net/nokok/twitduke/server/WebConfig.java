@@ -21,13 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.web.websocket;
+package net.nokok.twitduke.server;
 
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
+import java.io.File;
+import net.nokok.twitduke.core.io.Paths;
 
-@FunctionalInterface
-public interface MessageReceivable {
+public interface WebConfig {
 
-    @OnWebSocketMessage
-    public void onMessage(String message);
+    public static final String WEB_CONFIG_FILE_NAME = "webconfig.properties";
+    public static final String WEB_CONFIG_PATH_STR = new File(Paths.TWITDUKE_HOME, WEB_CONFIG_FILE_NAME).getAbsolutePath();
 }

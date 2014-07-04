@@ -21,27 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.web.handlers;
+package net.nokok.twitduke.server.handlers;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
+import net.nokok.twitduke.core.type.Footer;
 import net.nokok.twitduke.core.type.Tweet;
 import org.mortbay.jetty.Handler;
 import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
 
-public class SendTweetHandler {
+/**
+ * フッター付きでツイートするためのハンドラです。
+ * フッターを1度指定すると2回目以降のツイートはフッターパラメータを付ける必要はありません
+ * 初回とフッターを更新したい時にのみフッターを指定することを推奨します
+ */
+public class TweetWithFooterHandler {
 
     private final AsyncTwitter asyncTwitter;
-    private final AbstractPostRequestHandler handler = new AbstractPostRequestHandler("/v1/tweet") {
+    private Footer footer = new Footer("");
+    private final AbstractPostRequestHandler handler = new AbstractPostRequestHandler("/v1/tweetf") {
 
         @Override
         public void doHandle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+            String footerparam = request.getParameter("footer");
+            if ( footerparam != null ) {
+                footer = new Footer(footerparam);
+            }
             try {
-                Tweet tweet = new Tweet(request.getParameter("text"));
+                Tweet tweet = new Tweet(request.getParameter("text"), footer);
                 asyncTwitter.updateStatus(tweet.toString());
                 sendOK();
             } catch (NullPointerException | IllegalArgumentException e) {
@@ -50,11 +61,11 @@ public class SendTweetHandler {
         }
     };
 
-    public SendTweetHandler(AccessToken accessToken) {
+    public TweetWithFooterHandler(AccessToken accessToken) {
         this.asyncTwitter = AsyncTwitterFactory.newInstance(accessToken);
     }
 
-    public SendTweetHandler(AsyncTwitter asyncTwitter) {
+    public TweetWithFooterHandler(AsyncTwitter asyncTwitter) {
         this.asyncTwitter = asyncTwitter;
     }
 

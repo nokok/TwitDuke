@@ -21,15 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.web.websocket;
+package net.nokok.twitduke.server.websocket;
 
-import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 
 @FunctionalInterface
-public interface SocketCloseable {
+public interface MessageReceivable {
 
-    @OnWebSocketClose
-    void onClose(Session session, int statusCode, String reason);
-
+    @OnWebSocketMessage
+    public void onMessage(String message);
 }

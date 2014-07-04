@@ -21,17 +21,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.web.websocket;
+package net.nokok.twitduke.server.websocket;
 
+import net.nokok.twitduke.core.type.ThrowableReceivable;
 import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
+import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
-/**
- * WebSocketで接続可能なオブジェクトです
- */
-@FunctionalInterface
-public interface Connectable {
+@WebSocket
+public class DebugServletClient implements Connectable, MessageReceivable, SocketCloseable, ThrowableReceivable {
 
+    @Override
     @OnWebSocketConnect
-    public void onConnect(Session session);
+    public void onConnect(Session session) {
+        System.out.println("onConnect: " + session);
+    }
+
+    @Override
+    @OnWebSocketError
+    public void onError(Throwable throwable) {
+        throwable.printStackTrace();
+    }
+
+    @Override
+    @OnWebSocketMessage
+    public void onMessage(String message) {
+        System.out.println("onMessage" + message);
+    }
+
+    @Override
+    @OnWebSocketClose
+    public void onClose(Session session, int statusCode, String reason) {
+        System.out.println(String.format("onClose: %d %s %n", statusCode, reason));
+    }
 }

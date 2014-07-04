@@ -38,9 +38,9 @@ import net.nokok.twitduke.core.factory.AccountManagerFactory;
 import net.nokok.twitduke.core.io.Paths;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
 import net.nokok.twitduke.core.twitter.TwitterNotificationListener;
-import net.nokok.twitduke.core.web.WebServerStarter;
 import net.nokok.twitduke.pluginsupport.PluginManager;
 import net.nokok.twitduke.pluginsupport.StreamEventRunner;
+import net.nokok.twitduke.server.WebServerStarter;
 import twitter4j.auth.AccessToken;
 
 /**

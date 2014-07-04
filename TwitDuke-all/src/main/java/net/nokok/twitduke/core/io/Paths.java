@@ -27,7 +27,7 @@ import java.io.File;
 import net.nokok.twitduke.core.account.AccountPath;
 import net.nokok.twitduke.core.log.LogPath;
 import net.nokok.twitduke.core.thirdpartyservice.shindanmaker.ShindanmakerConfig;
-import net.nokok.twitduke.core.web.WebConfig;
+import net.nokok.twitduke.server.WebConfig;
 import net.nokok.twitduke.pluginsupport.plugin.PluginPath;
 
 /**

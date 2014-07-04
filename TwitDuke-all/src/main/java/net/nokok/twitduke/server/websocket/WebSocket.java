@@ -21,29 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.web.websocket;
+package net.nokok.twitduke.server.websocket;
 
-import java.util.ArrayList;
-import java.util.List;
+import net.nokok.twitduke.core.type.ThrowableReceivable;
 
-public enum WebSocketBroadcaster {
+public interface WebSocket extends Connectable, MessageReceivable, SocketCloseable, ThrowableReceivable {
 
-    INSTANCE,;
-
-    private final List<WebSocket> clients = new ArrayList<>();
-
-    private WebSocketBroadcaster() {
-    }
-
-    public void register(WebSocket webSocket) {
-        clients.add(webSocket);
-    }
-
-    public void defect(WebSocket webSocket) {
-        clients.remove(webSocket);
-    }
-
-    public void sendToAllSocket(String message) {
-        clients.forEach(c -> c.onMessage(message));
-    }
 }

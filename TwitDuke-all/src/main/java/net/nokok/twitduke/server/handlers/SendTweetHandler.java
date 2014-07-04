@@ -21,43 +21,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.web.handlers;
+package net.nokok.twitduke.server.handlers;
 
 import java.io.IOException;
-import java.util.Random;
-import java.util.stream.IntStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
-import net.nokok.twitduke.core.type.Retrievable;
+import net.nokok.twitduke.core.type.Tweet;
 import org.mortbay.jetty.Handler;
 import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
 
-public class JavaJavaHandler implements Retrievable<Handler> {
+public class SendTweetHandler {
 
     private final AsyncTwitter asyncTwitter;
-    private final AbstractGetRequestHandler handler = new AbstractGetRequestHandler("/v1/javajava") {
+    private final AbstractPostRequestHandler handler = new AbstractPostRequestHandler("/v1/tweet") {
 
         @Override
         public void doHandle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-            StringBuilder stringBuilder = new StringBuilder("JavaJavaJava〜〜〜");
-            IntStream.range(0, new Random().nextInt(10)).mapToObj(i -> "ｗ").forEach(stringBuilder::append);
-            asyncTwitter.updateStatus(stringBuilder.toString());
+            try {
+                Tweet tweet = new Tweet(request.getParameter("text"));
+                asyncTwitter.updateStatus(tweet.toString());
+                sendOK();
+            } catch (NullPointerException | IllegalArgumentException e) {
+                sendBadRequest();
+            }
         }
     };
 
-    public JavaJavaHandler(AccessToken accessToken) {
+    public SendTweetHandler(AccessToken accessToken) {
         this.asyncTwitter = AsyncTwitterFactory.newInstance(accessToken);
     }
 
-    public JavaJavaHandler(AsyncTwitter asyncTwitter) {
+    public SendTweetHandler(AsyncTwitter asyncTwitter) {
         this.asyncTwitter = asyncTwitter;
     }
 
-    @Override
-    public Handler get() {
+    public Handler getHandler() {
         return handler;
     }
 }

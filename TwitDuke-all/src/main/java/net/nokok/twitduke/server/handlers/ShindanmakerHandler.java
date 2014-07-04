@@ -21,39 +21,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.web.handlers;
+package net.nokok.twitduke.server.handlers;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.nokok.twitduke.core.account.AccountManager;
-import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
-import net.nokok.twitduke.core.auth.OAuthRunnable;
-import net.nokok.twitduke.core.factory.AccountManagerFactory;
-import net.nokok.twitduke.core.log.ErrorLogExporter;
-import net.nokok.twitduke.core.type.Retrievable;
+import net.nokok.twitduke.core.factory.AsyncTwitterFactory;
+import net.nokok.twitduke.core.thirdpartyservice.shindanmaker.Shindanmaker;
+import net.nokok.twitduke.core.thirdpartyservice.shindanmaker.ShindanmakerImpl;
 import org.mortbay.jetty.Handler;
+import twitter4j.AsyncTwitter;
+import twitter4j.auth.AccessToken;
 
-public class AddAccountHandler implements Retrievable<Handler> {
+public class ShindanmakerHandler {
 
-    private final AccountManager accountManager = AccountManagerFactory.newInstance();
-    private final AbstractPostRequestHandler handler = new AbstractPostRequestHandler("/v1/addAccount") {
+    private final AbstractPostRequestHandler handler = new AbstractPostRequestHandler("/v1/smakerpost") {
 
         @Override
         public void doHandle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-            OAuthRunnable auth = LambdaOAuthFactory.newInstance();
-            ErrorLogExporter logger = new ErrorLogExporter();
-            auth.onError(logger::onError);
-            auth.onSuccess(token -> {
-                accountManager.addAccount(token);
+            String url = request.getParameter("url");
+            String name = request.getParameter("name");
+            Shindanmaker shindanmaker = new ShindanmakerImpl();
+            shindanmaker.onSuccess(result -> {
+                sendOK();
+                asyncTwitter.updateStatus(result);
             });
-            auth.startOAuth();
+            shindanmaker.onError(throwable -> {
+                sendBadRequest();
+            });
+            shindanmaker.sendRequest(url, name);
         }
-    };
 
-    @Override
-    public Handler get() {
+    };
+    private final AsyncTwitter asyncTwitter;
+
+    public ShindanmakerHandler(AccessToken accessToken) {
+        this.asyncTwitter = AsyncTwitterFactory.newInstance(accessToken);
+    }
+
+    public Handler getHandler() {
         return handler;
     }
 }
