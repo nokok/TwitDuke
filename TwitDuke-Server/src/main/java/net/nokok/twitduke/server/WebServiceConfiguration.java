@@ -23,19 +23,25 @@
  */
 package net.nokok.twitduke.server;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import java.util.function.Supplier;
 import net.nokok.twitduke.core.type.Port;
 import net.nokok.twitduke.core.type.Retrievable;
 import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.Server;
+import twitter4j.auth.AccessToken;
 
 public class WebServiceConfiguration implements Callable<Server> {
 
     private Port port;
     private final List<Handler> handlers = new ArrayList<>();
+    private AccessToken token;
+
+    private final Supplier<IllegalArgumentException> newInstanceError = () -> new IllegalArgumentException("インスタンスの生成に失敗しました");
 
     private WebServiceConfiguration() {
         this.port = new Port(8192);
@@ -57,19 +63,26 @@ public class WebServiceConfiguration implements Callable<Server> {
 
     public WebServiceConfiguration addHandler(Class<? extends Handler> clazz) {
         Optional<Handler> mayBeHandler = clazzToObject(clazz);
-        if ( mayBeHandler.isPresent() ) {
-            handlers.add(mayBeHandler.get());
-        } else {
-            throw new IllegalArgumentException("インスタンスの生成に失敗しました" + clazz.getName());
-        }
+        handlers.add(mayBeHandler.orElseThrow(newInstanceError));
+        return this;
+    }
+
+    public WebServiceConfiguration addHandlerWithAccessToken(Class<? extends Handler> clazz, AccessToken token) {
+        Optional<? extends Handler> mayBeHandler = clazzToObject(clazz, token);
+        handlers.add(mayBeHandler.orElseThrow(newInstanceError));
         return this;
     }
 
     public WebServiceConfiguration addHandlerRetrievable(Class<? extends Retrievable<Handler>> clazz) {
         Optional<Retrievable<Handler>> oHandler = clazzToRetriveable(clazz);
-        Retrievable<Handler> retrievable = oHandler.orElseThrow(() -> new IllegalArgumentException("インスタンスの生成に失敗しました" + clazz.getName()));
-        handlers.add(retrievable.get());
-        return this;
+        Retrievable<Handler> retrievable = oHandler.orElseThrow(newInstanceError);
+        return addHandler(retrievable.get());
+    }
+
+    public WebServiceConfiguration addHandlerRetrievable(Class<? extends Retrievable<Handler>> clazz, AccessToken token) {
+        Optional<Retrievable<Handler>> oHandler = clazzToRetriveable(clazz, token);
+        Retrievable<Handler> retrievable = oHandler.orElseThrow(newInstanceError);
+        return addHandler(retrievable.get());
     }
 
     private Optional<Handler> clazzToObject(Class<? extends Handler> clazz) {
@@ -80,9 +93,29 @@ public class WebServiceConfiguration implements Callable<Server> {
         }
     }
 
+    private Optional<Handler> clazzToObject(Class<? extends Handler> clazz, AccessToken obj) {
+        Class<?>[] types = {AccessToken.class};
+        try {
+            Constructor<? extends Handler> constructor = clazz.getConstructor(types);
+            return Optional.of(constructor.newInstance(obj));
+        } catch (ReflectiveOperationException e) {
+            return Optional.empty();
+        }
+    }
+
     private Optional<Retrievable<Handler>> clazzToRetriveable(Class<? extends Retrievable<Handler>> clazz) {
         try {
             return Optional.of(clazz.newInstance());
+        } catch (ReflectiveOperationException e) {
+            return Optional.empty();
+        }
+    }
+
+    private Optional<Retrievable<Handler>> clazzToRetriveable(Class<? extends Retrievable<Handler>> clazz, AccessToken token) {
+        Class<?>[] types = {AccessToken.class};
+        try {
+            Constructor<? extends Retrievable<Handler>> constructor = clazz.getConstructor(types);
+            return Optional.of(constructor.newInstance(token));
         } catch (ReflectiveOperationException e) {
             return Optional.empty();
         }
