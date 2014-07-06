@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.nokok.twitduke.core.factory.TAsyncTwitterFactory;
 import net.nokok.twitduke.core.type.Footer;
+import net.nokok.twitduke.core.type.Retrievable;
 import net.nokok.twitduke.core.type.Tweet;
 import org.mortbay.jetty.Handler;
 import twitter4j.AsyncTwitter;
@@ -39,7 +40,7 @@ import twitter4j.auth.AccessToken;
  * フッターを1度指定すると2回目以降のツイートはフッターパラメータを付ける必要はありません
  * 初回とフッターを更新したい時にのみフッターを指定することを推奨します
  */
-public class TweetWithFooterHandler {
+public class TweetWithFooterHandler implements Retrievable<Handler> {
 
     private final AsyncTwitter asyncTwitter;
     private Footer footer = new Footer("");
@@ -69,7 +70,8 @@ public class TweetWithFooterHandler {
         this.asyncTwitter = asyncTwitter;
     }
 
-    public Handler getHandler() {
+    @Override
+    public Handler get() {
         return handler;
     }
 }

@@ -28,13 +28,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.nokok.twitduke.core.factory.TAsyncTwitterFactory;
+import net.nokok.twitduke.core.type.Retrievable;
 import net.nokok.twitduke.xsi.shindanmaker.Shindanmaker;
 import net.nokok.twitduke.xsi.shindanmaker.ShindanmakerImpl;
 import org.mortbay.jetty.Handler;
 import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
 
-public class ShindanmakerHandler {
+public class ShindanmakerHandler implements Retrievable<Handler> {
 
     private final AbstractPostRequestHandler handler = new AbstractPostRequestHandler("/v1/smakerpost") {
 
@@ -60,7 +61,8 @@ public class ShindanmakerHandler {
         this.asyncTwitter = TAsyncTwitterFactory.newInstance(accessToken);
     }
 
-    public Handler getHandler() {
+    @Override
+    public Handler get() {
         return handler;
     }
 }

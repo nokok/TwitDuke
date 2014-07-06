@@ -28,12 +28,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.nokok.twitduke.core.factory.TAsyncTwitterFactory;
+import net.nokok.twitduke.core.type.Retrievable;
 import net.nokok.twitduke.core.type.Tweet;
 import org.mortbay.jetty.Handler;
 import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
 
-public class SendTweetHandler {
+public class SendTweetHandler implements Retrievable<Handler> {
 
     private final AsyncTwitter asyncTwitter;
     private final AbstractPostRequestHandler handler = new AbstractPostRequestHandler("/v1/tweet") {
@@ -58,7 +59,8 @@ public class SendTweetHandler {
         this.asyncTwitter = asyncTwitter;
     }
 
-    public Handler getHandler() {
+    @Override
+    public Handler get() {
         return handler;
     }
 }

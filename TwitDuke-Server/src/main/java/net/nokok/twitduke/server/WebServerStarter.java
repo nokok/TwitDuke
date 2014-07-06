@@ -43,11 +43,11 @@ public class WebServerStarter implements Runnable {
     public void run() {
         WebServiceConfiguration
                 .newService()
-                .addHandler(new SendTweetHandler(accessToken).getHandler())
-                .addHandler(new ShindanmakerHandler(accessToken).getHandler())
-                .addHandler(new TweetWithFooterHandler(accessToken).getHandler())
-                .addHandler(new BurnOwenHandler(accessToken).get())
-                .addHandler(new JavaJavaHandler(accessToken).get())
+                .addHandlerRetrievable(SendTweetHandler.class, accessToken)
+                .addHandlerRetrievable(ShindanmakerHandler.class, accessToken)
+                .addHandlerRetrievable(TweetWithFooterHandler.class, accessToken)
+                .addHandlerRetrievable(BurnOwenHandler.class, accessToken)
+                .addHandlerRetrievable(JavaJavaHandler.class, accessToken)
                 .addHandlerRetrievable(AddAccountHandler.class)
                 .call();
     }
