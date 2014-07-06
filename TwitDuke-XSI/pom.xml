@@ -4,7 +4,8 @@
     <parent>
         <groupId>net.nokok</groupId>
         <artifactId>TwitDuke</artifactId>
-        <version>1.0</version>
+		<version>1.0</version>
+		<relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>net.nokok.twitduke.xsi</groupId>
     <!-- TwitDuke External Service Interfaces-->
@@ -16,11 +17,10 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-    <name>TwitDuke-XSI</name>
     <dependencies>
         <dependency>
             <groupId>net.nokok.twitduke.core</groupId>
-            <artifactId>TwitDuke-core</artifactId>
+            <artifactId>TwitDuke-Core</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
