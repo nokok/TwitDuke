@@ -23,12 +23,6 @@
  */
 package net.nokok.twitduke.core.account;
 
-import net.nokok.twitduke.core.io.DirectoryHelper;
-import net.nokok.twitduke.core.io.AccountPath;
-import net.nokok.twitduke.core.io.AccessTokenWriter;
-import net.nokok.twitduke.core.io.AccessTokenReader;
-import net.nokok.twitduke.core.io.AccessTokenPropertyReader;
-import net.nokok.twitduke.core.io.AccessTokenPropertyWriter;
 import com.google.common.collect.Lists;
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +31,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import net.nokok.twitduke.core.io.AccessTokenIOSelector;
+import net.nokok.twitduke.core.io.AccountPath;
+import net.nokok.twitduke.core.io.DirectoryHelper;
+import net.nokok.twitduke.core.io.Reader;
+import net.nokok.twitduke.core.io.Writer;
 import net.nokok.twitduke.core.type.ScreenName;
 import twitter4j.auth.AccessToken;
 
@@ -57,8 +56,8 @@ public class AccountManagerImpl implements AccountManager {
                 throw new UncheckedIOException(ex);
             }
         }
-        AccessTokenWriter writer = new AccessTokenPropertyWriter(new ScreenName(accessToken.getScreenName()));
-        writer.writeAccessToken(accessToken);
+        Writer<AccessToken> writer = new AccessTokenIOSelector(new ScreenName(accessToken.getScreenName())).getWriter();
+        writer.write(accessToken);
     }
 
     @Override
@@ -73,8 +72,8 @@ public class AccountManagerImpl implements AccountManager {
 
     @Override
     public Optional<AccessToken> readAccessToken(ScreenName screenName) {
-        AccessTokenReader reader = new AccessTokenPropertyReader(screenName);
-        return reader.readAccessToken();
+        Reader<AccessToken> reader = new AccessTokenIOSelector(screenName).getReader();
+        return reader.read();
     }
 
     @Override
