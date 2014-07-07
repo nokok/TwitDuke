@@ -25,10 +25,10 @@ package net.nokok.twitduke.pluginsupport;
 
 import net.nokok.twitduke.core.factory.TAsyncTwitterFactory;
 import net.nokok.twitduke.core.twitter.DMSendable;
-import net.nokok.twitduke.core.type.Footer;
 import net.nokok.twitduke.core.twitter.TweetSendable;
 import net.nokok.twitduke.core.twitter.TwitterExceptionReceivable;
 import net.nokok.twitduke.core.twitter.UpdateProfile;
+import net.nokok.twitduke.core.type.Footer;
 import net.nokok.twitduke.core.type.ScreenName;
 import net.nokok.twitduke.core.type.ThrowableReceivable;
 import net.nokok.twitduke.core.type.Tweet;

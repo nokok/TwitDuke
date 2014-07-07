@@ -23,7 +23,6 @@
  */
 package net.nokok.twitduke.components.customlayoutcomponents;
 
-import net.nokok.twitduke.components.customlayoutcomponents.TimelinePanel;
 import java.awt.Component;
 import javax.swing.JComponent;
 import javax.swing.JPanel;

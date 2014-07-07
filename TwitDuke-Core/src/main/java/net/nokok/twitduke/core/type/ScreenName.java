@@ -23,7 +23,6 @@
  */
 package net.nokok.twitduke.core.type;
 
-import net.nokok.twitduke.core.type.Retrievable;
 import static java.util.Objects.requireNonNull;
 
 /**

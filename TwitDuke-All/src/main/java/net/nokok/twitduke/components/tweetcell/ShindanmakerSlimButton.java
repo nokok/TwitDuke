@@ -24,10 +24,10 @@
 package net.nokok.twitduke.components.tweetcell;
 
 import java.awt.Dimension;
-import net.nokok.twitduke.components.dialog.Dialog;
-import net.nokok.twitduke.components.dialog.DialogResultListener;
 import net.nokok.twitduke.components.basics.TWSlimButton;
 import net.nokok.twitduke.components.customlayoutcomponents.ShindanmakerDialog;
+import net.nokok.twitduke.components.dialog.Dialog;
+import net.nokok.twitduke.components.dialog.DialogResultListener;
 import net.nokok.twitduke.core.factory.TAsyncTwitterFactory;
 import net.nokok.twitduke.xsi.shindanmaker.Shindanmaker;
 import net.nokok.twitduke.xsi.shindanmaker.ShindanmakerImpl;

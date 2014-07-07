@@ -23,8 +23,8 @@
  */
 package net.nokok.twitduke.core.twitter;
 
-import net.nokok.twitduke.core.type.Footer;
 import net.nokok.twitduke.core.factory.TAsyncTwitterFactory;
+import net.nokok.twitduke.core.type.Footer;
 import net.nokok.twitduke.core.type.Tweet;
 import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;

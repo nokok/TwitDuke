@@ -24,7 +24,6 @@
 package net.nokok.twitduke.core.io;
 
 import java.io.File;
-import net.nokok.twitduke.core.io.Paths;
 
 /**
  * ログファイルのパスを定義します
