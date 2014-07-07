@@ -45,9 +45,7 @@ public class AddAccountHandler implements Retrievable<Handler> {
             OAuthRunnable auth = LambdaOAuthFactory.newInstance();
             ErrorLogExporter logger = new ErrorLogExporter();
             auth.onError(logger::onError);
-            auth.onSuccess(token -> {
-                accountManager.addAccount(token);
-            });
+            auth.onSuccess(accountManager::addAccount);
             auth.startOAuth();
         }
     };
