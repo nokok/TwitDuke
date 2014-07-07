@@ -24,6 +24,8 @@
 package net.nokok.twitduke.pluginsupport;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import net.nokok.twitduke.pluginsupport.plugin.Plugin;
 import net.nokok.twitduke.pluginsupport.plugin.PluginRegistrable;
 import twitter4j.DirectMessage;
@@ -89,7 +91,8 @@ public class StreamEventRunner implements UserStreamListener, StatusListener, Pl
 
     @Override
     public void onFriendList(long[] friendIds) {
-        eventRunner.invokeAll("onFriendList", friendIds);
+        List<long[]> friends = Stream.of(friendIds).collect(Collectors.toList());
+        eventRunner.invokeAll("onFriendList", friends);
     }
 
     @Override
