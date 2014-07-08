@@ -20,7 +20,7 @@
         </dependency>
         <dependency>
             <groupId>net.nokok.twitduke.core</groupId>
-            <artifactId>TwitDuke-core</artifactId>
+            <artifactId>TwitDuke-Core</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
