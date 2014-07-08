@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>net.nokok.twitduke.server</groupId>
-            <artifactId>TwitDuke-server</artifactId>
+            <artifactId>TwitDuke-Server</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
