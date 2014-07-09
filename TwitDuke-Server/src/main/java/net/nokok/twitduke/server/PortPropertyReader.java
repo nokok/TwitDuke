@@ -23,9 +23,10 @@
  */
 package net.nokok.twitduke.server;
 
+import java.io.File;
 import java.util.Properties;
-import net.nokok.twitduke.core.io.PropertyReader;
-import net.nokok.twitduke.core.io.PropertyWriter;
+import net.nokok.twitduke.base.io.PropertyReader;
+import net.nokok.twitduke.base.io.PropertyWriter;
 import net.nokok.twitduke.core.type.Port;
 
 /**
@@ -41,8 +42,8 @@ class PortPropertyReader {
         DEFAULT_PROPERTIES.put(WebServicePropertyKey.PORT_KEY, "8192");
         PropertyReader reader = new PropertyReader(WebConfig.WEB_CONFIG_PATH_STR);
         if ( reader.read().isPresent() ) {
-            PropertyWriter writer = new PropertyWriter(WebConfig.WEB_CONFIG_PATH_STR);
-            writer.write(DEFAULT_PROPERTIES, WebConfig.WEB_CONFIG_FILE_NAME);
+            PropertyWriter writer = new PropertyWriter(String.join(File.separator, WebConfig.WEB_CONFIG_PATH_STR, WebConfig.WEB_CONFIG_FILE_NAME));
+            writer.write(DEFAULT_PROPERTIES);
         }
         Properties prop = reader.read().orElse(DEFAULT_PROPERTIES);
         String portString = prop.getProperty(WebServicePropertyKey.PORT_KEY);

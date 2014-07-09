@@ -53,6 +53,11 @@
             <version>1.0</version>
         </dependency>
         <dependency>
+            <groupId>net.nokok.twitduke.pluginsupport</groupId>
+            <artifactId>TwitDuke-PluginSupport</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
             <groupId>net.nokok.twitduke.server</groupId>
             <artifactId>TwitDuke-Server</artifactId>
             <version>1.0</version>

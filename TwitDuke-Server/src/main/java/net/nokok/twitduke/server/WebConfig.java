@@ -24,7 +24,7 @@
 package net.nokok.twitduke.server;
 
 import java.io.File;
-import net.nokok.twitduke.core.io.Paths;
+import net.nokok.twitduke.base.io.Paths;
 
 public interface WebConfig {
 

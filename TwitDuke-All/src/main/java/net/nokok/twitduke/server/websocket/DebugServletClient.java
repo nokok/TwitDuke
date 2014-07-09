@@ -23,7 +23,7 @@
  */
 package net.nokok.twitduke.server.websocket;
 
-import net.nokok.twitduke.core.type.ThrowableReceivable;
+import net.nokok.twitduke.base.async.ThrowableReceivable;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;

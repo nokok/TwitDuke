@@ -21,6 +21,8 @@
         <module>TwitDuke-Components</module>
         <module>TwitDuke-Core</module>
         <module>TwitDuke-All</module>
+        <module>TwitDuke-PluginSupport</module>
+        <module>TwitDuke-Base</module>
     </modules>
     <dependencies>
         <dependency>
@@ -38,10 +40,16 @@
             <artifactId>twitter4j-stream</artifactId>
             <version>4.0.2</version>
         </dependency>
-	</dependencies>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
 </project>

@@ -24,8 +24,8 @@
 package net.nokok.twitduke.xsi.shindanmaker;
 
 import java.io.IOException;
-import net.nokok.twitduke.core.type.AsyncTaskOnSuccess;
-import net.nokok.twitduke.core.type.ThrowableReceivable;
+import net.nokok.twitduke.base.async.AsyncTaskOnSuccess;
+import net.nokok.twitduke.base.async.ThrowableReceivable;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;

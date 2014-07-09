@@ -29,8 +29,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
 import net.nokok.twitduke.core.io.LogPath;
-import net.nokok.twitduke.core.type.ErrorMessageReceivable;
-import net.nokok.twitduke.core.type.ThrowableReceivable;
+import net.nokok.twitduke.base.async.ErrorMessageReceivable;
+import net.nokok.twitduke.base.async.ThrowableReceivable;
 
 public class ErrorLogExporter implements ErrorMessageReceivable, ThrowableReceivable {
 

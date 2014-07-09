@@ -26,20 +26,23 @@ package net.nokok.twitduke;
 import static com.google.common.io.ByteStreams.nullOutputStream;
 import java.io.File;
 import java.io.PrintStream;
+import java.security.PermissionCollection;
+import java.security.Permissions;
+import java.security.Policy;
 import java.util.stream.Stream;
-import net.nokok.twitduke.components.view.Window;
+import net.nokok.twitduke.base.io.Paths;
 import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
 import net.nokok.twitduke.core.auth.OAuthOnSuccess;
 import net.nokok.twitduke.core.auth.OAuthRunnable;
-import net.nokok.twitduke.core.boot.TwitterStreamRunner;
 import net.nokok.twitduke.core.factory.AccountManagerFactory;
 import net.nokok.twitduke.core.io.DirectoryHelper;
-import net.nokok.twitduke.core.io.Paths;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
 import net.nokok.twitduke.core.twitter.TwitterNotificationListener;
+import net.nokok.twitduke.core.twitter.TwitterStreamRunner;
+import net.nokok.twitduke.core.view.Window;
 import net.nokok.twitduke.pluginsupport.PluginManager;
-import net.nokok.twitduke.pluginsupport.StreamEventRunner;
+import net.nokok.twitduke.pluginsupport.eventrunner.StreamEventRunner;
 import net.nokok.twitduke.server.WebServerStarter;
 import twitter4j.auth.AccessToken;
 
@@ -57,6 +60,11 @@ public class Main {
      * @param args 渡された引数の配列
      */
     public static void main(String[] args) {
+        PermissionCollection permissions = new Permissions();
+        permissions.add(new RuntimePermission("exitVM"));
+        Policy policy = new Policy() {
+
+        };
         if ( !existsTwitDukeDir() ) {
             DirectoryHelper.createTwitDukeDirectories();
         }

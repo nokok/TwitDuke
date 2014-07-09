@@ -23,7 +23,7 @@
  */
 package net.nokok.twitduke.server.websocket;
 
-import net.nokok.twitduke.core.type.ThrowableReceivable;
+import net.nokok.twitduke.base.async.ThrowableReceivable;
 
 public interface WebSocket extends Connectable, MessageReceivable, SocketCloseable, ThrowableReceivable {
 
