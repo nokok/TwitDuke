@@ -30,6 +30,7 @@ import net.nokok.twitduke.server.handlers.SendTweetHandler;
 import net.nokok.twitduke.server.handlers.ShindanmakerHandler;
 import net.nokok.twitduke.server.handlers.TweetWithFooterHandler;
 import net.nokok.twitduke.server.handlers.YoHandler;
+import net.nokok.twitduke.server.handlers.YukarinHandler;
 import twitter4j.auth.AccessToken;
 
 public class WebServerStarter implements Runnable {
@@ -51,6 +52,7 @@ public class WebServerStarter implements Runnable {
                 .addHandlerRetrievable(JavaJavaHandler.class, accessToken)
                 .addHandlerRetrievable(YoHandler.class, accessToken)
                 .addHandlerRetrievable(AddAccountHandler.class)
+                .addHandlerRetrievable(YukarinHandler.class, accessToken)
                 .call();
     }
 
