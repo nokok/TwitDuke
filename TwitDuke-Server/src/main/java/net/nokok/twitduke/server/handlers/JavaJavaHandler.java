@@ -45,6 +45,7 @@ public class JavaJavaHandler implements Retrievable<Handler> {
             StringBuilder stringBuilder = new StringBuilder("JavaJavaJava〜〜〜");
             IntStream.range(0, new Random().nextInt(10)).mapToObj(i -> "ｗ").forEach(stringBuilder::append);
             asyncTwitter.updateStatus(stringBuilder.toString());
+            sendOK();
         }
     };
 

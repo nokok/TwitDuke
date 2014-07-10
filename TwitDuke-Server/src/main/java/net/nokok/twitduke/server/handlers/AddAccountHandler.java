@@ -28,9 +28,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.nokok.twitduke.core.account.AccountManager;
+import net.nokok.twitduke.core.account.AccountManagerFactory;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
 import net.nokok.twitduke.core.auth.OAuthRunnable;
-import net.nokok.twitduke.core.account.AccountManagerFactory;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
 import net.nokok.twitduke.core.type.Retrievable;
 import org.mortbay.jetty.Handler;
@@ -47,6 +47,7 @@ public class AddAccountHandler implements Retrievable<Handler> {
             auth.onError(logger::onError);
             auth.onSuccess(accountManager::addAccount);
             auth.startOAuth();
+            sendOK();
         }
     };
 
