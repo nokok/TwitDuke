@@ -1,8 +1,6 @@
 package net.nokok.twitduke.server.handlers;
 
 import java.io.IOException;
-import java.util.Random;
-import java.util.stream.IntStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,9 +17,7 @@ public class YoHandler implements Retrievable<Handler> {
 
         @Override
         public void doHandle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-            StringBuilder stringBuilder = new StringBuilder("Yo");
-            IntStream.range(0, new Random().nextInt(50)).mapToObj(i -> "　").forEach(stringBuilder::append);
-            asyncTwitter.updateStatus(stringBuilder.toString());
+            asyncTwitter.updateStatus(StringUtil.appendRandomWhitespace("Yo"));
             sendOK();
         }
     };
