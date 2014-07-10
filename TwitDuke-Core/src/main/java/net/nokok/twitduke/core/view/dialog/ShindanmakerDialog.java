@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.view;
+package net.nokok.twitduke.core.view.dialog;
 
 import net.nokok.twitduke.core.view.dialog.Dialog;
 import net.nokok.twitduke.core.view.dialog.DialogResultListener;

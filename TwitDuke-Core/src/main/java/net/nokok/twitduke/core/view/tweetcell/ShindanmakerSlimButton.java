@@ -26,7 +26,7 @@ package net.nokok.twitduke.core.view.tweetcell;
 import java.awt.Dimension;
 import net.nokok.twitduke.components.basics.TWSlimButton;
 import net.nokok.twitduke.core.factory.TAsyncTwitterFactory;
-import net.nokok.twitduke.core.view.ShindanmakerDialog;
+import net.nokok.twitduke.core.view.dialog.ShindanmakerDialog;
 import net.nokok.twitduke.core.view.dialog.Dialog;
 import net.nokok.twitduke.core.view.dialog.DialogResultListener;
 import net.nokok.twitduke.xsi.shindanmaker.Shindanmaker;
