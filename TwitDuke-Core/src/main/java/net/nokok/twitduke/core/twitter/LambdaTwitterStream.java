@@ -23,11 +23,11 @@
  */
 package net.nokok.twitduke.core.twitter;
 
+import net.nokok.twitduke.base.async.ThrowableReceivable;
 import net.nokok.twitduke.core.event.Event;
 import net.nokok.twitduke.core.event.Event2;
 import net.nokok.twitduke.core.event.Event3;
 import net.nokok.twitduke.core.factory.TTwitterStreamFactory;
-import net.nokok.twitduke.base.async.ThrowableReceivable;
 import twitter4j.DirectMessage;
 import twitter4j.StallWarning;
 import twitter4j.Status;
@@ -74,6 +74,9 @@ public class LambdaTwitterStream implements TwitterExceptionReceivable {
         this.twitterStream.addListener(new StatusAdapter() {
             @Override
             public void onException(Exception ex) {
+                if ( ex.getClass().equals(ClassCastException.class) ) {
+                    return;
+                }
                 receiver.onError(ex);
             }
         });
