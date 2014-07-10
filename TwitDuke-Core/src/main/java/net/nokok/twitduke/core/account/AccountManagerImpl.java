@@ -43,7 +43,7 @@ import twitter4j.auth.AccessToken;
  * TwitDukeのアカウントに関する操作をするクラスです。
  *
  */
-public class AccountManagerImpl implements AccountManager {
+class AccountManagerImpl implements AccountManager {
 
     @Override
     public void addAccount(AccessToken accessToken) {

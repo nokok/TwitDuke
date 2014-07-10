@@ -21,10 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.factory;
-
-import net.nokok.twitduke.core.account.AccountManager;
-import net.nokok.twitduke.core.account.AccountManagerImpl;
+package net.nokok.twitduke.core.account;
 
 /**
  * アカウントマネージャーを生成するstaticファクトリーメソッドが定義されています。

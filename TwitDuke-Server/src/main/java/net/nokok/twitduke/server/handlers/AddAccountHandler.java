@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
 import net.nokok.twitduke.core.auth.OAuthRunnable;
-import net.nokok.twitduke.core.factory.AccountManagerFactory;
+import net.nokok.twitduke.core.account.AccountManagerFactory;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
 import net.nokok.twitduke.core.type.Retrievable;
 import org.mortbay.jetty.Handler;
