@@ -23,16 +23,15 @@
  */
 package net.nokok.twitduke.server.handlers;
 
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import net.nokok.twitduke.core.factory.TAsyncTwitterFactory;
 import net.nokok.twitduke.core.type.Retrievable;
 import org.mortbay.jetty.Handler;
 import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public class YukarinHandler implements Retrievable<Handler> {
 
