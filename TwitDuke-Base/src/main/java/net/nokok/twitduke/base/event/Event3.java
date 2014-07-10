@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.event;
+package net.nokok.twitduke.base.event;
 
 /**
  * イベント発生時引数の数が3つ必要なイベントです。
