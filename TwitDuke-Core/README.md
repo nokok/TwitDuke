@@ -13,4 +13,4 @@ TwitDukeに密接に関係するコア機能を集めたモジュールです。
  * I/O  
  `Reader<T>`,`Writer<T>`など
  * ラッパークラス  
- `Twitter`,`Port`など
+ `Tweet`,`Port`など
