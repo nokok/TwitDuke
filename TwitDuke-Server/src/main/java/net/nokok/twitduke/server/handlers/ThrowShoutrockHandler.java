@@ -41,7 +41,7 @@ public class ThrowShoutrockHandler implements Retrievable<Handler> {
 
         @Override
         public void doHandle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-            asyncTwitter.updateStatus("しゃうさぎ氏を" + new SecureRandom().nextInt(10000) + "m飛ばしました #TwitDuke");
+            asyncTwitter.updateStatus("しゃうさぎ氏を" + (new SecureRandom().nextInt(10000) + 1) + "m飛ばしました #TwitDuke");
             sendOK();
         }
 
