@@ -28,6 +28,7 @@ import net.nokok.twitduke.server.handlers.BurnOwenHandler;
 import net.nokok.twitduke.server.handlers.JavaJavaHandler;
 import net.nokok.twitduke.server.handlers.SendTweetHandler;
 import net.nokok.twitduke.server.handlers.ShindanmakerHandler;
+import net.nokok.twitduke.server.handlers.ThrowShoutrockHandler;
 import net.nokok.twitduke.server.handlers.TweetWithFooterHandler;
 import net.nokok.twitduke.server.handlers.YoHandler;
 import net.nokok.twitduke.server.handlers.YukarinHandler;
@@ -52,6 +53,7 @@ public class WebServerStarter implements Runnable {
                 .addHandlerRetrievable(JavaJavaHandler.class, accessToken)
                 .addHandlerRetrievable(YoHandler.class, accessToken)
                 .addHandlerRetrievable(YukarinHandler.class, accessToken)
+                .addHandlerRetrievable(ThrowShoutrockHandler.class, accessToken)
                 .addHandlerRetrievable(AddAccountHandler.class)
                 .call();
     }
