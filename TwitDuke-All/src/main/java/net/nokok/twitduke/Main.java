@@ -26,9 +26,6 @@ package net.nokok.twitduke;
 import static com.google.common.io.ByteStreams.nullOutputStream;
 import java.io.File;
 import java.io.PrintStream;
-import java.security.PermissionCollection;
-import java.security.Permissions;
-import java.security.Policy;
 import java.util.stream.Stream;
 import net.nokok.twitduke.base.io.Paths;
 import net.nokok.twitduke.core.account.AccountManager;
@@ -60,11 +57,6 @@ public class Main {
      * @param args 渡された引数の配列
      */
     public static void main(String[] args) {
-        PermissionCollection permissions = new Permissions();
-        permissions.add(new RuntimePermission("exitVM"));
-        Policy policy = new Policy() {
-
-        };
         if ( !existsTwitDukeDir() ) {
             DirectoryHelper.createTwitDukeDirectories();
         }
