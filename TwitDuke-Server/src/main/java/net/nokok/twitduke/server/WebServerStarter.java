@@ -51,8 +51,8 @@ public class WebServerStarter implements Runnable {
                 .addHandlerRetrievable(BurnOwenHandler.class, accessToken)
                 .addHandlerRetrievable(JavaJavaHandler.class, accessToken)
                 .addHandlerRetrievable(YoHandler.class, accessToken)
-                .addHandlerRetrievable(AddAccountHandler.class)
                 .addHandlerRetrievable(YukarinHandler.class, accessToken)
+                .addHandlerRetrievable(AddAccountHandler.class)
                 .call();
     }
 
