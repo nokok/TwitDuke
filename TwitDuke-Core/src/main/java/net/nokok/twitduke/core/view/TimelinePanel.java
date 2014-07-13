@@ -82,6 +82,8 @@ public class TimelinePanel extends TWPanel implements Scrollable {
 
     private class TimelineLayout implements LayoutManager {
 
+        private final int MAX_CELL_COUNT = 500;
+
         @Override
         public void addLayoutComponent(String name, Component comp) {
             //なにもしない
@@ -91,10 +93,10 @@ public class TimelinePanel extends TWPanel implements Scrollable {
         public void layoutContainer(Container parent) {
             List<Component> components = Stream.of(parent.getComponents()).collect(Collectors.toList());
             SwingUtilities.invokeLater(() -> {
-                if ( components.size() < 1000 ) {
+                if ( components.size() < MAX_CELL_COUNT ) {
                     return;
                 }
-                Component comp = components.get(1000);
+                Component comp = components.get(MAX_CELL_COUNT - 1);
                 comp.setVisible(false);
                 parent.remove(comp);
                 comp = null; //GC
