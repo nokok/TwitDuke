@@ -1,4 +1,4 @@
-#`TwitDuke-XSI` Module
+#`TwitDuke-XSI(eXternal Service Interfaces)` Module
 
 外部サービスとTwitDukeをつなげるためのモジュールです。  
 TwitDukeがTwitter以外のサービスと通信を行う場合は、このモジュールに含まれるクラス群を用いて通信を行います。  
