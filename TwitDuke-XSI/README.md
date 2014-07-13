@@ -9,4 +9,4 @@ When the TwitDuke is to communicate with the service of other than Twitter, do t
 
 ###現在サポートしているサービス Supporting services
 
- * 診断メーカー([shindanmaker.com](shindanmaker.com))
+ * 診断メーカー([shindanmaker.com](http://shindanmaker.com))
