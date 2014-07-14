@@ -88,10 +88,16 @@ public class MockAsyncTwitter implements AsyncTwitter {
 
     @Override
     public void createFriendship(String screenName, boolean follow) {
+        throw ex;
     }
 
     @Override
-    public void createPlace(String name, String containedWithin, String token, GeoLocation location, String streetAddress) {
+    public void createMute(long l) {
+        throw ex;
+    }
+
+    @Override
+    public void createMute(String string) {
         throw ex;
     }
 
@@ -173,6 +179,14 @@ public class MockAsyncTwitter implements AsyncTwitter {
     @Override
     public void destroyFriendship(String screenName) {
         throw ex;
+    }
+
+    @Override
+    public void destroyMute(long l) {
+    }
+
+    @Override
+    public void destroyMute(String string) {
     }
 
     @Override
@@ -418,6 +432,14 @@ public class MockAsyncTwitter implements AsyncTwitter {
     @Override
     public void getMentions(Paging paging) {
         throw ex;
+    }
+
+    @Override
+    public void getMutesIDs(long l) {
+    }
+
+    @Override
+    public void getMutesList(long l) {
     }
 
     @Override
@@ -698,6 +720,10 @@ public class MockAsyncTwitter implements AsyncTwitter {
     @Override
     public void invalidateOAuth2Token() throws TwitterException {
         throw ex;
+    }
+
+    @Override
+    public void lookup(long[] longs) {
     }
 
     @Override

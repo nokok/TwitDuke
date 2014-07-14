@@ -38,7 +38,6 @@ import twitter4j.RateLimitStatus;
 import twitter4j.Relationship;
 import twitter4j.ResponseList;
 import twitter4j.SavedSearch;
-import twitter4j.SimilarPlaces;
 import twitter4j.Status;
 import twitter4j.Trends;
 import twitter4j.TwitterAPIConfiguration;
@@ -75,7 +74,7 @@ public class MockTwitterListener implements TwitterListener {
     }
 
     @Override
-    public void createdPlace(Place place) {
+    public void createdMute(User user) {
     }
 
     @Override
@@ -108,6 +107,10 @@ public class MockTwitterListener implements TwitterListener {
 
     @Override
     public void destroyedFriendship(User user) {
+    }
+
+    @Override
+    public void destroyedMute(User user) {
     }
 
     @Override
@@ -211,6 +214,14 @@ public class MockTwitterListener implements TwitterListener {
     }
 
     @Override
+    public void gotMuteIDs(IDs ids) {
+    }
+
+    @Override
+    public void gotMutesList(ResponseList<User> rl) {
+    }
+
+    @Override
     public void gotOAuth2Token(OAuth2Token token) {
     }
 
@@ -279,7 +290,7 @@ public class MockTwitterListener implements TwitterListener {
     }
 
     @Override
-    public void gotSimilarPlaces(SimilarPlaces places) {
+    public void gotSimilarPlaces(ResponseList<Place> rl) {
     }
 
     @Override
@@ -328,6 +339,10 @@ public class MockTwitterListener implements TwitterListener {
 
     @Override
     public void lookedUpFriendships(ResponseList<Friendship> friendships) {
+    }
+
+    @Override
+    public void lookedup(ResponseList<Status> rl) {
     }
 
     @Override
