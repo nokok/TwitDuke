@@ -23,55 +23,44 @@
  */
 package net.nokok.twitduke.core.type;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import org.junit.Assert;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
-public class FooterTest {
+public class ScreenNameTest {
 
     @Test(expected = NullPointerException.class)
-    public void testNullConstructorParameter() {
-        new Footer(null);
+    public void testNullConstractorArg() {
+        new ScreenName(null);
     }
 
     @Test
     public void testGet() {
-        String str = "hoge";
-        Footer footer = new Footer(str);
-        assertEquals(footer.get(), str);
-        String str1 = "#fuga";
-        Footer f1 = new Footer(str1);
-        assertEquals(f1.get(), str1);
+        String value = "hoge";
+        ScreenName screenName = new ScreenName(value);
+        assertTrue(screenName.get().equals(value));
     }
 
     @Test
     public void testEquals() {
-        String str = "hoge";
-        Footer f1 = new Footer(str);
-        Footer f2 = new Footer(str);
-        assertTrue(f1.equals(f2));
-        assertTrue(f2.equals(f1));
-        assertFalse(f1.equals(null));
-        assertFalse(f1.equals(str));
+        String value = "hoge";
+        ScreenName screenName1 = new ScreenName(value);
+        ScreenName screenName2 = new ScreenName(value);
+        assertTrue(screenName1.equals(screenName2));
     }
 
     @Test
     public void testHashCode() {
-        String str = "hoge";
-        Footer f1 = new Footer(str);
-        Footer f2 = new Footer(str);
-        assertTrue(f1.equals(f2));
-        assertEquals(f1.hashCode(), f2.hashCode());
+        String value = "hoge";
+        ScreenName screenName1 = new ScreenName(value);
+        ScreenName screenName2 = new ScreenName(value);
+        assertTrue(screenName1.hashCode() == screenName2.hashCode());
     }
 
     @Test
     public void testToString() {
-        String s1 = "hoge";
-        Footer f1 = new Footer(s1);
-        assertEquals(f1.toString(), "hoge");
-        String s2 = "#hoge";
-        Footer f2 = new Footer(s2);
-        assertEquals(f2.toString(), "#hoge");
+        String value = "hoge";
+        ScreenName screenName = new ScreenName(value);
+        Assert.assertEquals(screenName.toString(), value);
     }
 }

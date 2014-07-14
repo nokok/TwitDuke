@@ -23,6 +23,7 @@
         <module>TwitDuke-PluginSupport</module>
         <module>TwitDuke-Base</module>
         <module>TwitDuke</module>
+        <module>TwitDuke-Test</module>
     </modules>
     <dependencies>
         <dependency>
