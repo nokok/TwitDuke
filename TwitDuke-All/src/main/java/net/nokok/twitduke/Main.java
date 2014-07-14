@@ -29,10 +29,10 @@ import java.io.PrintStream;
 import java.util.stream.Stream;
 import net.nokok.twitduke.base.io.Paths;
 import net.nokok.twitduke.core.account.AccountManager;
+import net.nokok.twitduke.core.account.AccountManagerFactory;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
 import net.nokok.twitduke.core.auth.OAuthOnSuccess;
 import net.nokok.twitduke.core.auth.OAuthRunnable;
-import net.nokok.twitduke.core.account.AccountManagerFactory;
 import net.nokok.twitduke.core.io.DirectoryHelper;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
 import net.nokok.twitduke.core.twitter.TwitterNotificationListener;
@@ -67,15 +67,15 @@ public class Main {
         }
         final AccountManager accountManager = AccountManagerFactory.newInstance();
         if ( accountManager.hasValidAccount() ) {
-            AccessToken accessToken = accountManager.readPrimaryAccount().get();
             if ( !isServerMode ) {
-                openWindow(accessToken);
+                openWindow(accountManager);
             }
+            AccessToken accessToken = accountManager.readPrimaryAccount().get();
             startServer(accessToken);
         } else {
             startOAuth(accountManager, token -> {
                 if ( !isServerMode ) {
-                    openWindow(token);
+                    openWindow(accountManager);
                 }
                 startServer(token);
             });
@@ -104,8 +104,9 @@ public class Main {
      *
      * @param accountManager
      */
-    private static void openWindow(AccessToken accessToken) {
-        Window window = Window.createNewWindow(accessToken);
+    private static void openWindow(AccountManager accountManager) {
+        Window window = Window.createNewWindow(accountManager);
+        AccessToken accessToken = accountManager.readPrimaryAccount().orElseThrow(IllegalStateException::new);
         PluginManager globaPluginManager = new PluginManager("plugins", accessToken);
         TwitterStreamRunner streamRunner = new TwitterStreamRunner(accessToken);
         streamRunner.addTwitterListener(new StreamEventRunner(globaPluginManager.getPlugins()));

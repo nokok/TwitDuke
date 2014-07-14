@@ -36,6 +36,8 @@ import net.nokok.twitduke.components.Disposable;
 import net.nokok.twitduke.components.Visible;
 import net.nokok.twitduke.components.WindowSize;
 import net.nokok.twitduke.components.basics.TWFrame;
+import net.nokok.twitduke.components.basics.TWPanel;
+import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.type.ComponentInsertable;
 import twitter4j.auth.AccessToken;
 
@@ -154,12 +156,15 @@ public class Window implements WindowSize, Visible, Disposable, ComponentInserta
         return frame.getTitle();
     }
 
-    public static Window createNewWindow(AccessToken accessToken) {
+    public static Window createNewWindow(AccountManager accountManager) {
         Window window = new Window();
         window.addContents(new ScrollableTimelinePanel());
-        TweetTextArea textArea = new TweetTextArea(accessToken);
+        AccessToken token = accountManager.readPrimaryAccount().orElseThrow(IllegalStateException::new);
+        TweetTextArea textArea = new TweetTextArea(token);
         textArea.setPreferredSize(new Dimension(-1, 50));
-        window.addHeader(textArea);
+        JComponent panel = new TWPanel(new BorderLayout());
+        panel.add(textArea, BorderLayout.CENTER);
+        window.addHeader(panel);
         window.show();
         return window;
     }
