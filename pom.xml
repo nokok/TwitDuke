@@ -20,9 +20,9 @@
         <module>TwitDuke-XSI</module>
         <module>TwitDuke-Components</module>
         <module>TwitDuke-Core</module>
-        <module>TwitDuke-All</module>
         <module>TwitDuke-PluginSupport</module>
         <module>TwitDuke-Base</module>
+        <module>TwitDuke</module>
     </modules>
     <dependencies>
         <dependency>

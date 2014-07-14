@@ -8,7 +8,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>net.nokok.twitduke</groupId>
-    <artifactId>TwitDuke-All</artifactId>
+    <artifactId>TwitDuke</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
     <build>
@@ -138,4 +138,5 @@
             <version>9.1.1.v20140108</version>
         </dependency>
     </dependencies>
+    <name>TwitDuke</name>
 </project>
