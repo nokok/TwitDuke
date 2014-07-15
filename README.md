@@ -3,10 +3,23 @@
 [![Build Status](https://travis-ci.org/nokok/TwitDuke.svg?branch=master)](https://travis-ci.org/nokok/TwitDuke)  
 TwitDuke is a twitter client.  
 
+[日本語(native) README](README_ja.md)
+
+#To Build
+
+    % git clone https://github.com/nokok/TwitDuke
+    % cd TwitDuke
+    % mvn package
+    
+#Binaries
+
+We currently do not have distribution of the current version of binary (such as Executable jar format).
+We are planning to distribute the future, but there is not the goal / plan, such as a date. 
+
 #TwitDuke's Goal
 Cool design  
 Cross-platform  
-Customizable
+Customizable  
 
 #Acknowledgements
 
