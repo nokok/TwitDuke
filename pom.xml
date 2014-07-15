@@ -24,6 +24,7 @@
         <module>TwitDuke-Base</module>
         <module>TwitDuke</module>
         <module>TwitDuke-Test</module>
+        <module>TwitDuke-Resources</module>
     </modules>
     <dependencies>
         <dependency>
