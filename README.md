@@ -27,6 +27,7 @@ Customizable
 
 #Contributors
 * [@shibafu528](https://github.com/shibafu528)
+* [@nanase](https://github.com/nanase)
 
 #License
 The MIT License (MIT)
