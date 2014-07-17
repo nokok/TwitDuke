@@ -14,7 +14,7 @@ TwitDuke is a twitter client.
 #Binaries
 
 We currently do not have distribution of the current version of binary (such as Executable jar format).
-We are planning to distribute the future, but there is not the goal / plan, such as a date. 
+We are planning to distribute the future, but there is not the goal or plan.
 
 #TwitDuke's Goal
 Cool design  
