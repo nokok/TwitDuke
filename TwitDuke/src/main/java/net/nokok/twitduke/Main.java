@@ -27,6 +27,8 @@ import static com.google.common.io.ByteStreams.nullOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.stream.Stream;
+import javafx.application.Application;
+import javafx.stage.Stage;
 import net.nokok.twitduke.base.io.Paths;
 import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.account.AccountManagerFactory;
@@ -49,7 +51,12 @@ import twitter4j.auth.AccessToken;
  * このクラスがTwitDukeの起動処理を制御します。
  *
  */
-public class Main {
+public class Main extends Application {
+
+    @Override
+    public void start(Stage stage) throws Exception {
+
+    }
 
     /**
      * TwitDukeのエントリポイントです。
