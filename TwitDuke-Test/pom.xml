@@ -17,5 +17,17 @@
             <scope>test</scope>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.7.3</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>net.nokok.twitduke.server</groupId>
+            <artifactId>TwitDuke-Server</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 </project>
