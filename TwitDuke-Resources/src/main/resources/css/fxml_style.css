@@ -23,3 +23,41 @@
 .screenname-label{
 	-fx-text-fill: #ecf0f1;
 }
+
+.tab{
+	-fx-background-color: #bbbbbb;
+	-fx-background-radius: 1px;
+}
+
+.tab:selected{
+	-fx-background-color: #555555;
+}
+
+.tab:selected .tab-label{
+	-fx-text-fill: #ecf0f1;
+}
+
+.tab-pane{
+	-fx-background-color: #333333;
+}
+
+.list-view{
+	-fx-background-color: #555555;
+}
+
+.button {
+	-fx-background-color: #7f8c8d;
+	-fx-text-fill: #ecf0f1;
+	-fx-background-radius: 0px;
+	-fx-font-weight: bold;
+	-fx-font-size:10px;
+}
+
+.button:hover{
+	-fx-background-color: #6e7b7c;
+	-fx-font-weight:bold;
+}
+
+.root-toolbar{
+	-fx-background-color: #3333333;
+}
