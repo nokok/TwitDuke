@@ -46,18 +46,23 @@
 }
 
 .button {
-	-fx-background-color: #7f8c8d;
-	-fx-text-fill: #ecf0f1;
-	-fx-background-radius: 1px;
-	-fx-font-weight: bold;
-	-fx-font-size:10px;
+    -fx-background-color: #7f8c8d;
+    -fx-text-fill: #ecf0f1;
+    -fx-background-radius: 1px;
+}
+
+.button .text{
+    -fx-font-weight:bold;
+    -fx-font-size:11px;
 }
 
 .button:hover{
-	-fx-font-weight:bold;
     -fx-background-color: #6e7b7c;
 }
 
+.button:active{
+    -fx-background-color:#5d6a6b;
+}
 .root-toolbar{
     -fx-background-color: #3333333;
 }
