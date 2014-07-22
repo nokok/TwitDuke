@@ -6,6 +6,7 @@ TwitDuke is a twitter client.
 [日本語(native) README](README_ja.md)
 
 #To Build
+[Maven](http://maven.apache.org/) and [Java 8+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) is required to build.
 
     % git clone https://github.com/nokok/TwitDuke
     % cd TwitDuke
