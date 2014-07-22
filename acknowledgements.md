@@ -72,3 +72,8 @@ THE SOFTWARE.
 >Jetty 9 (as well as 7 and 8) is dual licensed under the Apache License 2.0 and Eclipse Public License 1.0. Jetty is free for commercial use and distribution under the terms of either license, with exceptions listed in the NOTICE file.
 
 >Jetty 6 was distributed solely under the Apache License 2.0 with details and exceptions listed in the NOTICE file. 
+
+##IcoMoon - Free
+[http://http:/icomoon.io//](http:/icomoon.io/)  
+[CC BY 3.0](http:/creativecommons.org/licenses/by/3.0/)
+
