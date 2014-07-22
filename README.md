@@ -1,6 +1,6 @@
-#TwitDuke
+#TwitDuke[![Build Status](https://travis-ci.org/nokok/TwitDuke.svg?branch=master)](https://travis-ci.org/nokok/TwitDuke)  
 ##### TwitDuke is under development. still not working.
-[![Build Status](https://travis-ci.org/nokok/TwitDuke.svg?branch=master)](https://travis-ci.org/nokok/TwitDuke)  
+
 TwitDuke is a twitter client.  
 
 [日本語(native) README](README_ja.md)

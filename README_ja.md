@@ -1,6 +1,6 @@
-#TwitDukeとは
-##### TwitDukeは開発中のソフトウェアです。まともに動きません
-[![Build Status](https://travis-ci.org/nokok/TwitDuke.svg?branch=master)](https://travis-ci.org/nokok/TwitDuke)  
+#TwitDukeとは[![Build Status](https://travis-ci.org/nokok/TwitDuke.svg?branch=master)](https://travis-ci.org/nokok/TwitDuke)
+##### TwitDukeは開発中のソフトウェアです。まだまともに動きません。
+  
 TwitDukeはTwitterクライアントです
 
 #ビルド
