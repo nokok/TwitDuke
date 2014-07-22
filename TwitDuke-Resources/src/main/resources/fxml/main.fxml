@@ -2,46 +2,72 @@
 
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="425.0" stylesheets="@../css/default.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-  <tabs>
-    <Tab styleClass="account-tab" text="Primary">
-<content><BorderPane prefHeight="200.0" prefWidth="200.0">
-<bottom><Pane prefHeight="25.0" prefWidth="960.0" BorderPane.alignment="CENTER" />
-</bottom>
-<center><ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-</center>
-<left><BorderPane prefHeight="602.0" prefWidth="60.0" BorderPane.alignment="CENTER">
-<bottom><Button mnemonicParsing="false" text="Config" BorderPane.alignment="CENTER" />
-</bottom>
-<center><ToolBar orientation="VERTICAL" prefWidth="60.0" styleClass="root-toolbar" BorderPane.alignment="CENTER">
-  <items>
-    <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="Button" />
-  </items>
-</ToolBar>
-</center></BorderPane>
-</left>
-<top><BorderPane prefHeight="70.0" prefWidth="425.0" BorderPane.alignment="CENTER">
-<center><TextArea prefHeight="149.0" prefWidth="425.0" BorderPane.alignment="CENTER" />
-</center></BorderPane>
-</top></BorderPane>
-</content>
-    </Tab>
-    <Tab text="Secondary">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-      </content>
-    </Tab><Tab text="+">
-  <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-<children><Label text="アカウントの追加" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
-<font>
-<Font name="System Bold" size="20.0" />
-</font></Label>
-</children></AnchorPane>
-  </content>
-</Tab>
-  </tabs>
+	<tabs>
+		<Tab styleClass="account-tab" text="noko_k">
+			<content><BorderPane prefHeight="200.0" prefWidth="200.0">
+					<bottom><Pane prefHeight="25.0" prefWidth="960.0" BorderPane.alignment="CENTER" />
+					</bottom>
+					<center><ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+					</center>
+					<left><BorderPane prefHeight="602.0" prefWidth="60.0" BorderPane.alignment="CENTER">
+							<bottom><Button mnemonicParsing="false" prefHeight="40.0" prefWidth="62.0" BorderPane.alignment="CENTER">
+<graphic><ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@../img/settings.png" />
+</image></ImageView>
+</graphic></Button>
+							</bottom>
+							<center><ToolBar orientation="VERTICAL" prefWidth="60.0" styleClass="root-toolbar" BorderPane.alignment="CENTER">
+									<items>
+										<Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="50.0">
+<graphic><ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@../img/home.png" />
+</image></ImageView>
+</graphic></Button><Button mnemonicParsing="false" prefHeight="40.0" prefWidth="50.0">
+<graphic><ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@../img/undo.png" />
+</image></ImageView>
+</graphic></Button><Button mnemonicParsing="false" prefHeight="40.0" prefWidth="50.0">
+<graphic><ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@../img/menu.png" />
+</image></ImageView>
+</graphic></Button><Button mnemonicParsing="false" prefHeight="40.0" prefWidth="50.0">
+<graphic><ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@../img/checkbox-unchecked.png" />
+</image></ImageView>
+</graphic></Button>
+									</items>
+								</ToolBar>
+						</center></BorderPane>
+					</left>
+					<top><BorderPane prefHeight="70.0" prefWidth="425.0" BorderPane.alignment="CENTER">
+							<center><TextArea prefHeight="149.0" prefWidth="425.0" BorderPane.alignment="CENTER" />
+						</center></BorderPane>
+				</top></BorderPane>
+			</content>
+		</Tab>
+		<Tab text="sub_account_name">
+			<content>
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+			</content>
+			</Tab><Tab text="+">
+			<content>
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+					<children><Label text="アカウントの追加" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+							<font>
+								<Font name="System Bold" size="20.0" />
+						</font></Label>
+				</children></AnchorPane>
+			</content>
+		</Tab>
+	</tabs>
 </TabPane>
