@@ -22,6 +22,10 @@ TwitDukeはTwitterクライアントです
 
 [Acknowledgements](https://github.com/nokok/TwitDuke/blob/master/acknowledgements.md)
 
+#コントリビューター
+* [@shibafu528](https://github.com/shibafu528)
+* [@nanase](https://github.com/nanase)
+
 #ライセンス
 The MIT License (MIT)
 
