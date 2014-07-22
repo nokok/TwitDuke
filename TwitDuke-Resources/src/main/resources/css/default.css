@@ -1,48 +1,48 @@
 .tweet-textarea{
-	-fx-text-fill: #ecf0f1;
-	-fx-background-color: #323232;
+    -fx-text-fill: #ecf0f1;
+    -fx-background-color: #323232;
 }
 
 .tweet-textarea .scroll-pane{
-	-fx-background-color: transparent;
+    -fx-background-color: transparent;
 }
 
 .tweet-textarea .scroll-pane .viewport{
-	-fx-background-color: transparent;
+    -fx-background-color: transparent;
 }
 
 .tweet-textarea .scroll-pane .content{
-	-fx-background-color: transparent;
+    -fx-background-color: transparent;
 }
 
 .username-label{
-	-fx-text-fill: #ecf0f1;
-	-fx-font-size: 13px;
+    -fx-text-fill: #ecf0f1;
+    -fx-font-size: 13px;
 }
 
 .screenname-label{
-	-fx-text-fill: #ecf0f1;
+    -fx-text-fill: #ecf0f1;
 }
 
 .tab{
-	-fx-background-color: #bbbbbb;
-	-fx-background-radius: 1px;
+    -fx-background-color: #bbbbbb;
+    -fx-background-radius: 1px;
 }
 
 .tab:selected{
-	-fx-background-color: #555555;
+    -fx-background-color: #555555;
 }
 
 .tab:selected .tab-label{
-	-fx-text-fill: #ecf0f1;
+    -fx-text-fill: #ecf0f1;
 }
 
 .tab-pane{
-	-fx-background-color: #333333;
+    -fx-background-color: #333333;
 }
 
 .list-view{
-	-fx-background-color: #555555;
+    -fx-background-color: #555555;
 }
 
 .button {
@@ -54,10 +54,10 @@
 }
 
 .button:hover{
-	-fx-background-color: #6e7b7c;
 	-fx-font-weight:bold;
+    -fx-background-color: #6e7b7c;
 }
 
 .root-toolbar{
-	-fx-background-color: #3333333;
+    -fx-background-color: #3333333;
 }
