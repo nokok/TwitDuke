@@ -75,10 +75,44 @@
                         </BorderPane>
                     </left>
                     <top>
-                        <BorderPane prefHeight="70.0" prefWidth="425.0" BorderPane.alignment="CENTER">
+                        <BorderPane prefHeight="80.0" BorderPane.alignment="CENTER">
                             <center>
                                 <TextArea prefHeight="149.0" prefWidth="425.0" styleClass="tweet-textarea" BorderPane.alignment="CENTER" />
                             </center>
+                            <bottom>
+                                <ToolBar prefHeight="20.0" prefWidth="200.0" styleClass="textarea-toolbar" BorderPane.alignment="CENTER">
+                                    <items>
+                                        <Button mnemonicParsing="false">
+                                            <graphic>
+                                                <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../img/camera.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+                                        <Button mnemonicParsing="false">
+                                            <graphic>
+                                                <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../img/images.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+                                        <Button mnemonicParsing="false">
+                                            <graphic>
+                                                <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../img/drawer.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+                                        <Label stylesheets="@../css/default.css" text="140" textFill="#ecf0f1" />
+                                    </items>
+                                </ToolBar>
+                            </bottom>
                         </BorderPane>
                     </top>
                 </BorderPane>
