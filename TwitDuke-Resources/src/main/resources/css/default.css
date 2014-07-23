@@ -66,3 +66,6 @@
 .root-toolbar{
     -fx-background-color: #3333333;
 }
+.config-button{
+    -fx-background-color: #661111;
+}
