@@ -60,9 +60,10 @@
     -fx-background-color: #6e7b7c;
 }
 
-.button:active{
-    -fx-background-color:#5d6a6b;
+.button:pressed{
+    -fx-background-color: #5d6a6b;
 }
+
 .root-toolbar{
     -fx-background-color: #333333;
 }
