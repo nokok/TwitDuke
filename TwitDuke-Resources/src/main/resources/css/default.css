@@ -37,7 +37,7 @@
 }
 
 .tab-pane{
-    -fx-background-color: #333333;
+    -fx-background-color: #323232;
 }
 
 .list-view{
@@ -64,9 +64,9 @@
 }
 
 .root-toolbar{
-    -fx-background-color: #333333;
+    -fx-background-color: #323232;
 }
 
 .textarea-toolbar{
-    -fx-background-color: #333333;
+    -fx-background-color: #323232;
 }
