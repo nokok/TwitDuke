@@ -52,10 +52,7 @@ public class IOSelectorPropertyReader implements Reader<FileType> {
         if ( fileType == null ) {
             return false;
         }
-        if ( fileType.equals(FileType.PLAINTEXT.toString()) || fileType.equals(FileType.SERIALIZE.toString()) ) {
-            return true;
-        }
-        return false;
+        return fileType.equals(FileType.PLAINTEXT.toString()) || fileType.equals(FileType.SERIALIZE.toString());
     }
 
     private FileType pToFileType(Properties p) {
