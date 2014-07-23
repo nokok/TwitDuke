@@ -20,7 +20,7 @@
                     <left>
                         <BorderPane prefHeight="602.0" prefWidth="60.0" BorderPane.alignment="CENTER">
                             <bottom>
-                                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="62.0" BorderPane.alignment="CENTER">
+                                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="62.0" styleClass="config-button" BorderPane.alignment="CENTER">
                                     <graphic>
                                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
@@ -77,7 +77,7 @@
                     <top>
                         <BorderPane prefHeight="70.0" prefWidth="425.0" BorderPane.alignment="CENTER">
                             <center>
-                                <TextArea prefHeight="149.0" prefWidth="425.0" BorderPane.alignment="CENTER" />
+                                <TextArea prefHeight="149.0" prefWidth="425.0" styleClass="tweet-textarea" BorderPane.alignment="CENTER" />
                             </center>
                         </BorderPane>
                     </top>
