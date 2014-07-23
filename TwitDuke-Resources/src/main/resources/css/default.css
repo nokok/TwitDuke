@@ -69,3 +69,7 @@
 .config-button{
     -fx-background-color: #661111;
 }
+
+.textarea-toolbar{
+    -fx-background-color: #333333;
+}
