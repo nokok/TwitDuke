@@ -112,7 +112,7 @@
                                         <Label stylesheets="@../css/default.css" text="140" textFill="#ecf0f1" />
                                     </items>
                                 </ToolBar>
-                            </bottom>
+                            </bottom> 
                         </BorderPane>
                     </top>
                 </BorderPane>
