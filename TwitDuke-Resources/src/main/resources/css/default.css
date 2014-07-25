@@ -70,3 +70,12 @@
 .textarea-toolbar{
     -fx-background-color: #323232;
 }
+
+.label{
+    -fx-text-fill: #ecf0f1;
+}
+
+.add-account-label{
+    -fx-font-weight:bold;
+    -fx-font-size:20;
+}

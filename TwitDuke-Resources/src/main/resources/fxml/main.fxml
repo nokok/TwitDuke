@@ -127,7 +127,7 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <children>
-                        <Label text="アカウントの追加" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <Label styleClass="add-account-label" text="アカウントの追加" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                             <font>
                                 <Font name="System Bold" size="20.0" />
                             </font>
