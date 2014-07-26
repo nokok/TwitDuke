@@ -6,21 +6,21 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="425.0" stylesheets="@../css/default.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.nokok.twitduke.components.javafx.MainViewController">
+<fx:root fx:id="mainView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="425.0" stylesheets="@../css/default.css" tabClosingPolicy="UNAVAILABLE" type="TabPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.nokok.twitduke.components.javafx.MainViewController">
     <tabs>
-        <Tab styleClass="account-tab" text="PrimaryAccountName">
+        <Tab fx:id="primaryAccountTab" styleClass="account-tab" text="PrimaryAccountName">
             <content>
                 <BorderPane prefHeight="200.0" prefWidth="200.0">
                     <bottom>
                         <Pane prefHeight="25.0" prefWidth="960.0" BorderPane.alignment="CENTER" />
                     </bottom>
                     <center>
-                        <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                        <ListView fx:id="tweetCellList" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                     </center>
                     <left>
                         <BorderPane prefHeight="602.0" prefWidth="60.0" BorderPane.alignment="CENTER">
                             <bottom>
-                                <Button fx:id="configButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="62.0" styleClass="config-button" BorderPane.alignment="CENTER">
+                                <Button fx:id="configButton" mnemonicParsing="false" onAction="#showConfig" prefHeight="40.0" prefWidth="62.0" styleClass="config-button" BorderPane.alignment="CENTER">
                                     <graphic>
                                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
@@ -31,9 +31,9 @@
                                 </Button>
                             </bottom>
                             <center>
-                                <ToolBar orientation="VERTICAL" prefWidth="60.0" styleClass="root-toolbar" BorderPane.alignment="CENTER">
+                                <ToolBar fx:id="rootToolbar" orientation="VERTICAL" prefWidth="60.0" styleClass="root-toolbar" BorderPane.alignment="CENTER">
                                     <items>
-                                        <Button fx:id="homeButton" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="50.0">
+                                        <Button fx:id="homeButton" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#showHome" prefHeight="40.0" prefWidth="50.0">
                                             <graphic>
                                                 <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
@@ -42,7 +42,7 @@
                                                 </ImageView>
                                             </graphic>
                                         </Button>
-                                        <Button fx:id="replyButotn" mnemonicParsing="false" prefHeight="40.0" prefWidth="50.0">
+                                        <Button fx:id="replyButton" mnemonicParsing="false" onAction="#showReply" prefHeight="40.0" prefWidth="50.0">
                                             <graphic>
                                                 <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
@@ -60,7 +60,7 @@
                                                 </ImageView>
                                             </graphic>
                                         </Button>
-                                        <Button fx:id="functionTileButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="50.0">
+                                        <Button fx:id="functionTileButton" mnemonicParsing="false" onAction="#showFunctionTile" prefHeight="40.0" prefWidth="50.0">
                                             <graphic>
                                                 <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
@@ -77,12 +77,12 @@
                     <top>
                         <BorderPane prefHeight="80.0" BorderPane.alignment="CENTER">
                             <center>
-                                <TextArea prefHeight="149.0" prefWidth="425.0" styleClass="tweet-textarea" BorderPane.alignment="CENTER" />
+                                <TextArea fx:id="tweetTextarea" onKeyPressed="#tweetTextAreaKeyPressed" onKeyTyped="#tweetTextAreaKeyTyped" prefHeight="149.0" prefWidth="425.0" styleClass="tweet-textarea" BorderPane.alignment="CENTER" />
                             </center>
                             <bottom>
-                                <ToolBar prefHeight="20.0" prefWidth="200.0" styleClass="textarea-toolbar" BorderPane.alignment="CENTER">
+                                <ToolBar fx:id="textAreaToolbar" prefHeight="20.0" prefWidth="200.0" styleClass="textarea-toolbar" BorderPane.alignment="CENTER">
                                     <items>
-                                        <Button mnemonicParsing="false">
+                                        <Button fx:id="takeScreenShot" mnemonicParsing="false" onAction="#takeScreenShot">
                                             <graphic>
                                                 <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
@@ -91,7 +91,7 @@
                                                 </ImageView>
                                             </graphic>
                                         </Button>
-                                        <Button mnemonicParsing="false">
+                                        <Button fx:id="choosePicture" mnemonicParsing="false" onAction="#choosePicture">
                                             <graphic>
                                                 <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
@@ -100,16 +100,16 @@
                                                 </ImageView>
                                             </graphic>
                                         </Button>
-                                        <Button mnemonicParsing="false">
+                                        <Button fx:id="saveDraft" mnemonicParsing="false" onAction="#saveDraft">
                                             <graphic>
-                                                <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fx:id="draftIcon" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
                                                         <Image url="@../img/drawer.png" />
                                                     </image>
                                                 </ImageView>
                                             </graphic>
                                         </Button>
-                                        <Label stylesheets="@../css/default.css" text="140" textFill="#ecf0f1" />
+                                        <Label fx:id="tweetLengthLabel" stylesheets="@../css/default.css" text="140" />
                                     </items>
                                 </ToolBar>
                             </bottom> 
@@ -119,4 +119,4 @@
             </content>
         </Tab>
     </tabs>
-</TabPane>
+</fx:root>

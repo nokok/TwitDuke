@@ -34,9 +34,9 @@ import java.util.stream.Stream;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import net.nokok.twitduke.base.io.Paths;
+import net.nokok.twitduke.components.javafx.MainViewController;
 import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.account.AccountManagerFactory;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
@@ -65,9 +65,8 @@ public class Main extends Application {
         URL url = Resources.getResource(String.join(File.separator, "fxml", "main.fxml"));
         FXMLLoader loader = new FXMLLoader(url);
         try {
-            TabPane tabPane = loader.load();
-            Scene scene = new Scene(tabPane);
-            stage.setScene(scene);
+            MainViewController controller = loader.getController();
+            stage.setScene(new Scene(loader.load()));
             stage.show();
         } catch (IOException e) {
             throw new UncheckedIOException("FXMLファイルを読み込めませんでした", e);
