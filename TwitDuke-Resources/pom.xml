@@ -9,4 +9,12 @@
     <groupId>net.nokok.twitduke.resources</groupId>
     <artifactId>TwitDuke-Resources</artifactId>
     <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>17.0</version>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
 </project>
