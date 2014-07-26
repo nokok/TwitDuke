@@ -69,7 +69,7 @@ public class Main extends Application {
             stage.setScene(new Scene(loader.load()));
             stage.show();
         } catch (IOException e) {
-            throw new UncheckedIOException("FXMLファイルを読み込めませんでした", e);
+            throw new UncheckedIOException("FXMLファイルを読み込めませんでした。ファイルは見つかりましたが、ファイルがおかしいようです。", e);
         }
     }
 
