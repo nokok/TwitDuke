@@ -76,6 +76,11 @@
             <version>1.0</version>
         </dependency>
         <dependency>
+            <groupId>net.nokok.twitDuke.resources</groupId>
+            <artifactId>Twitduke-Resources</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
             <groupId>net.nokok.twitduke.xsi</groupId>
             <artifactId>TwitDuke-XSI</artifactId>
             <version>1.0</version>
