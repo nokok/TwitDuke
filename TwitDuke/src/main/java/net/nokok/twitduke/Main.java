@@ -24,7 +24,6 @@
 package net.nokok.twitduke;
 
 import static com.google.common.io.ByteStreams.nullOutputStream;
-import com.google.common.io.Resources;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -49,6 +48,7 @@ import net.nokok.twitduke.core.twitter.TwitterStreamRunner;
 import net.nokok.twitduke.core.view.Window;
 import net.nokok.twitduke.pluginsupport.PluginManager;
 import net.nokok.twitduke.pluginsupport.eventrunner.StreamEventRunner;
+import net.nokok.twitduke.resources.FXMLResources;
 import net.nokok.twitduke.server.WebServerStarter;
 import twitter4j.auth.AccessToken;
 
@@ -62,7 +62,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        URL url = Resources.getResource(String.join(File.separator, "fxml", "main.fxml"));
+        URL url = FXMLResources.MAIN_FXML.orElseThrow(() -> new RuntimeException("リソース[main.fxml]が見つかりません"));
         FXMLLoader loader = new FXMLLoader(url);
         try {
             MainViewController controller = loader.getController();
