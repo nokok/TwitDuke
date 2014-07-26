@@ -110,8 +110,14 @@ public class Main extends Application {
         System.setOut(new PrintStream(nullOutputStream()));
     }
 
+    /**
+     * 指定されたアカウントマネージャと認証結果レシーバオブジェクトを用いて認証をします。
+     * 認証完了後、アカウントマネージャを通じてアカウントを追加し、レシーバに通知します
+     *
+     * @param accountManager
+     * @param receiver
+     */
     private static void startOAuth(AccountManager accountManager, OAuthOnSuccess receiver) {
-        //利用可能なアカウントがない状態なので認証処理を開始する
         OAuthRunnable auth = LambdaOAuthFactory.newInstance();
         ErrorLogExporter logger = new ErrorLogExporter();
         auth.onError(logger::onError);
@@ -139,15 +145,31 @@ public class Main extends Application {
         streamRunner.run();
     }
 
+    /**
+     * 指定されたアクセストークンでサーバーを起動します。
+     *
+     * @param accessToken
+     */
     private static void startServer(AccessToken accessToken) {
         Runnable server = new WebServerStarter(accessToken);
         server.run();
     }
 
+    /**
+     * @return TwitDukeディレクトリ(.td)が存在する場合true
+     */
     private static boolean existsTwitDukeDir() {
         return new File(Paths.TWITDUKE_HOME).exists();
     }
 
+    /**
+     * 指定された配列内に指定された引数が存在するかチェックします。
+     *
+     * @param arg
+     * @param args
+     *
+     * @return 存在する場合true
+     */
     private static boolean hasOption(String arg, String[] args) {
         return Stream.of(args).anyMatch(a -> a.equals(arg));
     }
