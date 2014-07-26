@@ -24,10 +24,17 @@
 package net.nokok.twitduke;
 
 import static com.google.common.io.ByteStreams.nullOutputStream;
+import com.google.common.io.Resources;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.io.UncheckedIOException;
+import java.net.URL;
 import java.util.stream.Stream;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import net.nokok.twitduke.base.io.Paths;
 import net.nokok.twitduke.core.account.AccountManager;
@@ -54,8 +61,17 @@ import twitter4j.auth.AccessToken;
 public class Main extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {
-
+    public void start(Stage stage) {
+        URL url = Resources.getResource(String.join(File.separator, "fxml", "main.fxml"));
+        FXMLLoader loader = new FXMLLoader(url);
+        try {
+            TabPane tabPane = loader.load();
+            Scene scene = new Scene(tabPane);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            throw new UncheckedIOException("FXMLファイルを読み込めませんでした", e);
+        }
     }
 
     /**
