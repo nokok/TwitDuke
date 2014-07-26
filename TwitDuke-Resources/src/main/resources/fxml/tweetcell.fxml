@@ -9,7 +9,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="400.0" style="-fx-background-color: #323232;" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <left>
-        <ImageView cache="true" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+        <ImageView fx:id="userIcon" cache="true" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
             <image>
                 <Image url="@../img/usericonloading.png" />
             </image>
@@ -23,12 +23,12 @@
             <top>
                 <FlowPane prefHeight="25.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Label styleClass="username-label" stylesheets="@../css/fxml_style.css" text="UserName">
+                        <Label fx:id="userName" styleClass="username-label" stylesheets="@../css/fxml_style.css" text="UserName">
                             <FlowPane.margin>
                                 <Insets left="3.0" right="10.0" top="5.0" />
                             </FlowPane.margin>
                         </Label>
-                        <Label styleClass="screenname-label" stylesheets="@../css/fxml_style.css" text="ScreenName">
+                        <Label fx:id="screenName" styleClass="screenname-label" stylesheets="@../css/fxml_style.css" text="ScreenName">
                             <FlowPane.margin>
                                 <Insets top="9.0" />
                             </FlowPane.margin>
@@ -40,7 +40,7 @@
                 </FlowPane>
             </top>
             <center>
-                <TextArea editable="false" styleClass="tweet-textarea" stylesheets="@../css/fxml_style.css" wrapText="true" BorderPane.alignment="CENTER" />
+                <TextArea fx:id="tweetTextArea" editable="false" styleClass="tweet-textarea" stylesheets="@../css/fxml_style.css" wrapText="true" BorderPane.alignment="CENTER" />
             </center>
         </BorderPane>
     </center>
