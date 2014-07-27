@@ -11,10 +11,6 @@
             <url>https:/github.com/nokok/TwitDuke/</url>
         </license>
     </licenses>
-    <issueManagement>
-        <system>YouTrack</system>
-        <url>http://youtrack.nokok.net/</url>
-    </issueManagement>
     <modules>
         <module>TwitDuke-Server</module>
         <module>TwitDuke-XSI</module>
