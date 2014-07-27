@@ -18,9 +18,9 @@
         <module>TwitDuke-Core</module>
         <module>TwitDuke-PluginSupport</module>
         <module>TwitDuke-Base</module>
+        <module>TwitDuke-Resources</module>
         <module>TwitDuke</module>
         <module>TwitDuke-Test</module>
-        <module>TwitDuke-Resources</module>
     </modules>
     <dependencies>
         <dependency>
