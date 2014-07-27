@@ -89,17 +89,17 @@ public class Main extends Application {
         }
         final AccountManager accountManager = AccountManagerFactory.newInstance();
         if ( accountManager.hasValidAccount() ) {
+            AccessToken accessToken = accountManager.readPrimaryAccount().get();
+            startServer(accessToken);
             if ( !isServerMode ) {
                 openWindow(accountManager);
             }
-            AccessToken accessToken = accountManager.readPrimaryAccount().get();
-            startServer(accessToken);
         } else {
             startOAuth(accountManager, token -> {
+                startServer(token);
                 if ( !isServerMode ) {
                     openWindow(accountManager);
                 }
-                startServer(token);
             });
         }
     }
