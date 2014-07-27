@@ -150,8 +150,12 @@ public class Main extends Application {
      * @param accessToken
      */
     private static void startServer(AccessToken accessToken) {
-        Runnable server = new WebServerStarter(accessToken);
-        server.run();
+        try {
+            Runnable server = new WebServerStarter(accessToken);
+            server.run();
+        } catch (RuntimeException e) {
+            throw new RuntimeException("サーバーが既に起動しています。ポート:8192が使用できません。", e);
+        }
     }
 
     /**
