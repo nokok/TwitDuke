@@ -26,6 +26,7 @@ TwitDukeはTwitterクライアントです
 #コントリビューター
 * [@shibafu528](https://github.com/shibafu528)
 * [@nanase](https://github.com/nanase)
+* [@satanabe1](https://github.com/satanabe1)
 
 #ライセンス
 The MIT License (MIT)
