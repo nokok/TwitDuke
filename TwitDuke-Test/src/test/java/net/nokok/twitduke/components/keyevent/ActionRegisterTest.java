@@ -32,10 +32,72 @@ import static org.junit.Assert.assertTrue;
 public class ActionRegisterTest {
 
     IKeyMapStore store;
-    private WindowAdapter windowAdapter;
+    private TestWindowAdapter windowAdapter;
     private IActionRegister register;
     private URL xmlPath =
             Resources.getResource(String.join(File.separator, "keyevent", "default_actiontest.xml"));
+
+
+
+    @Before
+    public void setUp() throws Exception {
+        if (!Desktop.isDesktopSupported()) {
+            return;
+        }
+        windowAdapter = new TestWindowAdapter();
+        register = IActionRegister.newInstance(windowAdapter.getRootContainer());
+        store = IKeyMapStore.newInstance();
+    }
+
+    @After
+    public void tearDown() {
+        if (!Desktop.isDesktopSupported()) {
+            return;
+        }
+        windowAdapter.getWindow().dispose();
+    }
+
+    @Test
+    public void testRegisterKeyMap() throws Exception {
+        if (!Desktop.isDesktopSupported()) {
+            return;
+        }
+        IKeyMapSetting setting = store.load(xmlPath.openStream());
+        register.registerKeyMap(setting);
+        ActionListener listener;
+
+        listener = windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("ctrl K"));
+        assertTrue(listener instanceof Action_CutUpToLineEnd);
+        listener = windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("meta K"));
+        assertTrue(listener instanceof Action_CutUpToLineEnd);
+
+        listener = windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("ctrl Y"));
+        assertTrue(listener instanceof Action_Paste);
+        listener = windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("meta Y"));
+        assertTrue(listener instanceof Action_Paste);
+    }
+
+    @Test
+    public void testUnregisterAll() throws Exception {
+        if (!Desktop.isDesktopSupported()) {
+            return;
+        }
+        IKeyMapSetting setting = store.load(xmlPath.openStream());
+        register.registerKeyMap(setting);
+        register.unregisterAll();
+
+        assertNull(windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("ctrl K")));
+        assertNull(windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("meta K")));
+
+        assertNull(windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("ctrl Y")));
+        assertNull(windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("meta Y")));
+    }
+
+    private Object getFieldValue(Object parent, String fieldName) throws Exception {
+        Field field = parent.getClass().getDeclaredField(fieldName);
+        field.setAccessible(true);
+        return field.get(parent);
+    }
 
     private static boolean isTDComponent(JComponent component) {
         return component.getClass().getCanonicalName().startsWith("net.nokok");
@@ -56,62 +118,14 @@ public class ActionRegisterTest {
         }
     }
 
-    @Before
-    public void setUp() throws Exception {
-        windowAdapter = new WindowAdapter();
-        register = IActionRegister.newInstance(windowAdapter.getRootContainer());
-        store = IKeyMapStore.newInstance();
-    }
-
-    @After
-    public void tearDown() {
-        windowAdapter.getWindow().dispose();
-    }
-
-    @Test
-    public void testRegisterKeyMap() throws Exception {
-        IKeyMapSetting setting = store.load(xmlPath.openStream());
-        register.registerKeyMap(setting);
-        ActionListener listener;
-
-        listener = windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("ctrl K"));
-        assertTrue(listener instanceof Action_CutUpToLineEnd);
-        listener = windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("meta K"));
-        assertTrue(listener instanceof Action_CutUpToLineEnd);
-
-        listener = windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("ctrl Y"));
-        assertTrue(listener instanceof Action_Paste);
-        listener = windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("meta Y"));
-        assertTrue(listener instanceof Action_Paste);
-    }
-
-    @Test
-    public void testUnregisterAll() throws Exception {
-        IKeyMapSetting setting = store.load(xmlPath.openStream());
-        register.registerKeyMap(setting);
-        register.unregisterAll();
-
-        assertNull(windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("ctrl K")));
-        assertNull(windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("meta K")));
-
-        assertNull(windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("ctrl Y")));
-        assertNull(windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("meta Y")));
-    }
-
-    private Object getFieldValue(Object parent, String fieldName) throws Exception {
-        Field field = parent.getClass().getDeclaredField(fieldName);
-        field.setAccessible(true);
-        return field.get(parent);
-    }
-
-    private class WindowAdapter {
+    private class TestWindowAdapter {
 
         private Window window = new Window();
         private TweetTextArea textArea;
         private TWPanel panel;
         private ScrollableTimelinePanel scrollableTimelinePanel;
 
-        public WindowAdapter() {
+        public TestWindowAdapter() {
             scrollableTimelinePanel = new ScrollableTimelinePanel();
             window.addContents(scrollableTimelinePanel);
             AccessToken token = new AccessToken("hoge", "moge");
