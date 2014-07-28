@@ -23,6 +23,15 @@
  */
 package net.nokok.twitduke;
 
+import static com.google.common.io.ByteStreams.nullOutputStream;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.UncheckedIOException;
+import java.net.URL;
+import java.util.stream.Stream;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -49,16 +58,6 @@ import net.nokok.twitduke.resources.KeyMapResources;
 import net.nokok.twitduke.server.WebServerStarter;
 import twitter4j.auth.AccessToken;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.UncheckedIOException;
-import java.net.URL;
-import java.util.stream.Stream;
-
-import static com.google.common.io.ByteStreams.nullOutputStream;
-
 /**
  * TwitDukeのMainクラスです。このクラスはエントリーポイントを持っています。
  *
@@ -66,6 +65,19 @@ import static com.google.common.io.ByteStreams.nullOutputStream;
  *
  */
 public class Main extends Application {
+
+    @Override
+    public void start(Stage stage) {
+        URL url = FXMLResources.MAIN_FXML.orElseThrow(() -> new RuntimeException("リソース[main.fxml]が見つかりません"));
+        FXMLLoader loader = new FXMLLoader(url);
+        try {
+            MainViewController controller = loader.getController();
+            stage.setScene(new Scene(loader.load()));
+            stage.show();
+        } catch (IOException e) {
+            throw new UncheckedIOException("FXMLファイルを読み込めませんでした。ファイルは見つかりましたが、ファイルがおかしいようです。", e);
+        }
+    }
 
     /**
      * TwitDukeのエントリポイントです。
@@ -89,14 +101,12 @@ public class Main extends Application {
                 openWindow(accountManager);
             }
         } else {
-            startOAuth(
-                    accountManager, token -> {
-                        startServer(token);
-                        if ( !isServerMode ) {
-                            openWindow(accountManager);
-                        }
-                    }
-            );
+            startOAuth(accountManager, token -> {
+                startServer(token);
+                if ( !isServerMode ) {
+                    openWindow(accountManager);
+                }
+            });
         }
     }
 
@@ -132,7 +142,6 @@ public class Main extends Application {
      */
     private static void openWindow(AccountManager accountManager) {
         Window window = Window.createNewWindow(accountManager);
-        initKeyBoardShortcut(window.getFrame());
         AccessToken accessToken = accountManager.readPrimaryAccount().orElseThrow(IllegalStateException::new);
         PluginManager globaPluginManager = new PluginManager("plugins", accessToken);
         TwitterStreamRunner streamRunner = new TwitterStreamRunner(accessToken);
@@ -176,6 +185,11 @@ public class Main extends Application {
         return Stream.of(args).anyMatch(a -> a.equals(arg));
     }
 
+    /**
+     * 説明用に追加しました。不要になったら削除して下さい
+     * @author satanabe
+     * @return
+     */
     private static IActionRegister initKeyBoardShortcut(final Component component) {
         try {
             IKeyMapStore store = IKeyMapStore.newInstance();
@@ -185,19 +199,6 @@ public class Main extends Application {
             return register;
         } catch (Exception ex) {
             throw new RuntimeException(ex);
-        }
-    }
-
-    @Override
-    public void start(Stage stage) {
-        URL url = FXMLResources.MAIN_FXML.orElseThrow(() -> new RuntimeException("リソース[main.fxml]が見つかりません"));
-        FXMLLoader loader = new FXMLLoader(url);
-        try {
-            MainViewController controller = loader.getController();
-            stage.setScene(new Scene(loader.load()));
-            stage.show();
-        } catch (IOException e) {
-            throw new UncheckedIOException("FXMLファイルを読み込めませんでした。ファイルは見つかりましたが、ファイルがおかしいようです。", e);
         }
     }
 }
