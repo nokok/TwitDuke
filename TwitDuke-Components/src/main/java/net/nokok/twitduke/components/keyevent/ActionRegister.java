@@ -2,6 +2,8 @@ package net.nokok.twitduke.components.keyevent;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +17,7 @@ public class ActionRegister implements IActionRegister {
 
     private Container root;
     private Map<JComponent, KeyBind> registry = new HashMap<>();
+    private List<Exception> errors = new ArrayList<>();
 
     public ActionRegister(final Container root) {
         this.root = root;
@@ -33,13 +36,14 @@ public class ActionRegister implements IActionRegister {
     public void registerKeyMap(final IKeyMapSetting setting) {
         Consumer<JComponent> walkman = component -> {
             Map<String, List<KeyBind>> keyBindMap = setting.collectKeyBinds(component.getClass().getCanonicalName());
-            keyBindMap.values().forEach(
-                    keybindList -> {
-                        keybindList.forEach(
-                                keybind -> {
-                                    registry.put(component, keybind);
-                                }
-                        );
+            keyBindMap.forEach(
+                    (id, binds) -> {
+                        try {
+                            Class<?> commandClass = Class.forName(setting.getCommandClassName(id));
+                            this.registerCommand(component, commandClass, binds);
+                        } catch (Exception ex) {
+                            errors.add(ex);
+                        }
                     }
             );
         };
@@ -53,6 +57,20 @@ public class ActionRegister implements IActionRegister {
 
     @Override
     public List<Exception> getErrors() {
-        return null;
+        return errors;
     }
+
+    private void registerCommand(final JComponent component, final Class<?> commandClass,
+                                 final List<KeyBind> keyBinds) throws Exception {
+        ActionListener command = (ActionListener) commandClass.newInstance();
+        keyBinds.forEach(
+                bind -> {
+                    component.registerKeyboardAction(
+                            command, KeyStroke.getKeyStroke(bind.getKeyStroke()),
+                            bind.getTargetComponentCondition()
+                    );
+                }
+        );
+    }
+
 }
