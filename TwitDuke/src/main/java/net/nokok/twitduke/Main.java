@@ -152,7 +152,7 @@ public class Main extends Application {
     private static void startServer(AccessToken accessToken) {
         try {
             Runnable server = new WebServerStarter(accessToken);
-            server.run();
+            new Thread(server).start();
         } catch (RuntimeException e) {
             throw new RuntimeException("サーバーが既に起動しています。ポート:8192が使用できません。", e);
         }
