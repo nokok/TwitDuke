@@ -24,18 +24,23 @@
 package net.nokok.twitduke;
 
 import static com.google.common.io.ByteStreams.nullOutputStream;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UncheckedIOException;
 import java.net.URL;
 import java.util.stream.Stream;
+import java.awt.Component;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import net.nokok.twitduke.base.io.Paths;
 import net.nokok.twitduke.components.javafx.MainViewController;
+import net.nokok.twitduke.components.keyevent.IActionRegister;
+import net.nokok.twitduke.components.keyevent.IKeyMapSetting;
+import net.nokok.twitduke.components.keyevent.IKeyMapStore;
 import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.account.AccountManagerFactory;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
@@ -49,6 +54,7 @@ import net.nokok.twitduke.core.view.Window;
 import net.nokok.twitduke.pluginsupport.PluginManager;
 import net.nokok.twitduke.pluginsupport.eventrunner.StreamEventRunner;
 import net.nokok.twitduke.resources.FXMLResources;
+import net.nokok.twitduke.resources.KeyMapResources;
 import net.nokok.twitduke.server.WebServerStarter;
 import twitter4j.auth.AccessToken;
 
@@ -177,4 +183,20 @@ public class Main extends Application {
         return Stream.of(args).anyMatch(a -> a.equals(arg));
     }
 
+    /**
+     * 説明用に追加しました。不要になったら削除して下さい
+     * @author satanabe
+     * @return
+     */
+    private static IActionRegister initKeyBoardShortcut(final Component component) {
+        try {
+            IKeyMapStore store = IKeyMapStore.newInstance();
+            IKeyMapSetting setting = store.load(KeyMapResources.DEFAULT_SETTING.get().openStream());
+            IActionRegister register = IActionRegister.newInstance(component);
+            register.registerKeyMap(setting);
+            return register;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 }

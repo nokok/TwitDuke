@@ -1,0 +1,171 @@
+package net.nokok.twitduke.components.keyevent;
+
+import com.sun.org.apache.xml.internal.serializer.OutputPropertiesFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+/**
+ * Created by wtnbsts on 2014/07/24.
+ */
+public class KeyMapXmlStore implements IKeyMapStore {
+
+    private final static String DOCUMENT_VERSION = "1.0";
+    private final static boolean DOCUMENT_STANDALONE = true;
+    private final static boolean DOCUMENT_STRICT = true;
+
+    private final static String TAG_ROOT = "keymap";
+    private final static String TAG_ACTION = "action";
+    private final static String TAG_KEYBOARD_SHORTCUT = "keyboard-shortcut";
+    private final static String ATTR_SETTING_NAME = "name";
+    private final static String ATTR_ACTION_ID = "id";
+    private final static String ATTR_ACTION_PLUGIN = "plugin";
+    private final static String ATTR_KBSC_COMPONENT = "component";
+    private final static String ATTR_KBSC_KEYSTROKE = "keystroke";
+    private final static String ATTR_KBSC_CONDITION = "condition";
+
+    private final static String TF_METHOD = "xml";
+    private final static String TF_INDENT = "yes";
+    private final static String TF_ISIZE = "4";
+
+    private static void save(final OutputStream dist, final Document document) throws Exception {
+        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        transformer.setOutputProperty(javax.xml.transform.OutputKeys.METHOD, TF_METHOD);
+        transformer.setOutputProperty(javax.xml.transform.OutputKeys.INDENT, TF_INDENT);
+        transformer.setOutputProperty(OutputPropertiesFactory.S_KEY_INDENT_AMOUNT, TF_ISIZE);
+        transformer.transform(new DOMSource(document), new StreamResult(dist));
+    }
+
+    private static Document createSettingDocument(final IKeyMapSetting setting) throws Exception {
+        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document doc = builder.newDocument();
+        Element root = doc.createElement(TAG_ROOT);
+        root.setAttribute(ATTR_SETTING_NAME, setting.getSettingName());
+        doc.appendChild(root);
+        setting.getCommandIds().stream().sorted()
+               .forEach(id -> root.appendChild(createActionElement(doc, setting, id)));
+        return doc;
+    }
+
+    private static String parseSettingName(final Document document) {
+        return getAttribute(document.getFirstChild(), ATTR_SETTING_NAME);
+    }
+
+    private static List<String> parseActionIds(final Document document) {
+        Stream<Node> actions = stream(document.getFirstChild().getChildNodes());
+        return actions.filter(KeyMapXmlStore::isElementNode)
+                      .map(node -> getAttribute(node, ATTR_ACTION_ID))
+                      .collect(Collectors.toList());
+    }
+
+    private static String parsePluginName(final Document document, final String id) {
+        return getAttribute(getActionNodeById(document, id), ATTR_ACTION_PLUGIN);
+    }
+
+    private static List<KeyBind> createKeyBinds(final Document document, final String id) throws RuntimeException {
+        Node actionNode = getActionNodeById(document, id);
+        return stream(actionNode.getChildNodes())
+                .filter(KeyMapXmlStore::isElementNode)
+                .map(KeyMapXmlStore::createKeyBind)
+                .collect(Collectors.toList());
+    }
+
+    private static KeyBind createKeyBind(final Node keyBindNode) {
+        try {
+            KeyBind keyBind = new KeyBind();
+            keyBind.setKeyStroke(getAttribute(keyBindNode, ATTR_KBSC_KEYSTROKE));
+            keyBind.setTargetComponentName(getAttribute(keyBindNode, ATTR_KBSC_COMPONENT));
+            String conditionStr = getAttribute(keyBindNode, ATTR_KBSC_CONDITION);
+            keyBind.setTargetComponentCondition(Integer.parseInt(conditionStr));
+            return keyBind;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private static Document buildDocument(final InputStream source)
+            throws ParserConfigurationException, IOException, SAXException {
+        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        return builder.parse(source);
+    }
+
+    private static String getAttribute(final Node node, final String attrName) {
+        return node.getAttributes().getNamedItem(attrName).getTextContent();
+    }
+
+    private static Node getActionNodeById(final Document document, final String id) {
+        Stream<Node> actions = stream(document.getFirstChild().getChildNodes());
+        return actions.filter(KeyMapXmlStore::isElementNode)
+                      .filter(node -> id.equals(getAttribute(node, ATTR_ACTION_ID)))
+                      .findFirst().get();
+    }
+
+    private static Stream<Node> stream(final NodeList src) {
+        Stream.Builder<Node> builder = Stream.builder();
+        for (int i = 0; i < src.getLength(); ++i) {
+            builder.add(src.item(i));
+        }
+        return builder.build();
+    }
+
+    private static Element createActionElement(final Document doc, final IKeyMapSetting src, final String actionId) {
+        Element actionNode = doc.createElement(TAG_ACTION);
+        actionNode.setAttribute(ATTR_ACTION_ID, actionId);
+        actionNode.setAttribute(ATTR_ACTION_PLUGIN, src.getCommandClassName(actionId));
+        src.getKeyBinds(actionId).stream()
+           .sorted()
+           .forEach(
+                   bind -> {
+                       Element bindNode = doc.createElement(TAG_KEYBOARD_SHORTCUT);
+                       bindNode.setAttribute(ATTR_KBSC_COMPONENT, bind.getTargetComponentName());
+                       bindNode.setAttribute(ATTR_KBSC_KEYSTROKE, bind.getKeyStroke());
+                       bindNode.setAttribute(ATTR_KBSC_CONDITION, bind.getTargetComponentCondition() + "");
+                       actionNode.appendChild(bindNode);
+                   }
+           );
+        return actionNode;
+    }
+
+    private static boolean isElementNode(final Node node) {
+        return Node.ELEMENT_NODE == node.getNodeType();
+    }
+
+    @Override
+    public IKeyMapSetting load(final InputStream source) throws Exception {
+        Document doc = buildDocument(source);
+        IKeyMapSetting setting = new KeyMapSettingImpl(parseSettingName(doc));
+        parseActionIds(doc).stream().forEach(
+                id -> {
+                    setting.addCommand(id, parsePluginName(doc, id));
+                    setting.addKeyBinds(id, createKeyBinds(doc, id));
+                }
+        );
+        return setting;
+    }
+
+    @Override
+    public boolean save(final OutputStream dist, final IKeyMapSetting setting) throws Exception {
+        Document doc = createSettingDocument(setting);
+        doc.setXmlVersion(DOCUMENT_VERSION);
+        doc.setXmlStandalone(DOCUMENT_STANDALONE);
+        doc.setStrictErrorChecking(DOCUMENT_STRICT);
+        save(dist, doc);
+        return true;
+    }
+}
