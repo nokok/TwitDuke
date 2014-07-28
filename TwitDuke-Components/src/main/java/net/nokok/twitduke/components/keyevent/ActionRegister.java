@@ -23,28 +23,6 @@ public class ActionRegister implements IActionRegister {
         this.root = root;
     }
 
-    private static void registerCommand(final JComponent component, final Class<?> commandClass,
-                                        final List<KeyBind> keyBinds) throws Exception {
-        ActionListener command = (ActionListener) commandClass.newInstance();
-        keyBinds.forEach(
-                bind -> {
-                    component.registerKeyboardAction(
-                            command, KeyStroke.getKeyStroke(bind.getKeyStroke()),
-                            bind.getTargetComponentCondition()
-                    );
-                }
-        );
-    }
-
-    private static void walk(Component component, Consumer<JComponent> callback) {
-        if ( component instanceof JComponent ) {
-            callback.accept((JComponent) component);
-        }
-        if ( component instanceof Container ) {
-            Stream.of(((Container) component).getComponents()).forEach(c -> walk(c, callback));
-        }
-    }
-
     @Override
     public void registerKeyMap(final IKeyMapSetting setting) {
         Consumer<JComponent> walkman = component -> {
@@ -71,5 +49,27 @@ public class ActionRegister implements IActionRegister {
     @Override
     public List<Exception> getErrors() {
         return errors;
+    }
+
+    private void registerCommand(final JComponent component, final Class<?> commandClass,
+                                 final List<KeyBind> keyBinds) throws Exception {
+        ActionListener command = (ActionListener) commandClass.newInstance();
+        keyBinds.forEach(
+                bind -> {
+                    component.registerKeyboardAction(
+                            command, KeyStroke.getKeyStroke(bind.getKeyStroke()),
+                            bind.getTargetComponentCondition()
+                    );
+                }
+        );
+    }
+
+    private void walk(Component component, Consumer<JComponent> callback) {
+        if ( component instanceof JComponent ) {
+            callback.accept((JComponent) component);
+        }
+        if ( component instanceof Container ) {
+            Stream.of(((Container) component).getComponents()).forEach(c -> walk(c, callback));
+        }
     }
 }
