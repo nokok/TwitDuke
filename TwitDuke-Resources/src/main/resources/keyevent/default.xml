@@ -8,12 +8,9 @@
         <keyboard-shortcut component="net.nokok.twitduke.core.view.TweetTextArea" condition="0" keystroke="ctrl Y"/>
         <keyboard-shortcut component="net.nokok.twitduke.core.view.TweetTextArea" condition="0" keystroke="meta Y"/>
     </action>
-    <action id="exit" plugin="net.nokok.twitduke.components.actions.Action_Exit">
-        <keyboard-shortcut component="net.nokok.twitduke.components.basics.TWPanel" condition="1" keystroke="ctrl Q"/>
-    </action>
     <action id="hey!" plugin="net.nokok.twitduke.components.actions.Action_Hey">
-        <keyboard-shortcut component="net.nokok.twitduke.core.view.ScrollableTimelinePanel" condition="1"
-                           keystroke="ctrl H"/>
+        <keyboard-shortcut component="net.nokok.twitduke.components.basics.TWPanel" condition="1"
+                           keystroke="ctrl O"/>
     </action>
     <action id="retweet" plugin="Action_Retweet"/>
 </keymap>
