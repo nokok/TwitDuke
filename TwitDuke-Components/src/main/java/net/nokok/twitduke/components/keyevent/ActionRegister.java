@@ -23,6 +23,19 @@ public class ActionRegister implements IActionRegister {
         this.root = root;
     }
 
+    private static void registerCommand(final JComponent component, final Class<?> commandClass,
+                                        final List<KeyBind> keyBinds) throws Exception {
+        ActionListener command = (ActionListener) commandClass.newInstance();
+        keyBinds.forEach(
+                bind -> {
+                    component.registerKeyboardAction(
+                            command, KeyStroke.getKeyStroke(bind.getKeyStroke()),
+                            bind.getTargetComponentCondition()
+                    );
+                }
+        );
+    }
+
     private static void walk(Component component, Consumer<JComponent> callback) {
         if ( component instanceof JComponent ) {
             callback.accept((JComponent) component);
@@ -59,18 +72,4 @@ public class ActionRegister implements IActionRegister {
     public List<Exception> getErrors() {
         return errors;
     }
-
-    private void registerCommand(final JComponent component, final Class<?> commandClass,
-                                 final List<KeyBind> keyBinds) throws Exception {
-        ActionListener command = (ActionListener) commandClass.newInstance();
-        keyBinds.forEach(
-                bind -> {
-                    component.registerKeyboardAction(
-                            command, KeyStroke.getKeyStroke(bind.getKeyStroke()),
-                            bind.getTargetComponentCondition()
-                    );
-                }
-        );
-    }
-
 }
