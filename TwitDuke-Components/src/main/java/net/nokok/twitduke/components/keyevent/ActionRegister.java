@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 public class ActionRegister implements IActionRegister {
 
     private Container root;
-    private Map<JComponent, KeyBind> registry = new HashMap<>();
+    private Map<JComponent, List<KeyBind>> registry = new HashMap<>();
     private List<Exception> errors = new ArrayList<>();
 
     public ActionRegister(final Container root) {
@@ -25,25 +25,39 @@ public class ActionRegister implements IActionRegister {
 
     @Override
     public void registerKeyMap(final IKeyMapSetting setting) {
-        Consumer<JComponent> walkman = component -> {
+        Consumer<JComponent> registerCall = component -> {
+            if ( !registry.containsKey(component) ) {
+                registry.put(component, new ArrayList<>());
+            }
             Map<String, List<KeyBind>> keyBindMap = setting.collectKeyBinds(component.getClass().getCanonicalName());
             keyBindMap.forEach(
                     (id, binds) -> {
                         try {
                             Class<?> commandClass = Class.forName(setting.getCommandClassName(id));
-                            this.registerCommand(component, commandClass, binds);
+                            List<KeyBind> added = registerCommand(component, commandClass, binds);
+                            registry.get(component).addAll(added);
                         } catch (Exception ex) {
                             errors.add(ex);
                         }
                     }
             );
         };
-        walk(root, walkman);
+        walk(root, registerCall);
     }
 
     @Override
     public void unregisterAll() {
-
+        registry.forEach(
+                (component, keyBinds) -> {
+                    keyBinds.forEach(
+                            keyBind -> {
+                                component.unregisterKeyboardAction(
+                                        KeyStroke.getKeyStroke(keyBind.getKeyStroke())
+                                );
+                            }
+                    );
+                }
+        );
     }
 
     @Override
@@ -51,8 +65,9 @@ public class ActionRegister implements IActionRegister {
         return errors;
     }
 
-    private void registerCommand(final JComponent component, final Class<?> commandClass,
-                                 final List<KeyBind> keyBinds) throws Exception {
+    private List<KeyBind> registerCommand(final JComponent component, final Class<?> commandClass,
+                                          final List<KeyBind> keyBinds) throws Exception {
+        List<KeyBind> added = new ArrayList<>();
         ActionListener command = (ActionListener) commandClass.newInstance();
         keyBinds.forEach(
                 bind -> {
@@ -60,8 +75,10 @@ public class ActionRegister implements IActionRegister {
                             command, KeyStroke.getKeyStroke(bind.getKeyStroke()),
                             bind.getTargetComponentCondition()
                     );
+                    added.add(bind);
                 }
         );
+        return added;
     }
 
     private void walk(Component component, Consumer<JComponent> callback) {

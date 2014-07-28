@@ -9,7 +9,6 @@ import net.nokok.twitduke.core.view.TweetTextArea;
 import net.nokok.twitduke.core.view.Window;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import twitter4j.auth.AccessToken;
 
@@ -20,11 +19,11 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -70,10 +69,9 @@ public class ActionRegisterTest {
     }
 
     @Test
-    public void test() throws Exception {
+    public void testRegisterKeyMap() throws Exception {
         IKeyMapSetting setting = store.load(xmlPath.openStream());
         register.registerKeyMap(setting);
-        List<JComponent> components = collectJComponent(windowAdapter.getRootContainer());
         ActionListener listener;
 
         listener = windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("ctrl K"));
@@ -88,24 +86,16 @@ public class ActionRegisterTest {
     }
 
     @Test
-    @Ignore
-    public void test2() throws Exception {
+    public void testUnregisterAll() throws Exception {
         IKeyMapSetting setting = store.load(xmlPath.openStream());
         register.registerKeyMap(setting);
-        List<JComponent> components = collectJComponent(windowAdapter.getRootContainer());
-        components.forEach(
-                c -> {
-                    System.out.println(
-                            c.getClass().getCanonicalName() + " " +
-                                    c.getRegisteredKeyStrokes().length + " " +
-                                    Arrays.asList(c.getRegisteredKeyStrokes())
-                    );
-                }
-        );
-        assertTrue(
-                components.stream().filter(ActionRegisterTest::isTDComponent)
-                          .allMatch(c -> c.getRegisteredKeyStrokes().length == 0)
-        );
+        register.unregisterAll();
+
+        assertNull(windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("ctrl K")));
+        assertNull(windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("meta K")));
+
+        assertNull(windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("ctrl Y")));
+        assertNull(windowAdapter.getTextArea().getActionForKeyStroke(KeyStroke.getKeyStroke("meta Y")));
     }
 
     private Object getFieldValue(Object parent, String fieldName) throws Exception {
