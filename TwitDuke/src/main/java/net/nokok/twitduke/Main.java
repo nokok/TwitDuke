@@ -23,19 +23,15 @@
  */
 package net.nokok.twitduke;
 
-import static com.google.common.io.ByteStreams.nullOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.UncheckedIOException;
-import java.net.URL;
-import java.util.stream.Stream;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import net.nokok.twitduke.base.io.Paths;
 import net.nokok.twitduke.components.javafx.MainViewController;
+import net.nokok.twitduke.components.keyevent.IActionRegister;
+import net.nokok.twitduke.components.keyevent.IKeyMapSetting;
+import net.nokok.twitduke.components.keyevent.IKeyMapStore;
 import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.account.AccountManagerFactory;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
@@ -49,8 +45,19 @@ import net.nokok.twitduke.core.view.Window;
 import net.nokok.twitduke.pluginsupport.PluginManager;
 import net.nokok.twitduke.pluginsupport.eventrunner.StreamEventRunner;
 import net.nokok.twitduke.resources.FXMLResources;
+import net.nokok.twitduke.resources.KeyMapResources;
 import net.nokok.twitduke.server.WebServerStarter;
 import twitter4j.auth.AccessToken;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.UncheckedIOException;
+import java.net.URL;
+import java.util.stream.Stream;
+
+import static com.google.common.io.ByteStreams.nullOutputStream;
 
 /**
  * TwitDukeのMainクラスです。このクラスはエントリーポイントを持っています。
@@ -59,19 +66,6 @@ import twitter4j.auth.AccessToken;
  *
  */
 public class Main extends Application {
-
-    @Override
-    public void start(Stage stage) {
-        URL url = FXMLResources.MAIN_FXML.orElseThrow(() -> new RuntimeException("リソース[main.fxml]が見つかりません"));
-        FXMLLoader loader = new FXMLLoader(url);
-        try {
-            MainViewController controller = loader.getController();
-            stage.setScene(new Scene(loader.load()));
-            stage.show();
-        } catch (IOException e) {
-            throw new UncheckedIOException("FXMLファイルを読み込めませんでした。ファイルは見つかりましたが、ファイルがおかしいようです。", e);
-        }
-    }
 
     /**
      * TwitDukeのエントリポイントです。
@@ -95,12 +89,14 @@ public class Main extends Application {
                 openWindow(accountManager);
             }
         } else {
-            startOAuth(accountManager, token -> {
-                startServer(token);
-                if ( !isServerMode ) {
-                    openWindow(accountManager);
-                }
-            });
+            startOAuth(
+                    accountManager, token -> {
+                        startServer(token);
+                        if ( !isServerMode ) {
+                            openWindow(accountManager);
+                        }
+                    }
+            );
         }
     }
 
@@ -120,10 +116,12 @@ public class Main extends Application {
         OAuthRunnable auth = LambdaOAuthFactory.newInstance();
         ErrorLogExporter logger = new ErrorLogExporter();
         auth.onError(logger::onError);
-        auth.onSuccess(token -> {
-            accountManager.addAccount(token);
-            receiver.onSuccess(token);
-        });
+        auth.onSuccess(
+                token -> {
+                    accountManager.addAccount(token);
+                    receiver.onSuccess(token);
+                }
+        );
         auth.startOAuth();
     }
 
@@ -134,6 +132,7 @@ public class Main extends Application {
      */
     private static void openWindow(AccountManager accountManager) {
         Window window = Window.createNewWindow(accountManager);
+        initKeyBoardShortcut(window.getFrame());
         AccessToken accessToken = accountManager.readPrimaryAccount().orElseThrow(IllegalStateException::new);
         PluginManager globaPluginManager = new PluginManager("plugins", accessToken);
         TwitterStreamRunner streamRunner = new TwitterStreamRunner(accessToken);
@@ -177,4 +176,28 @@ public class Main extends Application {
         return Stream.of(args).anyMatch(a -> a.equals(arg));
     }
 
+    private static IActionRegister initKeyBoardShortcut(final Component component) {
+        try {
+            IKeyMapStore store = IKeyMapStore.newInstance();
+            IKeyMapSetting setting = store.load(KeyMapResources.DEFAULT_SETTING.get().openStream());
+            IActionRegister register = IActionRegister.newInstance(component);
+            register.registerKeyMap(setting);
+            return register;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    @Override
+    public void start(Stage stage) {
+        URL url = FXMLResources.MAIN_FXML.orElseThrow(() -> new RuntimeException("リソース[main.fxml]が見つかりません"));
+        FXMLLoader loader = new FXMLLoader(url);
+        try {
+            MainViewController controller = loader.getController();
+            stage.setScene(new Scene(loader.load()));
+            stage.show();
+        } catch (IOException e) {
+            throw new UncheckedIOException("FXMLファイルを読み込めませんでした。ファイルは見つかりましたが、ファイルがおかしいようです。", e);
+        }
+    }
 }

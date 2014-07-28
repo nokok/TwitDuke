@@ -23,14 +23,6 @@
  */
 package net.nokok.twitduke.core.view;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
 import net.nokok.twitduke.base.event.WindowEventListener;
 import net.nokok.twitduke.components.Disposable;
 import net.nokok.twitduke.components.Visible;
@@ -40,6 +32,12 @@ import net.nokok.twitduke.components.basics.TWPanel;
 import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.type.ComponentInsertable;
 import twitter4j.auth.AccessToken;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 
 /**
  * TwitDukeのメインウィンドウです
@@ -53,6 +51,19 @@ public class Window implements WindowSize, Visible, Disposable, ComponentInserta
         frame.setLayout(new BorderLayout());
     }
 
+    public static Window createNewWindow(AccountManager accountManager) {
+        Window window = new Window();
+        window.addContents(new ScrollableTimelinePanel());
+        AccessToken token = accountManager.readPrimaryAccount().orElseThrow(IllegalStateException::new);
+        TweetTextArea textArea = new TweetTextArea(token);
+        textArea.setPreferredSize(new Dimension(-1, 50));
+        JComponent panel = new TWPanel(new BorderLayout());
+        panel.add(textArea, BorderLayout.CENTER);
+        window.addHeader(panel);
+        window.show();
+        return window;
+    }
+
     /**
      * ウィンドウ状態イベントを受け取るリスナーを追加します
      *
@@ -63,39 +74,40 @@ public class Window implements WindowSize, Visible, Disposable, ComponentInserta
     }
 
     /**
-     *
      * @param listener
      */
     public void addListener(WindowEventListener listener) {
-        frame.addWindowListener(new WindowAdapter() {
+        frame.addWindowListener(
+                new WindowAdapter() {
 
-            @Override
-            public void windowClosing(WindowEvent e) {
-                listener.closing();
-            }
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        listener.closing();
+                    }
 
-            @Override
-            public void windowClosed(WindowEvent e) {
-                listener.closed();
-            }
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        listener.closed();
+                    }
 
-            @Override
-            public void windowOpened(WindowEvent e) {
-                listener.opened();
-            }
+                    @Override
+                    public void windowOpened(WindowEvent e) {
+                        listener.opened();
+                    }
 
-            @Override
-            public void windowActivated(WindowEvent e) {
-                listener.opening();
-            }
+                    @Override
+                    public void windowActivated(WindowEvent e) {
+                        listener.opening();
+                    }
 
-            @Override
-            public void windowStateChanged(WindowEvent e) {
-                if ( e.getID() == WindowEvent.COMPONENT_RESIZED ) {
-                    listener.sizeChanged(e.getWindow().getPreferredSize());
+                    @Override
+                    public void windowStateChanged(WindowEvent e) {
+                        if ( e.getID() == WindowEvent.COMPONENT_RESIZED ) {
+                            listener.sizeChanged(e.getWindow().getPreferredSize());
+                        }
+                    }
                 }
-            }
-        });
+        );
     }
 
     public void addHeader(JComponent component) {
@@ -156,16 +168,13 @@ public class Window implements WindowSize, Visible, Disposable, ComponentInserta
         return frame.getTitle();
     }
 
-    public static Window createNewWindow(AccountManager accountManager) {
-        Window window = new Window();
-        window.addContents(new ScrollableTimelinePanel());
-        AccessToken token = accountManager.readPrimaryAccount().orElseThrow(IllegalStateException::new);
-        TweetTextArea textArea = new TweetTextArea(token);
-        textArea.setPreferredSize(new Dimension(-1, 50));
-        JComponent panel = new TWPanel(new BorderLayout());
-        panel.add(textArea, BorderLayout.CENTER);
-        window.addHeader(panel);
-        window.show();
-        return window;
+    /**
+     * 実験用 じゃまになったら消して下さい
+     *
+     * @return
+     * @author satanabe1
+     */
+    public JFrame getFrame() {
+        return frame;
     }
 }
