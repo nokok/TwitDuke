@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Created by a13612 on 2014/07/24.
+ * Created by wtnbsts on 2014/07/24.
  */
 public interface IKeyMapStore {
 

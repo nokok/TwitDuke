@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 import static org.junit.Assert.*;
 
 /**
- * Created by a13612 on 2014/07/24.
+ * Created by wtnbsts on 2014/07/24.
  */
 public class KeyBindTest {
 

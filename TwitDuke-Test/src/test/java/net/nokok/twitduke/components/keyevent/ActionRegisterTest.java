@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by a13612 on 2014/07/28.
+ * Created by wtnbsts on 2014/07/28.
  */
 public class ActionRegisterTest {
 

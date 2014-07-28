@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by a13612 on 2014/07/28.
+ * Created by wtnbsts on 2014/07/28.
  */
 public class Action_Hey implements ActionListener {
     @Override

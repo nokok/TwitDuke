@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by a13612 on 2014/07/23.
+ * Created by wtnbsts on 2014/07/23.
  */
 public interface IKeyMapSetting {
 

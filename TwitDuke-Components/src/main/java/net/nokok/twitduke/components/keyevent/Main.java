@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.io.FileInputStream;
 
 /**
- * Created by a13612 on 2014/07/22.
+ * Created by wtnbsts on 2014/07/22.
  */
 public class Main extends JFrame {
 

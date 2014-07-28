@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Created by a13612 on 2014/07/24.
+ * Created by wtnbsts on 2014/07/24.
  */
 public class KeyMapXmlStore implements IKeyMapStore {
 

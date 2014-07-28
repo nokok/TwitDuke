@@ -3,7 +3,7 @@ package net.nokok.twitduke.components.keyevent;
 import java.util.Arrays;
 
 /**
- * Created by a13612 on 2014/07/23.
+ * Created by wtnbsts on 2014/07/23.
  */
 public class ValidateUtil {
 
