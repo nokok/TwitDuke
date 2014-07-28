@@ -15,11 +15,11 @@ import java.util.stream.Stream;
  */
 public class ActionRegister implements IActionRegister {
 
-    private Container root;
+    private Component root;
     private Map<JComponent, List<KeyBind>> registry = new HashMap<>();
     private List<Exception> errors = new ArrayList<>();
 
-    public ActionRegister(final Container root) {
+    public ActionRegister(final Component root) {
         this.root = root;
     }
 

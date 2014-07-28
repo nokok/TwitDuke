@@ -8,7 +8,7 @@ import java.util.List;
  */
 public interface IActionRegister {
 
-    static IActionRegister newInstance(final Container root) {
+    static IActionRegister newInstance(final Component root) {
         return new ActionRegister(root);
     }
 
