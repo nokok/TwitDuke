@@ -1,6 +1,6 @@
 package net.nokok.twitduke.components.keyevent;
 
-import java.awt.*;
+import java.awt.Component;
 import java.util.List;
 
 /**

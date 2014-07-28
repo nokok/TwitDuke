@@ -1,14 +1,14 @@
 package net.nokok.twitduke.components.actions;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Toolkit;
 import java.io.IOException;
+import javax.swing.JTextArea;
 
 /**
  * Created by wtnbsts on 2014/07/26.

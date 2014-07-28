@@ -1,7 +1,9 @@
 package net.nokok.twitduke.components.keyevent;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
