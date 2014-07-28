@@ -25,13 +25,13 @@ package net.nokok.twitduke;
 
 import static com.google.common.io.ByteStreams.nullOutputStream;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UncheckedIOException;
 import java.net.URL;
 import java.util.stream.Stream;
+import java.awt.Component;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -126,12 +126,10 @@ public class Main extends Application {
         OAuthRunnable auth = LambdaOAuthFactory.newInstance();
         ErrorLogExporter logger = new ErrorLogExporter();
         auth.onError(logger::onError);
-        auth.onSuccess(
-                token -> {
-                    accountManager.addAccount(token);
-                    receiver.onSuccess(token);
-                }
-        );
+        auth.onSuccess(token -> {
+            accountManager.addAccount(token);
+            receiver.onSuccess(token);
+        });
         auth.startOAuth();
     }
 
