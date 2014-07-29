@@ -3,6 +3,8 @@
   
 TwitDukeはTwitterクライアントです
 
+![TwitDukeLogo](TwitDuke-Resources/src/main/resources/img/TwitDuke_Logo.png)
+
 #ビルド
 ビルドには、Apache [Maven](http://maven.apache.org/)と[Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)以上のJavaが必要です。
 

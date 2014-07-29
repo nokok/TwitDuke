@@ -3,6 +3,8 @@
 
 TwitDuke is a twitter client.  
 
+![TwitDukeLogo](TwitDuke-Resources/src/main/resources/img/TwitDuke_Logo.png)
+
 [日本語(native) README](README_ja.md)
 
 #To Build
