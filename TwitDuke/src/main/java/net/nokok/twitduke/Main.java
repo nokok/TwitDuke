@@ -34,6 +34,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import net.nokok.twitduke.base.async.ThrowableReceivable;
 import net.nokok.twitduke.base.io.Paths;
 import net.nokok.twitduke.components.javafx.MainViewController;
 import net.nokok.twitduke.core.account.AccountManager;
@@ -79,28 +80,34 @@ public class Main extends Application {
      * @param args 渡された引数の配列
      */
     public static void main(String[] args) {
-        if ( !existsTwitDukeDir() ) {
-            DirectoryHelper.createTwitDukeDirectories();
-        }
-        boolean isDebug = hasOption("--debug", args);
-        boolean isServerMode = hasOption("--server-mode", args);
-        if ( !isDebug ) {
-            disableOutput();
-        }
-        final AccountManager accountManager = AccountManagerFactory.newInstance();
-        if ( accountManager.hasValidAccount() ) {
-            AccessToken accessToken = accountManager.readPrimaryAccount().get();
-            startServer(accessToken);
-            if ( !isServerMode ) {
-                openWindow(accountManager);
+        try {
+            if ( !existsTwitDukeDir() ) {
+                DirectoryHelper.createTwitDukeDirectories();
             }
-        } else {
-            startOAuth(accountManager, token -> {
-                startServer(token);
+            boolean isDebug = hasOption("--debug", args);
+            boolean isServerMode = hasOption("--server-mode", args);
+            if ( !isDebug ) {
+                disableOutput();
+            }
+            final AccountManager accountManager = AccountManagerFactory.newInstance();
+            if ( accountManager.hasValidAccount() ) {
+                AccessToken accessToken = accountManager.readPrimaryAccount().get();
+                startServer(accessToken);
                 if ( !isServerMode ) {
                     openWindow(accountManager);
                 }
-            });
+            } else {
+                startOAuth(accountManager, token -> {
+                    startServer(token);
+                    if ( !isServerMode ) {
+                        openWindow(accountManager);
+                    }
+                });
+            }
+        } catch (Exception e) {
+            ThrowableReceivable errorLogExporter = new ErrorLogExporter();
+            errorLogExporter.onError(e);
+            throw e;
         }
     }
 
