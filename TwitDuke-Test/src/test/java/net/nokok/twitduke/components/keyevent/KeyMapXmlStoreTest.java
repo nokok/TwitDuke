@@ -1,16 +1,22 @@
 package net.nokok.twitduke.components.keyevent;
 
 import com.google.common.io.Resources;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import javax.swing.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.List;
-
-import static org.junit.Assert.*;
+import javax.swing.JComponent;
+import org.junit.After;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Created by wtnbsts on 2014/07/24.
@@ -18,21 +24,18 @@ import static org.junit.Assert.*;
 public class KeyMapXmlStoreTest {
 
     private KeyMapXmlStore store;
-    private URL xmlPath =
-            Resources.getResource(String.join(File.separator, "keyevent", "default_storetest.xml"));
+    private URL xmlPath
+                = Resources.getResource(String.join(File.separator, "keyevent", "default_storetest.xml"));
     private String xmlValue;
     private ByteArrayInputStream xmlStream;
 
     @Before
     public void setUp() throws IOException {
         store = new KeyMapXmlStore();
-
         StringBuilder sb = new StringBuilder();
-        BufferedReader br = new BufferedReader(
-                new InputStreamReader(xmlPath.openStream())
-        );
+        BufferedReader br = new BufferedReader(new InputStreamReader(xmlPath.openStream()));
         String line;
-        while ((line = br.readLine()) != null) {
+        while ( (line = br.readLine()) != null ) {
             sb.append(line).append(System.lineSeparator());
         }
         xmlValue = sb.toString();

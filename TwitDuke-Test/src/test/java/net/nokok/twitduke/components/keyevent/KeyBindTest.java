@@ -1,15 +1,16 @@
 package net.nokok.twitduke.components.keyevent;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import javax.swing.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-
-import static org.junit.Assert.*;
+import javax.swing.JComponent;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Created by wtnbsts on 2014/07/24.
@@ -30,6 +31,8 @@ public class KeyBindTest {
 
     /**
      * コンストラクタ
+     *
+     * @throws java.lang.Exception
      */
     @Test
     public void testConstructor() throws Exception {
@@ -41,6 +44,7 @@ public class KeyBindTest {
 
     /**
      *
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetKeyStroke() throws Exception {
@@ -51,6 +55,7 @@ public class KeyBindTest {
 
     /**
      *
+     * @throws Exception
      */
     @Test
     public void testSetKeyStroke() throws Exception {
@@ -63,6 +68,7 @@ public class KeyBindTest {
 
     /**
      *
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetTargetComponentName() throws Exception {
@@ -75,6 +81,7 @@ public class KeyBindTest {
 
     /**
      *
+     * @throws java.lang.Exception
      */
     @Test
     public void testSetTargetComponentName() throws Exception {
@@ -87,6 +94,7 @@ public class KeyBindTest {
 
     /**
      *
+     * @throws Exception
      */
     @Test
     public void testGetTargetComponentCondition() throws Exception {
@@ -99,6 +107,7 @@ public class KeyBindTest {
 
     /**
      *
+     * @throws Exception
      */
     @Test
     public void testSetTargetComponentCondition() throws Exception {
@@ -111,11 +120,11 @@ public class KeyBindTest {
 
     /**
      *
+     * @throws java.lang.Exception
      */
     @Test
     public void testSetRemoveFunc() throws Exception {
-        Consumer<KeyBind> value = src -> {
-        };
+        Consumer<KeyBind> value = System.out::println;
         bind.setRemoveFunc(value);
         assertEquals(value, getValue(fnRemoveFunc));
         bind.setRemoveFunc(null);
@@ -124,6 +133,7 @@ public class KeyBindTest {
 
     /**
      *
+     * @throws java.lang.Exception
      */
     @Test
     public void testRemove() throws Exception {
@@ -166,6 +176,8 @@ public class KeyBindTest {
 
     /**
      * 中身のあるオブジェクトのequals
+     *
+     * @throws java.lang.Exception
      */
     @Test
     public void testEqualsT2() throws Exception {
@@ -187,6 +199,8 @@ public class KeyBindTest {
 
     /**
      * キーが違うときの not equals
+     *
+     * @throws java.lang.Exception
      */
     @Test
     public void testEqualsF0() throws Exception {
@@ -242,7 +256,6 @@ public class KeyBindTest {
         assertTrue(!b1.equals(b2));
         assertTrue(!b2.equals(b1));
     }
-
 
     private Field getField(final String fieldName) throws NoSuchFieldException {
         Field field = bind.getClass().getDeclaredField(fieldName);

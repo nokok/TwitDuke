@@ -1,12 +1,12 @@
 package net.nokok.twitduke.components.keyevent;
 
 import com.sun.org.apache.xml.internal.serializer.OutputPropertiesFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -14,12 +14,11 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * Created by wtnbsts on 2014/07/24.
@@ -58,8 +57,10 @@ public class KeyMapXmlStore implements IKeyMapStore {
         Element root = doc.createElement(TAG_ROOT);
         root.setAttribute(ATTR_SETTING_NAME, setting.getSettingName());
         doc.appendChild(root);
-        setting.getCommandIds().stream().sorted()
-               .forEach(id -> root.appendChild(createActionElement(doc, setting, id)));
+        setting.getCommandIds()
+                .stream()
+                .sorted()
+                .forEach(id -> root.appendChild(createActionElement(doc, setting, id)));
         return doc;
     }
 
@@ -70,8 +71,8 @@ public class KeyMapXmlStore implements IKeyMapStore {
     private static List<String> parseActionIds(final Document document) {
         Stream<Node> actions = stream(document.getFirstChild().getChildNodes());
         return actions.filter(KeyMapXmlStore::isElementNode)
-                      .map(node -> getAttribute(node, ATTR_ACTION_ID))
-                      .collect(Collectors.toList());
+                .map(node -> getAttribute(node, ATTR_ACTION_ID))
+                .collect(Collectors.toList());
     }
 
     private static String parsePluginName(final Document document, final String id) {
@@ -94,7 +95,7 @@ public class KeyMapXmlStore implements IKeyMapStore {
             String conditionStr = getAttribute(keyBindNode, ATTR_KBSC_CONDITION);
             keyBind.setTargetComponentCondition(Integer.parseInt(conditionStr));
             return keyBind;
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -112,13 +113,13 @@ public class KeyMapXmlStore implements IKeyMapStore {
     private static Node getActionNodeById(final Document document, final String id) {
         Stream<Node> actions = stream(document.getFirstChild().getChildNodes());
         return actions.filter(KeyMapXmlStore::isElementNode)
-                      .filter(node -> id.equals(getAttribute(node, ATTR_ACTION_ID)))
-                      .findFirst().get();
+                .filter(node -> id.equals(getAttribute(node, ATTR_ACTION_ID)))
+                .findFirst().get();
     }
 
     private static Stream<Node> stream(final NodeList src) {
         Stream.Builder<Node> builder = Stream.builder();
-        for (int i = 0; i < src.getLength(); ++i) {
+        for ( int i = 0; i < src.getLength(); ++i ) {
             builder.add(src.item(i));
         }
         return builder.build();
@@ -128,17 +129,16 @@ public class KeyMapXmlStore implements IKeyMapStore {
         Element actionNode = doc.createElement(TAG_ACTION);
         actionNode.setAttribute(ATTR_ACTION_ID, actionId);
         actionNode.setAttribute(ATTR_ACTION_PLUGIN, src.getCommandClassName(actionId));
-        src.getKeyBinds(actionId).stream()
-           .sorted()
-           .forEach(
-                   bind -> {
-                       Element bindNode = doc.createElement(TAG_KEYBOARD_SHORTCUT);
-                       bindNode.setAttribute(ATTR_KBSC_COMPONENT, bind.getTargetComponentName());
-                       bindNode.setAttribute(ATTR_KBSC_KEYSTROKE, bind.getKeyStroke());
-                       bindNode.setAttribute(ATTR_KBSC_CONDITION, bind.getTargetComponentCondition() + "");
-                       actionNode.appendChild(bindNode);
-                   }
-           );
+        src.getKeyBinds(actionId)
+                .stream()
+                .sorted()
+                .forEach(bind -> {
+                    Element bindNode = doc.createElement(TAG_KEYBOARD_SHORTCUT);
+                    bindNode.setAttribute(ATTR_KBSC_COMPONENT, bind.getTargetComponentName());
+                    bindNode.setAttribute(ATTR_KBSC_KEYSTROKE, bind.getKeyStroke());
+                    bindNode.setAttribute(ATTR_KBSC_CONDITION, bind.getTargetComponentCondition() + "");
+                    actionNode.appendChild(bindNode);
+                });
         return actionNode;
     }
 
@@ -150,12 +150,10 @@ public class KeyMapXmlStore implements IKeyMapStore {
     public IKeyMapSetting load(final InputStream source) throws Exception {
         Document doc = buildDocument(source);
         IKeyMapSetting setting = new KeyMapSettingImpl(parseSettingName(doc));
-        parseActionIds(doc).stream().forEach(
-                id -> {
-                    setting.addCommand(id, parsePluginName(doc, id));
-                    setting.addKeyBinds(id, createKeyBinds(doc, id));
-                }
-        );
+        parseActionIds(doc).stream().forEach(id -> {
+            setting.addCommand(id, parsePluginName(doc, id));
+            setting.addKeyBinds(id, createKeyBinds(doc, id));
+        });
         return setting;
     }
 

@@ -69,10 +69,8 @@ public class KeyBind implements Comparable<KeyBind> {
         if ( removeFunc != null ? !removeFunc.equals(keyBind.removeFunc) : keyBind.removeFunc != null ) {
             return false;
         }
-        return !(
-                targetComponentName != null ? !targetComponentName.equals(keyBind.targetComponentName) :
-                        keyBind.targetComponentName != null
-        );
+        return !(targetComponentName != null ? !targetComponentName.equals(keyBind.targetComponentName)
+                 : keyBind.targetComponentName != null);
 
     }
 

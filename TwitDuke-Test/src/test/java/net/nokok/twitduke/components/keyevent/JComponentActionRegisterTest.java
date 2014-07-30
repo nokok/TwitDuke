@@ -1,6 +1,15 @@
 package net.nokok.twitduke.components.keyevent;
 
 import com.google.common.io.Resources;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.lang.reflect.Field;
+import java.net.URL;
+import javax.swing.KeyStroke;
 import net.nokok.twitduke.components.actions.Action_CutUpToLineEnd;
 import net.nokok.twitduke.components.actions.Action_Paste;
 import net.nokok.twitduke.components.basics.TWPanel;
@@ -8,23 +17,11 @@ import net.nokok.twitduke.core.view.ScrollableTimelinePanel;
 import net.nokok.twitduke.core.view.TweetTextArea;
 import net.nokok.twitduke.core.view.Window;
 import org.junit.After;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import twitter4j.auth.AccessToken;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.lang.reflect.Field;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
-
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by wtnbsts on 2014/07/28.
@@ -34,14 +31,12 @@ public class JComponentActionRegisterTest {
     private IKeyMapStore store;
     private TestWindowAdapter windowAdapter;
     private IActionRegister register;
-    private URL xmlPath =
-            Resources.getResource(String.join(File.separator, "keyevent", "default_actiontest.xml"));
-
-
+    private final URL xmlPath
+                      = Resources.getResource(String.join(File.separator, "keyevent", "default_actiontest.xml"));
 
     @Before
     public void setUp() throws Exception {
-        if (!Desktop.isDesktopSupported()) {
+        if ( !Desktop.isDesktopSupported() ) {
             return;
         }
         windowAdapter = new TestWindowAdapter();
@@ -51,7 +46,7 @@ public class JComponentActionRegisterTest {
 
     @After
     public void tearDown() {
-        if (!Desktop.isDesktopSupported()) {
+        if ( !Desktop.isDesktopSupported() ) {
             return;
         }
         windowAdapter.getWindow().dispose();
@@ -59,7 +54,7 @@ public class JComponentActionRegisterTest {
 
     @Test
     public void testRegisterKeyMap() throws Exception {
-        if (!Desktop.isDesktopSupported()) {
+        if ( !Desktop.isDesktopSupported() ) {
             return;
         }
         IKeyMapSetting setting = store.load(xmlPath.openStream());
@@ -79,7 +74,7 @@ public class JComponentActionRegisterTest {
 
     @Test
     public void testUnregisterAll() throws Exception {
-        if (!Desktop.isDesktopSupported()) {
+        if ( !Desktop.isDesktopSupported() ) {
             return;
         }
         IKeyMapSetting setting = store.load(xmlPath.openStream());
@@ -99,31 +94,12 @@ public class JComponentActionRegisterTest {
         return field.get(parent);
     }
 
-    private static boolean isTDComponent(JComponent component) {
-        return component.getClass().getCanonicalName().startsWith("net.nokok");
-    }
-
-    private static List<JComponent> collectJComponent(Component root) {
-        List<JComponent> components = new ArrayList<>();
-        walk(root, components::add);
-        return components;
-    }
-
-    private static void walk(Component component, Consumer<JComponent> callback) {
-        if ( component instanceof JComponent ) {
-            callback.accept((JComponent) component);
-        }
-        if ( component instanceof Container ) {
-            Stream.of(((Container) component).getComponents()).forEach(c -> walk(c, callback));
-        }
-    }
-
     private class TestWindowAdapter {
 
-        private Window window = new Window();
-        private TweetTextArea textArea;
-        private TWPanel panel;
-        private ScrollableTimelinePanel scrollableTimelinePanel;
+        private final Window window = new Window();
+        private final TweetTextArea textArea;
+        private final TWPanel panel;
+        private final ScrollableTimelinePanel scrollableTimelinePanel;
 
         public TestWindowAdapter() {
             scrollableTimelinePanel = new ScrollableTimelinePanel();

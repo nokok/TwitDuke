@@ -1,9 +1,11 @@
 package net.nokok.twitduke.components.keyevent;
 
+import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -31,7 +33,9 @@ public class KeyMapSettingImpl implements IKeyMapSetting {
 
     @Override
     public boolean addCommand(final String id, final String commandClassName) throws IllegalArgumentException {
-        ValidateUtil.notNullAndEmpty(id, commandClassName);
+        if ( Strings.isNullOrEmpty(id) || Strings.isNullOrEmpty(commandClassName) ) {
+            throw new IllegalArgumentException(id);
+        }
         if ( commandClasses.containsKey(id) ) {
             return false;
         }
@@ -41,8 +45,10 @@ public class KeyMapSettingImpl implements IKeyMapSetting {
     }
 
     @Override
-    public boolean removeCommand(final String id) {
-        ValidateUtil.notNullAndEmpty(id);
+    public boolean removeCommand(final String id) throws IllegalArgumentException {
+        if ( Strings.isNullOrEmpty(id) ) {
+            throw new IllegalArgumentException();
+        }
         if ( !commandClasses.containsKey(id) ) {
             return false;
         }
@@ -59,8 +65,12 @@ public class KeyMapSettingImpl implements IKeyMapSetting {
 
     @Override
     public boolean addKeyBind(final String id, final KeyBind keyBind) throws IllegalArgumentException {
-        ValidateUtil.notNullAndEmpty(id, keyBind);
-        ValidateUtil.notNullAndEmpty(keyBind.getKeyStroke(), keyBind.getTargetComponentName());
+        if ( Strings.isNullOrEmpty(id) || Objects.isNull(keyBind) ) {
+            throw new IllegalArgumentException();
+        }
+        if ( Strings.isNullOrEmpty(keyBind.getKeyStroke()) || Strings.isNullOrEmpty(keyBind.getTargetComponentName()) ) {
+            throw new IllegalArgumentException();
+        }
         return commandClasses.containsKey(id) && commandKeyBinds.get(id).add(keyBind);
     }
 
@@ -71,7 +81,9 @@ public class KeyMapSettingImpl implements IKeyMapSetting {
 
     @Override
     public boolean removeKeyBind(final String id, final KeyBind keyBind) throws IllegalArgumentException {
-        ValidateUtil.notNullAndEmpty(id);
+        if ( Strings.isNullOrEmpty(id) ) {
+            throw new IllegalArgumentException();
+        }
         return commandClasses.containsKey(id) && commandKeyBinds.get(id).remove(keyBind);
     }
 
@@ -84,20 +96,16 @@ public class KeyMapSettingImpl implements IKeyMapSetting {
     public Map<String, List<KeyBind>> collectKeyBinds(final String targetComponentName)
             throws IllegalArgumentException {
         Map<String, List<KeyBind>> result = new HashMap<>();
-        commandKeyBinds.forEach(
-                (id, binds) -> {
-                    binds.stream()
-                         .filter(bind -> targetComponentName.equals(bind.getTargetComponentName()))
-                         .forEach(
-                                 bind -> {
-                                     if ( !result.containsKey(id) ) {
-                                         result.put(id, new ArrayList<>());
-                                     }
-                                     result.get(id).add(bind);
-                                 }
-                         );
-                }
-        );
+        commandKeyBinds.forEach((id, binds) -> {
+            binds.stream()
+                    .filter(bind -> targetComponentName.equals(bind.getTargetComponentName()))
+                    .forEach(bind -> {
+                        if ( !result.containsKey(id) ) {
+                            result.put(id, new ArrayList<>());
+                        }
+                        result.get(id).add(bind);
+                    });
+        });
         return result;
     }
 

@@ -27,8 +27,10 @@ public interface IKeyMapSetting {
      *
      * @param id               追加したいコマンド名 すでに存在する場合、何もせずにfalseが帰る
      * @param commandClassName 実行コマンドのクラス名 クラスの存在確認等はしない ただし、空文字列とnullぽは例外が発生する
+     *
      * @return true: コマンド作成に成功
-     * false: コマンド作成に失敗 (すでに存在するコマンド名)
+     *         false: コマンド作成に失敗 (すでに存在するコマンド名)
+     *
      * @throws java.lang.IllegalArgumentException 空文字列を渡すと発生する
      */
     boolean addCommand(final String id, final String commandClassName)
@@ -37,9 +39,10 @@ public interface IKeyMapSetting {
     /**
      * コマンドを削除する
      *
-     * @param id 　削除したいコマンド名
+     * @param id 削除したいコマンド名
+     *
      * @return true: 削除成功
-     * false: 削除失敗
+     *         false: 削除失敗
      */
     boolean removeCommand(final String id) throws IllegalArgumentException;
 
@@ -47,6 +50,7 @@ public interface IKeyMapSetting {
      * コマンド名に紐付けられている実行コマンドのクラス名を取得する
      *
      * @param id コマンド名
+     *
      * @return 実行コマンドのクラス名
      */
     String getCommandClassName(final String id);
@@ -56,7 +60,9 @@ public interface IKeyMapSetting {
      *
      * @param id      コマンド名
      * @param keyBind
+     *
      * @return
+     *
      * @throws java.lang.IllegalArgumentException 不正なキーバインド
      */
     boolean addKeyBind(final String id, final KeyBind keyBind)
@@ -65,7 +71,9 @@ public interface IKeyMapSetting {
     /**
      * @param id
      * @param keyBinds
+     *
      * @return
+     *
      * @throws IllegalArgumentException
      * @see IKeyMapSetting#addKeyBind(String, KeyBind)
      */
@@ -76,6 +84,7 @@ public interface IKeyMapSetting {
      *
      * @param id
      * @param keyBind
+     *
      * @return
      */
     boolean removeKeyBind(final String id, final KeyBind keyBind) throws IllegalArgumentException;
@@ -84,6 +93,7 @@ public interface IKeyMapSetting {
      * コマンドに登録されているキーバインド一覧を取得する
      *
      * @param id
+     *
      * @return
      */
     List<KeyBind> getKeyBinds(final String id) throws IllegalArgumentException;
@@ -92,7 +102,9 @@ public interface IKeyMapSetting {
      * コンポーネントに登録するキーバインド一覧を取得する
      *
      * @param targetComponentName
+     *
      * @return
+     *
      * @throws IllegalArgumentException
      */
     Map<String, List<KeyBind>> collectKeyBinds(final String targetComponentName)
