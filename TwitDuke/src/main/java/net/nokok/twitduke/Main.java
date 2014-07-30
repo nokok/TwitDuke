@@ -24,14 +24,13 @@
 package net.nokok.twitduke;
 
 import static com.google.common.io.ByteStreams.nullOutputStream;
-
+import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UncheckedIOException;
 import java.net.URL;
 import java.util.stream.Stream;
-import java.awt.Component;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -86,6 +85,10 @@ public class Main extends Application {
      * @param args 渡された引数の配列
      */
     public static void main(String[] args) {
+        Thread.setDefaultUncaughtExceptionHandler((thread, exception) -> {
+            ThrowableReceivable errorLogExporter = new ErrorLogExporter();
+            errorLogExporter.onError(exception);
+        });
         try {
             if ( !existsTwitDukeDir() ) {
                 DirectoryHelper.createTwitDukeDirectories();
@@ -192,6 +195,7 @@ public class Main extends Application {
 
     /**
      * 説明用に追加しました。不要になったら削除して下さい
+     *
      * @author satanabe
      * @return
      */
