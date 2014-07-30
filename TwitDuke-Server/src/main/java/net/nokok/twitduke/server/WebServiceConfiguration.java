@@ -35,7 +35,7 @@ import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.Server;
 import twitter4j.auth.AccessToken;
 
-public class WebServiceConfiguration implements Callable<Server> {
+public class WebServiceConfiguration implements Callable<Server>, Runnable {
 
     private Port port;
     private final List<Handler> handlers = new ArrayList<>();
@@ -83,6 +83,11 @@ public class WebServiceConfiguration implements Callable<Server> {
         Optional<Retrievable<Handler>> oHandler = clazzToRetriveable(clazz, token);
         Retrievable<Handler> retrievable = oHandler.orElseThrow(newInstanceError);
         return addHandler(retrievable.get());
+    }
+
+    @Override
+    public void run() {
+        call();
     }
 
     private Optional<Handler> clazzToObject(Class<? extends Handler> clazz) {

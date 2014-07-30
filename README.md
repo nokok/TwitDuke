@@ -3,6 +3,8 @@
 
 TwitDuke is a twitter client.  
 
+![TwitDukeLogo](TwitDuke-Resources/src/main/resources/img/TwitDuke_Logo.png)
+
 [日本語(native) README](README_ja.md)
 
 #To Build
@@ -24,6 +26,7 @@ Customizable
 #Contributors
 * [@shibafu528](https://github.com/shibafu528)
 * [@nanase](https://github.com/nanase)
+* [@satanabe1](https://github.com/satanabe1)
 
 #License
 The MIT License (MIT)
