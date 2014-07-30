@@ -150,6 +150,7 @@ public class Main extends Application {
      */
     private static void openWindow(AccountManager accountManager) {
         Window window = Window.createNewWindow(accountManager);
+        initKeyBoardShortcut(window.getFrame());
         AccessToken accessToken = accountManager.readPrimaryAccount().orElseThrow(IllegalStateException::new);
         PluginManager globaPluginManager = new PluginManager("plugins", accessToken);
         TwitterStreamRunner streamRunner = new TwitterStreamRunner(accessToken);
