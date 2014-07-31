@@ -35,6 +35,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 
 public class MainViewController {
 
@@ -128,12 +129,12 @@ public class MainViewController {
     }
 
     @FXML
-    void tweetTextAreaKeyPressed(ActionEvent event) {
+    void tweetTextAreaKeyPressed(KeyEvent event) {
 
     }
 
     @FXML
-    void tweetTextAreaKeyTyped(ActionEvent event) {
+    void tweetTextAreaKeyTyped(KeyEvent event) {
 
     }
 
