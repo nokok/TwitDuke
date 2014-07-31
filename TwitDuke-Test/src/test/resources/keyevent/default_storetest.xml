@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><keymap name="default">
     <action id="Insert Point to Beginning of Line." plugin="net.nokok.twitduke.components.actions.Action_MoveToBeginningOfLine">
-        <keyboard-shortcut keystroke="ctrl+a" selector="*"/>
+        <keyboard-shortcut keystroke="ctrl+a" selector="javafx.scene.control.TextArea"/>
     </action>
     <action id="Insert Point to End of Line." plugin="net.nokok.twitduke.components.actions.Action_MoveToEndOfLine">
-        <keyboard-shortcut keystroke="ctrl+e" selector="*"/>
+        <keyboard-shortcut keystroke="ctrl+e" selector="javafx.scene.control.TextArea"/>
     </action>
     <action id="check key event" plugin="net.nokok.twitduke.components.actions.Action_CheckKeyEvent">
         <keyboard-shortcut keystroke="ctrl+t" selector="*"/>
