@@ -1,16 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<keymap name="default">
+<?xml version="1.0" encoding="UTF-8"?><keymap name="default">
+    <action id="Insert Point to Beginning of Line." plugin="net.nokok.twitduke.components.actions.Action_MoveToBeginningOfLine">
+        <keyboard-shortcut keystroke="ctrl+a" selector="*"/>
+    </action>
+    <action id="Insert Point to End of Line." plugin="net.nokok.twitduke.components.actions.Action_MoveToEndOfLine">
+        <keyboard-shortcut keystroke="ctrl+e" selector="*"/>
+    </action>
+    <action id="check key event" plugin="net.nokok.twitduke.components.actions.Action_CheckKeyEvent">
+        <keyboard-shortcut keystroke="ctrl+t" selector="*"/>
+    </action>
     <action id="cut up to line end." plugin="net.nokok.twitduke.components.actions.Action_CutUpToLineEnd">
-        <keyboard-shortcut component="net.nokok.twitduke.core.view.TweetTextArea" condition="0" keystroke="ctrl K"/>
-        <keyboard-shortcut component="net.nokok.twitduke.core.view.TweetTextArea" condition="0" keystroke="meta K"/>
+        <keyboard-shortcut keystroke="meta+k" selector="#anyFxId"/>
+        <keyboard-shortcut keystroke="ctrl+k" selector="#twitTextArea"/>
+    </action>
+    <action id="hey!" plugin="net.nokok.twitduke.components.swingactions.Action_Hey">
+        <keyboard-shortcut keystroke="ctrl+o" selector="*"/>
     </action>
     <action id="paste" plugin="net.nokok.twitduke.components.actions.Action_Paste">
-        <keyboard-shortcut component="net.nokok.twitduke.core.view.TweetTextArea" condition="0" keystroke="ctrl Y"/>
-        <keyboard-shortcut component="net.nokok.twitduke.core.view.TweetTextArea" condition="0" keystroke="meta Y"/>
-    </action>
-    <action id="hey!" plugin="net.nokok.twitduke.components.actions.Action_Hey">
-        <keyboard-shortcut component="net.nokok.twitduke.components.basics.TWPanel" condition="1"
-                           keystroke="ctrl O"/>
+        <keyboard-shortcut keystroke="meta+y" selector="AnyClassName"/>
+        <keyboard-shortcut keystroke="ctrl+y" selector="javafx.scene.control.TextArea"/>
     </action>
     <action id="retweet" plugin="Action_Retweet"/>
 </keymap>
