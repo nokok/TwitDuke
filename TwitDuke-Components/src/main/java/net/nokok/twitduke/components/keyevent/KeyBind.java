@@ -31,6 +31,7 @@ public class KeyBind implements Comparable<KeyBind> {
         this.targetComponentName = targetComponentName;
     }
 
+    @Deprecated
     public int getTargetComponentCondition() {
         return targetComponentCondition;
     }

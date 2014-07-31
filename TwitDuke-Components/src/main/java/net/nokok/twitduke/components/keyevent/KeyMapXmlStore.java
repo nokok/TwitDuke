@@ -35,9 +35,8 @@ public class KeyMapXmlStore implements IKeyMapStore {
     private final static String ATTR_SETTING_NAME = "name";
     private final static String ATTR_ACTION_ID = "id";
     private final static String ATTR_ACTION_PLUGIN = "plugin";
-    private final static String ATTR_KBSC_COMPONENT = "component";
+    private final static String ATTR_KBSC_COMPONENT = "selector";
     private final static String ATTR_KBSC_KEYSTROKE = "keystroke";
-    private final static String ATTR_KBSC_CONDITION = "condition";
 
     private final static String TF_METHOD = "xml";
     private final static String TF_INDENT = "yes";
@@ -92,8 +91,6 @@ public class KeyMapXmlStore implements IKeyMapStore {
             KeyBind keyBind = new KeyBind();
             keyBind.setKeyStroke(getAttribute(keyBindNode, ATTR_KBSC_KEYSTROKE));
             keyBind.setTargetComponentName(getAttribute(keyBindNode, ATTR_KBSC_COMPONENT));
-            String conditionStr = getAttribute(keyBindNode, ATTR_KBSC_CONDITION);
-            keyBind.setTargetComponentCondition(Integer.parseInt(conditionStr));
             return keyBind;
         } catch (NumberFormatException ex) {
             throw new RuntimeException(ex);
@@ -136,7 +133,6 @@ public class KeyMapXmlStore implements IKeyMapStore {
                     Element bindNode = doc.createElement(TAG_KEYBOARD_SHORTCUT);
                     bindNode.setAttribute(ATTR_KBSC_COMPONENT, bind.getTargetComponentName());
                     bindNode.setAttribute(ATTR_KBSC_KEYSTROKE, bind.getKeyStroke());
-                    bindNode.setAttribute(ATTR_KBSC_CONDITION, bind.getTargetComponentCondition() + "");
                     actionNode.appendChild(bindNode);
                 });
         return actionNode;
