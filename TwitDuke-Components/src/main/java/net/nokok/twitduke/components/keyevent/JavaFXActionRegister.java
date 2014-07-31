@@ -16,7 +16,7 @@ public class JavaFXActionRegister implements IActionRegister {
 
     private final Node root;
     private final Map<Node, List<KeyBind>> registry = new HashMap<>();
-    private List<Exception> errors = new ArrayList<>();
+    private final List<Exception> errors = new ArrayList<>();
 
     public JavaFXActionRegister(final Node root) {
         this.root = root;
@@ -24,9 +24,16 @@ public class JavaFXActionRegister implements IActionRegister {
 
     @Override
     public void registerKeyMap(final IKeyMapSetting setting) {
+        errors.clear();
+        registry.clear();
         root.lookupAll("*")
                 .stream()
-                .filter(node -> node.getClass().getCanonicalName() != null)
+                .filter(node -> {
+                    if ( node.getClass().getCanonicalName() == null ) {
+                        return false;
+                    }
+                    return node.getId() != null;
+                })
                 .forEach(node -> {
                     registerCall(node, setting);
                 });
@@ -39,7 +46,7 @@ public class JavaFXActionRegister implements IActionRegister {
 
     @Override
     public List<Exception> getErrors() {
-        return null;
+        return errors;
     }
 
     @SuppressWarnings("unchecked")
