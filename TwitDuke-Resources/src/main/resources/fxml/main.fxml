@@ -108,7 +108,7 @@
                                                 </ImageView>
                                             </graphic>
                                         </Button>
-                                        <Label fx:id="tweetLengthLabel" prefHeight="27.0" prefWidth="33.0" stylesheets="@../css/default.css" text="140" />
+                                        <Label fx:id="tweetLengthLabel" alignment="CENTER" prefHeight="27.0" prefWidth="33.0" stylesheets="@../css/default.css" text="140" />
                                     </items>
                                 </ToolBar>
                             </bottom> 
