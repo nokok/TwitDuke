@@ -14,7 +14,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -34,34 +33,22 @@ public class Action_Hey implements EventHandler<KeyEvent> {
             return;
         }
         final Stage dialog = new Stage();
-
-        dialog.setResizable(false);
-        dialog.initModality(Modality.WINDOW_MODAL);
-
         final StackPane pane = new StackPane();
         dialog.setScene(new Scene(pane));
+        final VBox vbox = new VBox();
+        pane.getChildren().add(vbox);
 
-        {
-            final VBox vbox = new VBox();
-            pane.getChildren().add(vbox);
-
-            vbox.setAlignment(Pos.CENTER);
-            vbox.setMinWidth(300);
-
-            vbox.getChildren().add(new Label(""));// 空行
-            vbox.getChildren().add(new Label("hey! ﾂﾗﾀﾝ..."));
-            vbox.getChildren().add(new Label(""));// 空行
-
-            final Button btnOk = new Button();
-            btnOk.setText("OK");
-            btnOk.setOnAction(boxEvent -> {
-                dialog.close();
-            });
-            vbox.getChildren().add(btnOk);
-            vbox.getChildren().add(new Label(""));// 空行
-
-        }
-
+        vbox.setAlignment(Pos.CENTER);
+        vbox.getChildren().add(new Label());
+        vbox.getChildren().add(new Label("   hey! ﾂﾗﾀﾝ...   "));
+        vbox.getChildren().add(new Label());
+        final Button bottom = new Button();
+        bottom.setText("OK");
+        bottom.setOnAction(boxEvent -> {
+            dialog.close();
+        });
+        vbox.getChildren().add(bottom);
+        vbox.getChildren().add(new Label(""));
         dialog.showAndWait();
         lastCommandTime = System.currentTimeMillis();
     }
