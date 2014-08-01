@@ -156,6 +156,15 @@ public class Window implements WindowSize, Visible, Disposable, ComponentInserta
         return frame.getTitle();
     }
 
+    /**
+     * 説明用に追加しました。不要になったら削除して下さい
+     * @author satanabe
+     * @return
+     */
+    public JFrame getFrame() {
+        return frame;
+    }
+
     public static Window createNewWindow(AccountManager accountManager) {
         Window window = new Window();
         window.addContents(new ScrollableTimelinePanel());
