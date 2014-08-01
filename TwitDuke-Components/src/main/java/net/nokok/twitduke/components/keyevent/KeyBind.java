@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 public class KeyBind implements Comparable<KeyBind> {
 
     private String keyStroke;
-    private String targetComponentName;
+    private String selector;
     /**
      * @see javax.swing.JComponent#WHEN_FOCUSED ...
      */
@@ -23,12 +23,12 @@ public class KeyBind implements Comparable<KeyBind> {
         this.keyStroke = keyStroke;
     }
 
-    public String getTargetComponentName() {
-        return targetComponentName;
+    public String getSelector() {
+        return selector;
     }
 
-    public void setTargetComponentName(final String targetComponentName) {
-        this.targetComponentName = targetComponentName;
+    public void setSelector(final String selector) {
+        this.selector = selector;
     }
 
     @Deprecated
@@ -36,6 +36,7 @@ public class KeyBind implements Comparable<KeyBind> {
         return targetComponentCondition;
     }
 
+    @Deprecated
     public void setTargetComponentCondition(final int targetComponentCondition) {
         this.targetComponentCondition = targetComponentCondition;
     }
@@ -70,15 +71,15 @@ public class KeyBind implements Comparable<KeyBind> {
         if ( removeFunc != null ? !removeFunc.equals(keyBind.removeFunc) : keyBind.removeFunc != null ) {
             return false;
         }
-        return !(targetComponentName != null ? !targetComponentName.equals(keyBind.targetComponentName)
-                 : keyBind.targetComponentName != null);
+        return !(selector != null ? !selector.equals(keyBind.selector)
+                 : keyBind.selector != null);
 
     }
 
     @Override
     public int hashCode() {
         int result = keyStroke != null ? keyStroke.hashCode() : 0;
-        result = 31 * result + (targetComponentName != null ? targetComponentName.hashCode() : 0);
+        result = 31 * result + (selector != null ? selector.hashCode() : 0);
         result = 31 * result + targetComponentCondition;
         result = 31 * result + (removeFunc != null ? removeFunc.hashCode() : 0);
         return result;
@@ -90,8 +91,8 @@ public class KeyBind implements Comparable<KeyBind> {
             return 1;
         }
 
-        int namedif = (targetComponentName == null ? "" : targetComponentName).compareTo(
-                keyBind.targetComponentName == null ? "" : keyBind.targetComponentName
+        int namedif = (selector == null ? "" : selector).compareTo(
+                keyBind.selector == null ? "" : keyBind.selector
         );
         if ( namedif != 0 ) {
             return namedif;

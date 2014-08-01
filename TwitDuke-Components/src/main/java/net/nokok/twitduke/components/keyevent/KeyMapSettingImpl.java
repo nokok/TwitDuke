@@ -68,7 +68,7 @@ public class KeyMapSettingImpl implements IKeyMapSetting {
         if ( Strings.isNullOrEmpty(id) || Objects.isNull(keyBind) ) {
             throw new IllegalArgumentException();
         }
-        if ( Strings.isNullOrEmpty(keyBind.getKeyStroke()) || Strings.isNullOrEmpty(keyBind.getTargetComponentName()) ) {
+        if ( Strings.isNullOrEmpty(keyBind.getKeyStroke()) || Strings.isNullOrEmpty(keyBind.getSelector()) ) {
             throw new IllegalArgumentException();
         }
         return commandClasses.containsKey(id) && commandKeyBinds.get(id).add(keyBind);
@@ -98,7 +98,7 @@ public class KeyMapSettingImpl implements IKeyMapSetting {
         Map<String, List<KeyBind>> result = new HashMap<>();
         commandKeyBinds.forEach((id, binds) -> {
             binds.stream()
-                    .filter(bind -> targetComponentName.equals(bind.getTargetComponentName()))
+                    .filter(bind -> targetComponentName.equals(bind.getSelector()))
                     .forEach(bind -> {
                         if ( !result.containsKey(id) ) {
                             result.put(id, new ArrayList<>());

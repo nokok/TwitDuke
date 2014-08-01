@@ -90,7 +90,7 @@ public class KeyMapXmlStore implements IKeyMapStore {
         try {
             KeyBind keyBind = new KeyBind();
             keyBind.setKeyStroke(getAttribute(keyBindNode, ATTR_KBSC_KEYSTROKE));
-            keyBind.setTargetComponentName(getAttribute(keyBindNode, ATTR_KBSC_COMPONENT));
+            keyBind.setSelector(getAttribute(keyBindNode, ATTR_KBSC_COMPONENT));
             return keyBind;
         } catch (NumberFormatException ex) {
             throw new RuntimeException(ex);
@@ -131,7 +131,7 @@ public class KeyMapXmlStore implements IKeyMapStore {
                 .sorted()
                 .forEach(bind -> {
                     Element bindNode = doc.createElement(TAG_KEYBOARD_SHORTCUT);
-                    bindNode.setAttribute(ATTR_KBSC_COMPONENT, bind.getTargetComponentName());
+                    bindNode.setAttribute(ATTR_KBSC_COMPONENT, bind.getSelector());
                     bindNode.setAttribute(ATTR_KBSC_KEYSTROKE, bind.getKeyStroke());
                     actionNode.appendChild(bindNode);
                 });
