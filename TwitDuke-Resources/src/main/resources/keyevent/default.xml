@@ -29,11 +29,10 @@
     <action id="Paste" plugin="net.nokok.twitduke.components.actions.Action_Paste">
         <keyboard-shortcut keystroke="ctrl+y" selector="javafx.scene.control.TextArea"/>
     </action>
-
-    <!-- 以下未実装 -->
     <action id="Check Key Event" plugin="net.nokok.twitduke.components.actions.Action_CheckKeyEvent">
         <keyboard-shortcut keystroke="ctrl+shift+c" selector="javafx.scene.control.TextArea"/>
     </action>
+    <!-- 以下未実装 -->
     <action id="hey!" plugin="net.nokok.twitduke.components.actions.Action_Hey">
         <keyboard-shortcut keystroke="ctrl+o" selector="javafx.scene.control.TextArea"/>
     </action>
