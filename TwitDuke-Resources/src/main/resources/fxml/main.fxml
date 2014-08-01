@@ -21,7 +21,7 @@
                             <bottom>
                                 <Button fx:id="configButton" mnemonicParsing="false" onAction="#showConfig" prefHeight="40.0" prefWidth="62.0" styleClass="config-button" BorderPane.alignment="CENTER">
                                     <graphic>
-                                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@../img/settings.png" />
                                             </image>
