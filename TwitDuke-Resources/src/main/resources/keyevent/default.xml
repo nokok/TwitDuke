@@ -11,7 +11,6 @@
     <action id="Insert Point Up." plugin="net.nokok.twitduke.components.actions.Action_MoveUp">
         <keyboard-shortcut keystroke="ctrl+p" selector="javafx.scene.control.TextArea"/>
     </action>
-
     <action id="Insert Point Forward." plugin="net.nokok.twitduke.components.actions.Action_MoveForward">
         <keyboard-shortcut keystroke="ctrl+f" selector="javafx.scene.control.TextArea"/>
     </action>
@@ -24,7 +23,6 @@
     <action id="Delete Next Character." plugin="net.nokok.twitduke.components.actions.Action_DeleteNextCharacter">
         <keyboard-shortcut keystroke="ctrl+d" selector="javafx.scene.control.TextArea"/>
     </action>
-    <!-- 以下未実装 -->
     <action id="Cut Up to Line End." plugin="net.nokok.twitduke.components.actions.Action_CutUpToLineEnd">
         <keyboard-shortcut keystroke="ctrl+k" selector="javafx.scene.control.TextArea"/>
     </action>
@@ -32,6 +30,7 @@
         <keyboard-shortcut keystroke="ctrl+y" selector="javafx.scene.control.TextArea"/>
     </action>
 
+    <!-- 以下未実装 -->
     <action id="Check Key Event" plugin="net.nokok.twitduke.components.actions.Action_CheckKeyEvent">
         <keyboard-shortcut keystroke="ctrl+shift+c" selector="javafx.scene.control.TextArea"/>
     </action>
