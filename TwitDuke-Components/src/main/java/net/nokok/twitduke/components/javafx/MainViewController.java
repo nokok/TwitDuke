@@ -95,7 +95,7 @@ public class MainViewController {
 
     @FXML
     void showConfig(ActionEvent event) {
-        System.out.println("showConfig");
+
     }
 
     @FXML

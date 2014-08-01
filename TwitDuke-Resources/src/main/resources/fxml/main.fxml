@@ -4,7 +4,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <TabPane fx:id="mainView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="425.0" stylesheets="@../css/default.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.nokok.twitduke.components.javafx.MainViewController">
     <tabs>
@@ -22,7 +21,7 @@
                             <bottom>
                                 <Button fx:id="configButton" mnemonicParsing="false" onAction="#showConfig" prefHeight="40.0" prefWidth="62.0" styleClass="config-button" BorderPane.alignment="CENTER">
                                     <graphic>
-                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@../img/settings.png" />
                                             </image>
@@ -109,7 +108,7 @@
                                                 </ImageView>
                                             </graphic>
                                         </Button>
-                                        <Label fx:id="tweetLengthLabel" stylesheets="@../css/default.css" text="140" />
+                                        <Label fx:id="tweetLengthLabel" prefHeight="27.0" prefWidth="33.0" stylesheets="@../css/default.css" text="140" />
                                     </items>
                                 </ToolBar>
                             </bottom> 
