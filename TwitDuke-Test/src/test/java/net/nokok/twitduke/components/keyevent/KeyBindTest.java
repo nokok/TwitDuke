@@ -18,8 +18,7 @@ import org.junit.Test;
 public class KeyBindTest {
 
     private static final String fnKeyStroke = "keyStroke";
-    private static final String fnComponentName = "targetComponentName";
-    private static final String fnComponentCondition = "targetComponentCondition";
+    private static final String fnComponentName = "selector";
     private static final String fnRemoveFunc = "removeFunc";
 
     private KeyBind bind;
@@ -38,7 +37,7 @@ public class KeyBindTest {
     public void testConstructor() throws Exception {
         assertNull(getStringValue(fnKeyStroke));
         assertNull(getStringValue(fnComponentName));
-        assertEquals(getIntValue(fnComponentCondition), 0);
+
         assertNull(getValue(fnRemoveFunc));
     }
 
@@ -71,12 +70,12 @@ public class KeyBindTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testGetTargetComponentName() throws Exception {
+    public void testGetSelector() throws Exception {
         String value = "AnyComponent";
-        bind.setTargetComponentName(value);
-        assertEquals(value, bind.getTargetComponentName());
-        bind.setTargetComponentName(null);
-        assertEquals(null, bind.getTargetComponentName());
+        bind.setSelector(value);
+        assertEquals(value, bind.getSelector());
+        bind.setSelector(null);
+        assertEquals(null, bind.getSelector());
     }
 
     /**
@@ -84,11 +83,11 @@ public class KeyBindTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testSetTargetComponentName() throws Exception {
+    public void testSetSelector() throws Exception {
         String value = "AnyComponent";
-        bind.setTargetComponentName(value);
+        bind.setSelector(value);
         assertEquals(value, getStringValue(fnComponentName));
-        bind.setTargetComponentName(null);
+        bind.setSelector(null);
         assertEquals(null, getStringValue(fnComponentName));
     }
 
@@ -103,19 +102,6 @@ public class KeyBindTest {
         assertEquals(value, bind.getTargetComponentCondition());
         bind.setTargetComponentCondition(JComponent.UNDEFINED_CONDITION);
         assertEquals(JComponent.UNDEFINED_CONDITION, bind.getTargetComponentCondition());
-    }
-
-    /**
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testSetTargetComponentCondition() throws Exception {
-        int value = JComponent.WHEN_FOCUSED;
-        bind.setTargetComponentCondition(value);
-        assertEquals(value, getIntValue(fnComponentCondition));
-        bind.setTargetComponentCondition(JComponent.UNDEFINED_CONDITION);
-        assertEquals(JComponent.UNDEFINED_CONDITION, getIntValue(fnComponentCondition));
     }
 
     /**
@@ -187,8 +173,8 @@ public class KeyBindTest {
         b2.setKeyStroke("ctrl K");
         b1.setTargetComponentCondition(JComponent.WHEN_IN_FOCUSED_WINDOW);
         b2.setTargetComponentCondition(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        b1.setTargetComponentName("Any");
-        b2.setTargetComponentName("Any");
+        b1.setSelector("Any");
+        b2.setSelector("Any");
         Consumer<KeyBind> func = b1::equals;
         b1.setRemoveFunc(func);
         b2.setRemoveFunc(func);
@@ -221,8 +207,8 @@ public class KeyBindTest {
     public void testEqualsF1() throws Exception {
         KeyBind b1 = new KeyBind();
         KeyBind b2 = new KeyBind();
-        b1.setTargetComponentName("Any");
-        b2.setTargetComponentName("Other");
+        b1.setSelector("Any");
+        b2.setSelector("Other");
         assertTrue(!b1.equals(b2));
         assertTrue(!b2.equals(b1));
     }

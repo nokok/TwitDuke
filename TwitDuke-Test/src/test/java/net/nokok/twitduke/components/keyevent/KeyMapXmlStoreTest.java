@@ -91,11 +91,11 @@ public class KeyMapXmlStoreTest {
         IKeyMapSetting setting = store.load(xmlStream);
         KeyBind paste0 = setting.getKeyBinds("paste").get(0);
         assertEquals("meta+y", paste0.getKeyStroke());
-        assertEquals("AnyClassName", paste0.getTargetComponentName());
+        assertEquals("AnyClassName", paste0.getSelector());
 
         KeyBind cut2 = setting.getKeyBinds("cut up to line end.").get(0);
         assertEquals("meta+k", cut2.getKeyStroke());
-        assertEquals("#anyFxId", cut2.getTargetComponentName());
+        assertEquals("#anyFxId", cut2.getSelector());
     }
 
     @Test
