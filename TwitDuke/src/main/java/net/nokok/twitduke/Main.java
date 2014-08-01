@@ -81,7 +81,8 @@ public class Main extends Application {
             register.registerKeyMap(setting);
 
             register.getErrors().forEach(error -> {
-                System.out.println(error.getMessage());
+                ThrowableReceivable errorLogExporter = new ErrorLogExporter();
+                errorLogExporter.onError(error);
             });
 
         } catch (IOException e) {
