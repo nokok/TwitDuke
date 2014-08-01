@@ -20,7 +20,7 @@ public class Action_MoveBackward implements EventHandler<KeyEvent> {
         if ( !(event.getSource() instanceof TextArea) ) {
             return;
         }
-        TextArea src = (TextArea) event.getSource();
+        final TextArea src = (TextArea) event.getSource();
         if ( src.getCaretPosition() != 0 ) {
             src.positionCaret(src.getCaretPosition() - 1);
         }

@@ -20,8 +20,8 @@ public class Action_MoveUp implements EventHandler<KeyEvent> {
         if ( !(event.getSource() instanceof TextArea) ) {
             return;
         }
-        TextArea src = (TextArea) event.getSource();
-        int upSidePosit = ActionUtil.getUpSide(src.getText(), src.getCaretPosition());
+        final TextArea src = (TextArea) event.getSource();
+        final int upSidePosit = ActionUtil.getUpSide(src.getText(), src.getCaretPosition());
         if ( upSidePosit < 0 ) {
             return;
         }

@@ -27,12 +27,12 @@ public class Action_CutUpToLineEnd implements EventHandler<KeyEvent> {
         if ( !(event.getSource() instanceof TextArea) ) {
             return;
         }
-        TextArea src = (TextArea) event.getSource();
-        String txt = src.getText();
+        final TextArea src = (TextArea) event.getSource();
+        final String txt = src.getText();
         if ( txt.isEmpty() ) {
             return;
         }
-        int cursorPosition = src.getSelection().getStart();
+        final int cursorPosition = src.getSelection().getStart();
         int lineEndPosition = ActionUtil.getEndOfLine(txt, cursorPosition);
         if ( lineEndPosition < 0 ) {
             lineEndPosition = txt.length();
@@ -42,17 +42,17 @@ public class Action_CutUpToLineEnd implements EventHandler<KeyEvent> {
             selected = System.lineSeparator();
             lineEndPosition = cursorPosition + selected.length();
         }
-        Clipboard clipboard = Clipboard.getSystemClipboard();
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
         if ( txt.equals(lastText)
              && lastSelectionStart == src.getSelection().getStart()
              && lastSelectionStart == src.getSelection().getEnd() ) {
             selected = clipboard.getString() + selected;
         }
-        Map<DataFormat, Object> data = new HashMap<>();
+        final Map<DataFormat, Object> data = new HashMap<>();
         data.put(DataFormat.PLAIN_TEXT, selected);
         clipboard.setContent(data);
 
-        StringBuilder sb = new StringBuilder(txt);
+        final StringBuilder sb = new StringBuilder(txt);
         sb.delete(cursorPosition, lineEndPosition);
         src.setText(sb.toString());
         src.selectRange(cursorPosition, cursorPosition);

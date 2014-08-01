@@ -20,7 +20,7 @@ public class Action_MoveForward implements EventHandler<KeyEvent> {
         if ( !(event.getSource() instanceof TextArea) ) {
             return;
         }
-        TextArea src = (TextArea) event.getSource();
+        final TextArea src = (TextArea) event.getSource();
         if ( src.getCaretPosition() != src.getLength() ) {
             src.positionCaret(src.getCaretPosition() + 1);
         }

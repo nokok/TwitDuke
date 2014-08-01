@@ -20,8 +20,8 @@ public class Action_MoveDown implements EventHandler<KeyEvent> {
         if ( !(event.getSource() instanceof TextArea) ) {
             return;
         }
-        TextArea src = (TextArea) event.getSource();
-        int downSidePosit = ActionUtil.getDownSide(src.getText(), src.getCaretPosition());
+        final TextArea src = (TextArea) event.getSource();
+        final int downSidePosit = ActionUtil.getDownSide(src.getText(), src.getCaretPosition());
         if ( downSidePosit < 0 ) {
             return;
         }

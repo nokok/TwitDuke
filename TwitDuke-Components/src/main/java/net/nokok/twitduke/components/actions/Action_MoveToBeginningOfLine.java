@@ -20,7 +20,7 @@ public class Action_MoveToBeginningOfLine implements EventHandler<KeyEvent> {
         if ( !(event.getSource() instanceof TextArea) ) {
             return;
         }
-        TextArea src = (TextArea) event.getSource();
+        final TextArea src = (TextArea) event.getSource();
         src.positionCaret(ActionUtil.getBeginningOfLine(src.getText(), src.getCaretPosition()));
     }
 }

@@ -21,15 +21,15 @@ public class Action_Paste implements EventHandler<KeyEvent> {
         if ( !(event.getSource() instanceof TextArea) ) {
             return;
         }
-        String buffer = Clipboard.getSystemClipboard().getString();
+        final String buffer = Clipboard.getSystemClipboard().getString();
         if ( buffer.isEmpty() ) {
             return;
         }
-        TextArea src = (TextArea) event.getSource();
-        String txt = src.getText();
-        int selectionStart = src.getSelection().getStart();
-        int selectionEnd = src.getSelection().getEnd();
-        StringBuilder sb = new StringBuilder(src.getText());
+        final TextArea src = (TextArea) event.getSource();
+        final String txt = src.getText();
+        final int selectionStart = src.getSelection().getStart();
+        final int selectionEnd = src.getSelection().getEnd();
+        final StringBuilder sb = new StringBuilder(src.getText());
         sb.delete(selectionStart, selectionEnd);
         sb.insert(selectionStart, buffer);
         src.setText(sb.toString());
