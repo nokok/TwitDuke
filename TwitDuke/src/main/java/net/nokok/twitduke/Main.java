@@ -37,6 +37,9 @@ import javafx.stage.Stage;
 import net.nokok.twitduke.base.async.ThrowableReceivable;
 import net.nokok.twitduke.base.io.Paths;
 import net.nokok.twitduke.components.javafx.MainViewController;
+import net.nokok.twitduke.components.keyevent.IActionRegister;
+import net.nokok.twitduke.components.keyevent.IKeyMapSetting;
+import net.nokok.twitduke.components.keyevent.IKeyMapStore;
 import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.account.AccountManagerFactory;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
@@ -50,6 +53,7 @@ import net.nokok.twitduke.core.view.Window;
 import net.nokok.twitduke.pluginsupport.PluginManager;
 import net.nokok.twitduke.pluginsupport.eventrunner.StreamEventRunner;
 import net.nokok.twitduke.resources.FXMLResources;
+import net.nokok.twitduke.resources.KeyMapResources;
 import net.nokok.twitduke.server.WebServerStarter;
 import twitter4j.auth.AccessToken;
 
@@ -67,10 +71,24 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(url);
         try {
             MainViewController controller = loader.getController();
-            stage.setScene(new Scene(loader.load()));
+            Scene scene = new Scene(loader.load());
+            stage.setScene(scene);
             stage.show();
+
+            IKeyMapStore store = IKeyMapStore.newInstance();
+            IKeyMapSetting setting = store.load(KeyMapResources.DEFAULT_SETTING.get().openStream());
+            IActionRegister register = IActionRegister.newInstance(scene.getRoot());
+            register.registerKeyMap(setting);
+
+            register.getErrors().forEach(error -> {
+                ThrowableReceivable errorLogExporter = new ErrorLogExporter();
+                errorLogExporter.onError(error);
+            });
+
         } catch (IOException e) {
             throw new UncheckedIOException("FXMLファイルを読み込めませんでした。ファイルは見つかりましたが、ファイルがおかしいようです。", e);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
     }
 
@@ -80,6 +98,10 @@ public class Main extends Application {
      * @param args 渡された引数の配列
      */
     public static void main(String[] args) {
+        Thread.setDefaultUncaughtExceptionHandler((thread, exception) -> {
+            ThrowableReceivable errorLogExporter = new ErrorLogExporter();
+            errorLogExporter.onError(exception);
+        });
         try {
             if ( !existsTwitDukeDir() ) {
                 DirectoryHelper.createTwitDukeDirectories();
@@ -183,5 +205,4 @@ public class Main extends Application {
     private static boolean hasOption(String arg, String[] args) {
         return Stream.of(args).anyMatch(a -> a.equals(arg));
     }
-
 }

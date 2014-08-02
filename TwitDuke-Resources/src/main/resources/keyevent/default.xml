@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><keymap name="default">
+    <action id="Insert Point to Beginning of Line." plugin="net.nokok.twitduke.components.actions.Action_MoveToBeginningOfLine">
+        <keyboard-shortcut keystroke="ctrl+a" selector="javafx.scene.control.TextArea"/>
+    </action>
+    <action id="Insert Point to End of Line." plugin="net.nokok.twitduke.components.actions.Action_MoveToEndOfLine">
+        <keyboard-shortcut keystroke="ctrl+e" selector="javafx.scene.control.TextArea"/>
+    </action>
+    <action id="Insert Point Down." plugin="net.nokok.twitduke.components.actions.Action_MoveDown">
+        <keyboard-shortcut keystroke="ctrl+n" selector="javafx.scene.control.TextArea"/>
+    </action>
+    <action id="Insert Point Up." plugin="net.nokok.twitduke.components.actions.Action_MoveUp">
+        <keyboard-shortcut keystroke="ctrl+p" selector="javafx.scene.control.TextArea"/>
+    </action>
+    <action id="Insert Point Forward." plugin="net.nokok.twitduke.components.actions.Action_MoveForward">
+        <keyboard-shortcut keystroke="ctrl+f" selector="javafx.scene.control.TextArea"/>
+    </action>
+    <action id="Insert Point Backward." plugin="net.nokok.twitduke.components.actions.Action_MoveBackward">
+        <keyboard-shortcut keystroke="ctrl+b" selector="javafx.scene.control.TextArea"/>
+    </action>
+    <action id="Delete Previous Character." plugin="net.nokok.twitduke.components.actions.Action_DeletePreviousCharacter">
+        <keyboard-shortcut keystroke="ctrl+h" selector="javafx.scene.control.TextArea"/>
+    </action>
+    <action id="Delete Next Character." plugin="net.nokok.twitduke.components.actions.Action_DeleteNextCharacter">
+        <keyboard-shortcut keystroke="ctrl+d" selector="javafx.scene.control.TextArea"/>
+    </action>
+    <action id="Cut Up to Line End." plugin="net.nokok.twitduke.components.actions.Action_CutUpToLineEnd">
+        <keyboard-shortcut keystroke="ctrl+k" selector="javafx.scene.control.TextArea"/>
+    </action>
+    <action id="Paste" plugin="net.nokok.twitduke.components.actions.Action_Paste">
+        <keyboard-shortcut keystroke="ctrl+y" selector="javafx.scene.control.TextArea"/>
+    </action>
+    <action id="Check Key Event" plugin="net.nokok.twitduke.components.actions.Action_CheckKeyEvent">
+        <keyboard-shortcut keystroke="ctrl+shift+c" selector="javafx.scene.control.TextArea"/>
+    </action>
+    <action id="hey!" plugin="net.nokok.twitduke.components.actions.Action_Hey">
+        <keyboard-shortcut keystroke="ctrl+o" selector="javafx.scene.control.TextArea"/>
+    </action>
+    <action id="retweet" plugin="Action_Retweet"/>
+</keymap>
