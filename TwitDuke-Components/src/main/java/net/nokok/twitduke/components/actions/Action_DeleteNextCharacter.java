@@ -17,10 +17,8 @@ public class Action_DeleteNextCharacter implements EventHandler<KeyEvent> {
 
     @Override
     public void handle(KeyEvent event) {
-        if ( !(event.getSource() instanceof TextArea) ) {
-            return;
+        if ( event.getSource() instanceof TextArea ) {
+            ((TextArea) event.getSource()).deleteNextChar();
         }
-        final TextArea src = (TextArea) event.getSource();
-        src.deleteNextChar();
     }
 }

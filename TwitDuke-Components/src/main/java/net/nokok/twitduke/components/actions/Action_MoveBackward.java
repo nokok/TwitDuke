@@ -17,12 +17,8 @@ public class Action_MoveBackward implements EventHandler<KeyEvent> {
 
     @Override
     public void handle(KeyEvent event) {
-        if ( !(event.getSource() instanceof TextArea) ) {
-            return;
-        }
-        final TextArea src = (TextArea) event.getSource();
-        if ( src.getCaretPosition() != 0 ) {
-            src.positionCaret(src.getCaretPosition() - 1);
+        if ( event.getSource() instanceof TextArea ) {
+            ((TextArea) event.getSource()).backward();
         }
     }
 }
