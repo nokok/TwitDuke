@@ -198,19 +198,6 @@ public class KeyBindTest {
     }
 
     /**
-     * ターゲットのフォーカスが違うときの not equal
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testEqualsF2() throws Exception {
-        KeyBind b1 = new KeyBind();
-        KeyBind b2 = new KeyBind();
-        assertTrue(!b1.equals(b2));
-        assertTrue(!b2.equals(b1));
-    }
-
-    /**
      * コールバックが違うときの not equal
      *
      * @throws Exception
