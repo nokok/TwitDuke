@@ -7,44 +7,69 @@ import java.util.function.Consumer;
  */
 public class KeyBind implements Comparable<KeyBind> {
 
+    /**
+     * キー入力の文字列表現
+     * 例) ctrl+a
+     */
     private String keyStroke;
+    /**
+     * キーボードショートカットが有効になるコンポーネントの条件 (現在はクラス名の完全一致)
+     * 例) net.nokok.twitduke.components.TWButton
+     */
     private String selector;
     /**
-     * @see javax.swing.JComponent#WHEN_FOCUSED ...
+     * コンポーネントから、キーボードショートカットを無効化する為の処理
      */
-    private int targetComponentCondition;
     private Consumer<KeyBind> removeFunc;
 
+    /**
+     * キー入力の文字列表現を取得する
+     *
+     * @return キー入力の文字列表現
+     */
     public String getKeyStroke() {
         return keyStroke;
     }
 
+    /**
+     * キー入力の文字列表現を設定する
+     *
+     * @param keyStroke キー入力の文字列表現
+     */
     public void setKeyStroke(final String keyStroke) {
         this.keyStroke = keyStroke;
     }
 
+    /**
+     * キーボードショートカットが有効になるコンポーネントの条件を取得する
+     *
+     * @return キーボードショートカットが有効になるコンポーネントの条件
+     */
     public String getSelector() {
         return selector;
     }
 
+    /**
+     * キーボードショートカットが有効になるコンポーネントの条件を取得する
+     *
+     * @param selector キーボードショートカットが有効になるコンポーネントの条件
+     */
     public void setSelector(final String selector) {
         this.selector = selector;
     }
 
-    @Deprecated
-    public int getTargetComponentCondition() {
-        return targetComponentCondition;
-    }
-
-    @Deprecated
-    public void setTargetComponentCondition(final int targetComponentCondition) {
-        this.targetComponentCondition = targetComponentCondition;
-    }
-
+    /**
+     * コンポーネントから、キーボードショートカットを無効化する為の処理を設定する
+     *
+     * @param removeFunc コンポーネントから、キーボードショートカットを無効化する為の処理
+     */
     public void setRemoveFunc(final Consumer<KeyBind> removeFunc) {
         this.removeFunc = removeFunc;
     }
 
+    /**
+     * コンポーネントから、キーボードショートカットを無効化する為の処理を実行する
+     */
     public void remove() {
         if ( removeFunc != null ) {
             removeFunc.accept(this);
@@ -62,9 +87,6 @@ public class KeyBind implements Comparable<KeyBind> {
 
         KeyBind keyBind = (KeyBind) o;
 
-        if ( targetComponentCondition != keyBind.targetComponentCondition ) {
-            return false;
-        }
         if ( keyStroke != null ? !keyStroke.equals(keyBind.keyStroke) : keyBind.keyStroke != null ) {
             return false;
         }
@@ -80,7 +102,6 @@ public class KeyBind implements Comparable<KeyBind> {
     public int hashCode() {
         int result = keyStroke != null ? keyStroke.hashCode() : 0;
         result = 31 * result + (selector != null ? selector.hashCode() : 0);
-        result = 31 * result + targetComponentCondition;
         result = 31 * result + (removeFunc != null ? removeFunc.hashCode() : 0);
         return result;
     }
@@ -103,10 +124,6 @@ public class KeyBind implements Comparable<KeyBind> {
         );
         if ( keydif != 0 ) {
             return keydif;
-        }
-
-        if ( targetComponentCondition != keyBind.targetComponentCondition ) {
-            return targetComponentCondition - keyBind.targetComponentCondition;
         }
 
         if ( removeFunc == null && keyBind.removeFunc != null ) {
