@@ -17,7 +17,7 @@
     <action id="Insert Point Backward." plugin="net.nokok.twitduke.components.actions.Action_MoveBackward">
         <keyboard-shortcut keystroke="ctrl+b" selector="javafx.scene.control.TextArea"/>
     </action>
-    <action id="Delete Previous Character." plugin="net.nokok.twitduke.components.actions.Action_DeletePreviousCharcter">
+    <action id="Delete Previous Character." plugin="net.nokok.twitduke.components.actions.Action_DeletePreviousCharacter">
         <keyboard-shortcut keystroke="ctrl+h" selector="javafx.scene.control.TextArea"/>
     </action>
     <action id="Delete Next Character." plugin="net.nokok.twitduke.components.actions.Action_DeleteNextCharacter">
@@ -32,7 +32,6 @@
     <action id="Check Key Event" plugin="net.nokok.twitduke.components.actions.Action_CheckKeyEvent">
         <keyboard-shortcut keystroke="ctrl+shift+c" selector="javafx.scene.control.TextArea"/>
     </action>
-    <!-- 以下未実装 -->
     <action id="hey!" plugin="net.nokok.twitduke.components.actions.Action_Hey">
         <keyboard-shortcut keystroke="ctrl+o" selector="javafx.scene.control.TextArea"/>
     </action>
