@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import javax.swing.JComponent;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
@@ -93,19 +92,6 @@ public class KeyBindTest {
 
     /**
      *
-     * @throws Exception
-     */
-    @Test
-    public void testGetTargetComponentCondition() throws Exception {
-        int value = JComponent.WHEN_FOCUSED;
-        bind.setTargetComponentCondition(value);
-        assertEquals(value, bind.getTargetComponentCondition());
-        bind.setTargetComponentCondition(JComponent.UNDEFINED_CONDITION);
-        assertEquals(JComponent.UNDEFINED_CONDITION, bind.getTargetComponentCondition());
-    }
-
-    /**
-     *
      * @throws java.lang.Exception
      */
     @Test
@@ -171,8 +157,6 @@ public class KeyBindTest {
         KeyBind b2 = new KeyBind();
         b1.setKeyStroke("ctrl K");
         b2.setKeyStroke("ctrl K");
-        b1.setTargetComponentCondition(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        b2.setTargetComponentCondition(JComponent.WHEN_IN_FOCUSED_WINDOW);
         b1.setSelector("Any");
         b2.setSelector("Any");
         Consumer<KeyBind> func = b1::equals;
@@ -209,21 +193,6 @@ public class KeyBindTest {
         KeyBind b2 = new KeyBind();
         b1.setSelector("Any");
         b2.setSelector("Other");
-        assertTrue(!b1.equals(b2));
-        assertTrue(!b2.equals(b1));
-    }
-
-    /**
-     * ターゲットのフォーカスが違うときの not equal
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testEqualsF2() throws Exception {
-        KeyBind b1 = new KeyBind();
-        KeyBind b2 = new KeyBind();
-        b1.setTargetComponentCondition(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        b2.setTargetComponentCondition(JComponent.WHEN_FOCUSED);
         assertTrue(!b1.equals(b2));
         assertTrue(!b2.equals(b1));
     }
