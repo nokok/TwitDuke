@@ -33,6 +33,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import net.nokok.twitduke.base.io.Reader;
 import net.nokok.twitduke.base.io.Writer;
+import net.nokok.twitduke.base.optional.OptionalUtil;
 import net.nokok.twitduke.core.io.AccessTokenIOSelector;
 import net.nokok.twitduke.core.io.AccountPath;
 import net.nokok.twitduke.core.io.DirectoryHelper;
@@ -76,15 +77,21 @@ class AccountManagerImpl implements AccountManager {
         return reader.read();
     }
 
+    private Optional<AccessToken> readAccessToken(String name) {
+        return readAccessToken(new ScreenName(name));
+    }
+
     @Override
     public List<ScreenName> readAccountList() {
         List<File> accountFiles = readAccountDirFileList();
         return accountFiles
                 .stream()
-                .map(f -> new ScreenName(f.getName()))
+                .map(f -> f.getName())
                 .map(this::readAccessToken)
-                .filter(p -> p.isPresent())
-                .map(t -> new ScreenName(t.get().getScreenName()))
+                .filter(OptionalUtil::isPresent)
+                .map(OptionalUtil::get)
+                .map(t -> t.getScreenName())
+                .map(ScreenName::new)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
@@ -97,7 +104,7 @@ class AccountManagerImpl implements AccountManager {
             }
             for ( File f : fs ) {
                 if ( f.getName().equals("primary") ) {
-                    return readAccessToken(new ScreenName(file.getName()));
+                    return readAccessToken(file.getName());
                 }
             }
         }
