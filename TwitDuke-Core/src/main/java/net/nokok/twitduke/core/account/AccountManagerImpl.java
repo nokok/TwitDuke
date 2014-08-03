@@ -33,6 +33,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import net.nokok.twitduke.base.io.Reader;
 import net.nokok.twitduke.base.io.Writer;
+import net.nokok.twitduke.base.optional.OptionalUtil;
 import net.nokok.twitduke.core.io.AccessTokenIOSelector;
 import net.nokok.twitduke.core.io.AccountPath;
 import net.nokok.twitduke.core.io.DirectoryHelper;
@@ -87,8 +88,9 @@ class AccountManagerImpl implements AccountManager {
                 .stream()
                 .map(f -> f.getName())
                 .map(this::readAccessToken)
-                .filter(p -> p.isPresent())
-                .map(t -> t.get().getScreenName())
+                .filter(OptionalUtil::isPresent)
+                .map(OptionalUtil::get)
+                .map(t -> t.getScreenName())
                 .map(ScreenName::new)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
