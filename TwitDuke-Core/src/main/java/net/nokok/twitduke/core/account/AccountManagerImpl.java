@@ -76,6 +76,10 @@ class AccountManagerImpl implements AccountManager {
         return reader.read();
     }
 
+    private Optional<AccessToken> readAccessToken(String name) {
+        return readAccessToken(new ScreenName(name));
+    }
+
     @Override
     public List<ScreenName> readAccountList() {
         List<File> accountFiles = readAccountDirFileList();
