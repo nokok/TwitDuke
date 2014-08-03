@@ -83,3 +83,7 @@
     -fx-font-weight:bold;
     -fx-font-size:20;
 }
+
+.twittercard-button{
+    -fx-padding: 4px;
+}
