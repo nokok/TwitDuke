@@ -31,6 +31,7 @@ import javax.swing.JPanel;
  * TwitDuke用のカスタマイズ済みJPanelです
  *
  */
+@Deprecated
 public class TWPanel extends JPanel {
 
     private static final long serialVersionUID = -2656367163678204098L;
