@@ -109,7 +109,7 @@ public class KeyBind implements Comparable<KeyBind> {
     @Override
     public int compareTo(final KeyBind keyBind) {
         if ( keyBind == null ) {
-            return 1;
+            throw new NullPointerException();
         }
 
         int namedif = (selector == null ? "" : selector).compareTo(
