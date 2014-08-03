@@ -85,10 +85,11 @@ class AccountManagerImpl implements AccountManager {
         List<File> accountFiles = readAccountDirFileList();
         return accountFiles
                 .stream()
-                .map(f -> new ScreenName(f.getName()))
+                .map(f -> f.getName())
                 .map(this::readAccessToken)
                 .filter(p -> p.isPresent())
-                .map(t -> new ScreenName(t.get().getScreenName()))
+                .map(t -> t.get().getScreenName())
+                .map(ScreenName::new)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
@@ -101,7 +102,7 @@ class AccountManagerImpl implements AccountManager {
             }
             for ( File f : fs ) {
                 if ( f.getName().equals("primary") ) {
-                    return readAccessToken(new ScreenName(file.getName()));
+                    return readAccessToken(file.getName());
                 }
             }
         }
