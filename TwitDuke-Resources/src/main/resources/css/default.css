@@ -1,3 +1,7 @@
+.default-panel{
+    -fx-background-color: #323232;
+}
+
 .tweet-textarea{
     -fx-text-fill: #ecf0f1;
     -fx-background-color: #323232;
