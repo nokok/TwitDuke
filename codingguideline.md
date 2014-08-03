@@ -185,9 +185,9 @@ try(Reader hogeReader = ..) {
 詳しくはOracleのドキュメントを参考にしてください。  
 [http://docs.oracle.com/javase/jp/7/technotes/guides/language/try-with-resources.html](http://docs.oracle.com/javase/jp/7/technotes/guides/language/try-with-resources.html)
 
-* `e.printStackTrace();`のみの`catch`を避ける  
+* `e.printStackTrace();`のみの`catch`を禁止  
 標準/エラー出力はデフォルトで無効化してあります。  
-(なのでこのように書いてしまうと実質的に例外無視です)  
+(なのでこれだけ書いてしまうと実質的に例外無視です)  
 また、例外的状況にもかかわらず処理が続行されてしまう可能性があります。  
 適切な例外をスローしてください。  
 
