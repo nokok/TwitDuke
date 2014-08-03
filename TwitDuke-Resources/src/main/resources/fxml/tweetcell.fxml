@@ -7,17 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="400.0" style="-fx-background-color: #323232;" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-    <left>
-        <ImageView fx:id="userIcon" cache="true" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-            <image>
-                <Image url="@../img/usericonloading.png" />
-            </image>
-            <BorderPane.margin>
-                <Insets left="3.0" right="3.0" />
-            </BorderPane.margin>
-        </ImageView>
-    </left>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="400.0" styleClass="default-panel" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <center>
         <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <top>
@@ -40,11 +30,25 @@
                 </FlowPane>
             </top>
             <center>
-                <TextArea fx:id="tweetTextArea" editable="false" styleClass="tweet-textarea" stylesheets="@../css/default.css" text="テストツイート" wrapText="true" BorderPane.alignment="CENTER" />
+                <TextArea fx:id="tweetTextArea" editable="false" styleClass="tweet-textarea" stylesheets="@../css/default.css" wrapText="true" BorderPane.alignment="CENTER" />
             </center>
         </BorderPane>
     </center>
     <right>
         <Pane prefWidth="10.0" BorderPane.alignment="CENTER" />
     </right>
+   <left>
+      <BorderPane prefHeight="50.0" prefWidth="50.0" BorderPane.alignment="CENTER">
+         <center>
+              <ImageView fx:id="userIcon" cache="true" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                  <image>
+                      <Image url="@../img/usericonloading.png" />
+                  </image>
+                  <BorderPane.margin>
+                      <Insets left="3.0" right="3.0" />
+                  </BorderPane.margin>
+              </ImageView>
+         </center>
+      </BorderPane>
+   </left>
 </BorderPane>
