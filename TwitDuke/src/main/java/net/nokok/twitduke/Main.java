@@ -23,10 +23,8 @@
  */
 package net.nokok.twitduke;
 
-import static com.google.common.io.ByteStreams.nullOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.UncheckedIOException;
 import java.net.URL;
 import java.util.stream.Stream;
@@ -42,6 +40,7 @@ import net.nokok.twitduke.core.account.AccountManagerFactory;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
 import net.nokok.twitduke.core.auth.OAuthOnSuccess;
 import net.nokok.twitduke.core.auth.OAuthRunnable;
+import net.nokok.twitduke.core.io.Console;
 import net.nokok.twitduke.core.io.DirectoryHelper;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
 import net.nokok.twitduke.core.twitter.TwitterNotificationListener;
@@ -87,7 +86,7 @@ public class Main extends Application {
             boolean isDebug = hasOption("--debug", args);
             boolean isServerMode = hasOption("--server-mode", args);
             if ( !isDebug ) {
-                disableOutput();
+                Console.disableOutput();
             }
             final AccountManager accountManager = AccountManagerFactory.newInstance();
             if ( accountManager.hasValidAccount() ) {
@@ -109,11 +108,6 @@ public class Main extends Application {
             errorLogExporter.onError(e);
             throw e;
         }
-    }
-
-    private static void disableOutput() {
-        System.setErr(new PrintStream(nullOutputStream()));
-        System.setOut(new PrintStream(nullOutputStream()));
     }
 
     /**
