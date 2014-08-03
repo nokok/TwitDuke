@@ -23,12 +23,12 @@
             <top>
                 <FlowPane prefHeight="25.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Label fx:id="userName" styleClass="username-label" stylesheets="@../css/fxml_style.css" text="UserName">
+                        <Label fx:id="userName" styleClass="username-label" stylesheets="@../css/default.css" text="UserName">
                             <FlowPane.margin>
                                 <Insets left="3.0" right="10.0" top="5.0" />
                             </FlowPane.margin>
                         </Label>
-                        <Label fx:id="screenName" styleClass="screenname-label" stylesheets="@../css/fxml_style.css" text="ScreenName">
+                        <Label fx:id="screenName" styleClass="screenname-label" stylesheets="@../css/default.css" text="ScreenName">
                             <FlowPane.margin>
                                 <Insets top="9.0" />
                             </FlowPane.margin>
@@ -40,7 +40,7 @@
                 </FlowPane>
             </top>
             <center>
-                <TextArea fx:id="tweetTextArea" editable="false" styleClass="tweet-textarea" stylesheets="@../css/fxml_style.css" wrapText="true" BorderPane.alignment="CENTER" />
+                <TextArea fx:id="tweetTextArea" editable="false" styleClass="tweet-textarea" stylesheets="@../css/default.css" text="テストツイート" wrapText="true" BorderPane.alignment="CENTER" />
             </center>
         </BorderPane>
     </center>
