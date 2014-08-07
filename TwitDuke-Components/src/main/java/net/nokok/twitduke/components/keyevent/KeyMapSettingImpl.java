@@ -46,16 +46,7 @@ public class KeyMapSettingImpl implements IKeyMapSetting {
 
     @Override
     public boolean removeCommand(final String id) throws IllegalArgumentException {
-        if ( Strings.isNullOrEmpty(id) ) {
-            throw new IllegalArgumentException();
-        }
-        if ( !commandClasses.containsKey(id) ) {
-            return false;
-        }
-        commandClasses.remove(id);
-        commandKeyBinds.get(id).stream().forEach(KeyBind::remove);
-        commandKeyBinds.remove(id);
-        return true;
+        throw new UnsupportedOperationException("実装してないよ");
     }
 
     @Override

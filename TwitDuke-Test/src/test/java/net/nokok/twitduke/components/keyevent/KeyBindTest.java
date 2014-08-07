@@ -1,8 +1,6 @@
 package net.nokok.twitduke.components.keyevent;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
@@ -90,31 +88,6 @@ public class KeyBindTest {
         assertEquals(null, getStringValue(fnComponentName));
     }
 
-    /**
-     *
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testSetRemoveFunc() throws Exception {
-        Consumer<KeyBind> value = System.out::println;
-        bind.setRemoveFunc(value);
-        assertEquals(value, getValue(fnRemoveFunc));
-        bind.setRemoveFunc(null);
-        assertEquals(null, getValue(fnRemoveFunc));
-    }
-
-    /**
-     *
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testRemove() throws Exception {
-        List<KeyBind> buf = new ArrayList<>();
-        bind.setRemoveFunc(buf::add);
-        bind.remove();
-        assertEquals(1, buf.size());
-    }
-
     @Test
     public void testHashCode() throws Exception {
         assertEquals(bind.hashCode(), 0);
@@ -160,8 +133,6 @@ public class KeyBindTest {
         b1.setSelector("Any");
         b2.setSelector("Any");
         Consumer<KeyBind> func = b1::equals;
-        b1.setRemoveFunc(func);
-        b2.setRemoveFunc(func);
         assertTrue(b1.hashCode() == b2.hashCode());
         assertTrue(b1.equals(b2));
         assertTrue(b2.equals(b1));
@@ -193,21 +164,6 @@ public class KeyBindTest {
         KeyBind b2 = new KeyBind();
         b1.setSelector("Any");
         b2.setSelector("Other");
-        assertTrue(!b1.equals(b2));
-        assertTrue(!b2.equals(b1));
-    }
-
-    /**
-     * コールバックが違うときの not equal
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testEqualsF3() throws Exception {
-        KeyBind b1 = new KeyBind();
-        KeyBind b2 = new KeyBind();
-        b1.setRemoveFunc(b1::equals);
-        b2.setRemoveFunc(b2::equals);
         assertTrue(!b1.equals(b2));
         assertTrue(!b2.equals(b1));
     }
