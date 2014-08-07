@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 
 /**
@@ -56,7 +55,7 @@ public class JavaFXActionRegister implements IActionRegister {
         EventHandler<KeyEvent> command = (EventHandler<KeyEvent>) commandClass.newInstance();
         keyBinds.forEach(bind -> {
             EventHandler<KeyEvent> adapter = event -> {
-                if ( KeyCombination.keyCombination(bind.getKeyStroke()).match(event) ) {
+                if ( bind.getKeyStroke().match(event) ) {
                     command.handle(event);
                 }
             };

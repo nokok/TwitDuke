@@ -1,5 +1,7 @@
 package net.nokok.twitduke.components.keyevent;
 
+import javafx.scene.input.KeyCombination;
+
 /**
  * Created by wtnbsts on 2014/07/23.
  */
@@ -9,7 +11,7 @@ public class KeyBind implements Comparable<KeyBind> {
      * キー入力の文字列表現
      * 例) ctrl+a
      */
-    private String keyStroke;
+    private KeyCombination keyStroke;
     /**
      * キーボードショートカットが有効になるコンポーネントの条件 (現在はクラス名の完全一致)
      * 例) net.nokok.twitduke.components.TWButton
@@ -21,7 +23,7 @@ public class KeyBind implements Comparable<KeyBind> {
      *
      * @return キー入力の文字列表現
      */
-    public String getKeyStroke() {
+    public KeyCombination getKeyStroke() {
         return keyStroke;
     }
 
@@ -30,7 +32,7 @@ public class KeyBind implements Comparable<KeyBind> {
      *
      * @param keyStroke キー入力の文字列表現
      */
-    public void setKeyStroke(final String keyStroke) {
+    public void setKeyStroke(final KeyCombination keyStroke) {
         this.keyStroke = keyStroke;
     }
 
@@ -53,30 +55,21 @@ public class KeyBind implements Comparable<KeyBind> {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if ( this == o ) {
-            return true;
-        }
-        if ( o == null || getClass() != o.getClass() ) {
-            return false;
-        }
-
-        KeyBind keyBind = (KeyBind) o;
-
-        if ( keyStroke != null ? !keyStroke.equals(keyBind.keyStroke) : keyBind.keyStroke != null ) {
-            return false;
-        }
-
-        return !(selector != null ? !selector.equals(keyBind.selector)
-                 : keyBind.selector != null);
-
+    public int hashCode() {
+        int hash = 7;
+        return hash;
     }
 
     @Override
-    public int hashCode() {
-        int result = keyStroke != null ? keyStroke.hashCode() : 0;
-        result = 31 * result + (selector != null ? selector.hashCode() : 0);
-        return result;
+    public boolean equals(Object obj) {
+        if ( obj == null ) {
+            return false;
+        }
+        if ( getClass() != obj.getClass() ) {
+            return false;
+        }
+        final KeyBind other = (KeyBind) obj;
+        return true;
     }
 
     @Override
@@ -92,8 +85,8 @@ public class KeyBind implements Comparable<KeyBind> {
             return namedif;
         }
 
-        int keydif = (keyStroke == null ? "" : keyStroke).compareTo(
-                keyBind.keyStroke == null ? "" : keyBind.keyStroke
+        int keydif = (keyStroke == null ? "" : keyStroke.getName()).compareTo(
+                keyBind.keyStroke == null ? "" : keyBind.keyStroke.getName()
         );
         if ( keydif != 0 ) {
             return keydif;

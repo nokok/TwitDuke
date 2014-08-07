@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javafx.scene.input.KeyCombination;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -89,7 +90,7 @@ public class KeyMapXmlStore implements IKeyMapStore {
     private static KeyBind createKeyBind(final Node keyBindNode) {
         try {
             KeyBind keyBind = new KeyBind();
-            keyBind.setKeyStroke(getAttribute(keyBindNode, ATTR_KBSC_KEYSTROKE));
+            keyBind.setKeyStroke(KeyCombination.keyCombination(getAttribute(keyBindNode, ATTR_KBSC_KEYSTROKE)));
             keyBind.setSelector(getAttribute(keyBindNode, ATTR_KBSC_COMPONENT));
             return keyBind;
         } catch (NumberFormatException ex) {
@@ -132,7 +133,7 @@ public class KeyMapXmlStore implements IKeyMapStore {
                 .forEach(bind -> {
                     Element bindNode = doc.createElement(TAG_KEYBOARD_SHORTCUT);
                     bindNode.setAttribute(ATTR_KBSC_COMPONENT, bind.getSelector());
-                    bindNode.setAttribute(ATTR_KBSC_KEYSTROKE, bind.getKeyStroke());
+                    bindNode.setAttribute(ATTR_KBSC_KEYSTROKE, bind.getKeyStroke().getName());
                     actionNode.appendChild(bindNode);
                 });
         return actionNode;

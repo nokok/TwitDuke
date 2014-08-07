@@ -2,6 +2,7 @@ package net.nokok.twitduke.components.keyevent;
 
 import java.lang.reflect.Field;
 import java.util.function.Consumer;
+import javafx.scene.input.KeyCombination;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
@@ -45,8 +46,8 @@ public class KeyBindTest {
     @Test
     public void testGetKeyStroke() throws Exception {
         String value = "ctrl K";
-        bind.setKeyStroke(value);
-        assertEquals(value, getStringValue(fnKeyStroke));
+        bind.setKeyStroke(KeyCombination.keyCombination(value));
+        assertEquals(KeyCombination.keyCombination(value), getStringValue(fnKeyStroke));
     }
 
     /**
@@ -56,7 +57,7 @@ public class KeyBindTest {
     @Test
     public void testSetKeyStroke() throws Exception {
         String value = "ctrl K";
-        bind.setKeyStroke(value);
+        bind.setKeyStroke(KeyCombination.keyCombination(value));
         assertEquals(value, getStringValue(fnKeyStroke));
         bind.setKeyStroke(null);
         assertEquals(null, getStringValue(fnKeyStroke));
@@ -91,7 +92,7 @@ public class KeyBindTest {
     @Test
     public void testHashCode() throws Exception {
         assertEquals(bind.hashCode(), 0);
-        bind.setKeyStroke("Any");
+        bind.setKeyStroke(KeyCombination.keyCombination("ctrl"));
         assertNotSame(bind.hashCode(), 0);
     }
 
@@ -128,8 +129,8 @@ public class KeyBindTest {
     public void testEqualsT2() throws Exception {
         KeyBind b1 = new KeyBind();
         KeyBind b2 = new KeyBind();
-        b1.setKeyStroke("ctrl K");
-        b2.setKeyStroke("ctrl K");
+        b1.setKeyStroke(KeyCombination.keyCombination("ctrl+k"));
+        b2.setKeyStroke(KeyCombination.keyCombination("ctrl+k"));
         b1.setSelector("Any");
         b2.setSelector("Any");
         Consumer<KeyBind> func = b1::equals;
@@ -147,8 +148,8 @@ public class KeyBindTest {
     public void testEqualsF0() throws Exception {
         KeyBind b1 = new KeyBind();
         KeyBind b2 = new KeyBind();
-        b1.setKeyStroke("ctrl K");
-        b2.setKeyStroke("");
+        b1.setKeyStroke(KeyCombination.keyCombination("ctrl+k"));
+        b2.setKeyStroke(KeyCombination.keyCombination("ctrl+y"));
         assertTrue(!b1.equals(b2));
         assertTrue(!b2.equals(b1));
     }

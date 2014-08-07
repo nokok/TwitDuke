@@ -59,7 +59,7 @@ public class KeyMapSettingImpl implements IKeyMapSetting {
         if ( Strings.isNullOrEmpty(id) || Objects.isNull(keyBind) ) {
             throw new IllegalArgumentException();
         }
-        if ( Strings.isNullOrEmpty(keyBind.getKeyStroke()) || Strings.isNullOrEmpty(keyBind.getSelector()) ) {
+        if ( Objects.isNull(keyBind.getKeyStroke()) || Strings.isNullOrEmpty(keyBind.getSelector()) ) {
             throw new IllegalArgumentException();
         }
         return commandClasses.containsKey(id) && commandKeyBinds.get(id).add(keyBind);
