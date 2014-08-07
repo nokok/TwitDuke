@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?><keymap name="default">
     <action id="Insert Point to Beginning of Line." plugin="net.nokok.twitduke.components.actions.Action_MoveToBeginningOfLine">
-        <keyboard-shortcut keystroke="ctrl+a" selector="javafx.scene.control.TextArea"/>
+        <keyboard-shortcut keystroke="Ctrl+A" selector="javafx.scene.control.TextArea"/>
     </action>
     <action id="Insert Point to End of Line." plugin="net.nokok.twitduke.components.actions.Action_MoveToEndOfLine">
-        <keyboard-shortcut keystroke="ctrl+e" selector="javafx.scene.control.TextArea"/>
+        <keyboard-shortcut keystroke="Ctrl+E" selector="javafx.scene.control.TextArea"/>
     </action>
     <action id="check key event" plugin="net.nokok.twitduke.components.actions.Action_CheckKeyEvent">
-        <keyboard-shortcut keystroke="ctrl+t" selector="*"/>
+        <keyboard-shortcut keystroke="Ctrl+T" selector="*"/>
     </action>
     <action id="cut up to line end." plugin="net.nokok.twitduke.components.actions.Action_CutUpToLineEnd">
-        <keyboard-shortcut keystroke="meta+k" selector="#anyFxId"/>
-        <keyboard-shortcut keystroke="ctrl+k" selector="#twitTextArea"/>
+        <keyboard-shortcut keystroke="Meta+K" selector="#anyFxId"/>
+        <keyboard-shortcut keystroke="Ctrl+K" selector="#twitTextArea"/>
     </action>
     <action id="hey!" plugin="net.nokok.twitduke.components.swingactions.Action_Hey">
-        <keyboard-shortcut keystroke="ctrl+o" selector="*"/>
+        <keyboard-shortcut keystroke="Ctrl+O" selector="*"/>
     </action>
     <action id="paste" plugin="net.nokok.twitduke.components.actions.Action_Paste">
-        <keyboard-shortcut keystroke="meta+y" selector="AnyClassName"/>
-        <keyboard-shortcut keystroke="ctrl+y" selector="javafx.scene.control.TextArea"/>
+        <keyboard-shortcut keystroke="Meta+Y" selector="AnyClassName"/>
+        <keyboard-shortcut keystroke="Ctrl+Y" selector="javafx.scene.control.TextArea"/>
     </action>
     <action id="retweet" plugin="Action_Retweet"/>
 </keymap>

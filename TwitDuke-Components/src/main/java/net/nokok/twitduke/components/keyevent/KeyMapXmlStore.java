@@ -89,10 +89,9 @@ public class KeyMapXmlStore implements IKeyMapStore {
 
     private static KeyBind createKeyBind(final Node keyBindNode) {
         try {
-            KeyBind keyBind = new KeyBind();
-            keyBind.setKeyStroke(KeyCombination.keyCombination(getAttribute(keyBindNode, ATTR_KBSC_KEYSTROKE)));
-            keyBind.setSelector(getAttribute(keyBindNode, ATTR_KBSC_COMPONENT));
-            return keyBind;
+            KeyCombination shortcutKey = KeyCombination.keyCombination(getAttribute(keyBindNode, ATTR_KBSC_KEYSTROKE));
+            String targetSelector = getAttribute(keyBindNode, ATTR_KBSC_COMPONENT);
+            return new KeyBind(shortcutKey, targetSelector);
         } catch (NumberFormatException ex) {
             throw new RuntimeException(ex);
         }

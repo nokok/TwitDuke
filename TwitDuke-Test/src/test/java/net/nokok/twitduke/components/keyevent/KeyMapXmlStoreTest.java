@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.List;
+import javafx.scene.input.KeyCombination;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -90,11 +91,11 @@ public class KeyMapXmlStoreTest {
     public void testKeyBind() throws Exception {
         IKeyMapSetting setting = store.load(xmlStream);
         KeyBind paste0 = setting.getKeyBinds("paste").get(0);
-        assertEquals("meta+y", paste0.getKeyStroke());
+        assertEquals(KeyCombination.keyCombination("meta+y"), paste0.getKeyStroke());
         assertEquals("AnyClassName", paste0.getSelector());
 
         KeyBind cut2 = setting.getKeyBinds("cut up to line end.").get(0);
-        assertEquals("meta+k", cut2.getKeyStroke());
+        assertEquals(KeyCombination.keyCombination("meta+k"), cut2.getKeyStroke());
         assertEquals("#anyFxId", cut2.getSelector());
     }
 
@@ -104,9 +105,8 @@ public class KeyMapXmlStoreTest {
         OutputStream out = new ByteArrayOutputStream();
         assertTrue(store.save(out, setting));
         assertEquals(
-                xmlValue.replaceAll("\\n", ""),
-                out.toString().replaceAll("\\n", "")
+                xmlValue.replaceAll("\\n", "").replaceAll("\\s+", " "),
+                out.toString().replaceAll("\\n", "").replaceAll("\\s+", " ")
         );
-
     }
 }

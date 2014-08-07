@@ -1,5 +1,6 @@
 package net.nokok.twitduke.components.keyevent;
 
+import java.util.Objects;
 import javafx.scene.input.KeyCombination;
 
 /**
@@ -19,21 +20,24 @@ public class KeyBind implements Comparable<KeyBind> {
     private String selector;
 
     /**
+     * キーボードショートカットのキー設定と、
+     * ショートカットが有効になるコンポーネントの条件を取得してインスタンスを生成する
+     *
+     * @param shortcutKeyBind ショートカットキー
+     * @param selector        キーボードショートカットが有効になるコンポーネントの条件
+     */
+    public KeyBind(final KeyCombination shortcutKeyBind, final String selector) {
+        this.keyStroke = shortcutKeyBind;
+        this.selector = selector;
+    }
+
+    /**
      * キー入力の文字列表現を取得する
      *
      * @return キー入力の文字列表現
      */
     public KeyCombination getKeyStroke() {
         return keyStroke;
-    }
-
-    /**
-     * キー入力の文字列表現を設定する
-     *
-     * @param keyStroke キー入力の文字列表現
-     */
-    public void setKeyStroke(final KeyCombination keyStroke) {
-        this.keyStroke = keyStroke;
     }
 
     /**
@@ -45,18 +49,11 @@ public class KeyBind implements Comparable<KeyBind> {
         return selector;
     }
 
-    /**
-     * キーボードショートカットが有効になるコンポーネントの条件を取得する
-     *
-     * @param selector キーボードショートカットが有効になるコンポーネントの条件
-     */
-    public void setSelector(final String selector) {
-        this.selector = selector;
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
+        hash = 11 * hash + Objects.hashCode(this.keyStroke);
+        hash = 11 * hash + Objects.hashCode(this.selector);
         return hash;
     }
 
@@ -69,6 +66,12 @@ public class KeyBind implements Comparable<KeyBind> {
             return false;
         }
         final KeyBind other = (KeyBind) obj;
+        if ( !Objects.equals(this.keyStroke, other.keyStroke) ) {
+            return false;
+        }
+        if ( !Objects.equals(this.selector, other.selector) ) {
+            return false;
+        }
         return true;
     }
 
