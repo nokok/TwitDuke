@@ -3,7 +3,6 @@ package net.nokok.twitduke.components.keyevent;
 import java.lang.reflect.Field;
 import javafx.scene.input.KeyCombination;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
@@ -16,15 +15,37 @@ public class KeyBindTest {
     private static final String fnComponentName = "selector";
 
     /**
-     * コンストラクタ
+     * インスタンス生成成功
      *
      * @throws java.lang.Exception
      */
     @Test
-    public void testConstructor() throws Exception {
-        KeyBind bind = new KeyBind(null, null);
-        assertNull(getStringValue(bind, fnKeyStroke));
-        assertNull(getStringValue(bind, fnComponentName));
+    public void testConstructorS() throws Exception {
+        KeyBind bind = new KeyBind(KeyCombination.NO_MATCH, "any");
+        assertEquals(KeyCombination.NO_MATCH, getValue(bind, fnKeyStroke));
+        assertEquals("any", getStringValue(bind, fnComponentName));
+    }
+
+    /**
+     * インスタンス生成失敗
+     *
+     * @throws Exception
+     */
+    @Test(expected = NullPointerException.class)
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
+    public void testConstructorF0() throws Exception {
+        new KeyBind(KeyCombination.NO_MATCH, null);
+    }
+
+    /**
+     * インスタンス生成失敗
+     *
+     * @throws Exception
+     */
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
+    @Test(expected = NullPointerException.class)
+    public void testConstructorF1() throws Exception {
+        new KeyBind(null, "any");
     }
 
     /**
@@ -34,7 +55,7 @@ public class KeyBindTest {
     @Test
     public void testGetKeyStroke() throws Exception {
         String value = "ctrl+K";
-        KeyBind bind = new KeyBind(KeyCombination.keyCombination(value), null);
+        KeyBind bind = new KeyBind(KeyCombination.keyCombination(value), "any");
         assertEquals(KeyCombination.keyCombination(value), getValue(bind, fnKeyStroke));
     }
 
@@ -45,14 +66,14 @@ public class KeyBindTest {
     @Test
     public void testGetSelector() throws Exception {
         String value = "AnyComponent";
-        KeyBind bind = new KeyBind(null, value);
+        KeyBind bind = new KeyBind(KeyCombination.NO_MATCH, value);
         assertEquals(value, bind.getSelector());
     }
 
     @Test
     public void testHashCode() throws Exception {
-        KeyBind bind1 = new KeyBind(null, null);
-        KeyBind bind2 = new KeyBind(KeyCombination.keyCombination("ctrl+k"), null);
+        KeyBind bind1 = new KeyBind(KeyCombination.NO_MATCH, "any");
+        KeyBind bind2 = new KeyBind(KeyCombination.keyCombination("ctrl+k"), "any");
         assertTrue(bind1.hashCode() != bind2.hashCode());
     }
 
@@ -65,20 +86,6 @@ public class KeyBindTest {
     public void testEqualsT0() throws Exception {
         KeyBind bind = new KeyBind(KeyCombination.keyCombination("ctrl+k"), "any");
         assertTrue(bind.equals(bind));
-    }
-
-    /**
-     * 空っぽのオブジェクトのequals
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testEqualsT1() throws Exception {
-        KeyBind b1 = new KeyBind(null, null);
-        KeyBind b2 = new KeyBind(null, null);
-        assertTrue(b1.hashCode() == b2.hashCode());
-        assertTrue(b1.equals(b2));
-        assertTrue(b2.equals(b1));
     }
 
     /**
