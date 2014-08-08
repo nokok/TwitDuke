@@ -1,4 +1,11 @@
 language: java
 jdk:
-      - oraclejdk8
+    - oraclejdk8
 install: mvn compile install test
+notifications:
+    webhooks:
+        urls:
+            - https://webhooks.gitter.im/e/9f524dbb31400e2d6c52
+        on_success: always  # options: [always|never|change] default: always
+        on_failure: always  # options: [always|never|change] default: always
+        on_start: false     # default: false
