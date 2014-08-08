@@ -20,7 +20,7 @@ import javafx.stage.Stage;
  *
  * @author wtnbsts
  */
-public class Action_Hey implements EventHandler<KeyEvent> {
+public class Hey implements EventHandler<KeyEvent> {
 
     private long lastCommandTime = System.currentTimeMillis();
 

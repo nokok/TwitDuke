@@ -13,14 +13,12 @@ import javafx.scene.input.KeyEvent;
  *
  * @author wtnbsts
  */
-public class Action_MoveToBeginningOfLine implements EventHandler<KeyEvent> {
+public class Paste implements EventHandler<KeyEvent> {
 
     @Override
     public void handle(KeyEvent event) {
-        if ( !(event.getSource() instanceof TextArea) ) {
-            return;
+        if ( event.getSource() instanceof TextArea ) {
+            ((TextArea) event.getSource()).paste();
         }
-        final TextArea src = (TextArea) event.getSource();
-        src.positionCaret(ActionUtil.getBeginningOfLine(src.getText(), src.getCaretPosition()));
     }
 }

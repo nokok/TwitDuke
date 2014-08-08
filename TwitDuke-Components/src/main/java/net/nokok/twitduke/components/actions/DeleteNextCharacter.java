@@ -13,7 +13,7 @@ import javafx.scene.input.KeyEvent;
  *
  * @author wtnbsts
  */
-public class Action_DeleteNextCharacter implements EventHandler<KeyEvent> {
+public class DeleteNextCharacter implements EventHandler<KeyEvent> {
 
     @Override
     public void handle(KeyEvent event) {

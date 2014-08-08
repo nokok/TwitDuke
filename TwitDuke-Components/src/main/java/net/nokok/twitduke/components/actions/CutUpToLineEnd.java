@@ -17,7 +17,7 @@ import javafx.scene.input.KeyEvent;
  *
  * @author wtnbsts
  */
-public class Action_CutUpToLineEnd implements EventHandler<KeyEvent> {
+public class CutUpToLineEnd implements EventHandler<KeyEvent> {
 
     private String lastText;
     private int lastSelectionStart = -1;

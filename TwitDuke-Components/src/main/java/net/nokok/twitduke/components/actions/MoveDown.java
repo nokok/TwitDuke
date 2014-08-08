@@ -13,12 +13,18 @@ import javafx.scene.input.KeyEvent;
  *
  * @author wtnbsts
  */
-public class Action_MoveBackward implements EventHandler<KeyEvent> {
+public class MoveDown implements EventHandler<KeyEvent> {
 
     @Override
     public void handle(KeyEvent event) {
-        if ( event.getSource() instanceof TextArea ) {
-            ((TextArea) event.getSource()).backward();
+        if ( !(event.getSource() instanceof TextArea) ) {
+            return;
         }
+        final TextArea src = (TextArea) event.getSource();
+        final int downSidePosit = ActionUtil.getDownSide(src.getText(), src.getCaretPosition());
+        if ( downSidePosit < 0 ) {
+            return;
+        }
+        src.positionCaret(downSidePosit);
     }
 }

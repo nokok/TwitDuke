@@ -28,7 +28,7 @@ import javafx.stage.Stage;
  *
  * @author wtnbsts
  */
-public class Action_CheckKeyEvent implements EventHandler<KeyEvent> {
+public class CheckKeyEvent implements EventHandler<KeyEvent> {
 
     private final static String WITH = "+";
     private long lastCommandTime = System.currentTimeMillis();

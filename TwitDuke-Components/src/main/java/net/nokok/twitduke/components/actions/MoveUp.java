@@ -13,12 +13,18 @@ import javafx.scene.input.KeyEvent;
  *
  * @author wtnbsts
  */
-public class Action_MoveForward implements EventHandler<KeyEvent> {
+public class MoveUp implements EventHandler<KeyEvent> {
 
     @Override
     public void handle(KeyEvent event) {
-        if ( event.getSource() instanceof TextArea ) {
-            ((TextArea) event.getSource()).forward();
+        if ( !(event.getSource() instanceof TextArea) ) {
+            return;
         }
+        final TextArea src = (TextArea) event.getSource();
+        final int upSidePosit = ActionUtil.getUpSide(src.getText(), src.getCaretPosition());
+        if ( upSidePosit < 0 ) {
+            return;
+        }
+        src.positionCaret(upSidePosit);
     }
 }

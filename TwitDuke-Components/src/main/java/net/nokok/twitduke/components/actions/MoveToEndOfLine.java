@@ -13,12 +13,14 @@ import javafx.scene.input.KeyEvent;
  *
  * @author wtnbsts
  */
-public class Action_DeletePreviousCharacter implements EventHandler<KeyEvent> {
+public class MoveToEndOfLine implements EventHandler<KeyEvent> {
 
     @Override
     public void handle(KeyEvent event) {
-        if ( event.getSource() instanceof TextArea ) {
-            ((TextArea) event.getSource()).deletePreviousChar();
+        if ( !(event.getSource() instanceof TextArea) ) {
+            return;
         }
+        final TextArea src = (TextArea) event.getSource();
+        src.positionCaret(ActionUtil.getEndOfLine(src.getText(), src.getCaretPosition()));
     }
 }

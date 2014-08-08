@@ -13,14 +13,12 @@ import javafx.scene.input.KeyEvent;
  *
  * @author wtnbsts
  */
-public class Action_MoveToEndOfLine implements EventHandler<KeyEvent> {
+public class MoveBackward implements EventHandler<KeyEvent> {
 
     @Override
     public void handle(KeyEvent event) {
-        if ( !(event.getSource() instanceof TextArea) ) {
-            return;
+        if ( event.getSource() instanceof TextArea ) {
+            ((TextArea) event.getSource()).backward();
         }
-        final TextArea src = (TextArea) event.getSource();
-        src.positionCaret(ActionUtil.getEndOfLine(src.getText(), src.getCaretPosition()));
     }
 }

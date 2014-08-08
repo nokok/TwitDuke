@@ -13,18 +13,12 @@ import javafx.scene.input.KeyEvent;
  *
  * @author wtnbsts
  */
-public class Action_MoveDown implements EventHandler<KeyEvent> {
+public class DeletePreviousCharacter implements EventHandler<KeyEvent> {
 
     @Override
     public void handle(KeyEvent event) {
-        if ( !(event.getSource() instanceof TextArea) ) {
-            return;
+        if ( event.getSource() instanceof TextArea ) {
+            ((TextArea) event.getSource()).deletePreviousChar();
         }
-        final TextArea src = (TextArea) event.getSource();
-        final int downSidePosit = ActionUtil.getDownSide(src.getText(), src.getCaretPosition());
-        if ( downSidePosit < 0 ) {
-            return;
-        }
-        src.positionCaret(downSidePosit);
     }
 }
