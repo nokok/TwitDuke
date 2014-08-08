@@ -27,12 +27,8 @@ public class KeyBind implements Comparable<KeyBind> {
      * @param selector        キーボードショートカットが有効になるコンポーネントの条件
      */
     public KeyBind(final KeyCombination shortcutKeyBind, final String selector) {
-        if ( shortcutKeyBind == null ) {
-            throw new NullPointerException("shortcutKeyBind");
-        }
-        if ( selector == null ) {
-            throw new NullPointerException("selector");
-        }
+        Objects.requireNonNull(shortcutKeyBind, "shortcutKeyBind");
+        Objects.requireNonNull(selector, "selector");
         this.keyStroke = shortcutKeyBind;
         this.selector = selector;
     }
