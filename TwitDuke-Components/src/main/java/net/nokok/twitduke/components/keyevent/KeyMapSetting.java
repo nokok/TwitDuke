@@ -2,6 +2,7 @@ package net.nokok.twitduke.components.keyevent;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by wtnbsts on 2014/07/23.
@@ -13,14 +14,14 @@ public interface KeyMapSetting {
      *
      * @return
      */
-    String getSettingName();
+    Optional<String> getSettingName();
 
     /**
      * 登録されているコマンド名一覧を取得する
      *
      * @return
      */
-    List<String> getCommandIds();
+    Optional<List<String>> getCommandIds();
 
     /**
      * コマンド名と、コマンドクラスを指定して、新しくコマンドを登録する
@@ -44,7 +45,7 @@ public interface KeyMapSetting {
      * @return true: 削除成功
      *         false: 削除失敗
      */
-    boolean removeCommand(final String id) throws IllegalArgumentException;
+    boolean removeCommand(final String id);
 
     /**
      * コマンド名に紐付けられている実行コマンドのクラス名を取得する
@@ -53,7 +54,7 @@ public interface KeyMapSetting {
      *
      * @return 実行コマンドのクラス名
      */
-    String getCommandClassName(final String id);
+    Optional<String> getCommandClassName(final String id);
 
     /**
      * コマンドとキー入力をひもづける ＊このメソッドを呼ぶ前にaddCommandメソッドでコマンドを登録しておくこと！
@@ -65,8 +66,7 @@ public interface KeyMapSetting {
      *
      * @throws java.lang.IllegalArgumentException 不正なキーバインド
      */
-    boolean addKeyBind(final String id, final KeyBind keyBind)
-            throws IllegalArgumentException;
+    boolean addKeyBind(final String id, final KeyBind keyBind);
 
     /**
      * @param id
@@ -77,7 +77,7 @@ public interface KeyMapSetting {
      * @throws IllegalArgumentException
      * @see IKeyMapSetting#addKeyBind(String, KeyBind)
      */
-    void addKeyBinds(final String id, final List<KeyBind> keyBinds) throws IllegalArgumentException;
+    void addKeyBinds(final String id, final List<KeyBind> keyBinds);
 
     /**
      * コマンドとキー入力のひもづけを切る
@@ -87,7 +87,7 @@ public interface KeyMapSetting {
      *
      * @return
      */
-    boolean removeKeyBind(final String id, final KeyBind keyBind) throws IllegalArgumentException;
+    boolean removeKeyBind(final String id, final KeyBind keyBind);
 
     /**
      * コマンドに登録されているキーバインド一覧を取得する
@@ -96,17 +96,16 @@ public interface KeyMapSetting {
      *
      * @return
      */
-    List<KeyBind> getKeyBinds(final String id) throws IllegalArgumentException;
+    Optional<List<KeyBind>> getKeyBinds(final String id);
 
     /**
      * コンポーネントに登録するキーバインド一覧を取得する
      *
-     * @param targetComponentName
+     * @param targetSelector
      *
      * @return
      *
      * @throws IllegalArgumentException
      */
-    Map<String, List<KeyBind>> collectKeyBinds(final String targetComponentName)
-            throws IllegalArgumentException;
+    Optional<Map<String, List<KeyBind>>> collectKeyBinds(final String targetSelector);
 }

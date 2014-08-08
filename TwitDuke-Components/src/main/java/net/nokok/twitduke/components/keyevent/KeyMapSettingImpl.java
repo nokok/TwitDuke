@@ -1,11 +1,11 @@
 package net.nokok.twitduke.components.keyevent;
 
-import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -18,24 +18,24 @@ public class KeyMapSettingImpl implements KeyMapSetting {
     private final Map<String, List<KeyBind>> commandKeyBinds = new HashMap<>();
 
     public KeyMapSettingImpl(final String name) {
+        Objects.requireNonNull(name);
         settingName = name;
     }
 
     @Override
-    public String getSettingName() {
-        return settingName;
+    public Optional<String> getSettingName() {
+        return Optional.of(settingName);
     }
 
     @Override
-    public List<String> getCommandIds() {
-        return commandClasses.keySet().stream().collect(Collectors.toList());
+    public Optional<List<String>> getCommandIds() {
+        return Optional.of(commandClasses.keySet().stream().collect(Collectors.toList()));
     }
 
     @Override
-    public boolean addCommand(final String id, final String commandClassName) throws IllegalArgumentException {
-        if ( Strings.isNullOrEmpty(id) || Strings.isNullOrEmpty(commandClassName) ) {
-            throw new IllegalArgumentException(id);
-        }
+    public boolean addCommand(final String id, final String commandClassName) {
+        Objects.requireNonNull(id);
+        Objects.requireNonNull(commandClassName);
         if ( commandClasses.containsKey(id) ) {
             return false;
         }
@@ -45,90 +45,82 @@ public class KeyMapSettingImpl implements KeyMapSetting {
     }
 
     @Override
-    public boolean removeCommand(final String id) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("実装してないよ");
+    public boolean removeCommand(final String id) {
+        return Objects.isNull(commandClasses.remove(id))
+               || Objects.isNull(commandKeyBinds.remove(id));
     }
 
     @Override
-    public String getCommandClassName(final String id) {
-        return commandClasses.get(id);
+    public Optional<String> getCommandClassName(final String id) {
+        return Optional.of(commandClasses.get(id));
     }
 
     @Override
-    public boolean addKeyBind(final String id, final KeyBind keyBind) throws IllegalArgumentException {
-        if ( Strings.isNullOrEmpty(id) || Objects.isNull(keyBind) ) {
-            throw new IllegalArgumentException();
-        }
-        if ( Objects.isNull(keyBind.getKeyStroke()) || Strings.isNullOrEmpty(keyBind.getSelector()) ) {
-            throw new IllegalArgumentException();
-        }
+    public boolean addKeyBind(final String id, final KeyBind keyBind) {
+        Objects.requireNonNull(id);
+        Objects.requireNonNull(keyBind);
         return commandClasses.containsKey(id) && commandKeyBinds.get(id).add(keyBind);
     }
 
     @Override
-    public void addKeyBinds(final String id, final List<KeyBind> keyBinds) throws IllegalArgumentException {
+    public void addKeyBinds(final String id, final List<KeyBind> keyBinds) {
+        Objects.requireNonNull(id);
+        Objects.requireNonNull(keyBinds);
         keyBinds.stream().forEach(bind -> addKeyBind(id, bind));
     }
 
     @Override
-    public boolean removeKeyBind(final String id, final KeyBind keyBind) throws IllegalArgumentException {
-        if ( Strings.isNullOrEmpty(id) ) {
-            throw new IllegalArgumentException();
-        }
+    public boolean removeKeyBind(final String id, final KeyBind keyBind) {
         return commandClasses.containsKey(id) && commandKeyBinds.get(id).remove(keyBind);
     }
 
     @Override
-    public List<KeyBind> getKeyBinds(final String id) {
-        return commandKeyBinds.get(id);
+    public Optional<List<KeyBind>> getKeyBinds(final String id) {
+        return Optional.of(commandKeyBinds.get(id));
     }
 
     @Override
-    public Map<String, List<KeyBind>> collectKeyBinds(final String targetComponentName)
-            throws IllegalArgumentException {
+    public Optional<Map<String, List<KeyBind>>> collectKeyBinds(final String targetComponentName) {
         Map<String, List<KeyBind>> result = new HashMap<>();
         commandKeyBinds.forEach((id, binds) -> {
             binds.stream()
                     .filter(bind -> targetComponentName.equals(bind.getSelector()))
                     .forEach(bind -> {
-                        if ( !result.containsKey(id) ) {
-                            result.put(id, new ArrayList<>());
-                        }
+                        result.computeIfAbsent(id, key -> new ArrayList<>());
                         result.get(id).add(bind);
                     });
         });
-        return result;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if ( this == o ) {
-            return true;
-        }
-        if ( o == null || getClass() != o.getClass() ) {
-            return false;
-        }
-
-        KeyMapSettingImpl that = (KeyMapSettingImpl) o;
-
-        if ( !commandClasses.equals(that.commandClasses) ) {
-            return false;
-        }
-        if ( !commandKeyBinds.equals(that.commandKeyBinds) ) {
-            return false;
-        }
-        if ( !(settingName != null ? !settingName.equals(that.settingName) : that.settingName != null) ) {
-            return true;
-        }
-        return false;
-
+        return Optional.of(result);
     }
 
     @Override
     public int hashCode() {
-        int result = settingName != null ? settingName.hashCode() : 0;
-        result = 31 * result + commandClasses.hashCode();
-        result = 31 * result + commandKeyBinds.hashCode();
-        return result;
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.settingName);
+        hash = 83 * hash + Objects.hashCode(this.commandClasses);
+        hash = 83 * hash + Objects.hashCode(this.commandKeyBinds);
+        return hash;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if ( obj == null ) {
+            return false;
+        }
+        if ( getClass() != obj.getClass() ) {
+            return false;
+        }
+        final KeyMapSettingImpl other = (KeyMapSettingImpl) obj;
+        if ( !Objects.equals(this.settingName, other.settingName) ) {
+            return false;
+        }
+        if ( !Objects.equals(this.commandClasses, other.commandClasses) ) {
+            return false;
+        }
+        if ( !Objects.equals(this.commandKeyBinds, other.commandKeyBinds) ) {
+            return false;
+        }
+        return true;
+    }
+
 }

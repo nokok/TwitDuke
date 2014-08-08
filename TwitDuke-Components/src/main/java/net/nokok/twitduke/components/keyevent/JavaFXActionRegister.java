@@ -67,14 +67,14 @@ public class JavaFXActionRegister implements ActionRegister {
 
     private void registerCall(Node node, KeyMapSetting setting) {
         String nodeClassName = node.getClass().getCanonicalName();
-        Map<String, List<KeyBind>> keyBindMap = setting.collectKeyBinds(nodeClassName);
+        Map<String, List<KeyBind>> keyBindMap = setting.collectKeyBinds(nodeClassName).get();
         if ( keyBindMap.isEmpty() ) {
             return;
         }
         registry.putIfAbsent(node, new ArrayList<>());
         keyBindMap.forEach((id, binds) -> {
             try {
-                Class<?> commandClass = Class.forName(setting.getCommandClassName(id));
+                Class<?> commandClass = Class.forName(setting.getCommandClassName(id).get());
                 List<KeyBind> added = registerCommand(node, commandClass, binds);
                 registry.get(node).addAll(added);
             } catch (Exception ex) {

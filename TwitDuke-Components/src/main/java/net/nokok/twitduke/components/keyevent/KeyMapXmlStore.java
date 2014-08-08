@@ -55,9 +55,9 @@ public class KeyMapXmlStore implements KeyMapStore {
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document doc = builder.newDocument();
         Element root = doc.createElement(TAG_ROOT);
-        root.setAttribute(ATTR_SETTING_NAME, setting.getSettingName());
+        root.setAttribute(ATTR_SETTING_NAME, setting.getSettingName().get());
         doc.appendChild(root);
-        setting.getCommandIds()
+        setting.getCommandIds().get()
                 .stream()
                 .sorted()
                 .forEach(id -> root.appendChild(createActionElement(doc, setting, id)));
@@ -125,8 +125,8 @@ public class KeyMapXmlStore implements KeyMapStore {
     private static Element createActionElement(final Document doc, final KeyMapSetting src, final String actionId) {
         Element actionNode = doc.createElement(TAG_ACTION);
         actionNode.setAttribute(ATTR_ACTION_ID, actionId);
-        actionNode.setAttribute(ATTR_ACTION_PLUGIN, src.getCommandClassName(actionId));
-        src.getKeyBinds(actionId)
+        actionNode.setAttribute(ATTR_ACTION_PLUGIN, src.getCommandClassName(actionId).get());
+        src.getKeyBinds(actionId).get()
                 .stream()
                 .sorted()
                 .forEach(bind -> {
