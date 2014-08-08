@@ -11,7 +11,7 @@ import javafx.scene.input.KeyEvent;
 /**
  * Created by wtnbsts on 2014/07/29.
  */
-public class JavaFXActionRegister implements IActionRegister {
+public class JavaFXActionRegister implements ActionRegister {
 
     private final Node root;
     private final Map<Node, List<KeyBind>> registry = new HashMap<>();
@@ -22,7 +22,7 @@ public class JavaFXActionRegister implements IActionRegister {
     }
 
     @Override
-    public void registerKeyMap(final IKeyMapSetting setting) {
+    public void registerKeyMap(final KeyMapSetting setting) {
         errors.clear();
         registry.clear();
         root.lookupAll("*")
@@ -65,7 +65,7 @@ public class JavaFXActionRegister implements IActionRegister {
         return added;
     }
 
-    private void registerCall(Node node, IKeyMapSetting setting) {
+    private void registerCall(Node node, KeyMapSetting setting) {
         String nodeClassName = node.getClass().getCanonicalName();
         Map<String, List<KeyBind>> keyBindMap = setting.collectKeyBinds(nodeClassName);
         if ( keyBindMap.isEmpty() ) {

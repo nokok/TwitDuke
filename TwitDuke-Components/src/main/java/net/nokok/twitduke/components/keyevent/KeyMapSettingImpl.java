@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 /**
  * Created by wtnbsts on 2014/07/23.
  */
-public class KeyMapSettingImpl implements IKeyMapSetting {
+public class KeyMapSettingImpl implements KeyMapSetting {
 
     private final String settingName;
     private final Map<String, String> commandClasses = new HashMap<>();

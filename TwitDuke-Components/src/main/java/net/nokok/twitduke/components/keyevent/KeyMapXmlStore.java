@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
 /**
  * Created by wtnbsts on 2014/07/24.
  */
-public class KeyMapXmlStore implements IKeyMapStore {
+public class KeyMapXmlStore implements KeyMapStore {
 
     private final static String DOCUMENT_VERSION = "1.0";
     private final static boolean DOCUMENT_STANDALONE = true;
@@ -51,7 +51,7 @@ public class KeyMapXmlStore implements IKeyMapStore {
         transformer.transform(new DOMSource(document), new StreamResult(dist));
     }
 
-    private static Document createSettingDocument(final IKeyMapSetting setting) throws Exception {
+    private static Document createSettingDocument(final KeyMapSetting setting) throws Exception {
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document doc = builder.newDocument();
         Element root = doc.createElement(TAG_ROOT);
@@ -122,7 +122,7 @@ public class KeyMapXmlStore implements IKeyMapStore {
         return builder.build();
     }
 
-    private static Element createActionElement(final Document doc, final IKeyMapSetting src, final String actionId) {
+    private static Element createActionElement(final Document doc, final KeyMapSetting src, final String actionId) {
         Element actionNode = doc.createElement(TAG_ACTION);
         actionNode.setAttribute(ATTR_ACTION_ID, actionId);
         actionNode.setAttribute(ATTR_ACTION_PLUGIN, src.getCommandClassName(actionId));
@@ -143,9 +143,9 @@ public class KeyMapXmlStore implements IKeyMapStore {
     }
 
     @Override
-    public IKeyMapSetting load(final InputStream source) throws Exception {
+    public KeyMapSetting load(final InputStream source) throws Exception {
         Document doc = buildDocument(source);
-        IKeyMapSetting setting = new KeyMapSettingImpl(parseSettingName(doc));
+        KeyMapSetting setting = new KeyMapSettingImpl(parseSettingName(doc));
         parseActionIds(doc).stream().forEach(id -> {
             setting.addCommand(id, parsePluginName(doc, id));
             setting.addKeyBinds(id, createKeyBinds(doc, id));
@@ -154,7 +154,7 @@ public class KeyMapXmlStore implements IKeyMapStore {
     }
 
     @Override
-    public boolean save(final OutputStream dist, final IKeyMapSetting setting) throws Exception {
+    public boolean save(final OutputStream dist, final KeyMapSetting setting) throws Exception {
         Document doc = createSettingDocument(setting);
         doc.setXmlVersion(DOCUMENT_VERSION);
         doc.setXmlStandalone(DOCUMENT_STANDALONE);

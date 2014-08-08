@@ -6,7 +6,7 @@ import javafx.scene.Node;
 /**
  * Created by wtnbsts on 2014/07/26.
  */
-public interface IActionRegister {
+public interface ActionRegister {
 
     /**
      * キーボードショートカットを設定するノードを指定して、キーボードショートカット設定インスタンスを生成する
@@ -15,11 +15,11 @@ public interface IActionRegister {
      *
      * @return ショートカット設定インスタンス
      */
-    static IActionRegister newInstance(final Node root) {
+    static ActionRegister newInstance(final Node root) {
         return new JavaFXActionRegister(root);
     }
 
-    void registerKeyMap(final IKeyMapSetting setting);
+    void registerKeyMap(final KeyMapSetting setting);
 
     void unregisterAll();
 

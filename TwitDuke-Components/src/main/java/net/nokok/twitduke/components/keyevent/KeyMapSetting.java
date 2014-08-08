@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Created by wtnbsts on 2014/07/23.
  */
-public interface IKeyMapSetting {
+public interface KeyMapSetting {
 
     /**
      * キーマップ設定の名前を取得する
