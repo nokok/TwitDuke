@@ -32,7 +32,6 @@ public interface KeyMapSetting {
      * @return true: コマンド作成に成功
      *         false: コマンド作成に失敗 (すでに存在するコマンド名)
      *
-     * @throws java.lang.IllegalArgumentException 空文字列を渡すと発生する
      */
     boolean addCommand(final String id, final String commandClassName)
             throws IllegalArgumentException;
@@ -64,7 +63,6 @@ public interface KeyMapSetting {
      *
      * @return
      *
-     * @throws java.lang.IllegalArgumentException 不正なキーバインド
      */
     boolean addKeyBind(final String id, final KeyBind keyBind);
 
@@ -74,7 +72,6 @@ public interface KeyMapSetting {
      *
      * @return
      *
-     * @throws IllegalArgumentException
      * @see IKeyMapSetting#addKeyBind(String, KeyBind)
      */
     void addKeyBinds(final String id, final List<KeyBind> keyBinds);
@@ -105,7 +102,6 @@ public interface KeyMapSetting {
      *
      * @return
      *
-     * @throws IllegalArgumentException
      */
     Optional<Map<String, List<KeyBind>>> collectKeyBinds(final String targetSelector);
 }
