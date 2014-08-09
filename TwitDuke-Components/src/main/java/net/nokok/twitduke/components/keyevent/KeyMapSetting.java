@@ -33,8 +33,7 @@ public interface KeyMapSetting {
      *         false: コマンド作成に失敗 (すでに存在するコマンド名)
      *
      */
-    boolean addCommand(final String id, final String commandClassName)
-            throws IllegalArgumentException;
+    boolean addCommand(final String id, final String commandClassName);
 
     /**
      * コマンドを削除する
@@ -70,9 +69,7 @@ public interface KeyMapSetting {
      * @param id
      * @param keyBinds
      *
-     * @return
-     *
-     * @see IKeyMapSetting#addKeyBind(String, KeyBind)
+     * @see KeyMapSetting#addKeyBind(String, KeyBind)
      */
     void addKeyBinds(final String id, final List<KeyBind> keyBinds);
 
