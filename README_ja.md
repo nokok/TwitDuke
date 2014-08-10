@@ -1,4 +1,4 @@
-#TwitDuke[![Build Status](https://travis-ci.org/nokok/TwitDuke.svg?branch=master)](https://travis-ci.org/nokok/TwitDuke)
+#TwitDuke[![Build Status](https://travis-ci.org/nokok/TwitDuke.svg?branch=master)](https://travis-ci.org/nokok/TwitDuke) [![Gitter chat](https://badges.gitter.im/nokok/TwitDuke.png)](https://gitter.im/nokok/TwitDuke)
 ##### TwitDukeは開発中のソフトウェアです。まだまともに動きません。
   
 TwitDukeはTwitterクライアントです
