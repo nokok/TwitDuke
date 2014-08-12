@@ -74,13 +74,14 @@ public class Main extends Application {
             BorderPane borderPane = tweetTextAreaToolbarLoader.load();
             controller.setTweetTextAreaToolbar(borderPane);
             TweetTextareaToolbarController toolbarController = tweetTextAreaToolbarLoader.getController();
-            stage.setScene(main);
-            stage.show();
 
             KeyMapStore store = KeyMapStore.newInstance();
             KeyMapSetting setting = store.load(KeyMapResources.DEFAULT_SETTING.get().openStream());
             ActionRegister register = ActionRegister.newInstance(main.getRoot());
             register.registerKeyMap(setting);
+
+            stage.setScene(main);
+            stage.show();
 
         } catch (IOException e) {
             throw new UncheckedIOException("FXMLファイルを読み込めませんでした。ファイルは見つかりましたが、ファイルがおかしいようです。", e);
