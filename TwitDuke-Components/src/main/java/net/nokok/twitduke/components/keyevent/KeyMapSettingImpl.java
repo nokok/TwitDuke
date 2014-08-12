@@ -18,8 +18,7 @@ public class KeyMapSettingImpl implements KeyMapSetting {
     private final Map<String, List<KeyBind>> commandKeyBinds = new HashMap<>();
 
     public KeyMapSettingImpl(final String name) {
-        Objects.requireNonNull(name);
-        settingName = name;
+        settingName = Objects.requireNonNull(name);
     }
 
     @Override
