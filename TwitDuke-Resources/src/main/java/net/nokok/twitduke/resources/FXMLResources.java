@@ -30,6 +30,12 @@ import java.util.Optional;
 
 public class FXMLResources {
 
-    public static final Optional<URL> MAIN_FXML = Optional.ofNullable(Resources.getResource(String.join(File.separator, "fxml", "main.fxml")));
-    public static final Optional<URL> TWEETCELL_FXML = Optional.ofNullable(Resources.getResource(String.join(File.separator, "fxml", "tweetcell.fxml")));
+    public static final Optional<URL> MAIN_FXML = findFXMLResources("main.fxml");
+    public static final Optional<URL> TWEETCELL_FXML = findFXMLResources("tweetcell.fxml");
+    public static final Optional<URL> TWEET_TEXTAREA_TOOLBAR = findFXMLResources("tweetTextAreaToolbar.fxml");
+    public static final Optional<URL> SCREENSHOT = findFXMLResources("screenShot.fxml");
+
+    private static Optional<URL> findFXMLResources(String resource) {
+        return Optional.ofNullable(Resources.getResource(String.join(File.separator, "fxml", resource)));
+    }
 }
