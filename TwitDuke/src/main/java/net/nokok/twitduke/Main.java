@@ -31,17 +31,15 @@ import java.util.stream.Stream;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import net.nokok.twitduke.base.async.ThrowableReceivable;
 import net.nokok.twitduke.base.io.Paths;
 import net.nokok.twitduke.components.javafx.MainViewController;
+import net.nokok.twitduke.components.javafx.TweetTextareaToolbarController;
 import net.nokok.twitduke.core.account.AccountManager;
-import net.nokok.twitduke.core.account.AccountManagerFactory;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
 import net.nokok.twitduke.core.auth.OAuthOnSuccess;
 import net.nokok.twitduke.core.auth.OAuthRunnable;
-import net.nokok.twitduke.core.io.Console;
-import net.nokok.twitduke.core.io.DirectoryHelper;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
 import net.nokok.twitduke.core.twitter.TwitterNotificationListener;
 import net.nokok.twitduke.core.twitter.TwitterStreamRunner;
@@ -85,35 +83,36 @@ public class Main extends Application {
      * @param args 渡された引数の配列
      */
     public static void main(String[] args) {
-        try {
-            if ( !existsTwitDukeDir() ) {
-                DirectoryHelper.createTwitDukeDirectories();
-            }
-            boolean isDebug = hasOption("--debug", args);
-            boolean isServerMode = hasOption("--server-mode", args);
-            if ( !isDebug ) {
-                Console.disableOutput();
-            }
-            final AccountManager accountManager = AccountManagerFactory.newInstance();
-            if ( accountManager.hasValidAccount() ) {
-                AccessToken accessToken = accountManager.readPrimaryAccount().get();
-                startServer(accessToken);
-                if ( !isServerMode ) {
-                    openWindow(accountManager);
-                }
-            } else {
-                startOAuth(accountManager, token -> {
-                    startServer(token);
-                    if ( !isServerMode ) {
-                        openWindow(accountManager);
-                    }
-                });
-            }
-        } catch (Exception e) {
-            ThrowableReceivable errorLogExporter = new ErrorLogExporter();
-            errorLogExporter.onError(e);
-            throw e;
-        }
+        Application.launch(args);
+        /*try {
+         if ( !existsTwitDukeDir() ) {
+         DirectoryHelper.createTwitDukeDirectories();
+         }
+         boolean isDebug = hasOption("--debug", args);
+         boolean isServerMode = hasOption("--server-mode", args);
+         if ( !isDebug ) {
+         Console.disableOutput();
+         }
+         final AccountManager accountManager = AccountManagerFactory.newInstance();
+         if ( accountManager.hasValidAccount() ) {
+         AccessToken accessToken = accountManager.readPrimaryAccount().get();
+         startServer(accessToken);
+         if ( !isServerMode ) {
+         openWindow(accountManager);
+         }
+         } else {
+         startOAuth(accountManager, token -> {
+         startServer(token);
+         if ( !isServerMode ) {
+         openWindow(accountManager);
+         }
+         });
+         }
+         } catch (Exception e) {
+         ThrowableReceivable errorLogExporter = new ErrorLogExporter();
+         errorLogExporter.onError(e);
+         throw e;
+         }*/
     }
 
     /**
@@ -160,7 +159,7 @@ public class Main extends Application {
         try {
             Runnable server = new WebServerStarter(accessToken);
             new Thread(server).start();
-        } catch (RuntimeException e) {
+        } catch ( RuntimeException e ) {
             throw new RuntimeException("サーバーが既に起動しています。ポート:8192が使用できません。", e);
         }
     }
