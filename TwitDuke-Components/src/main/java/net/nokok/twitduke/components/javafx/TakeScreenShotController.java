@@ -41,16 +41,15 @@ public class TakeScreenShotController {
 
     @FXML
     void onMouseDragged(MouseEvent event) {
-        if ( !isStarted ) {
-            System.out.println("started" + event.getScreenX() + "," + event.getScreenY());
-            start = new Point((int) event.getScreenX(), (int) event.getScreenY());
-            isStarted = true;
+        if ( isStarted ) {
+            return;
         }
+        start = new Point((int) event.getScreenX(), (int) event.getScreenY());
+        isStarted = true;
     }
 
     @FXML
     void onMouseReleased(MouseEvent event) {
-        System.out.println("released" + event.getScreenX() + "," + event.getScreenY());
         end = new Point((int) event.getScreenX(), (int) event.getScreenY());
         selectedAreaReceiver.accept(start, end);
     }
