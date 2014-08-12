@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
@@ -14,7 +15,7 @@ import javafx.scene.input.KeyEvent;
 public class JavaFXActionRegister implements ActionRegister {
 
     private final Node root;
-    private final Map<Node, List<KeyBind>> registry = new HashMap<>();
+    private final Map<Node, List<EventHandler<KeyEvent>>> registry = new HashMap<>();
     private final List<Exception> errors = new ArrayList<>();
 
     public JavaFXActionRegister(final Node root) {
@@ -23,16 +24,9 @@ public class JavaFXActionRegister implements ActionRegister {
 
     @Override
     public void registerKeyMap(final KeyMapSetting setting) {
-        errors.clear();
-        registry.clear();
         root.lookupAll("*")
                 .stream()
-                .filter(node -> {
-                    if ( node.getClass().getCanonicalName() == null ) {
-                        return false;
-                    }
-                    return node.getId() != null;
-                })
+                .filter(this::isResolvable)
                 .forEach(node -> {
                     registerCall(node, setting);
                 });
@@ -40,18 +34,31 @@ public class JavaFXActionRegister implements ActionRegister {
 
     @Override
     public void unregisterAll() {
-
+        registry.forEach((node, handlerList) -> {
+            handlerList.forEach(handler -> {
+                try {
+                    node.removeEventHandler(KeyEvent.KEY_PRESSED, handler);
+                } catch (Exception ex) {
+                    errors.add(ex);
+                }
+            });
+        });
     }
 
     @Override
     public List<Exception> getErrors() {
-        return errors;
+        return errors.stream().collect(Collectors.toList());
+    }
+
+    @Override
+    public void clearErrors() {
+        errors.clear();;
     }
 
     @SuppressWarnings("unchecked")
-    private List<KeyBind> registerCommand(final Node node, final Class<?> commandClass,
-                                          final List<KeyBind> keyBinds) throws Exception {
-        List<KeyBind> added = new ArrayList<>();
+    private List<EventHandler<KeyEvent>> registerCommand(final Node node, final Class<?> commandClass,
+                                                         final List<KeyBind> keyBinds) throws Exception {
+        List<EventHandler<KeyEvent>> added = new ArrayList<>();
         EventHandler<KeyEvent> command = (EventHandler<KeyEvent>) commandClass.newInstance();
         keyBinds.forEach(bind -> {
             EventHandler<KeyEvent> adapter = event -> {
@@ -60,7 +67,7 @@ public class JavaFXActionRegister implements ActionRegister {
                 }
             };
             node.addEventHandler(KeyEvent.KEY_PRESSED, adapter);
-            added.add(bind);
+            added.add(adapter);
         });
         return added;
     }
@@ -75,11 +82,15 @@ public class JavaFXActionRegister implements ActionRegister {
         keyBindMap.forEach((id, binds) -> {
             try {
                 Class<?> commandClass = Class.forName(setting.getCommandClassName(id).get());
-                List<KeyBind> added = registerCommand(node, commandClass, binds);
+                List<EventHandler<KeyEvent>> added = registerCommand(node, commandClass, binds);
                 registry.get(node).addAll(added);
             } catch (Exception ex) {
                 errors.add(ex);
             }
         });
+    }
+
+    private boolean isResolvable(Object obj) {
+        return obj.getClass().getCanonicalName() != null;
     }
 }

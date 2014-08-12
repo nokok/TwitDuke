@@ -24,4 +24,6 @@ public interface ActionRegister {
     void unregisterAll();
 
     List<Exception> getErrors();
+
+    void clearErrors();
 }
