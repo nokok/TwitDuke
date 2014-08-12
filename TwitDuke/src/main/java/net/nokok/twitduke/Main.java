@@ -62,13 +62,19 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        URL url = FXMLResources.MAIN_FXML.orElseThrow(() -> new RuntimeException("リソース[main.fxml]が見つかりません"));
-        FXMLLoader loader = new FXMLLoader(url);
+        URL mainFxml = FXMLResources.MAIN_FXML.orElseThrow(() -> new RuntimeException("リソース[main.fxml]が見つかりません"));
+        URL tweetTextAreaToolbarFxml = FXMLResources.TWEET_TEXTAREA_TOOLBAR.orElseThrow(() -> new RuntimeException("リソース[tweetTextAreaToolbar.fxml]が見つかりません"));
+        FXMLLoader mainFxmlLoader = new FXMLLoader(mainFxml);
+        FXMLLoader tweetTextAreaToolbarLoader = new FXMLLoader(tweetTextAreaToolbarFxml);
         try {
-            MainViewController controller = loader.getController();
-            stage.setScene(new Scene(loader.load()));
+            Scene main = new Scene(mainFxmlLoader.load());
+            MainViewController controller = mainFxmlLoader.getController();
+            BorderPane borderPane = tweetTextAreaToolbarLoader.load();
+            controller.setTweetTextAreaToolbar(borderPane);
+            TweetTextareaToolbarController toolbarController = tweetTextAreaToolbarLoader.getController();
+            stage.setScene(main);
             stage.show();
-        } catch (IOException e) {
+        } catch ( IOException e ) {
             throw new UncheckedIOException("FXMLファイルを読み込めませんでした。ファイルは見つかりましたが、ファイルがおかしいようです。", e);
         }
     }

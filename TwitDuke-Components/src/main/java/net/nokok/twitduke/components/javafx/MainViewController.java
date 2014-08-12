@@ -23,67 +23,41 @@
  */
 package net.nokok.twitduke.components.javafx;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 
 public class MainViewController {
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private Button functionTileButton;
 
     @FXML
-    private Button replyButton;
-
-    @FXML
-    private Button configButton;
-
-    @FXML
-    private ImageView draftIcon;
-
-    @FXML
-    private Button homeButton;
-
-    @FXML
     private ToolBar rootToolbar;
 
     @FXML
-    private Button choosePicture;
+    private BorderPane textAreaBorderPane;
 
     @FXML
-    private ToolBar textAreaToolbar;
-
-    @FXML
-    private Label tweetLengthLabel;
+    private Button replyButton;
 
     @FXML
     private Tab primaryAccountTab;
 
     @FXML
-    private Button saveDraft;
+    private Button configButton;
 
     @FXML
     private TextArea tweetTextarea;
-
-    @FXML
-    private Button takeScreenShot;
 
     @FXML
     private TabPane mainView;
@@ -93,6 +67,9 @@ public class MainViewController {
 
     @FXML
     private ListView<?> tweetCellList;
+
+    @FXML
+    private Button homeButton;
 
     @FXML
     void showConfig(ActionEvent event) {
@@ -111,21 +88,6 @@ public class MainViewController {
 
     @FXML
     void showFunctionTile(ActionEvent event) {
-
-    }
-
-    @FXML
-    void takeScreenShot(ActionEvent event) {
-
-    }
-
-    @FXML
-    void choosePicture(ActionEvent event) {
-
-    }
-
-    @FXML
-    void saveDraft(ActionEvent event) {
 
     }
 
@@ -150,7 +112,16 @@ public class MainViewController {
     }
 
     private void applyTweetLength() {
-        tweetLengthLabel.setText(String.valueOf(140 - tweetTextarea.getText().length()));
+        //tweetLengthLabel.setText(String.valueOf(140 - tweetTextarea.getText().length()));
+    }
+
+    public void setTweetTextAreaToolbar(BorderPane textAreaBorderPane) {
+        Objects.requireNonNull(textAreaBorderPane, "渡されたツールバーがnullです");
+        this.textAreaBorderPane.setCenter(textAreaBorderPane.getCenter());
+        this.textAreaBorderPane.setBottom(textAreaBorderPane.getBottom());
+        this.textAreaBorderPane.setRight(textAreaBorderPane.getRight());
+        this.textAreaBorderPane.setLeft(textAreaBorderPane.getLeft());
+        this.textAreaBorderPane.setTop(textAreaBorderPane.getTop());
     }
 
     @FXML
@@ -158,16 +129,11 @@ public class MainViewController {
         assert functionTileButton != null : "fx:id=\"functionTileButton\" was not injected: check your FXML file 'main.fxml'.";
         assert replyButton != null : "fx:id=\"replyButton\" was not injected: check your FXML file 'main.fxml'.";
         assert configButton != null : "fx:id=\"configButton\" was not injected: check your FXML file 'main.fxml'.";
-        assert draftIcon != null : "fx:id=\"draftIcon\" was not injected: check your FXML file 'main.fxml'.";
         assert homeButton != null : "fx:id=\"homeButton\" was not injected: check your FXML file 'main.fxml'.";
         assert rootToolbar != null : "fx:id=\"rootToolbar\" was not injected: check your FXML file 'main.fxml'.";
-        assert choosePicture != null : "fx:id=\"choosePicture\" was not injected: check your FXML file 'main.fxml'.";
-        assert textAreaToolbar != null : "fx:id=\"textAreaToolbar\" was not injected: check your FXML file 'main.fxml'.";
-        assert tweetLengthLabel != null : "fx:id=\"tweetLengthLabel\" was not injected: check your FXML file 'main.fxml'.";
+        assert textAreaBorderPane != null : "fx:id=\"textAreaToolbar\" was not injected: check your FXML file 'main.fxml'.";
         assert primaryAccountTab != null : "fx:id=\"primaryAccountTab\" was not injected: check your FXML file 'main.fxml'.";
-        assert saveDraft != null : "fx:id=\"saveDraft\" was not injected: check your FXML file 'main.fxml'.";
         assert tweetTextarea != null : "fx:id=\"tweetTextarea\" was not injected: check your FXML file 'main.fxml'.";
-        assert takeScreenShot != null : "fx:id=\"takeScreenShot\" was not injected: check your FXML file 'main.fxml'.";
         assert mainView != null : "fx:id=\"mainView\" was not injected: check your FXML file 'main.fxml'.";
         assert listButton != null : "fx:id=\"listButton\" was not injected: check your FXML file 'main.fxml'.";
         assert tweetCellList != null : "fx:id=\"tweetCellList\" was not injected: check your FXML file 'main.fxml'.";
