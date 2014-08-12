@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" styleClass="root-toolbar" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <bottom>
+        <GridPane BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <FlowPane alignment="CENTER" GridPane.columnIndex="1">
+                    <children>
+                        <Label text="フォロー" />
+                    </children>
+                </FlowPane>
+                <FlowPane alignment="CENTER" GridPane.columnIndex="2">
+                    <children>
+                        <Label text="フォロワー" />
+                    </children>
+                </FlowPane>
+                <FlowPane alignment="CENTER">
+                    <children>
+                        <Label text="ツイート" />
+                    </children>
+                </FlowPane>
+                <FlowPane alignment="CENTER" GridPane.rowIndex="1">
+                    <children>
+                        <Label text="0" />
+                    </children>
+                </FlowPane>
+                <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <children>
+                        <Label text="0" />
+                    </children>
+                </FlowPane>
+                <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                    <children>
+                        <Label text="0" />
+                    </children>
+                </FlowPane>
+            </children>
+        </GridPane>
+    </bottom>
+    <center>
+        <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <bottom>
+                <FlowPane alignment="CENTER_LEFT" prefHeight="50.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button alignment="CENTER" mnemonicParsing="false" text="フォロー">
+                            <FlowPane.margin>
+                                <Insets left="5.0" />
+                            </FlowPane.margin>
+                        </Button>
+                        <Button alignment="CENTER" mnemonicParsing="false" text="リスト">
+                            <FlowPane.margin>
+                                <Insets left="5.0" />
+                            </FlowPane.margin>
+                        </Button>
+                    </children>
+                </FlowPane>
+            </bottom>
+            <left>
+                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                    <image>
+                        <Image url="@../GIMPXCF/Icon_256x256.png" />
+                    </image>
+                    <BorderPane.margin>
+                        <Insets left="5.0" />
+                    </BorderPane.margin>
+                </ImageView>
+            </left>
+            <center>
+                <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            </center>
+        </BorderPane>
+    </center>
+</BorderPane>
