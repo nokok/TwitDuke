@@ -35,9 +35,9 @@ import javafx.stage.Stage;
 import net.nokok.twitduke.base.async.ThrowableReceivable;
 import net.nokok.twitduke.base.io.Paths;
 import net.nokok.twitduke.components.javafx.MainViewController;
-import net.nokok.twitduke.components.keyevent.IActionRegister;
-import net.nokok.twitduke.components.keyevent.IKeyMapSetting;
-import net.nokok.twitduke.components.keyevent.IKeyMapStore;
+import net.nokok.twitduke.components.keyevent.ActionRegister;
+import net.nokok.twitduke.components.keyevent.KeyMapSetting;
+import net.nokok.twitduke.components.keyevent.KeyMapStore;
 import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.account.AccountManagerFactory;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
@@ -74,9 +74,9 @@ public class Main extends Application {
             stage.setScene(scene);
             stage.show();
 
-            IKeyMapStore store = IKeyMapStore.newInstance();
-            IKeyMapSetting setting = store.load(KeyMapResources.DEFAULT_SETTING.get().openStream());
-            IActionRegister register = IActionRegister.newInstance(scene.getRoot());
+            KeyMapStore store = KeyMapStore.newInstance();
+            KeyMapSetting setting = store.load(KeyMapResources.DEFAULT_SETTING.get().openStream());
+            ActionRegister register = ActionRegister.newInstance(scene.getRoot());
             register.registerKeyMap(setting);
 
             register.getErrors().forEach(error -> {
