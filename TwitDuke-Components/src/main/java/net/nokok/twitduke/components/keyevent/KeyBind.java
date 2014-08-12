@@ -12,12 +12,12 @@ public class KeyBind implements Comparable<KeyBind> {
      * キー入力の文字列表現
      * 例) ctrl+a
      */
-    private KeyCombination keyStroke;
+    private final KeyCombination keyStroke;
     /**
      * キーボードショートカットが有効になるコンポーネントの条件 (現在はクラス名の完全一致)
      * 例) net.nokok.twitduke.components.TWButton
      */
-    private String selector;
+    private final String selector;
 
     /**
      * キーボードショートカットのキー設定と、
@@ -27,10 +27,8 @@ public class KeyBind implements Comparable<KeyBind> {
      * @param selector        キーボードショートカットが有効になるコンポーネントの条件
      */
     public KeyBind(final KeyCombination shortcutKeyBind, final String selector) {
-        Objects.requireNonNull(shortcutKeyBind, "shortcutKeyBind");
-        Objects.requireNonNull(selector, "selector");
-        this.keyStroke = shortcutKeyBind;
-        this.selector = selector;
+        this.keyStroke = Objects.requireNonNull(shortcutKeyBind, "shortcutKeyBind");
+        this.selector = Objects.requireNonNull(selector, "selector");
     }
 
     /**
