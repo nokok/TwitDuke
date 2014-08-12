@@ -75,9 +75,6 @@
                     </left>
                     <top>
                         <BorderPane prefHeight="80.0" BorderPane.alignment="CENTER">
-                            <center>
-                                <TextArea fx:id="tweetTextarea" onKeyPressed="#tweetTextAreaKeyPressed" onKeyTyped="#tweetTextAreaKeyTyped" prefHeight="149.0" prefWidth="425.0" styleClass="tweet-textarea" BorderPane.alignment="CENTER" />
-                            </center>
                             <bottom>
                                 <ToolBar fx:id="textAreaToolbar" prefHeight="20.0" prefWidth="200.0" styleClass="textarea-toolbar" BorderPane.alignment="CENTER">
                                     <items>
@@ -112,6 +109,9 @@
                                     </items>
                                 </ToolBar>
                             </bottom> 
+                            <center>
+                                <TextArea fx:id="tweetTextarea" onInputMethodTextChanged="#tweetTextAreaOnTextChanged" onKeyPressed="#tweetTextAreaOnKeyPressed" onKeyReleased="#tweetTextAreaOnKeyReleased" onKeyTyped="#tweetTextAreaOnKeyTyped" prefHeight="200.0" prefWidth="200.0" styleClass="tweet-textarea" BorderPane.alignment="CENTER" />
+                            </center>
                         </BorderPane>
                     </top>
                 </BorderPane>

@@ -21,28 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.components.basics;
+package net.nokok.twitduke.components.keyevent;
 
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import org.junit.Before;
 
-/**
- * コンポーネントをクリックしている間、コンポーネントの色を少し暗くするマウスアダプタです
- */
-@Deprecated
-public class CommonMouseAction extends MouseAdapter {
+public class KeyMapSettingTest {
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-        Component c = e.getComponent();
-        c.setBackground(c.getBackground().darker());
-    }
+    private KeyMapSetting setting;
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        Component c = e.getComponent();
-        c.setBackground(c.getBackground().brighter());
+    @Before
+    public void setUp() {
+        setting = new KeyMapSettingImpl("testsetting");
     }
 
 }
