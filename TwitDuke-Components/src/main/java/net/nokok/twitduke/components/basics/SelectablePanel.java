@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.awt.LayoutManager;
 import net.nokok.twitduke.components.Selectable;
 
+@Deprecated
 public class SelectablePanel extends TWPanel implements Selectable {
 
     private static final long serialVersionUID = -5874949418945445316L;

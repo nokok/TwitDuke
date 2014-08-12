@@ -30,6 +30,7 @@ import javax.swing.WindowConstants;
  * TwitDuke用のカスタマイズ済みJFrameです
  *
  */
+@Deprecated
 public class TWFrame extends JFrame {
 
     private static final long serialVersionUID = 4575935111957376368L;

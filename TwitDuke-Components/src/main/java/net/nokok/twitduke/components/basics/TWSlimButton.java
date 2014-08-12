@@ -25,6 +25,7 @@ package net.nokok.twitduke.components.basics;
 
 import java.awt.Dimension;
 
+@Deprecated
 public class TWSlimButton extends TWButton {
 
     private static final long serialVersionUID = -8277827308163996081L;

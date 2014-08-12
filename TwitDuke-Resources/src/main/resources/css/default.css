@@ -1,3 +1,7 @@
+.default-panel{
+    -fx-background-color: #323232;
+}
+
 .tweet-textarea{
     -fx-text-fill: #ecf0f1;
     -fx-background-color: #323232;
@@ -78,4 +82,8 @@
 .add-account-label{
     -fx-font-weight:bold;
     -fx-font-size:20;
+}
+
+.twittercard-button{
+    -fx-padding: 4px;
 }

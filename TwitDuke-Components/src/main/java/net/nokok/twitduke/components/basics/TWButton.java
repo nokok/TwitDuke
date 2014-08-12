@@ -31,6 +31,7 @@ import net.nokok.twitduke.components.Selectable;
  * TwitDuke用のカスタマイズ済みJButtonを定義します
  *
  */
+@Deprecated
 public class TWButton extends JButton implements Selectable {
 
     private static final long serialVersionUID = -6950374784491086356L;

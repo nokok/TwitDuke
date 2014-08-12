@@ -31,6 +31,7 @@ import javax.swing.border.EmptyBorder;
  * TwitDuke用のカスタマイズ済みJTextAreaです
  *
  */
+@Deprecated
 public class TWTextArea extends JTextArea {
 
     private static final long serialVersionUID = 3723800077851443280L;

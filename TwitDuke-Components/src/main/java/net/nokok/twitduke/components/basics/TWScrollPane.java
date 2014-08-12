@@ -33,6 +33,7 @@ import javax.swing.SwingUtilities;
  * TwitDuke用のカスタマイズ済みJScrollPaneです
  *
  */
+@Deprecated
 public class TWScrollPane extends JScrollPane {
 
     private static final long serialVersionUID = 810836152316094978L;
