@@ -23,7 +23,7 @@ import org.junit.Test;
  */
 public class KeyMapXmlStoreTest {
 
-    private KeyMapXmlStore store;
+    private XmlKeyMapStore store;
     private URL xmlPath
                 = Resources.getResource(String.join(File.separator, "keyevent", "default_storetest.xml"));
     private String xmlValue;
@@ -31,7 +31,7 @@ public class KeyMapXmlStoreTest {
 
     @Before
     public void setUp() throws IOException {
-        store = new KeyMapXmlStore();
+        store = new XmlKeyMapStore();
         StringBuilder sb = new StringBuilder();
         BufferedReader br = new BufferedReader(new InputStreamReader(xmlPath.openStream()));
         String line;

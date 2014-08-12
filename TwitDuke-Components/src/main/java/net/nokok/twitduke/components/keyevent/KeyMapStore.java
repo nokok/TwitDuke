@@ -9,7 +9,7 @@ import java.io.OutputStream;
 public interface KeyMapStore {
 
     static KeyMapStore newInstance() {
-        return new KeyMapXmlStore();
+        return new XmlKeyMapStore();
     }
 
     KeyMapSetting load(final InputStream source) throws Exception;
