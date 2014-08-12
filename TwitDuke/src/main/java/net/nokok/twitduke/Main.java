@@ -72,7 +72,7 @@ public class Main extends Application {
             TweetTextareaToolbarController toolbarController = tweetTextAreaToolbarLoader.getController();
             stage.setScene(main);
             stage.show();
-        } catch ( IOException e ) {
+        } catch (IOException e) {
             throw new UncheckedIOException("FXMLファイルを読み込めませんでした。ファイルは見つかりましたが、ファイルがおかしいようです。", e);
         }
     }
@@ -159,7 +159,7 @@ public class Main extends Application {
         try {
             Runnable server = new WebServerStarter(accessToken);
             new Thread(server).start();
-        } catch ( RuntimeException e ) {
+        } catch (RuntimeException e) {
             throw new RuntimeException("サーバーが既に起動しています。ポート:8192が使用できません。", e);
         }
     }
