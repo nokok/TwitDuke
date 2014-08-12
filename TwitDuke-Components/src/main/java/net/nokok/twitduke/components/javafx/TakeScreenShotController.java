@@ -24,6 +24,7 @@
 package net.nokok.twitduke.components.javafx;
 
 import java.awt.Point;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
@@ -51,11 +52,14 @@ public class TakeScreenShotController {
     @FXML
     void onMouseReleased(MouseEvent event) {
         end = new Point((int) event.getScreenX(), (int) event.getScreenY());
+        if ( selectedAreaReceiver == null ) {
+            throw new NullPointerException("レシーバが指定されていません。areaSelectedでレシーバを指定してください");
+        }
         selectedAreaReceiver.accept(start, end);
     }
 
     public void areaSelected(BiConsumer<Point, Point> areaSelectedReceiver) {
-        this.selectedAreaReceiver = areaSelectedReceiver;
+        this.selectedAreaReceiver = Objects.requireNonNull(areaSelectedReceiver);
     }
 
 }
