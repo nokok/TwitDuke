@@ -38,6 +38,7 @@ public class JavaFXActionRegister implements ActionRegister {
             handlerList.forEach(handler -> {
                 try {
                     node.removeEventHandler(KeyEvent.KEY_PRESSED, handler);
+                    handlerList.remove(handler);
                 } catch (Exception ex) {
                     errors.add(ex);
                 }
