@@ -32,6 +32,7 @@ import net.nokok.twitduke.components.Selectable;
  * TwitDuke用のカスタマイズ済みJLabelを定義します
  *
  */
+@Deprecated
 public class TWLabel extends JLabel implements Selectable {
 
     private static final long serialVersionUID = -4138268682327167202L;

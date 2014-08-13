@@ -30,6 +30,7 @@ import java.awt.event.MouseEvent;
 /**
  * コンポーネントをクリックしている間、コンポーネントの色を少し暗くするマウスアダプタです
  */
+@Deprecated
 public class CommonMouseAction extends MouseAdapter {
 
     @Override

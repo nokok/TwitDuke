@@ -30,6 +30,7 @@ import javax.swing.JTextField;
  * TwitDuke用のカスタマイズ済みJTextFieldです
  *
  */
+@Deprecated
 public class TWTextField extends JTextField {
 
     private static final long serialVersionUID = 1886443858870774301L;
