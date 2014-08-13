@@ -76,7 +76,7 @@ public class Main extends Application {
             TweetTextareaToolbarController toolbarController = tweetTextAreaToolbarLoader.getController();
             stage.setScene(main);
             stage.show();
-        } catch ( IOException e ) {
+        } catch (IOException e) {
             throw new UncheckedIOException("FXMLファイルを読み込めませんでした。ファイルは見つかりましたが、ファイルがおかしいようです。", e);
         }
     }
