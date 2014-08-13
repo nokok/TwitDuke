@@ -21,21 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.resources;
+package net.nokok.twitduke.components.javafx;
 
-import com.google.common.io.Resources;
-import java.io.File;
-import java.net.URL;
-import java.util.Optional;
+import javafx.scene.Node;
 
-public class FXMLResources {
+public interface ComponentAppendable<T extends Node> {
 
-    public static final Optional<URL> MAIN_FXML = findFXMLResources("main.fxml");
-    public static final Optional<URL> TWEETCELL_FXML = findFXMLResources("tweetcell.fxml");
-    public static final Optional<URL> TWEET_TEXTAREA_TOOLBAR = findFXMLResources("tweetTextAreaToolbar.fxml");
-    public static final Optional<URL> SCREENSHOT = findFXMLResources("screenShot.fxml");
-
-    private static Optional<URL> findFXMLResources(String resource) {
-        return Optional.ofNullable(Resources.getResource(String.join(File.separator, "fxml", resource)));
-    }
+    public void addComponent(T component);
 }

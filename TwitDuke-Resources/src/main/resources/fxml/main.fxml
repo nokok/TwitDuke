@@ -75,43 +75,12 @@
                     </left>
                     <top>
                         <BorderPane prefHeight="80.0" BorderPane.alignment="CENTER">
-                            <bottom>
-                                <ToolBar fx:id="textAreaToolbar" prefHeight="20.0" prefWidth="200.0" styleClass="textarea-toolbar" BorderPane.alignment="CENTER">
-                                    <items>
-                                        <Button fx:id="takeScreenShot" mnemonicParsing="false" onAction="#takeScreenShot">
-                                            <graphic>
-                                                <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../img/camera.png" />
-                                                    </image>
-                                                </ImageView>
-                                            </graphic>
-                                        </Button>
-                                        <Button fx:id="choosePicture" mnemonicParsing="false" onAction="#choosePicture">
-                                            <graphic>
-                                                <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../img/images.png" />
-                                                    </image>
-                                                </ImageView>
-                                            </graphic>
-                                        </Button>
-                                        <Button fx:id="saveDraft" mnemonicParsing="false" onAction="#saveDraft">
-                                            <graphic>
-                                                <ImageView fx:id="draftIcon" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../img/drawer.png" />
-                                                    </image>
-                                                </ImageView>
-                                            </graphic>
-                                        </Button>
-                                        <Label fx:id="tweetLengthLabel" alignment="CENTER" prefHeight="27.0" prefWidth="33.0" stylesheets="@../css/default.css" text="140" />
-                                    </items>
-                                </ToolBar>
-                            </bottom> 
                             <center>
                                 <TextArea fx:id="tweetTextarea" onInputMethodTextChanged="#tweetTextAreaOnTextChanged" onKeyPressed="#tweetTextAreaOnKeyPressed" onKeyReleased="#tweetTextAreaOnKeyReleased" onKeyTyped="#tweetTextAreaOnKeyTyped" prefHeight="200.0" prefWidth="200.0" styleClass="tweet-textarea" BorderPane.alignment="CENTER" />
                             </center>
+                            <bottom>
+                                <BorderPane fx:id="textAreaBorderPane" BorderPane.alignment="CENTER" />
+                            </bottom>
                         </BorderPane>
                     </top>
                 </BorderPane>

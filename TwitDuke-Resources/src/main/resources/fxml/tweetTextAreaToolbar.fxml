@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane styleClass="root-toolbar" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.nokok.twitduke.components.javafx.TweetTextareaToolbarController">
+    <left>
+        <ToolBar fx:id="tweetTextareaToolbar" prefWidth="200.0" styleClass="root-toolbar" BorderPane.alignment="CENTER">
+            <items>
+                <Button fx:id="takeScreenshotButton" mnemonicParsing="false" onAction="#takeScreenshot">
+                    <graphic>
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../img/camera.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="choosePictureButton" mnemonicParsing="false" onAction="#choosePicture">
+                    <graphic>
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../img/images.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="saveDraftButton" mnemonicParsing="false" onAction="#saveDraft">
+                    <graphic>
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../img/drawer.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </items>
+        </ToolBar>
+    </left>
+    <right>
+        <Label fx:id="tweetTextLengthLabel" text="140" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets right="5.0" />
+            </BorderPane.margin>
+        </Label>
+    </right>
+</BorderPane>
