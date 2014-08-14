@@ -95,3 +95,7 @@
 .cursor-crosshair{
     -fx-cursor: crosshair;
 }
+
+.transparent-panel{
+    -fx-background-color: rgba(0, 0, 0, 0.0);
+}
