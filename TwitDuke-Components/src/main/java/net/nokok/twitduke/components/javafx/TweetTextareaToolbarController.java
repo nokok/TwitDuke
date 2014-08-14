@@ -29,6 +29,7 @@ import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import javafx.event.ActionEvent;
@@ -42,6 +43,7 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javax.imageio.ImageIO;
 import net.nokok.twitduke.resources.FXMLResources;
 
 public class TweetTextareaToolbarController implements ComponentAppendable<Node> {
@@ -78,9 +80,11 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
                     Robot robot = new Robot();
                     BufferedImage capturedImage = robot.createScreenCapture(new Rectangle(start.x, start.y, end.x - start.x, end.y - start.y));
                     stage.close();
-                    //ここでcapturedImageオブジェクトを投稿するなどの処理を入れる
-                } catch ( AWTException e ) {
+                    ImageIO.write(capturedImage, "png", new File("capture.png"));
+                } catch (AWTException e) {
                     throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new UncheckedIOException(e);
                 }
             });
             Dimension screenSize = getScreenSize();
@@ -88,7 +92,7 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
             scene.setFill(null);
             stage.setScene(scene);
             stage.show();
-        } catch ( IOException e ) {
+        } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
