@@ -36,9 +36,9 @@
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>net.nokok.twitduke</groupId>
             <artifactId>TwitDuke</artifactId>
-            <version>${project.version}</version>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 </project>
