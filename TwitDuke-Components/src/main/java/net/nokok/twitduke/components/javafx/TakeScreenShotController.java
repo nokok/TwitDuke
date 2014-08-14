@@ -24,34 +24,62 @@
 package net.nokok.twitduke.components.javafx;
 
 import java.awt.Point;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import net.nokok.twitduke.resources.FXMLResources;
 
 public class TakeScreenShotController {
 
     @FXML
     private BorderPane screenShotPane;
 
-    private Point start;
-    private Point end;
+    private final Point start = new Point(0, 0);
+    private final Point end = new Point();
     private boolean isStarted = false;
     private BiConsumer<Point, Point> selectedAreaReceiver;
+    private final BorderPane borderPane;
+    private Stage stage;
+
+    public TakeScreenShotController() {
+        FXMLLoader loader = new FXMLLoader(FXMLResources.SCREENSHOT_SELECTING_AREA.orElseThrow(RuntimeException::new));
+        try {
+            borderPane = loader.load();
+            stage = new Stage(StageStyle.TRANSPARENT);
+            Scene scene = new Scene(borderPane, 0, 0);
+            scene.setFill(null);
+            stage.setScene(scene);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
 
     @FXML
     void onMouseDragged(MouseEvent event) {
+        stage.setWidth(event.getX() - stage.getX());
+        stage.setHeight(event.getScreenY() - stage.getY());
         if ( isStarted ) {
             return;
         }
-        start = new Point((int) event.getScreenX(), (int) event.getScreenY());
+        start.setLocation(event.getScreenX(), event.getScreenY());
+        stage.setX(start.x);
+        stage.setY(start.y);
+        stage.show();
         isStarted = true;
     }
 
     @FXML
     void onMouseReleased(MouseEvent event) {
-        end = new Point((int) event.getScreenX(), (int) event.getScreenY());
+        end.setLocation(event.getScreenX(), event.getScreenY());
+        stage.close();
         if ( selectedAreaReceiver == null ) {
             throw new NullPointerException("レシーバが指定されていません。areaSelectedでレシーバを指定してください");
         }
