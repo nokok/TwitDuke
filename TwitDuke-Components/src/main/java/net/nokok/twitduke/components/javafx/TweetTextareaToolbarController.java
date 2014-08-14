@@ -78,8 +78,8 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
             controller.areaSelected((start, end) -> {
                 try {
                     Robot robot = new Robot();
-                    BufferedImage capturedImage = robot.createScreenCapture(new Rectangle(start.x, start.y, end.x - start.x, end.y - start.y));
                     stage.close();
+                    BufferedImage capturedImage = robot.createScreenCapture(new Rectangle(start.x, start.y, end.x - start.x, end.y - start.y));
                     ImageIO.write(capturedImage, "png", new File("capture.png"));
                 } catch (AWTException e) {
                     throw new RuntimeException(e);
