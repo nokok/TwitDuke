@@ -1,6 +1,5 @@
 package net.nokok.twitduke.components.keyevent;
 
-import com.sun.org.apache.xml.internal.serializer.OutputPropertiesFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -47,7 +46,8 @@ public class XmlKeyMapStore implements KeyMapStore {
         Transformer transformer = TransformerFactory.newInstance().newTransformer();
         transformer.setOutputProperty(javax.xml.transform.OutputKeys.METHOD, TF_METHOD);
         transformer.setOutputProperty(javax.xml.transform.OutputKeys.INDENT, TF_INDENT);
-        transformer.setOutputProperty(OutputPropertiesFactory.S_KEY_INDENT_AMOUNT, TF_ISIZE);
+        // transformer.setOutputProperty(OutputPropertiesFactory.S_KEY_INDENT_AMOUNT, TF_ISIZE);
+        transformer.setOutputProperty("{http://xml.apache.org/xalan}indent-amount", TF_ISIZE);
         transformer.transform(new DOMSource(document), new StreamResult(dist));
     }
 
