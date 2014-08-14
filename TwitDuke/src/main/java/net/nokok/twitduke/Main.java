@@ -97,35 +97,6 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         Application.launch(args);
-        /*try {
-         if ( !existsTwitDukeDir() ) {
-         DirectoryHelper.createTwitDukeDirectories();
-         }
-         boolean isDebug = hasOption("--debug", args);
-         boolean isServerMode = hasOption("--server-mode", args);
-         if ( !isDebug ) {
-         Console.disableOutput();
-         }
-         final AccountManager accountManager = AccountManagerFactory.newInstance();
-         if ( accountManager.hasValidAccount() ) {
-         AccessToken accessToken = accountManager.readPrimaryAccount().get();
-         startServer(accessToken);
-         if ( !isServerMode ) {
-         openWindow(accountManager);
-         }
-         } else {
-         startOAuth(accountManager, token -> {
-         startServer(token);
-         if ( !isServerMode ) {
-         openWindow(accountManager);
-         }
-         });
-         }
-         } catch (Exception e) {
-         ThrowableReceivable errorLogExporter = new ErrorLogExporter();
-         errorLogExporter.onError(e);
-         throw e;
-         }*/
     }
 
     /**

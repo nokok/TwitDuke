@@ -46,7 +46,6 @@ public class XmlKeyMapStore implements KeyMapStore {
         Transformer transformer = TransformerFactory.newInstance().newTransformer();
         transformer.setOutputProperty(javax.xml.transform.OutputKeys.METHOD, TF_METHOD);
         transformer.setOutputProperty(javax.xml.transform.OutputKeys.INDENT, TF_INDENT);
-        // transformer.setOutputProperty(OutputPropertiesFactory.S_KEY_INDENT_AMOUNT, TF_ISIZE);
         transformer.setOutputProperty("{http://xml.apache.org/xalan}indent-amount", TF_ISIZE);
         transformer.transform(new DOMSource(document), new StreamResult(dist));
     }
