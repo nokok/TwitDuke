@@ -76,7 +76,7 @@
                     <top>
                         <BorderPane prefHeight="80.0" BorderPane.alignment="CENTER">
                             <center>
-                                <TextArea fx:id="tweetTextarea" onInputMethodTextChanged="#tweetTextAreaOnTextChanged" onKeyPressed="#tweetTextAreaOnKeyPressed" onKeyReleased="#tweetTextAreaOnKeyReleased" onKeyTyped="#tweetTextAreaOnKeyTyped" prefHeight="200.0" prefWidth="200.0" styleClass="tweet-textarea" BorderPane.alignment="CENTER" />
+                                <TextArea fx:id="tweetTextarea" onInputMethodTextChanged="#tweetTextAreaOnTextChanged" onKeyPressed="#tweetTextAreaOnKeyPressed" onKeyReleased="#tweetTextAreaOnKeyReleased" onKeyTyped="#tweetTextAreaOnKeyTyped" styleClass="tweet-textarea" BorderPane.alignment="CENTER" />
                             </center>
                             <bottom>
                                 <BorderPane fx:id="textAreaBorderPane" BorderPane.alignment="CENTER" />
