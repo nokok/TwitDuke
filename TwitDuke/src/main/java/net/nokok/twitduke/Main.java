@@ -37,8 +37,10 @@ import net.nokok.twitduke.base.io.Paths;
 import net.nokok.twitduke.components.javafx.MainViewController;
 import net.nokok.twitduke.components.javafx.TweetTextareaToolbarController;
 import net.nokok.twitduke.components.keyevent.ActionRegister;
+import net.nokok.twitduke.components.keyevent.ActionRegisterBuilder;
 import net.nokok.twitduke.components.keyevent.KeyMapSetting;
 import net.nokok.twitduke.components.keyevent.KeyMapStore;
+import net.nokok.twitduke.components.keyevent.KeyMapStoreBuilder;
 import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
 import net.nokok.twitduke.core.auth.OAuthOnSuccess;
@@ -75,9 +77,9 @@ public class Main extends Application {
             controller.setTweetTextAreaToolbar(borderPane);
             TweetTextareaToolbarController toolbarController = tweetTextAreaToolbarLoader.getController();
 
-            KeyMapStore store = KeyMapStore.newInstance();
+            KeyMapStore store = new KeyMapStoreBuilder().build();
             KeyMapSetting setting = store.load(KeyMapResources.DEFAULT_SETTING.get().openStream());
-            ActionRegister register = ActionRegister.newInstance(main.getRoot());
+            ActionRegister register = new ActionRegisterBuilder(main.getRoot()).build();
             register.registerKeyMap(setting);
 
             stage.setScene(main);
