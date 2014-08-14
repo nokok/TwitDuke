@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
 
 /**
+ * JavaFX用、キーボードショートカットを設定するクラス
  * Created by wtnbsts on 2014/07/29.
  */
 public class JavaFXActionRegister implements ActionRegister {
@@ -56,9 +57,25 @@ public class JavaFXActionRegister implements ActionRegister {
         errors.clear();;
     }
 
+    /**
+     * JavaFXのノードにキーボードショートカットを登録する
+     * 登録に成功したイベントハンドラのリストを返す
+     *
+     * @param node         キーボードショートカットを設定したいノード
+     * @param commandClass キーボードショートカットの実体のクラス
+     * @param keyBinds     キーボードショートカットのキー入力
+     *
+     * @return キーボードショートカットのイベントハンドラリスト
+     *
+     * @throws InstantiationException commandClassのインスタンス生成に失敗
+     * @throws IllegalAccessException commandClassのインスタンス生成に失敗
+     * @throws ClassCastException     commandClassがKeyEvent用のEventHandlerを実装していない
+     */
     @SuppressWarnings("unchecked")
     private List<EventHandler<KeyEvent>> registerCommand(final Node node, final Class<?> commandClass,
-                                                         final List<KeyBind> keyBinds) throws Exception {
+                                                         final List<KeyBind> keyBinds) throws InstantiationException,
+                                                                                              IllegalAccessException,
+                                                                                              ClassCastException {
         List<EventHandler<KeyEvent>> added = new ArrayList<>();
         EventHandler<KeyEvent> command = (EventHandler<KeyEvent>) commandClass.newInstance();
         keyBinds.forEach(bind -> {
@@ -73,6 +90,12 @@ public class JavaFXActionRegister implements ActionRegister {
         return added;
     }
 
+    /**
+     * JavaFXのノードと、キーボードショートカット設定情報を渡すと、そのノードにキーボードショートカットを登録する
+     *
+     * @param node    キーボードショートカットを設定したいノード
+     * @param setting キーボードショートカット設定
+     */
     private void registerCall(Node node, KeyMapSetting setting) {
         String nodeClassName = node.getClass().getCanonicalName();
         Map<String, List<KeyBind>> keyBindMap = setting.collectKeyBinds(nodeClassName).get();
@@ -85,12 +108,20 @@ public class JavaFXActionRegister implements ActionRegister {
                 Class<?> commandClass = Class.forName(setting.getCommandClassName(id).get());
                 List<EventHandler<KeyEvent>> added = registerCommand(node, commandClass, binds);
                 registry.get(node).addAll(added);
-            } catch (Exception ex) {
+            } catch (ClassCastException | ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
                 errors.add(ex);
             }
         });
     }
 
+    /**
+     * オブジェクトのクラスを解決できるか判定する
+     *
+     * @param obj 何かのオブジェクト
+     *
+     * @return true : クラス名を解決できた
+     *         false : クラス名を解決できない(クラスローダが違う可能性あり？)
+     */
     private boolean isResolvable(Object obj) {
         return obj.getClass().getCanonicalName() != null;
     }

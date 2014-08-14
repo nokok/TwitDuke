@@ -21,6 +21,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
+ * {@link KeyMapStore}のXML実装
  * Created by wtnbsts on 2014/07/24.
  */
 public class XmlKeyMapStore implements KeyMapStore {
@@ -42,6 +43,14 @@ public class XmlKeyMapStore implements KeyMapStore {
     private final static String TF_INDENT = "yes";
     private final static String TF_ISIZE = "4";
 
+    /**
+     * DOMを文字列として出力する
+     *
+     * @param dist     出力先ストリーム
+     * @param document 出力元DOM
+     *
+     * @throws Exception DOM整形のエラーや、IOExceptionが発生するかもしれない
+     */
     private static void save(final OutputStream dist, final Document document) throws Exception {
         Transformer transformer = TransformerFactory.newInstance().newTransformer();
         transformer.setOutputProperty(javax.xml.transform.OutputKeys.METHOD, TF_METHOD);
@@ -50,6 +59,15 @@ public class XmlKeyMapStore implements KeyMapStore {
         transformer.transform(new DOMSource(document), new StreamResult(dist));
     }
 
+    /**
+     * 設定情報から、DOMを生成する
+     *
+     * @param setting 設定情報
+     *
+     * @return DOM化された設定情報
+     *
+     * @throws Exception DOM整形のエラーや、IOExceptionが発生するかもしれない
+     */
     private static Document createSettingDocument(final KeyMapSetting setting) throws Exception {
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -63,10 +81,24 @@ public class XmlKeyMapStore implements KeyMapStore {
         return doc;
     }
 
+    /**
+     * DOMから、設定情報の名前を取得する(Default,Emacsとかが考えられる？？？)
+     *
+     * @param document 設定情報のDOM
+     *
+     * @return 設定情報名
+     */
     private static String parseSettingName(final Document document) {
         return getAttribute(document.getFirstChild(), ATTR_SETTING_NAME);
     }
 
+    /**
+     * 設定情報のDOMから、コマンド名一覧を取得する
+     *
+     * @param document 設定情報のDOM
+     *
+     * @return コマンド名一覧
+     */
     private static List<String> parseActionIds(final Document document) {
         Stream<Node> actions = stream(document.getFirstChild().getChildNodes());
         return actions.filter(XmlKeyMapStore::isElementNode)
@@ -74,10 +106,28 @@ public class XmlKeyMapStore implements KeyMapStore {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * コマンド名と紐付けられている、コマンドの実体のクラス名を取得する
+     *
+     * @param document 設定情報のDOM
+     * @param id       コマンド名
+     *
+     * @return コマンドクラス名
+     */
     private static String parsePluginName(final Document document, final String id) {
         return getAttribute(getActionNodeById(document, id), ATTR_ACTION_PLUGIN);
     }
 
+    /**
+     * 設定情報のDOMを解析して、コマンド名に対応するキーバインドの一覧を取得する
+     *
+     * @param document 設定情報のDOM
+     * @param id       コマンド名
+     *
+     * @return コマンド名に紐付けられているキーバインド一覧
+     *
+     * @throws RuntimeException
+     */
     private static List<KeyBind> createKeyBinds(final Document document, final String id) throws RuntimeException {
         Node actionNode = getActionNodeById(document, id);
         return stream(actionNode.getChildNodes())
@@ -86,6 +136,13 @@ public class XmlKeyMapStore implements KeyMapStore {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 設定情報のDOMノードから、キーバインド情報を生成する
+     *
+     * @param keyBindNode キーバインドを表すDOMノード
+     *
+     * @return キーバインド情報
+     */
     private static KeyBind createKeyBind(final Node keyBindNode) {
         try {
             KeyCombination shortcutKey = KeyCombination.keyCombination(getAttribute(keyBindNode, ATTR_KBSC_KEYSTROKE));
@@ -96,16 +153,43 @@ public class XmlKeyMapStore implements KeyMapStore {
         }
     }
 
+    /**
+     * 外部入力から、DOMを生成する
+     *
+     * @param source 設定情報源
+     *
+     * @return 設定情報を表すDOM
+     *
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
     private static Document buildDocument(final InputStream source)
             throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         return builder.parse(source);
     }
 
+    /**
+     * ノードについている属性を文字列で取得する
+     *
+     * @param node
+     * @param attrName
+     *
+     * @return
+     */
     private static String getAttribute(final Node node, final String attrName) {
         return node.getAttributes().getNamedItem(attrName).getTextContent();
     }
 
+    /**
+     * キーボードショートカットを表すノードを取得する
+     *
+     * @param document 設定情報のDOM
+     * @param id
+     *
+     * @return
+     */
     private static Node getActionNodeById(final Document document, final String id) {
         Stream<Node> actions = stream(document.getFirstChild().getChildNodes());
         return actions.filter(XmlKeyMapStore::isElementNode)
@@ -113,6 +197,13 @@ public class XmlKeyMapStore implements KeyMapStore {
                 .findFirst().get();
     }
 
+    /**
+     * {@link NodeList}からStreamを生成するする
+     *
+     * @param src
+     *
+     * @return
+     */
     private static Stream<Node> stream(final NodeList src) {
         Stream.Builder<Node> builder = Stream.builder();
         for ( int i = 0; i < src.getLength(); ++i ) {
@@ -121,6 +212,14 @@ public class XmlKeyMapStore implements KeyMapStore {
         return builder.build();
     }
 
+    /**
+     *
+     * @param doc      設定情報のDOM
+     * @param src
+     * @param actionId
+     *
+     * @return
+     */
     private static Element createActionElement(final Document doc, final KeyMapSetting src, final String actionId) {
         Element actionNode = doc.createElement(TAG_ACTION);
         actionNode.setAttribute(ATTR_ACTION_ID, actionId);

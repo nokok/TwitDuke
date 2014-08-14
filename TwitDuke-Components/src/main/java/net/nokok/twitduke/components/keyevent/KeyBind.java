@@ -9,8 +9,7 @@ import javafx.scene.input.KeyCombination;
 public class KeyBind implements Comparable<KeyBind> {
 
     /**
-     * キー入力の文字列表現
-     * 例) ctrl+a
+     * キー入力
      */
     private final KeyCombination keyStroke;
     /**
@@ -25,6 +24,8 @@ public class KeyBind implements Comparable<KeyBind> {
      *
      * @param shortcutKeyBind ショートカットキー
      * @param selector        キーボードショートカットが有効になるコンポーネントの条件
+     *
+     * @throws NullPointerException
      */
     public KeyBind(final KeyCombination shortcutKeyBind, final String selector) {
         this.keyStroke = Objects.requireNonNull(shortcutKeyBind, "shortcutKeyBind");

@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
+ * キーボードショートカット設定を管理するメソッドを提供するインターフェース
+ * {@link KeyBind}のインスタンスと、それにひもづけるコマンド名、コマンドクラス、ターゲットセレクタを管理する
  * Created by wtnbsts on 2014/07/23.
  */
 public interface KeyMapSetting {
@@ -12,14 +14,14 @@ public interface KeyMapSetting {
     /**
      * キーマップ設定の名前を取得する
      *
-     * @return
+     * @return 設定名
      */
     Optional<String> getSettingName();
 
     /**
      * 登録されているコマンド名一覧を取得する
      *
-     * @return
+     * @return コメンド名一覧
      */
     Optional<List<String>> getCommandIds();
 
@@ -58,16 +60,19 @@ public interface KeyMapSetting {
      * コマンドとキー入力をひもづける ＊このメソッドを呼ぶ前にaddCommandメソッドでコマンドを登録しておくこと！
      *
      * @param id      コマンド名
-     * @param keyBind
+     * @param keyBind キー入力
      *
-     * @return
+     * @return true : 登録成功
+     *         false : 登録失敗
      *
      */
     boolean addKeyBind(final String id, final KeyBind keyBind);
 
     /**
-     * @param id
-     * @param keyBinds
+     * コマンドにキーバインドをまとめて登録する
+     *
+     * @param id       コマンド名
+     * @param keyBinds キー入力いろいろ
      *
      * @see KeyMapSetting#addKeyBind(String, KeyBind)
      */
@@ -76,28 +81,29 @@ public interface KeyMapSetting {
     /**
      * コマンドとキー入力のひもづけを切る
      *
-     * @param id
-     * @param keyBind
+     * @param id      コマンド名
+     * @param keyBind キー入力
      *
-     * @return
+     * @return true : 削除成功
+     *         false : 該当するidが存在しない
      */
     boolean removeKeyBind(final String id, final KeyBind keyBind);
 
     /**
      * コマンドに登録されているキーバインド一覧を取得する
      *
-     * @param id
+     * @param id コメンド名
      *
-     * @return
+     * @return キーバインド一覧
      */
     Optional<List<KeyBind>> getKeyBinds(final String id);
 
     /**
-     * コンポーネントに登録するキーバインド一覧を取得する
+     * 該当するコンポーネントに登録べきキーバインド一覧を取得する
      *
-     * @param targetSelector
+     * @param targetSelector コンポーネントのセレクタ (現状はクラス名)
      *
-     * @return
+     * @return キーバインド一覧
      *
      */
     Optional<Map<String, List<KeyBind>>> collectKeyBinds(final String targetSelector);

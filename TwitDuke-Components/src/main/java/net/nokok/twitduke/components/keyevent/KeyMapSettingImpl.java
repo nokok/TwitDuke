@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
+ * {@link KeyMapSetting}の実装
  * Created by wtnbsts on 2014/07/23.
  */
 public class KeyMapSettingImpl implements KeyMapSetting {
