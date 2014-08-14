@@ -34,6 +34,7 @@ public class FXMLResources {
     public static final Optional<URL> TWEETCELL_FXML = findFXMLResources("tweetcell.fxml");
     public static final Optional<URL> TWEET_TEXTAREA_TOOLBAR = findFXMLResources("tweetTextAreaToolbar.fxml");
     public static final Optional<URL> SCREENSHOT = findFXMLResources("screenShot.fxml");
+    public static final Optional<URL> SCREENSHOT_SELECTING_AREA = findFXMLResources("screenShotSelectingArea.fxml");
 
     private static Optional<URL> findFXMLResources(String resource) {
         return Optional.ofNullable(Resources.getResource(String.join(File.separator, "fxml", resource)));
