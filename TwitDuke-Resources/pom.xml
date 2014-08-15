@@ -16,5 +16,10 @@
             <version>17.0</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>org.iq80.leveldb</groupId>
+            <artifactId>leveldb</artifactId>
+            <version>0.7</version>
+        </dependency>
     </dependencies>
 </project>
