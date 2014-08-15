@@ -37,6 +37,9 @@ import net.nokok.twitduke.base.async.ThrowableReceivable;
 import net.nokok.twitduke.base.io.Paths;
 import net.nokok.twitduke.components.javafx.MainViewController;
 import net.nokok.twitduke.components.javafx.TweetTextareaToolbarController;
+import net.nokok.twitduke.components.keyevent.ActionRegister;
+import net.nokok.twitduke.components.keyevent.KeyMapSetting;
+import net.nokok.twitduke.components.keyevent.KeyMapStore;
 import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.account.AccountManagerFactory;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
@@ -51,6 +54,7 @@ import net.nokok.twitduke.core.view.Window;
 import net.nokok.twitduke.pluginsupport.PluginManager;
 import net.nokok.twitduke.pluginsupport.eventrunner.StreamEventRunner;
 import net.nokok.twitduke.resources.FXMLResources;
+import net.nokok.twitduke.resources.KeyMapResources;
 import net.nokok.twitduke.server.WebServerStarter;
 import twitter4j.auth.AccessToken;
 
@@ -74,10 +78,18 @@ public class Main extends Application {
             BorderPane borderPane = tweetTextAreaToolbarLoader.load();
             controller.setTweetTextAreaToolbar(borderPane);
             TweetTextareaToolbarController toolbarController = tweetTextAreaToolbarLoader.getController();
+
+            KeyMapStore store = KeyMapStore.newInstance();
+            KeyMapSetting setting = store.load(KeyMapResources.DEFAULT_SETTING.get().openStream());
+            ActionRegister register = ActionRegister.newInstance(main.getRoot());
+            register.registerKeyMap(setting);
+
             stage.setScene(main);
             stage.show();
         } catch (IOException e) {
             throw new UncheckedIOException("FXMLファイルを読み込めませんでした。ファイルは見つかりましたが、ファイルがおかしいようです。", e);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
     }
 
