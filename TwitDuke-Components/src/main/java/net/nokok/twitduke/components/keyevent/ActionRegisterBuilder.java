@@ -21,28 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.components.actions;
+package net.nokok.twitduke.components.keyevent;
 
-import javafx.event.EventHandler;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.KeyEvent;
+import java.util.Objects;
+import javafx.scene.Node;
 
 /**
  *
  * @author wtnbsts
  */
-public class MoveUp implements EventHandler<KeyEvent> {
+public class ActionRegisterBuilder {
 
-    @Override
-    public void handle(KeyEvent event) {
-        if ( !(event.getSource() instanceof TextArea) ) {
-            return;
-        }
-        final TextArea src = (TextArea) event.getSource();
-        final int upSidePosit = ActionUtil.getUpSide(src.getText(), src.getCaretPosition());
-        if ( upSidePosit < 0 ) {
-            return;
-        }
-        src.positionCaret(upSidePosit);
+    private final Node rootNode;
+
+    public ActionRegisterBuilder(final Node rootNode) {
+        this.rootNode = Objects.requireNonNull(rootNode);
+    }
+
+    public ActionRegister build() {
+        return new JavaFXActionRegister(rootNode);
     }
 }
