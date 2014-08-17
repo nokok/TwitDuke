@@ -80,10 +80,10 @@ public class Main extends Application {
             KeyMapStore store = new KeyMapStoreBuilder().build();
             KeyMapSetting setting = store.load(KeyMapResources.DEFAULT_SETTING.get().openStream());
             ActionRegister register = new ActionRegisterBuilder(main.getRoot()).build();
-            register.registerKeyMap(setting);
 
             stage.setScene(main);
             stage.show();
+            register.registerKeyMap(setting);
 
         } catch (IOException e) {
             throw new UncheckedIOException("FXMLファイルを読み込めませんでした。ファイルは見つかりましたが、ファイルがおかしいようです。", e);
