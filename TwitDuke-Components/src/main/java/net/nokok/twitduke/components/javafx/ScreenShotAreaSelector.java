@@ -37,7 +37,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import net.nokok.twitduke.resources.FXMLResources;
 
-public class TakeScreenShotController {
+public class ScreenShotAreaSelector {
 
     @FXML
     private BorderPane screenShotPane;
@@ -49,7 +49,7 @@ public class TakeScreenShotController {
     private final BorderPane borderPane;
     private Stage stage;
 
-    public TakeScreenShotController() {
+    public ScreenShotAreaSelector() {
         FXMLLoader loader = new FXMLLoader(FXMLResources.SCREENSHOT_SELECTING_AREA.orElseThrow(RuntimeException::new));
         try {
             borderPane = loader.load();

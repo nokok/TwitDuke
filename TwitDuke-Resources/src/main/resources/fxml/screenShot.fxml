@@ -3,4 +3,4 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="screenShotPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased" prefHeight="400.0" prefWidth="600.0" styleClass="transparent-panel,cursor-crosshair" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.nokok.twitduke.components.javafx.TakeScreenShotController" />
+<BorderPane fx:id="screenShotPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased" prefHeight="400.0" prefWidth="600.0" styleClass="half-transparent-gray,cursor-crosshair" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.nokok.twitduke.components.javafx.ScreenShotAreaSelector" />

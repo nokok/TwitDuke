@@ -71,10 +71,10 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
     @FXML
     void takeScreenshot(ActionEvent event) {
         Stage stage = new Stage(StageStyle.TRANSPARENT);
-        FXMLLoader loader = new FXMLLoader(FXMLResources.SCREENSHOT.orElseThrow(RuntimeException::new));
+        FXMLLoader loader = new FXMLLoader(FXMLResources.TAKE_SCREENSHOT.orElseThrow(RuntimeException::new));
         try {
             BorderPane root = loader.load();
-            TakeScreenShotController controller = loader.getController();
+            ScreenShotAreaSelector controller = loader.getController();
             controller.areaSelected((start, end) -> {
                 try {
                     Robot robot = new Robot();
