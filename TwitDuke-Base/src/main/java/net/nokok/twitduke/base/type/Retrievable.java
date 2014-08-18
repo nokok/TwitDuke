@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.type;
+package net.nokok.twitduke.base.type;
 
 /**
  * ラップされる前のオブジェクトが取得できるクラスです。

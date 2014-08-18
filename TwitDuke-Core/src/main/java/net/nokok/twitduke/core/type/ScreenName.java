@@ -24,6 +24,7 @@
 package net.nokok.twitduke.core.type;
 
 import static java.util.Objects.requireNonNull;
+import net.nokok.twitduke.base.type.Retrievable;
 
 /**
  * スクリーンネームをラップするクラスです。

@@ -24,6 +24,7 @@
 package net.nokok.twitduke.core.type;
 
 import java.io.Serializable;
+import net.nokok.twitduke.base.type.Retrievable;
 
 /**
  * ツイート(String)のラッパクラスです

@@ -25,7 +25,7 @@ package net.nokok.twitduke.components.javafx;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
-import net.nokok.twitduke.core.type.Retrievable;
+import net.nokok.twitduke.base.type.Retrievable;
 
 public class TweetTextareaController implements Retrievable<String> {
 
