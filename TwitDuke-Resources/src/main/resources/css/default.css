@@ -95,3 +95,8 @@
 .cursor-crosshair{
     -fx-cursor: crosshair;
 }
+
+.h1-label{
+    -fx-font-weight:bold;
+    -fx-font-size:20;
+}
