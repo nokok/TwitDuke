@@ -5,7 +5,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<TabPane fx:id="mainView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="425.0" stylesheets="@../css/default.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.nokok.twitduke.components.javafx.MainViewController">
+<TabPane fx:id="mainView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="425.0" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.nokok.twitduke.components.javafx.MainViewController">
     <tabs>
         <Tab fx:id="primaryAccountTab" styleClass="account-tab" text="PrimaryAccountName">
             <content>
@@ -17,7 +17,7 @@
                         <ListView fx:id="tweetCellList" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                     </center>
                     <left>
-                        <BorderPane prefHeight="602.0" prefWidth="60.0" BorderPane.alignment="CENTER">
+                        <BorderPane prefWidth="60.0" BorderPane.alignment="CENTER">
                             <bottom>
                                 <Button fx:id="configButton" mnemonicParsing="false" onAction="#showConfig" prefHeight="40.0" prefWidth="62.0" styleClass="config-button" BorderPane.alignment="CENTER">
                                     <graphic>
@@ -74,14 +74,7 @@
                         </BorderPane>
                     </left>
                     <top>
-                        <BorderPane prefHeight="80.0" BorderPane.alignment="CENTER">
-                            <center>
-                                <TextArea fx:id="tweetTextarea" onInputMethodTextChanged="#tweetTextAreaOnTextChanged" onKeyPressed="#tweetTextAreaOnKeyPressed" onKeyReleased="#tweetTextAreaOnKeyReleased" onKeyTyped="#tweetTextAreaOnKeyTyped" styleClass="tweet-textarea" BorderPane.alignment="CENTER" />
-                            </center>
-                            <bottom>
-                                <BorderPane fx:id="textAreaBorderPane" BorderPane.alignment="CENTER" />
-                            </bottom>
-                        </BorderPane>
+                        <BorderPane fx:id="textAreaBorderPane" prefHeight="80.0" BorderPane.alignment="CENTER" />
                     </top>
                 </BorderPane>
             </content>

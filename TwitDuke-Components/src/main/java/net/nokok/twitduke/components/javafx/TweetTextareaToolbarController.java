@@ -25,6 +25,7 @@ package net.nokok.twitduke.components.javafx;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
@@ -44,9 +45,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.imageio.ImageIO;
+import net.nokok.twitduke.base.event.Event;
+import net.nokok.twitduke.base.event.PrimitiveIntegerEventListener;
+import net.nokok.twitduke.base.exception.ResourceNotFoundException;
 import net.nokok.twitduke.resources.FXMLResources;
 
-public class TweetTextareaToolbarController implements ComponentAppendable<Node> {
+public class TweetTextareaToolbarController implements ComponentAppendable<Node>, PrimitiveIntegerEventListener {
 
     @FXML
     private Button takeScreenshotButton;
@@ -63,37 +67,61 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
     @FXML
     private Button saveDraftButton;
 
+    private Event<String> draftReceiver;
+
     @Override
     public void addComponent(Node component) {
 
     }
 
+    @Override
+    public void onEvent(int tweetLength) {
+        tweetTextLengthLabel.setText(String.valueOf(140 - tweetLength));
+    }
+
     @FXML
     void takeScreenshot(ActionEvent event) {
         Stage stage = new Stage(StageStyle.TRANSPARENT);
-        FXMLLoader loader = new FXMLLoader(FXMLResources.TAKE_SCREENSHOT.orElseThrow(RuntimeException::new));
+        FXMLLoader loader = new FXMLLoader(
+                FXMLResources.TAKE_SCREENSHOT.orElseThrow(() -> new ResourceNotFoundException(FXMLResources.TAKE_SCREENSHOT_FILE_NAME))
+        );
+        BorderPane root = loadPanel(loader);
+        ScreenShotAreaSelector controller = loader.getController();
+        controller.areaSelected((start, end) -> {
+            stage.close();
+            BufferedImage image = takeScreenShot(start, end);
+            saveImage("capture.png", image);
+        });
+        Dimension screenSize = getScreenSize();
+        Scene scene = new Scene(root, screenSize.width, screenSize.height);
+        scene.setFill(null);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private BufferedImage takeScreenShot(Point start, Point end) {
         try {
-            BorderPane root = loader.load();
-            ScreenShotAreaSelector controller = loader.getController();
-            controller.areaSelected((start, end) -> {
-                try {
-                    Robot robot = new Robot();
-                    stage.close();
-                    BufferedImage capturedImage = robot.createScreenCapture(new Rectangle(start.x, start.y, end.x - start.x, end.y - start.y));
-                    ImageIO.write(capturedImage, "png", new File("capture.png"));
-                } catch (AWTException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new UncheckedIOException(e);
-                }
-            });
-            Dimension screenSize = getScreenSize();
-            Scene scene = new Scene(root, screenSize.width, screenSize.height);
-            scene.setFill(null);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            Robot robot = new Robot();
+            BufferedImage capturedImage = robot.createScreenCapture(new Rectangle(start.x, start.y, end.x - start.x, end.y - start.y));
+            return capturedImage;
+        } catch (AWTException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private void saveImage(String fileName, BufferedImage image) {
+        try {
+            ImageIO.write(image, "png", new File(fileName));
+        } catch (IOException ex) {
+            throw new UncheckedIOException(ex);
+        }
+    }
+
+    private <T> T loadPanel(FXMLLoader loader) {
+        try {
+            return loader.load();
+        } catch (IOException ex) {
+            throw new UncheckedIOException(ex);
         }
     }
 
@@ -105,6 +133,10 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
     @FXML
     void saveDraft(ActionEvent event) {
 
+    }
+
+    public void setSaveDraftButtonListener(Event<String> draftReveiver) {
+        this.draftReceiver = draftReveiver;
     }
 
     private Dimension getScreenSize() {

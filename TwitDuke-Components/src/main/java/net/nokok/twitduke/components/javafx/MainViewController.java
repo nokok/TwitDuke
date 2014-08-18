@@ -115,13 +115,13 @@ public class MainViewController {
         //tweetLengthLabel.setText(String.valueOf(140 - tweetTextarea.getText().length()));
     }
 
-    public void setTweetTextAreaToolbar(BorderPane textAreaBorderPane) {
-        Objects.requireNonNull(textAreaBorderPane, "渡されたツールバーがnullです");
-        this.textAreaBorderPane.setCenter(textAreaBorderPane.getCenter());
-        this.textAreaBorderPane.setBottom(textAreaBorderPane.getBottom());
-        this.textAreaBorderPane.setRight(textAreaBorderPane.getRight());
-        this.textAreaBorderPane.setLeft(textAreaBorderPane.getLeft());
-        this.textAreaBorderPane.setTop(textAreaBorderPane.getTop());
+    public void setTweetTextAreaToolbar(BorderPane textAreaToolbar) {
+        Objects.requireNonNull(textAreaToolbar, "渡されたツールバーがnullです");
+        this.textAreaBorderPane.setBottom(textAreaToolbar);
+    }
+
+    public void setTweetTextArea(BorderPane textArea) {
+        this.textAreaBorderPane.setCenter(textArea);
     }
 
     @FXML
