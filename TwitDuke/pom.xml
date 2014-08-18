@@ -156,5 +156,4 @@
             <version>9.1.1.v20140108</version>
         </dependency>
     </dependencies>
-    <name>TwitDuke</name>
 </project>
