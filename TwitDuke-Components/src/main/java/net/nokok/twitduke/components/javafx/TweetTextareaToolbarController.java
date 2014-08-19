@@ -74,7 +74,7 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
 
     @Override
     public void addComponent(Node component) {
-
+        tweetTextareaToolbar.getItems().add(component);
     }
 
     @Override
