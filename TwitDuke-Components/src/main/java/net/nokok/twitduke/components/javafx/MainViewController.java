@@ -32,8 +32,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
-import javafx.scene.input.InputMethodEvent;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 
 public class MainViewController {
@@ -89,30 +87,6 @@ public class MainViewController {
     @FXML
     void showFunctionTile(ActionEvent event) {
 
-    }
-
-    @FXML
-    void tweetTextAreaOnKeyPressed(KeyEvent keyEvent) {
-        applyTweetLength();
-    }
-
-    @FXML
-    void tweetTextAreaOnTextChanged(InputMethodEvent event) {
-        applyTweetLength();
-    }
-
-    @FXML
-    void tweetTextAreaOnKeyTyped(KeyEvent event) {
-        applyTweetLength();
-    }
-
-    @FXML
-    void tweetTextAreaOnKeyReleased(KeyEvent event) {
-        applyTweetLength();
-    }
-
-    private void applyTweetLength() {
-        //tweetLengthLabel.setText(String.valueOf(140 - tweetTextarea.getText().length()));
     }
 
     public void setTweetTextAreaToolbar(BorderPane textAreaToolbar) {
