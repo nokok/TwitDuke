@@ -98,19 +98,4 @@ public class MainViewController {
         this.textAreaBorderPane.setCenter(textArea);
     }
 
-    @FXML
-    void initialize() {
-        assert functionTileButton != null : "fx:id=\"functionTileButton\" was not injected: check your FXML file 'main.fxml'.";
-        assert replyButton != null : "fx:id=\"replyButton\" was not injected: check your FXML file 'main.fxml'.";
-        assert configButton != null : "fx:id=\"configButton\" was not injected: check your FXML file 'main.fxml'.";
-        assert homeButton != null : "fx:id=\"homeButton\" was not injected: check your FXML file 'main.fxml'.";
-        assert rootToolbar != null : "fx:id=\"rootToolbar\" was not injected: check your FXML file 'main.fxml'.";
-        assert textAreaBorderPane != null : "fx:id=\"textAreaToolbar\" was not injected: check your FXML file 'main.fxml'.";
-        assert primaryAccountTab != null : "fx:id=\"primaryAccountTab\" was not injected: check your FXML file 'main.fxml'.";
-        assert tweetTextarea != null : "fx:id=\"tweetTextarea\" was not injected: check your FXML file 'main.fxml'.";
-        assert mainView != null : "fx:id=\"mainView\" was not injected: check your FXML file 'main.fxml'.";
-        assert listButton != null : "fx:id=\"listButton\" was not injected: check your FXML file 'main.fxml'.";
-        assert tweetCellList != null : "fx:id=\"tweetCellList\" was not injected: check your FXML file 'main.fxml'.";
-
-    }
 }
