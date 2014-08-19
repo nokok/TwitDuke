@@ -98,7 +98,7 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
         controller.areaSelected((start, end) -> {
             stage.close();
             BufferedImage image = takeScreenShot(start, end);
-            saveImage("capture.png", image);
+            saveImage("tmp.png", image);
         });
         Dimension screenSize = getScreenSize();
         Scene scene = new Scene(root, screenSize.width, screenSize.height);
