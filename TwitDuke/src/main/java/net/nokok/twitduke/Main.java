@@ -77,11 +77,11 @@ public class Main extends Application {
         FXMLLoader tweetTextAreaToolbarLoader = getLoader(FXMLResources.TWEET_TEXTAREA_TOOLBAR, FXMLResources.TWEET_TEXTAREA_TOOLBAR_FILE_NAME);
         FXMLLoader tweetTextAreaLoader = getLoader(FXMLResources.TWEET_TEXTAREA, FXMLResources.TWEET_TEXTAREA_FILE_NAME);
         Scene main = new Scene(mainFxmlLoader.load());
-        MainViewController controller = mainFxmlLoader.getController();
+        MainViewController mainController = mainFxmlLoader.getController();
         BorderPane borderPane = tweetTextAreaToolbarLoader.load();
         TextArea textArea = tweetTextAreaLoader.load();
-        controller.setTweetTextAreaToolbar(borderPane);
-        controller.setTweetTextArea(textArea);
+        mainController.setTweetTextAreaToolbar(borderPane);
+        mainController.setTweetTextArea(textArea);
         TweetTextareaToolbarController toolbarController = tweetTextAreaToolbarLoader.getController();
         toolbarController.addTweetTextAreaController(tweetTextAreaLoader.getController());
 
