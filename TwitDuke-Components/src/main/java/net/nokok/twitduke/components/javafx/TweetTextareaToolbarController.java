@@ -51,6 +51,7 @@ import net.nokok.twitduke.base.exception.ResourceNotFoundException;
 import net.nokok.twitduke.base.type.Retrievable;
 import net.nokok.twitduke.base.type.TweetLength;
 import net.nokok.twitduke.resources.FXMLResources;
+import net.nokok.twitduke.resources.ImageResources;
 import net.nokok.twitduke.resources.draft.DraftIO;
 import net.nokok.twitduke.resources.draft.DraftIOFactory;
 
@@ -141,6 +142,11 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
     void saveDraft(ActionEvent event) {
         String text = textAreaStringReceiver.get();
         draftIO.saveDraft(text);
+        if ( draftIO.draftList().isEmpty() ) {
+            draftButtonIcon.setImage(ImageResources.DRAFT_EMPTY);
+        } else {
+            draftButtonIcon.setImage(ImageResources.DRAFT_FULL);
+        }
     }
 
     public void setSaveDraftButtonListener(Retrievable<String> textAreaStringReceiver) {
