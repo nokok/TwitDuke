@@ -85,8 +85,8 @@ public class Main extends Application {
 
         KeyMapStore store = new KeyMapStoreBuilder().build();
         KeyMapSetting setting = store.load(KeyMapResources.DEFAULT_SETTING.get().openStream());
-        ActionRegister register = new ActionRegisterBuilder(main.getRoot()).build();
-        register.registerKeyMap(setting);
+        ActionRegister register = new ActionRegisterBuilder(stage).build();
+        register.registerKeyMap(setting, true);
         stage.setScene(main);
         stage.show();
     }

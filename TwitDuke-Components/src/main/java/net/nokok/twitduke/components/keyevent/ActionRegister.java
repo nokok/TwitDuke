@@ -24,7 +24,6 @@
 package net.nokok.twitduke.components.keyevent;
 
 import java.util.List;
-import javafx.scene.Node;
 
 /**
  * キーボードショートカットをGUIパーツに登録するメソッドを提供するインターフェース
@@ -33,24 +32,19 @@ import javafx.scene.Node;
 public interface ActionRegister {
 
     /**
-     * キーボードショートカットを設定するノードを指定して、キーボードショートカット設定インスタンスを生成する
-     * あとで、削除する
-     *
-     * @param root キーボードを設定したいノード
-     *
-     * @return ショートカット設定インスタンス
-     */
-    @Deprecated
-    static ActionRegister newInstance(final Node root) {
-        return new JavaFXActionRegister(root);
-    }
-
-    /**
      * キーボードショートカット設定を適用する
      *
      * @param setting キーボードショートカット設定
      */
     void registerKeyMap(final KeyMapSetting setting);
+
+    /**
+     * キーボードショートカット設定を適用する
+     *
+     * @param setting キーボードショートカット設定
+     * @param onShown 表示イベントに合わせてショートカットの登録を開始する
+     */
+    void registerKeyMap(final KeyMapSetting setting, final boolean onShown);
 
     /**
      * キーボードショートカット設定を解除する
