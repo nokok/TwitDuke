@@ -142,7 +142,7 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
         fileChooser.setTitle("画像を選択してください");
         File file = fileChooser.showOpenDialog(stage);
         try {
-            Files.copy(file, new File("tmp.img"));
+            Files.copy(file, new File("tmp.png"));
         } catch (IOException ex) {
             throw new UncheckedIOException(ex);
         }
