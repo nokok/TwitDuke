@@ -138,7 +138,7 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
     }
 
     public void setSaveDraftButtonListener(Event<String> draftReveiver) {
-        this.draftReceiver = draftReveiver;
+        this.draftReceiver = Objects.requireNonNull(draftReveiver);
     }
 
     private Dimension getScreenSize() {
