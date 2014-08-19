@@ -51,6 +51,8 @@ import net.nokok.twitduke.base.exception.ResourceNotFoundException;
 import net.nokok.twitduke.base.type.Retrievable;
 import net.nokok.twitduke.base.type.TweetLength;
 import net.nokok.twitduke.resources.FXMLResources;
+import net.nokok.twitduke.resources.draft.DraftIO;
+import net.nokok.twitduke.resources.draft.DraftIOFactory;
 
 public class TweetTextareaToolbarController implements ComponentAppendable<Node>, Event<TweetLength> {
 
@@ -66,6 +68,8 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
     private Retrievable<String> textAreaStringReceiver;
 
     private TweetTextareaController tweetTextareaController;
+
+    private final DraftIO draftIO = DraftIOFactory.newInstance();
 
     @Override
     public void addComponent(Node component) {
@@ -136,6 +140,7 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
     @FXML
     void saveDraft(ActionEvent event) {
         String text = textAreaStringReceiver.get();
+        draftIO.saveDraft(text);
     }
 
     public void setSaveDraftButtonListener(Retrievable<String> textAreaStringReceiver) {
