@@ -24,6 +24,8 @@
 package net.nokok.twitduke;
 
 import java.io.File;
+import java.net.URL;
+import java.util.Optional;
 import java.util.stream.Stream;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -65,15 +67,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader mainFxmlLoader = new FXMLLoader(
-                FXMLResources.MAIN_FXML.orElseThrow(() -> new ResourceNotFoundException(FXMLResources.MAIN_FXML_FILE_NAME))
-        );
-        FXMLLoader tweetTextAreaToolbarLoader = new FXMLLoader(
-                FXMLResources.TWEET_TEXTAREA_TOOLBAR.orElseThrow(() -> new ResourceNotFoundException(FXMLResources.TWEET_TEXTAREA_TOOLBAR_FILE_NAME))
-        );
-        FXMLLoader tweetTextAreaLoader = new FXMLLoader(
-                FXMLResources.TWEET_TEXTAREA.orElseThrow(() -> new ResourceNotFoundException(FXMLResources.TWEET_TEXTAREA_FILE_NAME))
-        );
+        Stage configuredStage = configureStage(stage);
+        configuredStage.show();
+    }
+
+    private Stage configureStage(Stage stage) throws Exception {
+        FXMLLoader mainFxmlLoader = getLoader(FXMLResources.MAIN_FXML, FXMLResources.MAIN_FXML_FILE_NAME);
+        FXMLLoader tweetTextAreaToolbarLoader = getLoader(FXMLResources.TWEET_TEXTAREA_TOOLBAR, FXMLResources.TWEET_TEXTAREA_TOOLBAR_FILE_NAME);
+        FXMLLoader tweetTextAreaLoader = getLoader(FXMLResources.TWEET_TEXTAREA, FXMLResources.TWEET_TEXTAREA_FILE_NAME);
         Scene main = new Scene(mainFxmlLoader.load());
         MainViewController controller = mainFxmlLoader.getController();
         BorderPane borderPane = tweetTextAreaToolbarLoader.load();
@@ -83,12 +84,24 @@ public class Main extends Application {
         TweetTextareaToolbarController toolbarController = tweetTextAreaToolbarLoader.getController();
         toolbarController.addTweetTextAreaController(tweetTextAreaLoader.getController());
 
+        applyKeymap(main);
+
+        stage.setScene(main);
+        return stage;
+    }
+
+    private void applyKeymap(Scene scene) throws Exception {
         KeyMapStore store = new KeyMapStoreBuilder().build();
         KeyMapSetting setting = store.load(KeyMapResources.DEFAULT_SETTING.get().openStream());
-        ActionRegister register = new ActionRegisterBuilder(main.getRoot()).build();
+        ActionRegister register = new ActionRegisterBuilder(scene.getRoot()).build();
         register.registerKeyMap(setting);
-        stage.setScene(main);
-        stage.show();
+    }
+
+    private FXMLLoader getLoader(Optional<URL> url, String resourceName) {
+        if ( !url.isPresent() ) {
+            throw new ResourceNotFoundException(resourceName);
+        }
+        return new FXMLLoader(url.get());
     }
 
     /**
