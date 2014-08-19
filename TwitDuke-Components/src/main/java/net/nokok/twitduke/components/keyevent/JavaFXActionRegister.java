@@ -27,10 +27,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * JavaFX用、キーボードショートカットを設定するクラス
@@ -38,22 +41,39 @@ import javafx.scene.input.KeyEvent;
  */
 public class JavaFXActionRegister implements ActionRegister {
 
-    private final Node root;
+    private final Stage root;
     private final Map<Node, List<EventHandler<KeyEvent>>> registry = new HashMap<>();
     private final List<Exception> errors = new ArrayList<>();
 
-    public JavaFXActionRegister(final Node root) {
-        this.root = root;
+    public JavaFXActionRegister(final Stage root) {
+        this.root = Objects.requireNonNull(root);
     }
 
     @Override
     public void registerKeyMap(final KeyMapSetting setting) {
-        root.lookupAll("*")
+        root.getScene().getRoot().lookupAll("*")
                 .stream()
                 .filter(this::isResolvable)
                 .forEach(node -> {
                     registerCall(node, setting);
                 });
+    }
+
+    @Override
+    public void registerKeyMap(final KeyMapSetting setting, final boolean onShown) {
+        if ( !onShown ) {
+            registerKeyMap(setting);
+            return;
+        }
+        final ActionRegister actionRegister = this;
+        EventHandler<WindowEvent> handler = new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                root.removeEventHandler(event.getEventType(), this);
+                actionRegister.registerKeyMap(setting);
+            }
+        };
+        root.addEventHandler(WindowEvent.WINDOW_SHOWN, handler);
     }
 
     @Override
