@@ -39,9 +39,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -54,19 +54,13 @@ import net.nokok.twitduke.resources.FXMLResources;
 public class TweetTextareaToolbarController implements ComponentAppendable<Node>, Event<TweetLength> {
 
     @FXML
-    private Button takeScreenshotButton;
-
-    @FXML
     private Label tweetTextLengthLabel;
-
-    @FXML
-    private Button choosePictureButton;
 
     @FXML
     private ToolBar tweetTextareaToolbar;
 
     @FXML
-    private Button saveDraftButton;
+    private ImageView draftButtonIcon;
 
     private Event<String> draftReceiver;
 
