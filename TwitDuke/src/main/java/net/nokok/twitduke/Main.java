@@ -37,6 +37,7 @@ import javafx.stage.Stage;
 import net.nokok.twitduke.base.exception.ResourceNotFoundException;
 import net.nokok.twitduke.base.io.Paths;
 import net.nokok.twitduke.components.javafx.MainViewController;
+import net.nokok.twitduke.components.javafx.TweetTextareaController;
 import net.nokok.twitduke.components.javafx.TweetTextareaToolbarController;
 import net.nokok.twitduke.components.keyevent.ActionRegister;
 import net.nokok.twitduke.components.keyevent.ActionRegisterBuilder;
@@ -83,7 +84,10 @@ public class Main extends Application {
         mainController.setTweetTextAreaToolbar(borderPane);
         mainController.setTweetTextArea(textArea);
         TweetTextareaToolbarController toolbarController = tweetTextAreaToolbarLoader.getController();
-        toolbarController.addTweetTextAreaController(tweetTextAreaLoader.getController());
+        TweetTextareaController tweetTextareaController = tweetTextAreaLoader.getController();
+
+        toolbarController.addTweetTextAreaController(tweetTextareaController);
+        toolbarController.setSaveDraftButtonListener(tweetTextareaController);
 
         applyKeymap(stage);
 

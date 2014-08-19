@@ -48,6 +48,7 @@ import javafx.stage.StageStyle;
 import javax.imageio.ImageIO;
 import net.nokok.twitduke.base.event.Event;
 import net.nokok.twitduke.base.exception.ResourceNotFoundException;
+import net.nokok.twitduke.base.type.Retrievable;
 import net.nokok.twitduke.base.type.TweetLength;
 import net.nokok.twitduke.resources.FXMLResources;
 
@@ -62,7 +63,7 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
     @FXML
     private ImageView draftButtonIcon;
 
-    private Event<String> draftReceiver;
+    private Retrievable<String> textAreaStringReceiver;
 
     private TweetTextareaController tweetTextareaController;
 
@@ -134,11 +135,11 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
 
     @FXML
     void saveDraft(ActionEvent event) {
-
+        String text = textAreaStringReceiver.get();
     }
 
-    public void setSaveDraftButtonListener(Event<String> draftReveiver) {
-        this.draftReceiver = Objects.requireNonNull(draftReveiver);
+    public void setSaveDraftButtonListener(Retrievable<String> textAreaStringReceiver) {
+        this.textAreaStringReceiver = Objects.requireNonNull(textAreaStringReceiver);
     }
 
     private Dimension getScreenSize() {
