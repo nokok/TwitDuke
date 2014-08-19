@@ -2,10 +2,5 @@
 
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="tweet-textarea" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.nokok.twitduke.components.javafx.TweetTextareaController">
-    <center>
-        <TextArea fx:id="tweetTextarea" promptText="今何してる？" styleClass="tweet-textarea" wrapText="true" BorderPane.alignment="CENTER" />
-    </center>
-</BorderPane>
+<TextArea fx:id="tweetTextarea" onKeyPressed="#onInput" onKeyReleased="#onInput" onKeyTyped="#onInput" promptText="今何してる？" styleClass="tweet-textarea" stylesheets="@../css/default.css" wrapText="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.nokok.twitduke.components.javafx.TweetTextareaController" />

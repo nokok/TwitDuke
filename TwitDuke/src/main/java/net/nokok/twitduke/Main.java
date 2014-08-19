@@ -28,6 +28,7 @@ import java.util.stream.Stream;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import net.nokok.twitduke.base.exception.ResourceNotFoundException;
@@ -76,10 +77,11 @@ public class Main extends Application {
         Scene main = new Scene(mainFxmlLoader.load());
         MainViewController controller = mainFxmlLoader.getController();
         BorderPane borderPane = tweetTextAreaToolbarLoader.load();
-        BorderPane textAreaOnBorderPane = tweetTextAreaLoader.load();
+        TextArea textArea = tweetTextAreaLoader.load();
         controller.setTweetTextAreaToolbar(borderPane);
-        controller.setTweetTextArea(textAreaOnBorderPane);
+        controller.setTweetTextArea(textArea);
         TweetTextareaToolbarController toolbarController = tweetTextAreaToolbarLoader.getController();
+        toolbarController.addTweetTextAreaController(tweetTextAreaLoader.getController());
 
         KeyMapStore store = new KeyMapStoreBuilder().build();
         KeyMapSetting setting = store.load(KeyMapResources.DEFAULT_SETTING.get().openStream());

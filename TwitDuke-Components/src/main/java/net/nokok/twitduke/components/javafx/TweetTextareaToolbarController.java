@@ -33,6 +33,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,11 +47,11 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.imageio.ImageIO;
 import net.nokok.twitduke.base.event.Event;
-import net.nokok.twitduke.base.event.PrimitiveIntegerEventListener;
 import net.nokok.twitduke.base.exception.ResourceNotFoundException;
+import net.nokok.twitduke.base.type.TweetLength;
 import net.nokok.twitduke.resources.FXMLResources;
 
-public class TweetTextareaToolbarController implements ComponentAppendable<Node>, PrimitiveIntegerEventListener {
+public class TweetTextareaToolbarController implements ComponentAppendable<Node>, Event<TweetLength> {
 
     @FXML
     private Button takeScreenshotButton;
@@ -69,14 +70,21 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
 
     private Event<String> draftReceiver;
 
+    private TweetTextareaController tweetTextareaController;
+
     @Override
     public void addComponent(Node component) {
 
     }
 
     @Override
-    public void onEvent(int tweetLength) {
-        tweetTextLengthLabel.setText(String.valueOf(140 - tweetLength));
+    public void onEvent(TweetLength t) {
+        tweetTextLengthLabel.setText(String.valueOf(140 - t.length()));
+        if ( t.isSendable() ) {
+            tweetTextLengthLabel.setStyle("-fx-text-fill: #ecf0f1;"); //default.css normal-text-color
+        } else {
+            tweetTextLengthLabel.setStyle("-fx-text-fill: #c0392b;"); //default.css error-text-color
+        }
     }
 
     @FXML
@@ -141,6 +149,11 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
 
     private Dimension getScreenSize() {
         return Toolkit.getDefaultToolkit().getScreenSize();
+    }
+
+    public void addTweetTextAreaController(TweetTextareaController controller) {
+        this.tweetTextareaController = Objects.requireNonNull(controller);
+        tweetTextareaController.onInput(this::onEvent);
     }
 
 }

@@ -99,3 +99,11 @@
 .transparent-panel{
     -fx-background-color: rgba(0, 0, 0, 0.0);
 }
+
+.error-text-color{
+    -fx-text-fill: #c0392b;
+}
+
+.normal-text-color{
+    -fx-text-fill: #ecf0f1;
+}

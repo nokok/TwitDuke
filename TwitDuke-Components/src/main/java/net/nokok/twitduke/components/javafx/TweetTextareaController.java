@@ -23,21 +23,36 @@
  */
 package net.nokok.twitduke.components.javafx;
 
+import java.util.Optional;
+import java.util.function.Consumer;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyEvent;
 import net.nokok.twitduke.base.type.Retrievable;
+import net.nokok.twitduke.base.type.TweetLength;
 
 public class TweetTextareaController implements Retrievable<String> {
 
     @FXML
-    private TextArea tweetTexarea;
+    private TextArea tweetTextarea;
+
+    private Optional<Consumer<TweetLength>> tweetLengthConsumer = Optional.empty();
 
     @Override
     public String get() {
-        return tweetTexarea.getText();
+        return tweetTextarea.getText();
     }
 
     public int tweetLength() {
-        return tweetTexarea.getText().length();
+        return tweetTextarea.getText().length();
+    }
+
+    @FXML
+    void onInput(KeyEvent event) {
+        tweetLengthConsumer.ifPresent(c -> c.accept(new TweetLength(tweetTextarea.getText())));
+    }
+
+    public void onInput(Consumer<TweetLength> tweetLengthConsumer) {
+        this.tweetLengthConsumer = Optional.of(tweetLengthConsumer);
     }
 }

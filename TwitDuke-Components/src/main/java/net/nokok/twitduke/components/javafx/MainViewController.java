@@ -120,7 +120,7 @@ public class MainViewController {
         this.textAreaBorderPane.setBottom(textAreaToolbar);
     }
 
-    public void setTweetTextArea(BorderPane textArea) {
+    public void setTweetTextArea(TextArea textArea) {
         this.textAreaBorderPane.setCenter(textArea);
     }
 
