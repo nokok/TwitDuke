@@ -24,7 +24,7 @@
 package net.nokok.twitduke.components.keyevent;
 
 import java.util.Objects;
-import javafx.scene.Node;
+import javafx.stage.Stage;
 
 /**
  *
@@ -32,9 +32,9 @@ import javafx.scene.Node;
  */
 public class ActionRegisterBuilder {
 
-    private final Node rootNode;
+    private final Stage rootNode;
 
-    public ActionRegisterBuilder(final Node rootNode) {
+    public ActionRegisterBuilder(final Stage rootNode) {
         this.rootNode = Objects.requireNonNull(rootNode);
     }
 

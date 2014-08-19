@@ -25,6 +25,7 @@ package net.nokok.twitduke;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 import javafx.application.Application;
@@ -84,17 +85,18 @@ public class Main extends Application {
         TweetTextareaToolbarController toolbarController = tweetTextAreaToolbarLoader.getController();
         toolbarController.addTweetTextAreaController(tweetTextAreaLoader.getController());
 
-        applyKeymap(main);
+        applyKeymap(stage);
 
         stage.setScene(main);
         return stage;
     }
 
-    private void applyKeymap(Scene scene) throws Exception {
+    private void applyKeymap(Stage stage) throws Exception {
+        Objects.requireNonNull(stage, "stageがnull");
         KeyMapStore store = new KeyMapStoreBuilder().build();
         KeyMapSetting setting = store.load(KeyMapResources.DEFAULT_SETTING.get().openStream());
-        ActionRegister register = new ActionRegisterBuilder(scene.getRoot()).build();
-        register.registerKeyMap(setting);
+        ActionRegister register = new ActionRegisterBuilder(stage).build();
+        register.registerKeyMap(setting, true);
     }
 
     private FXMLLoader getLoader(Optional<URL> url, String resourceName) {
