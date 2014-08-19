@@ -23,6 +23,7 @@
  */
 package net.nokok.twitduke.components.javafx;
 
+import com.google.common.io.Files;
 import java.awt.AWTException;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -43,6 +44,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.imageio.ImageIO;
@@ -135,7 +137,15 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
 
     @FXML
     void choosePicture(ActionEvent event) {
-
+        Stage stage = new Stage();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("画像を選択してください");
+        File file = fileChooser.showOpenDialog(stage);
+        try {
+            Files.copy(file, new File("tmp.img"));
+        } catch (IOException ex) {
+            throw new UncheckedIOException(ex);
+        }
     }
 
     @FXML
