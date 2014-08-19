@@ -23,26 +23,54 @@
  */
 package net.nokok.twitduke.resources.draft;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import org.iq80.leveldb.DB;
+import org.iq80.leveldb.Options;
+import org.iq80.leveldb.impl.Iq80DBFactory;
+import static org.iq80.leveldb.impl.Iq80DBFactory.bytes;
 
-class DraftIOLevelDB implements DraftIO {
+public class DraftIOLevelDB implements DraftIO {
 
-    DraftIOLevelDB() {
+    private final List<String> draftList = new ArrayList<>();
 
+    @Override
+    public synchronized List<String> draftList() {
+        return draftList;
     }
 
     @Override
-    public List<String> draftList() {
-        return null;
+    public void remove(Integer index) {
+        try (DB db = openDB()) {
+            db.delete(bytes(index.toString()));
+            draftList.remove(index.intValue()); //call remove(int index)
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     @Override
-    public String restore(int index) {
-        return null;
+    public Optional<String> restore(Integer index) {
+        return Optional.of(draftList.get(index));
     }
 
     @Override
     public void saveDraft(String text) {
+        try (DB db = openDB()) {
+            db.put(bytes(String.valueOf(draftList.size())), text.getBytes());
+            draftList.add(text);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
+    private DB openDB() throws IOException {
+        File dbFile = new File("draft");
+        Options options = new Options().createIfMissing(true);
+        return Iq80DBFactory.factory.open(dbFile, options);
+    }
 }

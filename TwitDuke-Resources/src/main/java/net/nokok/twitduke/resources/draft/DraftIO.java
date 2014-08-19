@@ -24,6 +24,7 @@
 package net.nokok.twitduke.resources.draft;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DraftIO {
 
@@ -31,6 +32,8 @@ public interface DraftIO {
 
     public List<String> draftList();
 
-    public String restore(int index);
+    public Optional<String> restore(Integer index);
+
+    public void remove(Integer index);
 
 }
