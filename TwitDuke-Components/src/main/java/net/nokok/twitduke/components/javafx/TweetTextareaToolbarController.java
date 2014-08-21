@@ -93,7 +93,7 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
     void takeScreenshot(ActionEvent event) {
         Stage stage = new Stage(StageStyle.TRANSPARENT);
         FXMLLoader loader = new FXMLLoader(
-                FXMLResources.TAKE_SCREENSHOT.orElseThrow(() -> new ResourceNotFoundException(FXMLResources.TAKE_SCREENSHOT_FILE_NAME))
+            FXMLResources.TAKE_SCREENSHOT.orElseThrow(() -> new ResourceNotFoundException(FXMLResources.TAKE_SCREENSHOT_FILE_NAME))
         );
         BorderPane root = loadPanel(loader);
         ScreenShotAreaSelector controller = loader.getController();

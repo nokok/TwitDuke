@@ -107,11 +107,11 @@ public class KeyMapSettingImpl implements KeyMapSetting {
         Map<String, List<KeyBind>> result = new HashMap<>();
         commandKeyBinds.forEach((id, binds) -> {
             binds.stream()
-                    .filter(bind -> targetComponentName.equals(bind.getSelector()))
-                    .forEach(bind -> {
-                        result.computeIfAbsent(id, key -> new ArrayList<>());
-                        result.get(id).add(bind);
-                    });
+                .filter(bind -> targetComponentName.equals(bind.getSelector()))
+                .forEach(bind -> {
+                    result.computeIfAbsent(id, key -> new ArrayList<>());
+                    result.get(id).add(bind);
+                });
         });
         return Optional.of(result);
     }

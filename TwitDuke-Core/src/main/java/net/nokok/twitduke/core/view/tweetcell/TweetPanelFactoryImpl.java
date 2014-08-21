@@ -198,8 +198,8 @@ public class TweetPanelFactoryImpl implements TweetPanelFactory {
         HashtagEntity[] hashtagEntities = status.getHashtagEntities();
         List<Component> buttonList = new ArrayList<>(hashtagEntities.length);
         Stream
-                .of(hashtagEntities)
-                .forEach(h -> buttonList.add(new TWSlimButton("#" + h.getText())));
+            .of(hashtagEntities)
+            .forEach(h -> buttonList.add(new TWSlimButton("#" + h.getText())));
         return buttonList;
     }
 
@@ -213,11 +213,11 @@ public class TweetPanelFactoryImpl implements TweetPanelFactory {
         URLEntity[] urlEntities = status.getURLEntities();
         List<Component> buttonList = new ArrayList<>(urlEntities.length);
         Stream.of(urlEntities)
-                .forEach(u -> buttonList.add(new URLSlimButton(u)));
+            .forEach(u -> buttonList.add(new URLSlimButton(u)));
         Stream.of(urlEntities)
-                .filter(p -> p.getDisplayURL().contains("shindanmaker"))
-                .map(p -> new ShindanmakerSlimButton(p.getExpandedURL(), accessToken))
-                .forEach(buttonList::add);
+            .filter(p -> p.getDisplayURL().contains("shindanmaker"))
+            .map(p -> new ShindanmakerSlimButton(p.getExpandedURL(), accessToken))
+            .forEach(buttonList::add);
         return buttonList;
     }
 
@@ -230,8 +230,8 @@ public class TweetPanelFactoryImpl implements TweetPanelFactory {
     public List<Component> createThumbnailList() {
         List<Component> thunbnails = new ArrayList<>(status.getMediaEntities().length);
         Stream.of(status.getMediaEntities())
-                .map(entity -> new MediaThumbnail(entity.getMediaURLHttps()))
-                .forEach(thunbnails::add);
+            .map(entity -> new MediaThumbnail(entity.getMediaURLHttps()))
+            .forEach(thunbnails::add);
         return thunbnails;
     }
 

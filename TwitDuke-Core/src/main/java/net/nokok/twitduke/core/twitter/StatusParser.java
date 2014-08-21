@@ -115,7 +115,7 @@ public class StatusParser {
      */
     public List<URLEntity> createURLEntityList(Status status) {
         return Stream.of(status.getURLEntities())
-                .collect(Collectors.toCollection(ArrayList::new));
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -127,7 +127,7 @@ public class StatusParser {
      */
     public List<UserMentionEntity> createUserMentionEntityList(Status status) {
         return Stream.of(status.getUserMentionEntities())
-                .collect(Collectors.toCollection(ArrayList::new));
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -139,7 +139,7 @@ public class StatusParser {
      */
     public List<HashtagEntity> createHashtagEntityList(Status status) {
         return Stream.of(status.getHashtagEntities())
-                .collect(Collectors.toCollection(ArrayList::new));
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -151,7 +151,7 @@ public class StatusParser {
      */
     public List<MediaEntity> createMediaEntityList(Status status) {
         return Stream.of(status.getMediaEntities())
-                .collect(Collectors.toCollection(ArrayList::new));
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -163,6 +163,6 @@ public class StatusParser {
      */
     public List<SymbolEntity> createSymbolEntityList(Status status) {
         return Stream.of(status.getSymbolEntities())
-                .collect(Collectors.toCollection(ArrayList::new));
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 }

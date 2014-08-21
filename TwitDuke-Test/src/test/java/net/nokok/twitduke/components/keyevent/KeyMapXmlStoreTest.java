@@ -96,8 +96,8 @@ public class KeyMapXmlStoreTest {
         assertEquals("net.nokok.twitduke.components.actions.Action_Paste",
                      setting.getCommandClassName("paste").get());
         assertEquals(
-                "net.nokok.twitduke.components.actions.Action_CutUpToLineEnd",
-                setting.getCommandClassName("cut up to line end.").get()
+            "net.nokok.twitduke.components.actions.Action_CutUpToLineEnd",
+            setting.getCommandClassName("cut up to line end.").get()
         );
         assertEquals("Action_Retweet", setting.getCommandClassName("retweet").get());
     }
@@ -128,8 +128,8 @@ public class KeyMapXmlStoreTest {
         OutputStream out = new ByteArrayOutputStream();
         assertTrue(store.save(out, setting));
         assertEquals(
-                xmlValue.replaceAll("\\n", "").replaceAll("\\s+", " "),
-                out.toString().replaceAll("\\n", "").replaceAll("\\s+", " ")
+            xmlValue.replaceAll("\\n", "").replaceAll("\\s+", " "),
+            out.toString().replaceAll("\\n", "").replaceAll("\\s+", " ")
         );
     }
 }

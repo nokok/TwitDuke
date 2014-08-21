@@ -36,7 +36,7 @@ public class ShindanmakerProperty {
 
     public ShindanmakerProperty() {
         Optional<Properties> oProp = new PropertyReader(ShindanmakerConfig.SHINDANMAKER_CONFIG_FILE)
-                .read();
+            .read();
         if ( oProp.isPresent() ) {
             this.properties = oProp.get();
         } else {

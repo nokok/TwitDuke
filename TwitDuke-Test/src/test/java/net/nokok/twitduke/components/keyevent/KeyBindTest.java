@@ -158,17 +158,17 @@ public class KeyBindTest {
     }
 
     private Object getValue(final KeyBind bind, final String fieldName)
-            throws NoSuchFieldException, IllegalAccessException {
+        throws NoSuchFieldException, IllegalAccessException {
         return getField(bind, fieldName).get(bind);
     }
 
     private String getStringValue(final KeyBind bind, final String fieldName)
-            throws NoSuchFieldException, IllegalAccessException {
+        throws NoSuchFieldException, IllegalAccessException {
         return (String) getValue(bind, fieldName);
     }
 
     private int getIntValue(final KeyBind bind, final String fieldName)
-            throws NoSuchFieldException, IllegalAccessException {
+        throws NoSuchFieldException, IllegalAccessException {
         return getField(bind, fieldName).getInt(bind);
     }
 }

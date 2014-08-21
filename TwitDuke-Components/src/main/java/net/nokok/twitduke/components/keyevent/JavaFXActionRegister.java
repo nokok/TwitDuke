@@ -52,11 +52,11 @@ public class JavaFXActionRegister implements ActionRegister {
     @Override
     public void registerKeyMap(final KeyMapSetting setting) {
         root.getScene().getRoot().lookupAll("*")
-                .stream()
-                .filter(this::isResolvable)
-                .forEach(node -> {
-                    registerCall(node, setting);
-                });
+            .stream()
+            .filter(this::isResolvable)
+            .forEach(node -> {
+                registerCall(node, setting);
+            });
     }
 
     @Override

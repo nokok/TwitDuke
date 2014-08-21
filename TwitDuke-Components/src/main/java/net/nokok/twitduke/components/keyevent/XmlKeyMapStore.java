@@ -98,9 +98,9 @@ public class XmlKeyMapStore implements KeyMapStore {
         root.setAttribute(ATTR_SETTING_NAME, setting.getSettingName().get());
         doc.appendChild(root);
         setting.getCommandIds().get()
-                .stream()
-                .sorted()
-                .forEach(id -> root.appendChild(createActionElement(doc, setting, id)));
+            .stream()
+            .sorted()
+            .forEach(id -> root.appendChild(createActionElement(doc, setting, id)));
         return doc;
     }
 
@@ -125,8 +125,8 @@ public class XmlKeyMapStore implements KeyMapStore {
     private static List<String> parseActionIds(final Document document) {
         Stream<Node> actions = stream(document.getFirstChild().getChildNodes());
         return actions.filter(XmlKeyMapStore::isElementNode)
-                .map(node -> getAttribute(node, ATTR_ACTION_ID))
-                .collect(Collectors.toList());
+            .map(node -> getAttribute(node, ATTR_ACTION_ID))
+            .collect(Collectors.toList());
     }
 
     /**
@@ -154,9 +154,9 @@ public class XmlKeyMapStore implements KeyMapStore {
     private static List<KeyBind> createKeyBinds(final Document document, final String id) throws RuntimeException {
         Node actionNode = getActionNodeById(document, id);
         return stream(actionNode.getChildNodes())
-                .filter(XmlKeyMapStore::isElementNode)
-                .map(XmlKeyMapStore::createKeyBind)
-                .collect(Collectors.toList());
+            .filter(XmlKeyMapStore::isElementNode)
+            .map(XmlKeyMapStore::createKeyBind)
+            .collect(Collectors.toList());
     }
 
     /**
@@ -188,7 +188,7 @@ public class XmlKeyMapStore implements KeyMapStore {
      * @throws SAXException
      */
     private static Document buildDocument(final InputStream source)
-            throws ParserConfigurationException, IOException, SAXException {
+        throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         return builder.parse(source);
     }
@@ -216,8 +216,8 @@ public class XmlKeyMapStore implements KeyMapStore {
     private static Node getActionNodeById(final Document document, final String id) {
         Stream<Node> actions = stream(document.getFirstChild().getChildNodes());
         return actions.filter(XmlKeyMapStore::isElementNode)
-                .filter(node -> id.equals(getAttribute(node, ATTR_ACTION_ID)))
-                .findFirst().get();
+            .filter(node -> id.equals(getAttribute(node, ATTR_ACTION_ID)))
+            .findFirst().get();
     }
 
     /**
@@ -248,14 +248,14 @@ public class XmlKeyMapStore implements KeyMapStore {
         actionNode.setAttribute(ATTR_ACTION_ID, actionId);
         actionNode.setAttribute(ATTR_ACTION_PLUGIN, src.getCommandClassName(actionId).get());
         src.getKeyBinds(actionId).get()
-                .stream()
-                .sorted()
-                .forEach(bind -> {
-                    Element bindNode = doc.createElement(TAG_KEYBOARD_SHORTCUT);
-                    bindNode.setAttribute(ATTR_KBSC_COMPONENT, bind.getSelector());
-                    bindNode.setAttribute(ATTR_KBSC_KEYSTROKE, bind.getKeyStroke().getName());
-                    actionNode.appendChild(bindNode);
-                });
+            .stream()
+            .sorted()
+            .forEach(bind -> {
+                Element bindNode = doc.createElement(TAG_KEYBOARD_SHORTCUT);
+                bindNode.setAttribute(ATTR_KBSC_COMPONENT, bind.getSelector());
+                bindNode.setAttribute(ATTR_KBSC_KEYSTROKE, bind.getKeyStroke().getName());
+                actionNode.appendChild(bindNode);
+            });
         return actionNode;
     }
 

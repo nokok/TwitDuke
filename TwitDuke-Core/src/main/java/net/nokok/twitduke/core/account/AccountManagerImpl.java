@@ -85,14 +85,14 @@ class AccountManagerImpl implements AccountManager {
     public List<ScreenName> readAccountList() {
         List<File> accountFiles = readAccountDirFileList();
         return accountFiles
-                .stream()
-                .map(f -> f.getName())
-                .map(this::readAccessToken)
-                .filter(OptionalUtil::isPresent)
-                .map(OptionalUtil::get)
-                .map(t -> t.getScreenName())
-                .map(ScreenName::new)
-                .collect(Collectors.toCollection(ArrayList::new));
+            .stream()
+            .map(f -> f.getName())
+            .map(this::readAccessToken)
+            .filter(OptionalUtil::isPresent)
+            .map(OptionalUtil::get)
+            .map(t -> t.getScreenName())
+            .map(ScreenName::new)
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override
