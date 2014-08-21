@@ -34,9 +34,21 @@
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>net.nokok.twitduke.base</groupId>
-            <artifactId>TwitDuke-Base</artifactId>
-            <version>1.0</version>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-core</artifactId>
+            <version>4.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-stream</artifactId>
+            <version>4.0.2</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-async</artifactId>
+            <version>4.0.2</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 </project>

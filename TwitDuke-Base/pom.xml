@@ -5,6 +5,7 @@
         <groupId>net.nokok</groupId>
         <artifactId>TwitDuke</artifactId>
         <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>net.nokok.twitduke.base</groupId>
     <artifactId>TwitDuke-Base</artifactId>
