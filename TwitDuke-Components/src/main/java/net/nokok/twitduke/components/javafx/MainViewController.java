@@ -26,6 +26,7 @@ package net.nokok.twitduke.components.javafx;
 import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
@@ -34,7 +35,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 
-public class MainViewController {
+public class MainViewController implements ComponentAppendable<Node> {
 
     @FXML
     private Button functionTileButton;
@@ -64,10 +65,15 @@ public class MainViewController {
     private Button listButton;
 
     @FXML
-    private ListView<?> tweetCellList;
+    private ListView<Node> tweetCellList;
 
     @FXML
     private Button homeButton;
+
+    @Override
+    public void addComponent(Node component) {
+        tweetCellList.getItems().add(0, component);
+    }
 
     @FXML
     void showConfig(ActionEvent event) {
