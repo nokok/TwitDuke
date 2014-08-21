@@ -40,7 +40,7 @@ public class ScreenShotAreaSelector {
     @FXML
     private BorderPane screenShotPane;
 
-    private final Point start = new Point(0, 0);
+    private final Point start = new Point();
     private final Point end = new Point();
     private boolean isStarted = false;
     private BiConsumer<Point, Point> selectedAreaReceiver;
