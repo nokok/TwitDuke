@@ -27,26 +27,33 @@ import com.google.common.io.Resources;
 import java.io.File;
 import java.net.URL;
 import java.util.Optional;
+import net.nokok.twitduke.base.type.FXMLResource;
 
 public class FXMLResources {
 
     public static final String MAIN_FXML_FILE_NAME = "main.fxml";
-    public static final Optional<URL> MAIN_FXML = findFXMLResources(MAIN_FXML_FILE_NAME);
+    public static final Optional<URL> MAIN_FXML_URL = findFXMLResources(MAIN_FXML_FILE_NAME);
+    public static final FXMLResource MAIN = new FXMLResource(MAIN_FXML_URL);
 
     public static final String TWEETCELL_FXML_FILE_NAME = "tweetcell.fxml";
-    public static final Optional<URL> TWEETCELL_FXML = findFXMLResources(TWEETCELL_FXML_FILE_NAME);
+    public static final Optional<URL> TWEETCELL_FXML_URL = findFXMLResources(TWEETCELL_FXML_FILE_NAME);
+    public static final FXMLResource TWEETCELL = new FXMLResource(TWEETCELL_FXML_URL);
 
     public static final String TWEET_TEXTAREA_FILE_NAME = "tweetTextArea.fxml";
-    public static final Optional<URL> TWEET_TEXTAREA = findFXMLResources(TWEET_TEXTAREA_FILE_NAME);
+    public static final Optional<URL> TWEET_TEXTAREA_URL = findFXMLResources(TWEET_TEXTAREA_FILE_NAME);
+    public static final FXMLResource TWEET_TEXTAREA = new FXMLResource(TWEET_TEXTAREA_URL);
 
     public static final String TWEET_TEXTAREA_TOOLBAR_FILE_NAME = "tweetTextAreaToolbar.fxml";
-    public static final Optional<URL> TWEET_TEXTAREA_TOOLBAR = findFXMLResources(TWEET_TEXTAREA_TOOLBAR_FILE_NAME);
+    public static final Optional<URL> TWEET_TEXTAREA_TOOLBAR_URL = findFXMLResources(TWEET_TEXTAREA_TOOLBAR_FILE_NAME);
+    public static final FXMLResource TWEET_TEXTAREA_TOOLBAR = new FXMLResource(TWEET_TEXTAREA_TOOLBAR_URL);
 
     public static final String TAKE_SCREENSHOT_FILE_NAME = "screenShot.fxml";
-    public static final Optional<URL> TAKE_SCREENSHOT = findFXMLResources(TAKE_SCREENSHOT_FILE_NAME);
+    public static final Optional<URL> TAKE_SCREENSHOT_URL = findFXMLResources(TAKE_SCREENSHOT_FILE_NAME);
+    public static final FXMLResource TAKE_SCREENSHOT = new FXMLResource(TAKE_SCREENSHOT_URL);
 
     public static final String SCREENSHOT_SELECTING_AREA_FILE_NAME = "screenShotSelectingArea.fxml";
-    public static final Optional<URL> SCREENSHOT_SELECTING_AREA = findFXMLResources(SCREENSHOT_SELECTING_AREA_FILE_NAME);
+    public static final Optional<URL> SCREENSHOT_SELECTING_AREA_URL = findFXMLResources(SCREENSHOT_SELECTING_AREA_FILE_NAME);
+    public static final FXMLResource SCREENSHOT_SELECTING_AREA = new FXMLResource(SCREENSHOT_SELECTING_AREA_URL);
 
     private static Optional<URL> findFXMLResources(String resource) {
         return Optional.ofNullable(Resources.getResource(String.join(File.separator, "fxml", resource)));

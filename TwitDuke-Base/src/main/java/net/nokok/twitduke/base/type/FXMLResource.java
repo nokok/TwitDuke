@@ -21,30 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.resources;
+package net.nokok.twitduke.base.type;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import javafx.fxml.FXMLLoader;
 
-public class FXMLResource<R, C> {
+public class FXMLResource {
 
     private final FXMLLoader loader;
-    private final C controller;
-    private final R resource;
 
-    public FXMLResource(URL url) throws IOException {
+    public FXMLResource(URL url) {
         this.loader = new FXMLLoader(url);
-        this.controller = loader.getController();
-        this.resource = loader.load();
     }
 
-    public C getController() {
-        return controller;
+    public FXMLResource(Optional<URL> url) {
+        this(url.get());
     }
 
-    public R resource() {
-        return resource;
+    public <T> Optional<T> getController(Class<T> clazz) {
+        return Optional.of(clazz.cast(loader.getController()));
+    }
+
+    public <R> Optional<R> resource(Class<R> clazz) {
+        try {
+            return Optional.of(clazz.cast(loader.load()));
+        } catch (IOException e) {
+            return Optional.empty();
+        }
     }
 
     public FXMLLoader loader() {

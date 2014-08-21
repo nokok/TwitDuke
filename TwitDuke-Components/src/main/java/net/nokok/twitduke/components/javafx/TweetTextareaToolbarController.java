@@ -37,7 +37,6 @@ import java.io.UncheckedIOException;
 import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -49,7 +48,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.imageio.ImageIO;
 import net.nokok.twitduke.base.event.Event;
-import net.nokok.twitduke.base.exception.ResourceNotFoundException;
+import net.nokok.twitduke.base.type.FXMLResource;
 import net.nokok.twitduke.base.type.Retrievable;
 import net.nokok.twitduke.base.type.TweetLength;
 import net.nokok.twitduke.resources.FXMLResources;
@@ -92,11 +91,9 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
     @FXML
     void takeScreenshot(ActionEvent event) {
         Stage stage = new Stage(StageStyle.TRANSPARENT);
-        FXMLLoader loader = new FXMLLoader(
-            FXMLResources.TAKE_SCREENSHOT.orElseThrow(() -> new ResourceNotFoundException(FXMLResources.TAKE_SCREENSHOT_FILE_NAME))
-        );
-        BorderPane root = loadPanel(loader);
-        ScreenShotAreaSelector controller = loader.getController();
+        FXMLResource fxml = FXMLResources.TAKE_SCREENSHOT;
+        BorderPane root = fxml.resource(BorderPane.class).get();
+        ScreenShotAreaSelector controller = fxml.getController(ScreenShotAreaSelector.class).get();
         controller.areaSelected((start, end) -> {
             stage.close();
             BufferedImage image = takeScreenShot(start, end);
@@ -122,14 +119,6 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
     private void saveImage(String fileName, BufferedImage image) {
         try {
             ImageIO.write(image, "png", new File(fileName));
-        } catch (IOException ex) {
-            throw new UncheckedIOException(ex);
-        }
-    }
-
-    private <T> T loadPanel(FXMLLoader loader) {
-        try {
-            return loader.load();
         } catch (IOException ex) {
             throw new UncheckedIOException(ex);
         }

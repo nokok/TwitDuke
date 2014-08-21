@@ -22,5 +22,10 @@
             <artifactId>leveldb</artifactId>
             <version>0.7</version>
         </dependency>
+        <dependency>
+            <groupId>net.nokok.twitduke.base</groupId>
+            <artifactId>TwitDuke-Base</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 </project>

@@ -24,18 +24,15 @@
 package net.nokok.twitduke;
 
 import java.io.File;
-import java.net.URL;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Stream;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import net.nokok.twitduke.base.exception.ResourceNotFoundException;
 import net.nokok.twitduke.base.io.Paths;
+import net.nokok.twitduke.base.type.FXMLResource;
 import net.nokok.twitduke.components.javafx.MainViewController;
 import net.nokok.twitduke.components.javafx.TweetTextareaController;
 import net.nokok.twitduke.components.javafx.TweetTextareaToolbarController;
@@ -74,17 +71,17 @@ public class Main extends Application {
     }
 
     private Stage configureStage(Stage stage) throws Exception {
-        FXMLLoader mainFxmlLoader = getLoader(FXMLResources.MAIN_FXML, FXMLResources.MAIN_FXML_FILE_NAME);
-        FXMLLoader tweetTextAreaToolbarLoader = getLoader(FXMLResources.TWEET_TEXTAREA_TOOLBAR, FXMLResources.TWEET_TEXTAREA_TOOLBAR_FILE_NAME);
-        FXMLLoader tweetTextAreaLoader = getLoader(FXMLResources.TWEET_TEXTAREA, FXMLResources.TWEET_TEXTAREA_FILE_NAME);
-        Scene main = new Scene(mainFxmlLoader.load());
-        MainViewController mainController = mainFxmlLoader.getController();
-        BorderPane borderPane = tweetTextAreaToolbarLoader.load();
-        TextArea textArea = tweetTextAreaLoader.load();
+        FXMLResource mainResource = FXMLResources.MAIN;
+        FXMLResource tweetTextAreaToolbar = FXMLResources.TWEET_TEXTAREA_TOOLBAR;
+        FXMLResource tweetTextArea = FXMLResources.TWEET_TEXTAREA;
+        Scene main = new Scene(mainResource.resource(TabPane.class).get());
+        MainViewController mainController = mainResource.getController(MainViewController.class).get();
+        BorderPane borderPane = tweetTextAreaToolbar.resource(BorderPane.class).get();
+        TextArea textArea = tweetTextArea.resource(TextArea.class).get();
         mainController.setTweetTextAreaToolbar(borderPane);
         mainController.setTweetTextArea(textArea);
-        TweetTextareaToolbarController toolbarController = tweetTextAreaToolbarLoader.getController();
-        TweetTextareaController tweetTextareaController = tweetTextAreaLoader.getController();
+        TweetTextareaToolbarController toolbarController = tweetTextAreaToolbar.getController(TweetTextareaToolbarController.class).get();
+        TweetTextareaController tweetTextareaController = tweetTextArea.getController(TweetTextareaController.class).get();
 
         toolbarController.addTweetTextAreaController(tweetTextareaController);
         toolbarController.setSaveDraftButtonListener(tweetTextareaController);
@@ -96,18 +93,10 @@ public class Main extends Application {
     }
 
     private void applyKeymap(Stage stage) throws Exception {
-        Objects.requireNonNull(stage, "stageがnull");
         KeyMapStore store = new KeyMapStoreBuilder().build();
         KeyMapSetting setting = store.load(KeyMapResources.DEFAULT_SETTING.get().openStream());
         ActionRegister register = new ActionRegisterBuilder(stage).build();
         register.registerKeyMap(setting, true);
-    }
-
-    private FXMLLoader getLoader(Optional<URL> url, String resourceName) {
-        if ( !url.isPresent() ) {
-            throw new ResourceNotFoundException(resourceName);
-        }
-        return new FXMLLoader(url.get());
     }
 
     /**

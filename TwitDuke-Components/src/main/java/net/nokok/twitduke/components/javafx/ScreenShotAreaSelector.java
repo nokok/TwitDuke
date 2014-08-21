@@ -24,17 +24,15 @@
 package net.nokok.twitduke.components.javafx;
 
 import java.awt.Point;
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import net.nokok.twitduke.base.type.FXMLResource;
 import net.nokok.twitduke.resources.FXMLResources;
 
 public class ScreenShotAreaSelector {
@@ -46,20 +44,15 @@ public class ScreenShotAreaSelector {
     private final Point end = new Point();
     private boolean isStarted = false;
     private BiConsumer<Point, Point> selectedAreaReceiver;
-    private final BorderPane borderPane;
     private Stage stage;
 
     public ScreenShotAreaSelector() {
-        FXMLLoader loader = new FXMLLoader(FXMLResources.SCREENSHOT_SELECTING_AREA.orElseThrow(RuntimeException::new));
-        try {
-            borderPane = loader.load();
-            stage = new Stage(StageStyle.TRANSPARENT);
-            Scene scene = new Scene(borderPane, 0, 0);
-            scene.setFill(null);
-            stage.setScene(scene);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+        FXMLResource resource = FXMLResources.SCREENSHOT_SELECTING_AREA;
+        BorderPane borderPane = resource.resource(BorderPane.class).get();
+        stage = new Stage(StageStyle.TRANSPARENT);
+        Scene scene = new Scene(borderPane, 0, 0);
+        scene.setFill(null);
+        stage.setScene(scene);
     }
 
     @FXML
