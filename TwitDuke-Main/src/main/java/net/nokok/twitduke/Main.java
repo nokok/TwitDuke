@@ -26,13 +26,12 @@ package net.nokok.twitduke;
 import java.io.File;
 import java.util.stream.Stream;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import net.nokok.twitduke.base.io.Paths;
-import net.nokok.twitduke.base.type.FXMLResource;
 import net.nokok.twitduke.components.javafx.MainViewController;
 import net.nokok.twitduke.components.javafx.TweetTextareaController;
 import net.nokok.twitduke.components.javafx.TweetTextareaToolbarController;
@@ -71,17 +70,17 @@ public class Main extends Application {
     }
 
     private Stage configureStage(Stage stage) throws Exception {
-        FXMLResource mainResource = FXMLResources.MAIN;
-        FXMLResource tweetTextAreaToolbar = FXMLResources.TWEET_TEXTAREA_TOOLBAR;
-        FXMLResource tweetTextArea = FXMLResources.TWEET_TEXTAREA;
-        Scene main = new Scene(mainResource.resource(TabPane.class).get());
-        MainViewController mainController = mainResource.getController(MainViewController.class).get();
-        BorderPane borderPane = tweetTextAreaToolbar.resource(BorderPane.class).get();
-        TextArea textArea = tweetTextArea.resource(TextArea.class).get();
+        FXMLLoader mainLoader = FXMLResources.MAIN.loader();
+        FXMLLoader toolbarLoader = FXMLResources.TWEET_TEXTAREA_TOOLBAR.loader();
+        FXMLLoader textAreaLoader = FXMLResources.TWEET_TEXTAREA.loader();
+        Scene main = new Scene(mainLoader.load());
+        MainViewController mainController = mainLoader.getController();
+        BorderPane borderPane = toolbarLoader.load();
+        TextArea textArea = textAreaLoader.load();
         mainController.setTweetTextAreaToolbar(borderPane);
         mainController.setTweetTextArea(textArea);
-        TweetTextareaToolbarController toolbarController = tweetTextAreaToolbar.getController(TweetTextareaToolbarController.class).get();
-        TweetTextareaController tweetTextareaController = tweetTextArea.getController(TweetTextareaController.class).get();
+        TweetTextareaToolbarController toolbarController = toolbarLoader.getController();
+        TweetTextareaController tweetTextareaController = textAreaLoader.getController();
 
         toolbarController.addTweetTextAreaController(tweetTextareaController);
         toolbarController.setSaveDraftButtonListener(tweetTextareaController);

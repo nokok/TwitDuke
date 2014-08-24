@@ -24,15 +24,17 @@
 package net.nokok.twitduke.components.javafx;
 
 import java.awt.Point;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import net.nokok.twitduke.base.type.FXMLResource;
 import net.nokok.twitduke.resources.FXMLResources;
 
 public class ScreenShotAreaSelector {
@@ -47,12 +49,16 @@ public class ScreenShotAreaSelector {
     private Stage stage;
 
     public ScreenShotAreaSelector() {
-        FXMLResource resource = FXMLResources.SCREENSHOT_SELECTING_AREA;
-        BorderPane borderPane = resource.resource(BorderPane.class).get();
-        stage = new Stage(StageStyle.TRANSPARENT);
-        Scene scene = new Scene(borderPane, 0, 0);
-        scene.setFill(null);
-        stage.setScene(scene);
+        FXMLLoader screenShotLoader = FXMLResources.SCREENSHOT_SELECTING_AREA.loader();
+        try {
+            BorderPane borderPane = screenShotLoader.load();
+            stage = new Stage(StageStyle.TRANSPARENT);
+            Scene scene = new Scene(borderPane, 0, 0);
+            scene.setFill(null);
+            stage.setScene(scene);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     @FXML
@@ -72,7 +78,7 @@ public class ScreenShotAreaSelector {
     @FXML
     void onMouseReleased(MouseEvent event) {
         end.setLocation(event.getScreenX(), event.getScreenY());
-        stage.close();
+        closing();
         if ( selectedAreaReceiver == null ) {
             throw new NullPointerException("レシーバが指定されていません。areaSelectedでレシーバを指定してください");
         }
@@ -81,6 +87,11 @@ public class ScreenShotAreaSelector {
 
     public void areaSelected(BiConsumer<Point, Point> areaSelectedReceiver) {
         this.selectedAreaReceiver = Objects.requireNonNull(areaSelectedReceiver);
+    }
+
+    private void closing() {
+        stage.close();
+        isStarted = false;
     }
 
 }

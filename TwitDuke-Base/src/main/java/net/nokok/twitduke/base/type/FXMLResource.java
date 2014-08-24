@@ -23,37 +23,23 @@
  */
 package net.nokok.twitduke.base.type;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 
 public class FXMLResource {
 
-    private final FXMLLoader loader;
+    private final URL url;
 
     public FXMLResource(URL url) {
-        this.loader = new FXMLLoader(url);
+        this.url = url;
     }
 
     public FXMLResource(Optional<URL> url) {
         this(url.get());
     }
 
-    public <T> Optional<T> getController(Class<T> clazz) {
-        return Optional.of(clazz.cast(loader.getController()));
-    }
-
-    public <R extends Node> Optional<R> resource(Class<R> clazz) {
-        try {
-            return Optional.of(clazz.cast(loader.load()));
-        } catch (IOException e) {
-            return Optional.empty();
-        }
-    }
-
     public FXMLLoader loader() {
-        return loader;
+        return new FXMLLoader(url);
     }
 }

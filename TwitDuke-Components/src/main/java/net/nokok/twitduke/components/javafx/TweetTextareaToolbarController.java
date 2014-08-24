@@ -37,6 +37,7 @@ import java.io.UncheckedIOException;
 import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -48,7 +49,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.imageio.ImageIO;
 import net.nokok.twitduke.base.event.Event;
-import net.nokok.twitduke.base.type.FXMLResource;
 import net.nokok.twitduke.base.type.Retrievable;
 import net.nokok.twitduke.base.type.TweetLength;
 import net.nokok.twitduke.resources.FXMLResources;
@@ -89,11 +89,11 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
     }
 
     @FXML
-    void takeScreenshot(ActionEvent event) {
+    void takeScreenshot(ActionEvent event) throws IOException {
         Stage stage = new Stage(StageStyle.TRANSPARENT);
-        FXMLResource fxml = FXMLResources.TAKE_SCREENSHOT;
-        BorderPane root = fxml.resource(BorderPane.class).get();
-        ScreenShotAreaSelector controller = fxml.getController(ScreenShotAreaSelector.class).get();
+        FXMLLoader screenShotLoader = FXMLResources.TAKE_SCREENSHOT.loader();
+        BorderPane root = screenShotLoader.load();
+        ScreenShotAreaSelector controller = screenShotLoader.getController();
         controller.areaSelected((start, end) -> {
             stage.close();
             BufferedImage image = takeScreenShot(start, end);
