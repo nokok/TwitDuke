@@ -26,17 +26,16 @@ package net.nokok.twitduke.components.javafx;
 import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
-import javafx.scene.input.InputMethodEvent;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 
-public class MainViewController {
+public class MainViewController implements ComponentAppendable<Node> {
 
     @FXML
     private Button functionTileButton;
@@ -66,10 +65,15 @@ public class MainViewController {
     private Button listButton;
 
     @FXML
-    private ListView<?> tweetCellList;
+    private ListView<Node> tweetCellList;
 
     @FXML
     private Button homeButton;
+
+    @Override
+    public void addComponent(Node component) {
+        tweetCellList.getItems().add(0, component);
+    }
 
     @FXML
     void showConfig(ActionEvent event) {
@@ -91,52 +95,13 @@ public class MainViewController {
 
     }
 
-    @FXML
-    void tweetTextAreaOnKeyPressed(KeyEvent keyEvent) {
-        applyTweetLength();
+    public void setTweetTextAreaToolbar(BorderPane textAreaToolbar) {
+        Objects.requireNonNull(textAreaToolbar, "渡されたツールバーがnullです");
+        this.textAreaBorderPane.setBottom(textAreaToolbar);
     }
 
-    @FXML
-    void tweetTextAreaOnTextChanged(InputMethodEvent event) {
-        applyTweetLength();
+    public void setTweetTextArea(TextArea textArea) {
+        this.textAreaBorderPane.setCenter(textArea);
     }
 
-    @FXML
-    void tweetTextAreaOnKeyTyped(KeyEvent event) {
-        applyTweetLength();
-    }
-
-    @FXML
-    void tweetTextAreaOnKeyReleased(KeyEvent event) {
-        applyTweetLength();
-    }
-
-    private void applyTweetLength() {
-        //tweetLengthLabel.setText(String.valueOf(140 - tweetTextarea.getText().length()));
-    }
-
-    public void setTweetTextAreaToolbar(BorderPane textAreaBorderPane) {
-        Objects.requireNonNull(textAreaBorderPane, "渡されたツールバーがnullです");
-        this.textAreaBorderPane.setCenter(textAreaBorderPane.getCenter());
-        this.textAreaBorderPane.setBottom(textAreaBorderPane.getBottom());
-        this.textAreaBorderPane.setRight(textAreaBorderPane.getRight());
-        this.textAreaBorderPane.setLeft(textAreaBorderPane.getLeft());
-        this.textAreaBorderPane.setTop(textAreaBorderPane.getTop());
-    }
-
-    @FXML
-    void initialize() {
-        assert functionTileButton != null : "fx:id=\"functionTileButton\" was not injected: check your FXML file 'main.fxml'.";
-        assert replyButton != null : "fx:id=\"replyButton\" was not injected: check your FXML file 'main.fxml'.";
-        assert configButton != null : "fx:id=\"configButton\" was not injected: check your FXML file 'main.fxml'.";
-        assert homeButton != null : "fx:id=\"homeButton\" was not injected: check your FXML file 'main.fxml'.";
-        assert rootToolbar != null : "fx:id=\"rootToolbar\" was not injected: check your FXML file 'main.fxml'.";
-        assert textAreaBorderPane != null : "fx:id=\"textAreaToolbar\" was not injected: check your FXML file 'main.fxml'.";
-        assert primaryAccountTab != null : "fx:id=\"primaryAccountTab\" was not injected: check your FXML file 'main.fxml'.";
-        assert tweetTextarea != null : "fx:id=\"tweetTextarea\" was not injected: check your FXML file 'main.fxml'.";
-        assert mainView != null : "fx:id=\"mainView\" was not injected: check your FXML file 'main.fxml'.";
-        assert listButton != null : "fx:id=\"listButton\" was not injected: check your FXML file 'main.fxml'.";
-        assert tweetCellList != null : "fx:id=\"tweetCellList\" was not injected: check your FXML file 'main.fxml'.";
-
-    }
 }

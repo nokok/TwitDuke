@@ -45,16 +45,16 @@ public class WebServerStarter implements Runnable {
     @Override
     public void run() {
         Thread webServerThread = new Thread(WebServiceConfiguration
-                .newService()
-                .addHandlerRetrievable(SendTweetHandler.class, accessToken)
-                .addHandlerRetrievable(ShindanmakerHandler.class, accessToken)
-                .addHandlerRetrievable(TweetWithFooterHandler.class, accessToken)
-                .addHandlerRetrievable(BurnOwenHandler.class, accessToken)
-                .addHandlerRetrievable(JavaJavaHandler.class, accessToken)
-                .addHandlerRetrievable(YoHandler.class, accessToken)
-                .addHandlerRetrievable(YukarinHandler.class, accessToken)
-                .addHandlerRetrievable(ThrowShoutrockHandler.class, accessToken)
-                .addHandlerRetrievable(AddAccountHandler.class));
+            .newService()
+            .addHandlerRetrievable(SendTweetHandler.class, accessToken)
+            .addHandlerRetrievable(ShindanmakerHandler.class, accessToken)
+            .addHandlerRetrievable(TweetWithFooterHandler.class, accessToken)
+            .addHandlerRetrievable(BurnOwenHandler.class, accessToken)
+            .addHandlerRetrievable(JavaJavaHandler.class, accessToken)
+            .addHandlerRetrievable(YoHandler.class, accessToken)
+            .addHandlerRetrievable(YukarinHandler.class, accessToken)
+            .addHandlerRetrievable(ThrowShoutrockHandler.class, accessToken)
+            .addHandlerRetrievable(AddAccountHandler.class));
         webServerThread.start();
     }
 

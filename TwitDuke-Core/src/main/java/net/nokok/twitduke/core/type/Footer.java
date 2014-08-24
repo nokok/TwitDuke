@@ -24,6 +24,7 @@
 package net.nokok.twitduke.core.type;
 
 import java.util.Objects;
+import net.nokok.twitduke.base.type.Retrievable;
 
 /**
  * フッターを表現するオブジェクトです

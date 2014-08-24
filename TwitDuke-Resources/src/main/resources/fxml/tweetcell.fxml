@@ -37,18 +37,18 @@
     <right>
         <Pane prefWidth="10.0" BorderPane.alignment="CENTER" />
     </right>
-   <left>
-      <BorderPane prefHeight="50.0" prefWidth="50.0" BorderPane.alignment="CENTER">
-         <center>
-              <ImageView fx:id="userIcon" cache="true" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-                  <image>
-                      <Image url="@../img/usericonloading.png" />
-                  </image>
-                  <BorderPane.margin>
-                      <Insets left="3.0" right="3.0" />
-                  </BorderPane.margin>
-              </ImageView>
-         </center>
-      </BorderPane>
-   </left>
+    <left>
+        <BorderPane prefHeight="50.0" prefWidth="50.0" BorderPane.alignment="CENTER">
+            <center>
+                <ImageView fx:id="userIcon" cache="true" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                    <image>
+                        <Image url="@../img/usericonloading.png" />
+                    </image>
+                    <BorderPane.margin>
+                        <Insets left="3.0" right="3.0" />
+                    </BorderPane.margin>
+                </ImageView>
+            </center>
+        </BorderPane>
+    </left>
 </BorderPane>

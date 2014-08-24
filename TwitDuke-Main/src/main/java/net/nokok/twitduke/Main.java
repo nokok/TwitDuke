@@ -24,29 +24,26 @@
 package net.nokok.twitduke;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.net.URL;
 import java.util.stream.Stream;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import net.nokok.twitduke.base.async.ThrowableReceivable;
 import net.nokok.twitduke.base.io.Paths;
 import net.nokok.twitduke.components.javafx.MainViewController;
+import net.nokok.twitduke.components.javafx.TweetTextareaController;
 import net.nokok.twitduke.components.javafx.TweetTextareaToolbarController;
 import net.nokok.twitduke.components.keyevent.ActionRegister;
+import net.nokok.twitduke.components.keyevent.ActionRegisterBuilder;
 import net.nokok.twitduke.components.keyevent.KeyMapSetting;
 import net.nokok.twitduke.components.keyevent.KeyMapStore;
+import net.nokok.twitduke.components.keyevent.KeyMapStoreBuilder;
 import net.nokok.twitduke.core.account.AccountManager;
-import net.nokok.twitduke.core.account.AccountManagerFactory;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
 import net.nokok.twitduke.core.auth.OAuthOnSuccess;
 import net.nokok.twitduke.core.auth.OAuthRunnable;
-import net.nokok.twitduke.core.io.Console;
-import net.nokok.twitduke.core.io.DirectoryHelper;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
 import net.nokok.twitduke.core.twitter.TwitterNotificationListener;
 import net.nokok.twitduke.core.twitter.TwitterStreamRunner;
@@ -67,30 +64,38 @@ import twitter4j.auth.AccessToken;
 public class Main extends Application {
 
     @Override
-    public void start(Stage stage) {
-        URL mainFxml = FXMLResources.MAIN_FXML.orElseThrow(() -> new RuntimeException("リソース[main.fxml]が見つかりません"));
-        URL tweetTextAreaToolbarFxml = FXMLResources.TWEET_TEXTAREA_TOOLBAR.orElseThrow(() -> new RuntimeException("リソース[tweetTextAreaToolbar.fxml]が見つかりません"));
-        FXMLLoader mainFxmlLoader = new FXMLLoader(mainFxml);
-        FXMLLoader tweetTextAreaToolbarLoader = new FXMLLoader(tweetTextAreaToolbarFxml);
-        try {
-            Scene main = new Scene(mainFxmlLoader.load());
-            MainViewController controller = mainFxmlLoader.getController();
-            BorderPane borderPane = tweetTextAreaToolbarLoader.load();
-            controller.setTweetTextAreaToolbar(borderPane);
-            TweetTextareaToolbarController toolbarController = tweetTextAreaToolbarLoader.getController();
+    public void start(Stage stage) throws Exception {
+        Stage configuredStage = configureStage(stage);
+        configuredStage.show();
+    }
 
-            KeyMapStore store = KeyMapStore.newInstance();
-            KeyMapSetting setting = store.load(KeyMapResources.DEFAULT_SETTING.get().openStream());
-            ActionRegister register = ActionRegister.newInstance(main.getRoot());
-            register.registerKeyMap(setting);
+    private Stage configureStage(Stage stage) throws Exception {
+        FXMLLoader mainLoader = FXMLResources.MAIN.loader();
+        FXMLLoader toolbarLoader = FXMLResources.TWEET_TEXTAREA_TOOLBAR.loader();
+        FXMLLoader textAreaLoader = FXMLResources.TWEET_TEXTAREA.loader();
+        Scene main = new Scene(mainLoader.load());
+        MainViewController mainController = mainLoader.getController();
+        BorderPane borderPane = toolbarLoader.load();
+        TextArea textArea = textAreaLoader.load();
+        mainController.setTweetTextAreaToolbar(borderPane);
+        mainController.setTweetTextArea(textArea);
+        TweetTextareaToolbarController toolbarController = toolbarLoader.getController();
+        TweetTextareaController tweetTextareaController = textAreaLoader.getController();
 
-            stage.setScene(main);
-            stage.show();
-        } catch (IOException e) {
-            throw new UncheckedIOException("FXMLファイルを読み込めませんでした。ファイルは見つかりましたが、ファイルがおかしいようです。", e);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        toolbarController.addTweetTextAreaController(tweetTextareaController);
+        toolbarController.setSaveDraftButtonListener(tweetTextareaController);
+
+        applyKeymap(stage);
+
+        stage.setScene(main);
+        return stage;
+    }
+
+    private void applyKeymap(Stage stage) throws Exception {
+        KeyMapStore store = new KeyMapStoreBuilder().build();
+        KeyMapSetting setting = store.load(KeyMapResources.DEFAULT_SETTING.get().openStream());
+        ActionRegister register = new ActionRegisterBuilder(stage).build();
+        register.registerKeyMap(setting, true);
     }
 
     /**

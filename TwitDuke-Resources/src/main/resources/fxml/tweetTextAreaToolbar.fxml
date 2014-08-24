@@ -6,11 +6,11 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane styleClass="root-toolbar" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.nokok.twitduke.components.javafx.TweetTextareaToolbarController">
+<BorderPane prefWidth="50.0" styleClass="root-toolbar" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.nokok.twitduke.components.javafx.TweetTextareaToolbarController">
     <left>
         <ToolBar fx:id="tweetTextareaToolbar" prefWidth="200.0" styleClass="root-toolbar" BorderPane.alignment="CENTER">
             <items>
-                <Button fx:id="takeScreenshotButton" mnemonicParsing="false" onAction="#takeScreenshot">
+                <Button mnemonicParsing="false" onAction="#takeScreenshot">
                     <graphic>
                         <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -19,7 +19,7 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="choosePictureButton" mnemonicParsing="false" onAction="#choosePicture">
+                <Button mnemonicParsing="false" onAction="#choosePicture">
                     <graphic>
                         <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -28,9 +28,9 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="saveDraftButton" mnemonicParsing="false" onAction="#saveDraft">
+                <Button mnemonicParsing="false" onAction="#saveDraft">
                     <graphic>
-                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="draftButtonIcon" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../img/drawer.png" />
                             </image>

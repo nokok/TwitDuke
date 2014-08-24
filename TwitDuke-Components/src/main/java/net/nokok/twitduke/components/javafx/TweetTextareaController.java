@@ -23,43 +23,36 @@
  */
 package net.nokok.twitduke.components.javafx;
 
-import java.awt.Point;
-import java.util.Objects;
-import java.util.function.BiConsumer;
+import java.util.Optional;
+import java.util.function.Consumer;
 import javafx.fxml.FXML;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyEvent;
+import net.nokok.twitduke.base.type.Retrievable;
+import net.nokok.twitduke.base.type.TweetLength;
 
-public class TakeScreenShotController {
-
-    @FXML
-    private BorderPane screenShotPane;
-
-    private Point start;
-    private Point end;
-    private boolean isStarted = false;
-    private BiConsumer<Point, Point> selectedAreaReceiver;
+public class TweetTextareaController implements Retrievable<String> {
 
     @FXML
-    void onMouseDragged(MouseEvent event) {
-        if ( isStarted ) {
-            return;
-        }
-        start = new Point((int) event.getScreenX(), (int) event.getScreenY());
-        isStarted = true;
+    private TextArea tweetTextarea;
+
+    private Optional<Consumer<TweetLength>> tweetLengthConsumer = Optional.empty();
+
+    @Override
+    public String get() {
+        return tweetTextarea.getText();
+    }
+
+    public int tweetLength() {
+        return tweetTextarea.getText().length();
     }
 
     @FXML
-    void onMouseReleased(MouseEvent event) {
-        end = new Point((int) event.getScreenX(), (int) event.getScreenY());
-        if ( selectedAreaReceiver == null ) {
-            throw new NullPointerException("レシーバが指定されていません。areaSelectedでレシーバを指定してください");
-        }
-        selectedAreaReceiver.accept(start, end);
+    void onInput(KeyEvent event) {
+        tweetLengthConsumer.ifPresent(c -> c.accept(new TweetLength(tweetTextarea.getText())));
     }
 
-    public void areaSelected(BiConsumer<Point, Point> areaSelectedReceiver) {
-        this.selectedAreaReceiver = Objects.requireNonNull(areaSelectedReceiver);
+    public void onInput(Consumer<TweetLength> tweetLengthConsumer) {
+        this.tweetLengthConsumer = Optional.of(tweetLengthConsumer);
     }
-
 }

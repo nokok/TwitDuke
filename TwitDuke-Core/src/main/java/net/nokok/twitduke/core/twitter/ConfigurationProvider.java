@@ -43,8 +43,8 @@ public class ConfigurationProvider {
      */
     public static Configuration getConfiguration() {
         return new ConfigurationBuilder()
-                .setOAuthConsumerKey("VOIW6nzPVPEGyILu0kgMRQ")
-                .setOAuthConsumerSecret("x42tjv2Xrzsi3p5hfiGSYSiNLfa7VZv8Ozd0VHEaQ")
-                .build();
+            .setOAuthConsumerKey("VOIW6nzPVPEGyILu0kgMRQ")
+            .setOAuthConsumerSecret("x42tjv2Xrzsi3p5hfiGSYSiNLfa7VZv8Ozd0VHEaQ")
+            .build();
     }
 }

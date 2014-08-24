@@ -60,7 +60,7 @@ public class TextFieldDialog implements Dialog<String> {
             dialogResultListener.okButtonPushed(textField.getText());
         });
         okCancelPanel.addCancelButtonAction(e
-                -> dialogResultListener.cancelButtonPushed());
+            -> dialogResultListener.cancelButtonPushed());
     }
 
     private JPanel createNorthPanel(String desc) {

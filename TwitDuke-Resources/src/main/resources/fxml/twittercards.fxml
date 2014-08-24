@@ -9,45 +9,45 @@
 
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="400.0" styleClass="default-panel" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <FlowPane BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Twitter Cardsタイトル(Web)">
-               <FlowPane.margin>
-                  <Insets left="10.0" top="5.0" />
-               </FlowPane.margin>
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-         </children>
-      </FlowPane>
-   </top>
-   <center>
-      <TextArea styleClass="tweet-textarea" text="コンテンツテキストエリア" BorderPane.alignment="CENTER" />
-   </center>
-   <bottom>
-      <FlowPane BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" styleClass="twittercard-button" text="ブラウザで開く">
-               <FlowPane.margin>
-                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-               </FlowPane.margin>
-            </Button>
-            <Button mnemonicParsing="false" styleClass="twittercard-button" text="後で読む">
-               <FlowPane.margin>
-                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-               </FlowPane.margin>
-            </Button>
-            <Button mnemonicParsing="false" styleClass="twittercard-button" text="外部サービス">
-               <FlowPane.margin>
-                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-               </FlowPane.margin>
-            </Button>
-         </children>
-      </FlowPane>
-   </bottom>
-   <left>
-      <ImageView cache="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-   </left>
+    <top>
+        <FlowPane BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Twitter Cardsタイトル(Web)">
+                    <FlowPane.margin>
+                        <Insets left="10.0" top="5.0" />
+                    </FlowPane.margin>
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Label>
+            </children>
+        </FlowPane>
+    </top>
+    <center>
+        <TextArea styleClass="tweet-textarea" text="コンテンツテキストエリア" BorderPane.alignment="CENTER" />
+    </center>
+    <bottom>
+        <FlowPane BorderPane.alignment="CENTER">
+            <children>
+                <Button mnemonicParsing="false" styleClass="twittercard-button" text="ブラウザで開く">
+                    <FlowPane.margin>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                    </FlowPane.margin>
+                </Button>
+                <Button mnemonicParsing="false" styleClass="twittercard-button" text="後で読む">
+                    <FlowPane.margin>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                    </FlowPane.margin>
+                </Button>
+                <Button mnemonicParsing="false" styleClass="twittercard-button" text="外部サービス">
+                    <FlowPane.margin>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                    </FlowPane.margin>
+                </Button>
+            </children>
+        </FlowPane>
+    </bottom>
+    <left>
+        <ImageView cache="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+    </left>
 </BorderPane>

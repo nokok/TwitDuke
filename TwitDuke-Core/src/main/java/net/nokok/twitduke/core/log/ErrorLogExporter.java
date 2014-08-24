@@ -28,9 +28,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
-import net.nokok.twitduke.core.io.LogPath;
 import net.nokok.twitduke.base.async.ErrorMessageReceivable;
 import net.nokok.twitduke.base.async.ThrowableReceivable;
+import net.nokok.twitduke.core.io.LogPath;
 
 public class ErrorLogExporter implements ErrorMessageReceivable, ThrowableReceivable {
 
@@ -54,8 +54,8 @@ public class ErrorLogExporter implements ErrorMessageReceivable, ThrowableReceiv
         StackTraceElement[] elements = throwable.getStackTrace();
         appendLine(LocalDateTime.now() + newLine());
         Stream.of(elements)
-                .filter(p -> !p.isNativeMethod())
-                .forEach(elm -> appendLine(elm.toString() + newLine()));
+            .filter(p -> !p.isNativeMethod())
+            .forEach(elm -> appendLine(elm.toString() + newLine()));
         appendLine(newLine());
     }
 

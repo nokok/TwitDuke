@@ -43,11 +43,11 @@ public class PluginManager {
     public PluginManager(String pluginDirectoryPath) {
         File[] files = new File(pluginDirectoryPath).listFiles();
         Stream.of(files)
-                .filter(f -> f.getName().endsWith(".js"))
-                .map(Plugin::encode)
-                .filter(p -> p.isPresent())
-                .map(p -> p.get())
-                .forEach(plugins::add);
+            .filter(f -> f.getName().endsWith(".js"))
+            .map(Plugin::encode)
+            .filter(p -> p.isPresent())
+            .map(p -> p.get())
+            .forEach(plugins::add);
     }
 
     public PluginManager(String pluginDirectoryPath, AccessToken accessToken) {

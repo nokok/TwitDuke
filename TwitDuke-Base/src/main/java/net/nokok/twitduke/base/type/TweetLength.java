@@ -21,20 +21,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.type;
+package net.nokok.twitduke.base.type;
 
-/**
- * ラップされる前のオブジェクトが取得できるクラスです。
- *
- * @param <T> getメソッドで返される型
- */
-@FunctionalInterface
-public interface Retrievable<T> {
+import java.util.Objects;
 
-    /**
-     * ラップされる前のオブジェクトを取得します
-     *
-     * @return ラップされる前のオブジェクト
-     */
-    T get();
+public class TweetLength {
+
+    private final int length;
+
+    public TweetLength(int length) {
+        if ( length < 0 ) {
+            throw new IllegalArgumentException("ツイートの長さは正の値でなければなりません:" + length);
+        }
+        this.length = length;
+    }
+
+    public TweetLength(String str) {
+        this(Objects.requireNonNull(str).length());
+    }
+
+    public boolean isSendable() {
+        return length <= 140;
+    }
+
+    public int length() {
+        return length;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.hashCode() == Objects.requireNonNull(obj).hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return length;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(length);
+    }
 }
