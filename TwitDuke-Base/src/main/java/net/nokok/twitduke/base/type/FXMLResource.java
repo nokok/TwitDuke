@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 
 public class FXMLResource {
 
@@ -44,7 +45,7 @@ public class FXMLResource {
         return Optional.of(clazz.cast(loader.getController()));
     }
 
-    public <R> Optional<R> resource(Class<R> clazz) {
+    public <R extends Node> Optional<R> resource(Class<R> clazz) {
         try {
             return Optional.of(clazz.cast(loader.load()));
         } catch (IOException e) {
