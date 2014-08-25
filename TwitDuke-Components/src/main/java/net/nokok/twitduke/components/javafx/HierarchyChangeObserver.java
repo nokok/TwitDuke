@@ -80,14 +80,11 @@ public class HierarchyChangeObserver implements ListChangeListener<Node> {
 
     @Override
     public void onChanged(final ListChangeListener.Change c) {
-        System.out.println("event:" + c.getClass().getName());
         while ( c.next() ) {
-            System.out.println("removed" + c.getRemoved());
             c.getRemoved().parallelStream()
                 .filter(child -> child instanceof Node)
                 .forEach(child -> onRemovedCallbackLList.invoke((Node) child));
 
-            System.out.println("added" + c.getAddedSubList());
             c.getAddedSubList().parallelStream()
                 .filter(child -> child instanceof Node)
                 .forEach(child -> onAddedCallbackList.invoke((Node) child));
