@@ -39,5 +39,6 @@
                     </configuration>
                 </plugin>
             </plugins>
-        </build>
+        </pluginManagement>
+    </build>
 </project>
