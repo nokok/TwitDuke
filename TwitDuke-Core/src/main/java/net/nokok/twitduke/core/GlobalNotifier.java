@@ -29,7 +29,11 @@ public enum GlobalNotifier {
 
     INSTANCE,;
 
-    public static void showNormalNotification() {
-        Notifications.create().title("ほげ").show();
+    public void showNormalNotification(String title, String desc) {
+        Notifications.create().title(title).text(desc).show();
+    }
+
+    public void showErrorNotification(String title, String desc) {
+        Notifications.create().title(title).text(desc).show();
     }
 }
