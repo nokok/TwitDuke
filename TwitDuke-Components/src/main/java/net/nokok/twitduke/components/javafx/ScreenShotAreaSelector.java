@@ -26,7 +26,7 @@ package net.nokok.twitduke.components.javafx;
 import java.awt.Point;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,7 +45,7 @@ public class ScreenShotAreaSelector {
     private final Point start = new Point();
     private final Point end = new Point();
     private boolean isStarted = false;
-    private BiConsumer<Point, Point> selectedAreaReceiver;
+    private Optional<BiConsumer<Point, Point>> selectedAreaReceiver = Optional.empty();
     private Stage stage;
 
     public ScreenShotAreaSelector() {
@@ -78,20 +78,15 @@ public class ScreenShotAreaSelector {
     @FXML
     void onMouseReleased(MouseEvent event) {
         end.setLocation(event.getScreenX(), event.getScreenY());
-        closing();
-        if ( selectedAreaReceiver == null ) {
-            throw new NullPointerException("レシーバが指定されていません。areaSelectedでレシーバを指定してください");
-        }
-        selectedAreaReceiver.accept(start, end);
+        stage.close();
+        isStarted = false;
+        selectedAreaReceiver.ifPresent(s -> {
+            s.accept(start, end);
+        });
     }
 
     public void areaSelected(BiConsumer<Point, Point> areaSelectedReceiver) {
-        this.selectedAreaReceiver = Objects.requireNonNull(areaSelectedReceiver);
-    }
-
-    private void closing() {
-        stage.close();
-        isStarted = false;
+        this.selectedAreaReceiver = Optional.of(areaSelectedReceiver);
     }
 
 }
