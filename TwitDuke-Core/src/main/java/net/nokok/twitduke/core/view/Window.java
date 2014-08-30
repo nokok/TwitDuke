@@ -31,14 +31,14 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import net.nokok.twitduke.base.event.WindowEventListener;
-import net.nokok.twitduke.components.Disposable;
-import net.nokok.twitduke.components.Visible;
-import net.nokok.twitduke.components.WindowSize;
-import net.nokok.twitduke.components.basics.TWFrame;
-import net.nokok.twitduke.components.basics.TWPanel;
+import net.nokok.twitduke.core.Disposable;
+import net.nokok.twitduke.core.Visible;
+import net.nokok.twitduke.core.WindowSize;
 import net.nokok.twitduke.core.account.AccountManager;
+import net.nokok.twitduke.core.event.WindowEventListener;
 import net.nokok.twitduke.core.type.ComponentInsertable;
+import net.nokok.twitduke.core.view.basics.TWFrame;
+import net.nokok.twitduke.core.view.basics.TWPanel;
 import twitter4j.auth.AccessToken;
 
 /**

@@ -23,7 +23,6 @@
  */
 package net.nokok.twitduke.core.io;
 
-import net.nokok.twitduke.base.io.Writer;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;

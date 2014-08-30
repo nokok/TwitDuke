@@ -24,8 +24,6 @@
 package net.nokok.twitduke.core.io;
 
 import java.util.Properties;
-import net.nokok.twitduke.base.io.PropertyWriter;
-import net.nokok.twitduke.base.io.Writer;
 
 public class IOSelectorPropertyWriter implements Writer<FileType> {
 

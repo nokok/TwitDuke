@@ -24,7 +24,7 @@
 package net.nokok.twitduke.components.keyevent;
 
 import java.util.Optional;
-import net.nokok.twitduke.base.optional.OptionalUtil;
+import net.nokok.twitduke.core.util.OptionalUtil;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;

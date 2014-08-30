@@ -23,8 +23,7 @@
  */
 package net.nokok.twitduke.core.twitter;
 
-import net.nokok.twitduke.core.twitter.TwitterExceptionReceivable;
-import net.nokok.twitduke.base.async.ThrowableReceivable;
+import net.nokok.twitduke.core.async.ThrowableReceivable;
 
 /**
  * ユーザー情報の変更が出来ます。

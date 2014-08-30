@@ -29,11 +29,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
-import net.nokok.twitduke.components.OKCancelButtonPanel;
-import net.nokok.twitduke.components.basics.TWFrame;
-import net.nokok.twitduke.components.basics.TWLabel;
-import net.nokok.twitduke.components.basics.TWPanel;
-import net.nokok.twitduke.components.basics.TWTextField;
+import net.nokok.twitduke.core.OKCancelButtonPanel;
+import net.nokok.twitduke.core.view.basics.TWFrame;
+import net.nokok.twitduke.core.view.basics.TWLabel;
+import net.nokok.twitduke.core.view.basics.TWPanel;
+import net.nokok.twitduke.core.view.basics.TWTextField;
 
 public class TextFieldDialog implements Dialog<String> {
 

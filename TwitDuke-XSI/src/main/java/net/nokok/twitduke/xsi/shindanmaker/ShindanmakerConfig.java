@@ -24,7 +24,7 @@
 package net.nokok.twitduke.xsi.shindanmaker;
 
 import java.io.File;
-import net.nokok.twitduke.base.io.Paths;
+import net.nokok.twitduke.core.io.Paths;
 
 public interface ShindanmakerConfig {
 

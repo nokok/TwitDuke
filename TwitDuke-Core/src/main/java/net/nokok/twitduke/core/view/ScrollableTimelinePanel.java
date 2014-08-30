@@ -28,7 +28,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
-import net.nokok.twitduke.components.basics.TWScrollPane;
+import net.nokok.twitduke.core.view.basics.TWScrollPane;
 
 public class ScrollableTimelinePanel extends JComponent {
 

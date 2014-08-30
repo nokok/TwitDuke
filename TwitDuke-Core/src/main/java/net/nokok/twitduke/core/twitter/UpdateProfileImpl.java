@@ -23,8 +23,7 @@
  */
 package net.nokok.twitduke.core.twitter;
 
-import net.nokok.twitduke.core.twitter.ConfigurationProvider;
-import net.nokok.twitduke.base.async.ThrowableReceivable;
+import net.nokok.twitduke.core.async.ThrowableReceivable;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;

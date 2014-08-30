@@ -31,26 +31,23 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import net.nokok.twitduke.base.io.Paths;
-import net.nokok.twitduke.components.javafx.MainViewController;
-import net.nokok.twitduke.components.javafx.TweetTextareaController;
-import net.nokok.twitduke.components.javafx.TweetTextareaToolbarController;
-import net.nokok.twitduke.components.keyevent.ActionRegister;
-import net.nokok.twitduke.components.keyevent.ActionRegisterBuilder;
-import net.nokok.twitduke.components.keyevent.KeyMapSetting;
-import net.nokok.twitduke.components.keyevent.KeyMapStore;
-import net.nokok.twitduke.components.keyevent.KeyMapStoreBuilder;
 import net.nokok.twitduke.core.account.AccountManager;
 import net.nokok.twitduke.core.account.AccountManagerFactory;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
 import net.nokok.twitduke.core.auth.OAuthOnSuccess;
 import net.nokok.twitduke.core.auth.OAuthRunnable;
 import net.nokok.twitduke.core.io.DirectoryHelper;
+import net.nokok.twitduke.core.io.Paths;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
-import net.nokok.twitduke.core.twitter.TwitterNotificationListener;
-import net.nokok.twitduke.core.twitter.TwitterStreamRunner;
+import net.nokok.twitduke.core.view.javafx.MainViewController;
+import net.nokok.twitduke.core.view.javafx.TweetTextareaController;
+import net.nokok.twitduke.core.view.javafx.TweetTextareaToolbarController;
+import net.nokok.twitduke.core.view.keyevent.ActionRegister;
+import net.nokok.twitduke.core.view.keyevent.ActionRegisterBuilder;
+import net.nokok.twitduke.core.view.keyevent.KeyMapSetting;
+import net.nokok.twitduke.core.view.keyevent.KeyMapStore;
+import net.nokok.twitduke.core.view.keyevent.KeyMapStoreBuilder;
 import net.nokok.twitduke.pluginsupport.PluginManager;
-import net.nokok.twitduke.pluginsupport.eventrunner.StreamEventRunner;
 import net.nokok.twitduke.resources.FXMLResources;
 import net.nokok.twitduke.resources.KeyMapResources;
 import net.nokok.twitduke.server.WebServerStarter;
@@ -90,9 +87,6 @@ public class Main extends Application {
 
             stage.setScene(main);
 
-            TwitterStreamRunner streamRunner = new TwitterStreamRunner(accountManager.readPrimaryAccount().get());
-            streamRunner.addHomeTimelineTweetCellListener(mainController);
-            streamRunner.run();
             stage.show();
         } else {
             startOAuth(accountManager, System.out::println);
@@ -140,12 +134,7 @@ public class Main extends Application {
      */
     private static void openWindow(AccountManager accountManager) {
         AccessToken accessToken = accountManager.readPrimaryAccount().orElseThrow(IllegalStateException::new);
-        PluginManager globaPluginManager = new PluginManager("plugins", accessToken);
-        TwitterStreamRunner streamRunner = new TwitterStreamRunner(accessToken);
-        streamRunner.addTwitterListener(new StreamEventRunner(globaPluginManager.getPlugins()));
-        streamRunner.addTwitterListener(new TwitterNotificationListener());
-        streamRunner.enableStackTrace();
-        streamRunner.run();
+        PluginManager globalPluginManager = new PluginManager("plugins", accessToken);
     }
 
     /**

@@ -25,8 +25,8 @@ package net.nokok.twitduke.server;
 
 import java.io.File;
 import java.util.Properties;
-import net.nokok.twitduke.base.io.PropertyReader;
-import net.nokok.twitduke.base.io.PropertyWriter;
+import net.nokok.twitduke.core.io.PropertyReader;
+import net.nokok.twitduke.core.io.PropertyWriter;
 import net.nokok.twitduke.core.type.Port;
 
 /**

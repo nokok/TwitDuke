@@ -24,7 +24,6 @@
 package net.nokok.twitduke.core.io;
 
 import java.io.File;
-import net.nokok.twitduke.base.io.Paths;
 
 public interface IOSelectorPath {
 

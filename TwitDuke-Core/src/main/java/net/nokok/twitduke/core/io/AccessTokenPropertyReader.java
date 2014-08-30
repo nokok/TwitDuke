@@ -23,14 +23,13 @@
  */
 package net.nokok.twitduke.core.io;
 
-import net.nokok.twitduke.base.io.Reader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Optional;
 import java.util.Properties;
-import net.nokok.twitduke.base.type.ScreenName;
+import net.nokok.twitduke.core.type.ScreenName;
 import twitter4j.auth.AccessToken;
 
 /**

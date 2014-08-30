@@ -27,7 +27,6 @@ import com.google.common.io.Resources;
 import java.io.File;
 import java.net.URL;
 import java.util.Optional;
-import net.nokok.twitduke.base.type.FXMLResource;
 
 public class FXMLResources {
 

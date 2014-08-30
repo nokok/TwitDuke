@@ -23,7 +23,7 @@
  */
 package net.nokok.twitduke.pluginsupport.eventrunner;
 
-import net.nokok.twitduke.base.event.BootEventListener;
+import net.nokok.twitduke.core.event.BootEventListener;
 import net.nokok.twitduke.pluginsupport.PluginObjectName;
 import net.nokok.twitduke.pluginsupport.plugin.Plugin;
 import net.nokok.twitduke.pluginsupport.plugin.PluginRegistrable;

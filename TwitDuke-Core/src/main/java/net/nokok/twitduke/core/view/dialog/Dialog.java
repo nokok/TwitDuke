@@ -23,8 +23,8 @@
  */
 package net.nokok.twitduke.core.view.dialog;
 
-import net.nokok.twitduke.components.Disposable;
-import net.nokok.twitduke.components.Visible;
+import net.nokok.twitduke.core.Disposable;
+import net.nokok.twitduke.core.Visible;
 
 /**
  * 表示可能なダイアログで必要なメソッドを定義するインターフェースです。

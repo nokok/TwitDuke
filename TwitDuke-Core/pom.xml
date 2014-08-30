@@ -18,20 +18,9 @@
             <version>17.0</version>
         </dependency>
         <dependency>
-            <groupId>net.nokok.twitduke.base</groupId>
-            <artifactId>TwitDuke-Base</artifactId>
+            <groupId>net.nokok.twitduke.resources</groupId>
+            <artifactId>TwitDuke-Resources</artifactId>
             <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>net.nokok.twitduke.components</groupId>
-            <artifactId>TwitDuke-Components</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>net.nokok.twitduke.xsi</groupId>
-            <artifactId>TwitDuke-XSI</artifactId>
-            <version>1.0</version>
-            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.twitter4j</groupId>

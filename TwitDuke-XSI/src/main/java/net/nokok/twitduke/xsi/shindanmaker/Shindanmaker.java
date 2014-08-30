@@ -23,8 +23,8 @@
  */
 package net.nokok.twitduke.xsi.shindanmaker;
 
-import net.nokok.twitduke.base.async.AsyncTaskOnSuccess;
-import net.nokok.twitduke.base.async.ThrowableReceivable;
+import net.nokok.twitduke.core.async.AsyncTaskOnSuccess;
+import net.nokok.twitduke.core.async.ThrowableReceivable;
 
 /**
  * 診断メーカーの自動診断に必要なメソッドを定義するインターフェースです

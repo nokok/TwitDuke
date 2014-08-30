@@ -24,7 +24,7 @@
 package net.nokok.twitduke.core.view.tweetcell;
 
 import com.google.common.base.Strings;
-import net.nokok.twitduke.components.basics.TWLabel;
+import net.nokok.twitduke.core.view.basics.TWLabel;
 
 /**
  * Via(Source)を表示するラベルです

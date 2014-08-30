@@ -27,9 +27,9 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.net.URL;
-import net.nokok.twitduke.components.basics.TWFrame;
-import net.nokok.twitduke.components.basics.TWTextArea;
 import net.nokok.twitduke.core.view.async.UserIcon;
+import net.nokok.twitduke.core.view.basics.TWFrame;
+import net.nokok.twitduke.core.view.basics.TWTextArea;
 
 public class NotificationFrame extends TWFrame {
 
