@@ -23,8 +23,15 @@
  */
 package net.nokok.twitduke.core.twitter;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
+import net.nokok.twitduke.components.javafx.ComponentAppendable;
 import net.nokok.twitduke.core.type.ComponentInsertable;
 import net.nokok.twitduke.core.view.tweetcell.DefaultTweetCell;
+import net.nokok.twitduke.resources.FXMLResources;
 import twitter4j.StatusListener;
 import twitter4j.auth.AccessToken;
 
@@ -46,9 +53,22 @@ public class TwitterStreamRunner implements Runnable {
         lambdaTwitterStream.onException(e -> e.printStackTrace());
     }
 
+    @Deprecated
     public void addHomeTimelineTweetCellListener(ComponentInsertable componentInsertable) {
         lambdaTwitterStream.onStatus(s -> {
             componentInsertable.insert(new DefaultTweetCell(s, accessToken));
+        });
+    }
+
+    public void addHomeTimelineTweetCellListener(ComponentAppendable<? super Node> componentAppendable) {
+        lambdaTwitterStream.onStatus(s -> {
+            try {
+                FXMLLoader loader = FXMLResources.TWEETCELL.loader();
+                BorderPane pane = loader.load();
+                componentAppendable.addComponent(pane);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
         });
     }
 

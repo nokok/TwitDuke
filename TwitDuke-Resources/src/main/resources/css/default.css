@@ -96,6 +96,11 @@
     -fx-cursor: crosshair;
 }
 
+.h1-label{
+    -fx-font-weight:bold;
+    -fx-font-size:20;
+}
+
 .transparent-panel{
     -fx-background-color: rgba(0, 0, 0, 0.0);
 }
@@ -107,3 +112,4 @@
 .normal-text-color{
     -fx-text-fill: #ecf0f1;
 }
+

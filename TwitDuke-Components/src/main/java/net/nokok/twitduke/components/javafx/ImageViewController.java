@@ -21,22 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.account;
+package net.nokok.twitduke.components.javafx;
 
-import net.nokok.twitduke.base.type.ScreenName;
-import twitter4j.auth.AccessToken;
+import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
-/**
- * 任意のアカウントを選択できます。
- */
-public interface AccountSelectable {
+public class ImageViewController {
 
-    /**
-     * 指定したスクリーンネームのアクセストークンを取得します。
-     *
-     * @param screenName
-     *
-     * @return
-     */
-    AccessToken selectAccount(ScreenName screenName);
+    @FXML
+    private ImageView imageView;
+
+    @FXML
+    void onMouseClicked(MouseEvent event) {
+
+    }
+
+    @FXML
+    void onMouseEntered(MouseEvent event) {
+
+    }
+
+    @FXML
+    void onMouseExited(MouseEvent event) {
+
+    }
+
+    @FXML
+    void onMousePressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    void onMouseReleased(MouseEvent event) {
+
+    }
 }

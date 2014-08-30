@@ -107,6 +107,18 @@ public class TweetTextareaToolbarController implements ComponentAppendable<Node>
     }
 
     private BufferedImage takeScreenShot(Point start, Point end) {
+        int height = end.x - start.x;
+        int width = end.y - start.y;
+        if ( height < 0 ) {
+            int x = start.x;
+            start.x = end.x;
+            end.x = x;
+        }
+        if ( width < 0 ) {
+            int y = start.y;
+            start.y = end.y;
+            end.y = y;
+        }
         try {
             Robot robot = new Robot();
             BufferedImage capturedImage = robot.createScreenCapture(new Rectangle(start.x, start.y, end.x - start.x, end.y - start.y));

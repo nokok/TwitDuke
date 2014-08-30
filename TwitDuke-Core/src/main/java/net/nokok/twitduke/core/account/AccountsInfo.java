@@ -23,7 +23,7 @@
  */
 package net.nokok.twitduke.core.account;
 
-import net.nokok.twitduke.core.type.ScreenName;
+import net.nokok.twitduke.base.type.ScreenName;
 
 /**
  * TwitDukeで利用できるアカウントの情報を取得するメソッドを定義するインターフェースです

@@ -21,22 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.account;
+package net.nokok.twitduke.base.type;
 
-import net.nokok.twitduke.base.type.ScreenName;
-import twitter4j.auth.AccessToken;
+import java.util.Optional;
+import twitter4j.Status;
+import twitter4j.User;
 
-/**
- * 任意のアカウントを選択できます。
- */
-public interface AccountSelectable {
+public class TweetModel {
 
-    /**
-     * 指定したスクリーンネームのアクセストークンを取得します。
-     *
-     * @param screenName
-     *
-     * @return
-     */
-    AccessToken selectAccount(ScreenName screenName);
+    private final Optional<TweetModel> retweetedStatus;
+    private final ScreenName screenName;
+
+    public TweetModel(Status status) {
+        User user = status.getUser();
+        this.screenName = new ScreenName(status.getUser().getScreenName());
+
+        if ( status.getRetweetedStatus() != null ) {
+            this.retweetedStatus = Optional.of(new TweetModel(status.getRetweetedStatus()));
+        } else {
+            this.retweetedStatus = Optional.empty();
+        }
+    }
+
+    public Optional<TweetModel> retweetedStatus() {
+        return retweetedStatus;
+    }
+
+    public ScreenName getScreenName() {
+        return screenName;
+    }
+
+    public static TweetModel toTweetModel(Status status) {
+        return new TweetModel(status);
+    }
 }

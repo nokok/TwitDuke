@@ -21,22 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.nokok.twitduke.core.account;
+package net.nokok.twitduke.base.util;
 
-import net.nokok.twitduke.base.type.ScreenName;
-import twitter4j.auth.AccessToken;
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
-/**
- * 任意のアカウントを選択できます。
- */
-public interface AccountSelectable {
+public class FileUtils {
 
-    /**
-     * 指定したスクリーンネームのアクセストークンを取得します。
-     *
-     * @param screenName
-     *
-     * @return
-     */
-    AccessToken selectAccount(ScreenName screenName);
+    private FileUtils() {
+
+    }
+
+    public static List<File> fileList(File file) {
+        return Arrays.asList(Objects.requireNonNull(file).listFiles());
+    }
+
+    public static String fileName(File file) {
+        return Objects.requireNonNull(file.getName());
+    }
 }

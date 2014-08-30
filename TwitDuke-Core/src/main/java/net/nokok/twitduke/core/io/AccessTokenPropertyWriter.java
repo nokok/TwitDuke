@@ -29,7 +29,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Properties;
-import net.nokok.twitduke.core.type.ScreenName;
+import net.nokok.twitduke.base.type.ScreenName;
 import twitter4j.auth.AccessToken;
 
 /**

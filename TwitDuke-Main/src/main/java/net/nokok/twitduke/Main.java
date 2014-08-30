@@ -95,11 +95,6 @@ public class Main extends Application {
         }
     }
 
-    private Stage configureStage(Stage stage) throws Exception {
-
-        return stage;
-    }
-
     private void applyKeymap(Stage stage) throws Exception {
         KeyMapStore store = new KeyMapStoreBuilder().build();
         KeyMapSetting setting = store.load(KeyMapResources.DEFAULT_SETTING.get().openStream());
