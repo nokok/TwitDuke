@@ -45,6 +45,7 @@ import net.nokok.twitduke.core.account.AccountManagerFactory;
 import net.nokok.twitduke.core.auth.LambdaOAuthFactory;
 import net.nokok.twitduke.core.auth.OAuthOnSuccess;
 import net.nokok.twitduke.core.auth.OAuthRunnable;
+import net.nokok.twitduke.core.io.DirectoryHelper;
 import net.nokok.twitduke.core.log.ErrorLogExporter;
 import net.nokok.twitduke.core.twitter.TwitterNotificationListener;
 import net.nokok.twitduke.core.twitter.TwitterStreamRunner;
@@ -65,6 +66,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        if ( !existsTwitDukeDir() ) {
+            DirectoryHelper.createTwitDukeDirectories();
+        }
         AccountManager accountManager = AccountManagerFactory.newInstance();
         if ( accountManager.hasValidAccount() ) {
             FXMLLoader mainLoader = FXMLResources.MAIN.loader();
