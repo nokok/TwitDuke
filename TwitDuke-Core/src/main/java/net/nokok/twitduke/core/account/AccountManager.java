@@ -25,7 +25,7 @@ package net.nokok.twitduke.core.account;
 
 import java.util.List;
 import java.util.Optional;
-import net.nokok.twitduke.core.type.ScreenName;
+import net.nokok.twitduke.base.type.ScreenName;
 import twitter4j.auth.AccessToken;
 
 /**

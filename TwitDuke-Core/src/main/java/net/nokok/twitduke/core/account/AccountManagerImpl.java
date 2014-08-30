@@ -37,7 +37,7 @@ import net.nokok.twitduke.base.optional.OptionalUtil;
 import net.nokok.twitduke.core.io.AccessTokenIOSelector;
 import net.nokok.twitduke.core.io.AccountPath;
 import net.nokok.twitduke.core.io.DirectoryHelper;
-import net.nokok.twitduke.core.type.ScreenName;
+import net.nokok.twitduke.base.type.ScreenName;
 import twitter4j.auth.AccessToken;
 
 /**

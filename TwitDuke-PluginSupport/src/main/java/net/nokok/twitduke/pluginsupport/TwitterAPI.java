@@ -29,7 +29,7 @@ import net.nokok.twitduke.core.twitter.TweetSendable;
 import net.nokok.twitduke.core.twitter.TwitterExceptionReceivable;
 import net.nokok.twitduke.core.twitter.UpdateProfile;
 import net.nokok.twitduke.core.type.Footer;
-import net.nokok.twitduke.core.type.ScreenName;
+import net.nokok.twitduke.base.type.ScreenName;
 import net.nokok.twitduke.base.async.ThrowableReceivable;
 import net.nokok.twitduke.core.type.Tweet;
 import twitter4j.AsyncTwitter;
