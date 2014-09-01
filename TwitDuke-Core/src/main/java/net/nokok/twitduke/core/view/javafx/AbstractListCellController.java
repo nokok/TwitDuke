@@ -34,11 +34,11 @@ public abstract class AbstractListCellController<T> extends ListCell<T> {
         if ( isEmpty ) {
             disposeModel();
         } else {
-            updateTweetModel(model);
+            updateModel(model);
         }
     }
 
-    protected abstract void updateTweetModel(T tweetModel);
+    protected abstract void updateModel(T model);
 
     private void disposeModel() {
         setGraphic(null);
