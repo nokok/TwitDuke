@@ -27,10 +27,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.text.JTextComponent;
-import net.nokok.twitduke.components.basics.TWTextArea;
 import net.nokok.twitduke.core.twitter.TweetSendable;
 import net.nokok.twitduke.core.twitter.TweetSendableImpl;
 import net.nokok.twitduke.core.type.Tweet;
+import net.nokok.twitduke.core.view.basics.TWTextArea;
 import twitter4j.auth.AccessToken;
 
 /**

@@ -23,7 +23,7 @@
  */
 package net.nokok.twitduke.core.twitter;
 
-import net.nokok.twitduke.base.type.ScreenName;
+import net.nokok.twitduke.core.type.ScreenName;
 import net.nokok.twitduke.core.type.Tweet;
 
 /**

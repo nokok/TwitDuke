@@ -23,7 +23,7 @@
  */
 package net.nokok.twitduke.core.twitter;
 
-import net.nokok.twitduke.base.async.ThrowableReceivable;
+import net.nokok.twitduke.core.async.ThrowableReceivable;
 
 /**
  * AsyncTwitterなどの例外を取得できます

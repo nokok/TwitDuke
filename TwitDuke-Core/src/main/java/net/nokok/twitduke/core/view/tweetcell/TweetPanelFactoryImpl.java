@@ -36,13 +36,13 @@ import java.util.stream.Stream;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import net.nokok.twitduke.components.basics.TWPanel;
-import net.nokok.twitduke.components.basics.TWSlimButton;
-import net.nokok.twitduke.components.basics.TWTextArea;
 import net.nokok.twitduke.core.factory.TAsyncTwitterFactory;
 import net.nokok.twitduke.core.view.async.AsyncImageIcon;
 import net.nokok.twitduke.core.view.async.MediaThumbnail;
 import net.nokok.twitduke.core.view.async.OverlayUserIcon;
+import net.nokok.twitduke.core.view.basics.TWPanel;
+import net.nokok.twitduke.core.view.basics.TWSlimButton;
+import net.nokok.twitduke.core.view.basics.TWTextArea;
 import twitter4j.AsyncTwitter;
 import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
@@ -214,10 +214,6 @@ public class TweetPanelFactoryImpl implements TweetPanelFactory {
         List<Component> buttonList = new ArrayList<>(urlEntities.length);
         Stream.of(urlEntities)
             .forEach(u -> buttonList.add(new URLSlimButton(u)));
-        Stream.of(urlEntities)
-            .filter(p -> p.getDisplayURL().contains("shindanmaker"))
-            .map(p -> new ShindanmakerSlimButton(p.getExpandedURL(), accessToken))
-            .forEach(buttonList::add);
         return buttonList;
     }
 

@@ -26,7 +26,7 @@ package net.nokok.twitduke.core.view.tweetcell;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
-import net.nokok.twitduke.components.basics.TWButton;
+import net.nokok.twitduke.core.view.basics.TWButton;
 
 /**
  * リツイートボタンです

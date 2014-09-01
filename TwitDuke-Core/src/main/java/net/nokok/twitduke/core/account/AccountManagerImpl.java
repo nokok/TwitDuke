@@ -31,13 +31,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import net.nokok.twitduke.base.io.Reader;
-import net.nokok.twitduke.base.io.Writer;
-import net.nokok.twitduke.base.optional.OptionalUtil;
 import net.nokok.twitduke.core.io.AccessTokenIOSelector;
 import net.nokok.twitduke.core.io.AccountPath;
 import net.nokok.twitduke.core.io.DirectoryHelper;
-import net.nokok.twitduke.base.type.ScreenName;
+import net.nokok.twitduke.core.io.Reader;
+import net.nokok.twitduke.core.io.Writer;
+import net.nokok.twitduke.core.type.ScreenName;
+import net.nokok.twitduke.core.util.OptionalUtil;
 import twitter4j.auth.AccessToken;
 
 /**

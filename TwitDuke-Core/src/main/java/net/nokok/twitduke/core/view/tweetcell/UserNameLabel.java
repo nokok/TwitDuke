@@ -24,7 +24,7 @@
 package net.nokok.twitduke.core.view.tweetcell;
 
 import java.awt.Font;
-import net.nokok.twitduke.components.basics.TWLabel;
+import net.nokok.twitduke.core.view.basics.TWLabel;
 
 /**
  * ユーザー名を表示するラベルです

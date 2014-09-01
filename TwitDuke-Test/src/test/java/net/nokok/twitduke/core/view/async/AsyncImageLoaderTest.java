@@ -31,7 +31,7 @@ public class AsyncImageLoaderTest {
     @Test
     public void testRun() {
         try {
-            AsyncImageLoader imageLoader = new AsyncImageLoader("http://nokok.net/");
+            AsyncImageLoader imageLoader = new AsyncImageLoader("http://google.com");
             imageLoader.run();
         } catch (Throwable e) {
             fail();

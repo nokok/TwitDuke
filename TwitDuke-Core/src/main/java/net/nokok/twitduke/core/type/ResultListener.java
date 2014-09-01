@@ -23,8 +23,8 @@
  */
 package net.nokok.twitduke.core.type;
 
-import net.nokok.twitduke.base.async.AsyncTaskOnError;
-import net.nokok.twitduke.base.async.AsyncTaskOnSuccess;
+import net.nokok.twitduke.core.async.AsyncTaskOnError;
+import net.nokok.twitduke.core.async.AsyncTaskOnSuccess;
 
 /**
  * 成功か失敗かを知る必要がある非同期タスクの結果を受け取るリスナーです

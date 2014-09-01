@@ -1,3 +1,4 @@
+
 /*
  * The MIT License
  *
@@ -29,8 +30,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.function.Supplier;
-import net.nokok.twitduke.base.type.Retrievable;
 import net.nokok.twitduke.core.type.Port;
+import net.nokok.twitduke.core.type.Retrievable;
 import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.Server;
 import twitter4j.auth.AccessToken;

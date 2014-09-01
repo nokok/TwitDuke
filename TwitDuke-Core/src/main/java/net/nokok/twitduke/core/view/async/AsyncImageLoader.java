@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import static java.util.Objects.requireNonNull;
 import javax.swing.ImageIcon;
-import net.nokok.twitduke.base.async.AsyncTaskOnSuccess;
-import net.nokok.twitduke.base.async.ThrowableReceivable;
+import net.nokok.twitduke.core.async.AsyncTaskOnSuccess;
+import net.nokok.twitduke.core.async.ThrowableReceivable;
 
 /**
  * このクラスは画像を非同期で読み込みます。

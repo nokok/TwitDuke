@@ -29,7 +29,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.List;
 import javax.swing.JPanel;
-import net.nokok.twitduke.components.basics.TWPanel;
+import net.nokok.twitduke.core.view.basics.TWPanel;
 import twitter4j.Status;
 import twitter4j.auth.AccessToken;
 

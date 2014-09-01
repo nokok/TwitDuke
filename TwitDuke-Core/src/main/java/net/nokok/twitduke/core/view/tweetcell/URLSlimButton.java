@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import net.nokok.twitduke.components.basics.TWSlimButton;
+import net.nokok.twitduke.core.view.basics.TWSlimButton;
 import twitter4j.URLEntity;
 
 public class URLSlimButton extends TWSlimButton {

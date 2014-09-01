@@ -25,8 +25,6 @@ package net.nokok.twitduke.core.io;
 
 import java.util.Optional;
 import java.util.Properties;
-import net.nokok.twitduke.base.io.PropertyReader;
-import net.nokok.twitduke.base.io.Reader;
 
 public class IOSelectorPropertyReader implements Reader<FileType> {
 

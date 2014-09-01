@@ -23,7 +23,7 @@
  */
 package net.nokok.twitduke.components.keyevent;
 
-import net.nokok.twitduke.base.type.TweetLength;
+import net.nokok.twitduke.core.type.TweetLength;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;

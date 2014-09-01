@@ -14,10 +14,8 @@
     <modules>
         <module>TwitDuke-Server</module>
         <module>TwitDuke-XSI</module>
-        <module>TwitDuke-Components</module>
         <module>TwitDuke-Core</module>
         <module>TwitDuke-PluginSupport</module>
-        <module>TwitDuke-Base</module>
         <module>TwitDuke-Resources</module>
         <module>TwitDuke-Test</module>
         <module>TwitDuke-Main</module>

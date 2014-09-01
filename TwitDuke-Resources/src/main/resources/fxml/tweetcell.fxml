@@ -3,15 +3,14 @@
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="400.0" styleClass="default-panel" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="default-panel" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.nokok.twitduke.components.javafx.TweetCellController">
     <center>
-        <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <BorderPane BorderPane.alignment="CENTER">
             <top>
-                <FlowPane prefHeight="25.0" BorderPane.alignment="CENTER">
+                <FlowPane BorderPane.alignment="CENTER">
                     <children>
                         <Label fx:id="userName" styleClass="username-label" stylesheets="@../css/default.css" text="UserName">
                             <FlowPane.margin>
@@ -30,25 +29,14 @@
                 </FlowPane>
             </top>
             <center>
-                <TextArea fx:id="tweetTextArea" editable="false" styleClass="tweet-textarea" stylesheets="@../css/default.css" wrapText="true" BorderPane.alignment="CENTER" />
+                <TextArea fx:id="tweetTextArea" editable="false" prefHeight="50.0" styleClass="tweet-textarea" stylesheets="@../css/default.css" wrapText="true" BorderPane.alignment="CENTER" />
             </center>
         </BorderPane>
     </center>
     <right>
-        <Pane prefWidth="10.0" BorderPane.alignment="CENTER" />
+        <Pane prefWidth="5.0" BorderPane.alignment="CENTER" />
     </right>
     <left>
-        <BorderPane prefHeight="50.0" prefWidth="50.0" BorderPane.alignment="CENTER">
-            <center>
-                <ImageView fx:id="userIcon" cache="true" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-                    <image>
-                        <Image url="@../img/usericonloading.png" />
-                    </image>
-                    <BorderPane.margin>
-                        <Insets left="3.0" right="3.0" />
-                    </BorderPane.margin>
-                </ImageView>
-            </center>
-        </BorderPane>
+        <BorderPane prefHeight="50.0" prefWidth="50.0" BorderPane.alignment="CENTER" />
     </left>
 </BorderPane>
