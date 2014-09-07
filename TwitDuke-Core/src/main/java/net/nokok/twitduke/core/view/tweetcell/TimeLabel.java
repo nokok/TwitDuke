@@ -26,7 +26,7 @@ package net.nokok.twitduke.core.view.tweetcell;
 import java.awt.Dimension;
 import java.time.LocalDateTime;
 import java.util.TimerTask;
-import net.nokok.twitduke.components.basics.TWLabel;
+import net.nokok.twitduke.core.view.basics.TWLabel;
 
 /**
  * ツイートされた時刻から現在時刻までの相対時間をカウントアップするラベルです

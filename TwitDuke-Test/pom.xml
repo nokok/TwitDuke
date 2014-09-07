@@ -32,8 +32,8 @@
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>net.nokok.twitduke.components</groupId>
-            <artifactId>TwitDuke-Components</artifactId>
+            <groupId>net.nokok.twitduke.resources</groupId>
+            <artifactId>TwitDuke-Resources</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>

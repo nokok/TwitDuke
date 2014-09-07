@@ -12,11 +12,6 @@
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
-            <groupId>net.nokok.twitduke.base</groupId>
-            <artifactId>TwitDuke-Base</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
             <groupId>net.nokok.twitduke.core</groupId>
             <artifactId>TwitDuke-Core</artifactId>
             <version>1.0</version>

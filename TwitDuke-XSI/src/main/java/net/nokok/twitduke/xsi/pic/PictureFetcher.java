@@ -24,8 +24,8 @@
 package net.nokok.twitduke.xsi.pic;
 
 import javafx.scene.image.Image;
-import net.nokok.twitduke.base.async.AsyncTaskOnSuccess;
-import net.nokok.twitduke.base.async.ThrowableReceivable;
+import net.nokok.twitduke.core.async.AsyncTaskOnSuccess;
+import net.nokok.twitduke.core.async.ThrowableReceivable;
 
 public interface PictureFetcher {
 

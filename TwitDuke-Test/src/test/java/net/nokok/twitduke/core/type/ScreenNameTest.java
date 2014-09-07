@@ -23,7 +23,6 @@
  */
 package net.nokok.twitduke.core.type;
 
-import net.nokok.twitduke.base.type.ScreenName;
 import org.junit.Assert;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;

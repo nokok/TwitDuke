@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Optional;
 import java.util.Properties;
-import net.nokok.twitduke.base.io.PropertyReader;
+import net.nokok.twitduke.core.io.PropertyReader;
 
 public class ShindanmakerProperty {
 

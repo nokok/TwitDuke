@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.swing.Scrollable;
 import javax.swing.SwingUtilities;
-import net.nokok.twitduke.components.basics.TWPanel;
+import net.nokok.twitduke.core.view.basics.TWPanel;
 
 /**
  * タイムラインを表示するパネルです。このパネルは独自に実装されたレイアウトマネージャーを持ちます。

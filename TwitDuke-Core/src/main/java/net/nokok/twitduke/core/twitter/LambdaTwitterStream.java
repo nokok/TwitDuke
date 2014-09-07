@@ -23,10 +23,10 @@
  */
 package net.nokok.twitduke.core.twitter;
 
-import net.nokok.twitduke.base.async.ThrowableReceivable;
-import net.nokok.twitduke.base.event.Event;
-import net.nokok.twitduke.base.event.Event2;
-import net.nokok.twitduke.base.event.Event3;
+import net.nokok.twitduke.core.async.ThrowableReceivable;
+import net.nokok.twitduke.core.event.Event;
+import net.nokok.twitduke.core.event.Event2;
+import net.nokok.twitduke.core.event.Event3;
 import net.nokok.twitduke.core.factory.TTwitterStreamFactory;
 import twitter4j.DirectMessage;
 import twitter4j.StallWarning;

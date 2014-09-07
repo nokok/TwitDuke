@@ -26,7 +26,7 @@ package net.nokok.twitduke.pluginsupport.eventrunner;
 import java.awt.Dimension;
 import java.util.Collections;
 import java.util.List;
-import net.nokok.twitduke.base.event.WindowEventListener;
+import net.nokok.twitduke.core.event.WindowEventListener;
 import net.nokok.twitduke.pluginsupport.PluginObjectName;
 import net.nokok.twitduke.pluginsupport.plugin.Plugin;
 import net.nokok.twitduke.pluginsupport.plugin.PluginRegistrable;

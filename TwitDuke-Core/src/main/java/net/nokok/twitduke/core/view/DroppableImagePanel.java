@@ -31,11 +31,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import javax.swing.TransferHandler;
+import javax.swing.TransferHandler.TransferSupport;
 import javax.swing.border.LineBorder;
-import net.nokok.twitduke.components.basics.TWLabel;
-import net.nokok.twitduke.components.basics.TWPanel;
-import net.nokok.twitduke.base.async.AsyncTaskOnSuccess;
-import net.nokok.twitduke.base.async.ThrowableReceivable;
+import net.nokok.twitduke.core.async.AsyncTaskOnSuccess;
+import net.nokok.twitduke.core.async.ThrowableReceivable;
+import net.nokok.twitduke.core.view.basics.TWLabel;
+import net.nokok.twitduke.core.view.basics.TWPanel;
 
 /**
  * パネルにドラッグアンドドロップされたファイルを受け取るパネルです。

@@ -23,10 +23,6 @@
  */
 package net.nokok.twitduke.core.view.dialog;
 
-import net.nokok.twitduke.core.view.dialog.Dialog;
-import net.nokok.twitduke.core.view.dialog.DialogResultListener;
-import net.nokok.twitduke.core.view.dialog.TextFieldDialog;
-
 public class ShindanmakerDialog implements Dialog<String> {
 
     private final Dialog<String> dialog = new TextFieldDialog("診断をツイート", "診断に使用する名前を入力して下さい");

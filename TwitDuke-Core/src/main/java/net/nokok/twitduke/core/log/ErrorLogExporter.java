@@ -28,8 +28,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
-import net.nokok.twitduke.base.async.ErrorMessageReceivable;
-import net.nokok.twitduke.base.async.ThrowableReceivable;
+import net.nokok.twitduke.core.async.ErrorMessageReceivable;
+import net.nokok.twitduke.core.async.ThrowableReceivable;
 import net.nokok.twitduke.core.io.LogPath;
 
 public class ErrorLogExporter implements ErrorMessageReceivable, ThrowableReceivable {

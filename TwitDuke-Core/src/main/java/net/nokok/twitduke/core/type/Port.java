@@ -23,8 +23,6 @@
  */
 package net.nokok.twitduke.core.type;
 
-import net.nokok.twitduke.base.type.Retrievable;
-
 /**
  * ポート番号を表現するクラスです。
  * intをラップします。

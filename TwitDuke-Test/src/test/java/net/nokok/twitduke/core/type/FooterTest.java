@@ -23,7 +23,6 @@
  */
 package net.nokok.twitduke.core.type;
 
-import net.nokok.twitduke.core.type.Footer;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

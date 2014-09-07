@@ -29,7 +29,7 @@ import java.util.Optional;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.OverlayLayout;
-import net.nokok.twitduke.components.basics.TWPanel;
+import net.nokok.twitduke.core.view.basics.TWPanel;
 import twitter4j.Status;
 
 /**

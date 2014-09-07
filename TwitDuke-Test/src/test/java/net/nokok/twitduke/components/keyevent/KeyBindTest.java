@@ -25,6 +25,7 @@ package net.nokok.twitduke.components.keyevent;
 
 import java.lang.reflect.Field;
 import javafx.scene.input.KeyCombination;
+import net.nokok.twitduke.core.view.keyevent.KeyBind;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;

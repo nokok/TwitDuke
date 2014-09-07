@@ -24,7 +24,7 @@
 package net.nokok.twitduke.core.view.async;
 
 import java.awt.Dimension;
-import net.nokok.twitduke.components.basics.TWLabel;
+import net.nokok.twitduke.core.view.basics.TWLabel;
 
 /**
  * 非同期でユーザーアイコンを取得できるラベルコンポーネントです
