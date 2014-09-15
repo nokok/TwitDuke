@@ -23,33 +23,33 @@
  */
 package net.nokok.twitduke.resources.draft;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.iq80.leveldb.DB;
-import org.iq80.leveldb.Options;
-import org.iq80.leveldb.impl.Iq80DBFactory;
-import static org.iq80.leveldb.impl.Iq80DBFactory.bytes;
+import net.nokok.twitduke.resources.LevelDB;
 
 public class DraftIOLevelDB implements DraftIO {
 
     private final List<String> draftList = new ArrayList<>();
+    private final String FILE_NAME = "draft";
 
     @Override
-    public synchronized List<String> draftList() {
+    public List<String> draftList() {
         return draftList;
     }
 
     @Override
     public void remove(Integer index) {
-        try (DB db = openDB()) {
-            db.delete(bytes(index.toString()));
+        try (LevelDB db = LevelDB.newInstance(FILE_NAME)) {
+            db.delete(index.toString());
             draftList.remove(index.intValue()); //call remove(int index)
         } catch (IOException e) {
             throw new UncheckedIOException(e);
+        } catch (Exception e) {
+            //Exception in AutoCloseable#close
+            throw new RuntimeException(e);
         }
     }
 
@@ -60,17 +60,14 @@ public class DraftIOLevelDB implements DraftIO {
 
     @Override
     public void saveDraft(String text) {
-        try (DB db = openDB()) {
-            db.put(bytes(String.valueOf(draftList.size())), text.getBytes());
+        try (LevelDB db = LevelDB.newInstance(FILE_NAME)) {
+            db.put(String.valueOf(draftList.size()), text);
             draftList.add(text);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private DB openDB() throws IOException {
-        File dbFile = new File("draft");
-        Options options = new Options().createIfMissing(true);
-        return Iq80DBFactory.factory.open(dbFile, options);
-    }
 }
