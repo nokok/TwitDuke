@@ -33,4 +33,8 @@ public interface LevelDB extends AutoCloseable {
     public Optional<String> get(String key);
 
     public void delete(String key) throws IOException;
+
+    public static LevelDB newInstance(String fileName) throws IOException {
+        return new LevelDBImpl(fileName);
+    }
 }
